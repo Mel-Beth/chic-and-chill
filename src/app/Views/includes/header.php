@@ -1,7 +1,13 @@
 <header class="fixed top-0 left-0 w-full bg-[#EFE7DD] shadow-md z-50 flex justify-between items-center px-10 py-4">
-    <!-- Logo -->
-    <div class="text-[#8B5A2B] font-bold text-3xl tracking-wide">
-        CHIC <span class="text-gray-800">AND</span> CHILL
+    <!-- Logo + Texte -->
+    <div class="flex items-center space-x-4">
+        <!-- Logo -->
+        <img src="assets/images/logo.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
+        
+        <!-- Texte CHIC AND CHILL -->
+        <div class="text-[#8B5A2B] font-bold text-3xl tracking-wide">
+            CHIC <span class="text-gray-800">AND</span> CHILL
+        </div>
     </div>
 
     <!-- Menu -->
