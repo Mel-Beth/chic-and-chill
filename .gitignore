@@ -1,6 +1,4 @@
-﻿# Ignorer les dossiers de dépendances
-node_modules/
+﻿# Fichiers qui ne seront pas versionnés afin de na pas finir sur Gtihub/Gitlab
 vendor/
-
-# Ignorer les fichiers de configuration sensibles
+node_modules/
 .env
