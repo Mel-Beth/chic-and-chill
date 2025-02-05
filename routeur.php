@@ -24,16 +24,14 @@ if (empty($route[0])) {
                 break;
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
-                throw new Exception("Page introuvable");
+                include('src/app/Views/404.php');
         }
     } catch (Exception $e) {
         // Enregistrement de l'erreur dans les logs pour le suivi des erreurs
         error_log($e->getMessage());
 
         // Inclusion de la page 404 pour informer l'utilisateur
-        include('src/Views/404.php');
+        include('src/app/Views/404.php');
         exit();
     }
 }
-
-?>

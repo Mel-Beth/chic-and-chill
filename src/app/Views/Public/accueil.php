@@ -4,29 +4,56 @@
 <?php include("src/app/Views/includes/head.php"); ?>
 <?php include("src/app/Views/includes/header.php"); ?>
 
-<!-- Conteneur principal -->
+<!-- Conteneur principal contenant l'image de fond et les cercles interactifs -->
 <div id="hero-container" class="relative w-full h-screen flex items-center justify-center overflow-hidden pt-[80px]">
 
-    <!-- Image de fond -->
+    <!-- Image de fond qui couvre toute la page -->
     <img src="assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
 
-    <!-- Cercle central avec texte -->
-    <div id="circle-main" class="absolute flex items-center justify-center z-10 rounded-full border-[3px] border-[#8B5A2B]">
-        <p class="text-[#8B5A2B] font-bold text-center tracking-wide leading-tight">CHIC <br> AND <br> CHILL</p>
-    </div>
+    <!-- Cercle central avec texte décalé menant à l'accueil -->
+    <a href="accueil" id="circle-main" class="absolute flex justify-center items-center z-10 rounded-full border-[3px] border-[#8B5A2B] bg-white/20 backdrop-blur-md shadow-lg">
+        <!-- Texte dans le cercle principal avec positionnement personnalisé -->
+        <span id="chic" class="absolute text-[#8B5A2B] font-bold tracking-wide">CHIC</span>
+        <span id="and" class="absolute text-gray-800 font-bold tracking-wide">AND</span>
+        <span id="chill" class="absolute text-[#8B5A2B] font-bold tracking-wide">CHILL</span>
+    </a>
 
-    <!-- Cercles décoratifs repositionnés -->
-    <div id="circle-even" class="absolute border-[3px] border-[#8B5A2B] rounded-full z-10"></div>
-    <div id="circle-location" class="absolute border-[3px] border-[#8B5A2B] rounded-full z-10"></div>
-    <div id="circle-magasin" class="absolute border-[3px] border-[#8B5A2B] rounded-full z-10"></div>
+    <!-- Cercles cliquables menant aux différentes pages -->
+    <a href="evenements.php" id="circle-even" class="circle-link"></a>
+    <a href="location.php" id="circle-location" class="circle-link"></a>
+    <a href="magasin.php" id="circle-magasin" class="circle-link"></a>
 
-    <!-- Labels repositionnés -->
-    <span id="label-even" class="absolute text-[#8B5A2B] font-bold tracking-wide z-10">EVENEMENTS</span>
-    <span id="label-location" class="absolute text-[#8B5A2B] font-bold tracking-wide z-10">LOCATION</span>
-    <span id="label-magasin" class="absolute text-[#8B5A2B] font-bold tracking-wide z-10">MAGASIN</span>
+    <!-- Labels interactifs associés aux cercles -->
+    <a href="evenements.php"> <span id="label-even" class="absolute text-gray-800 font-bold tracking-wide z-10">EVENEMENTS</span></a>
+    <a href="location.php"> <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10">LOCATION</span></a>
+    <a href="magasin.php"> <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10">MAGASIN</span></a>
 </div>
 
 <?php include 'src/app/Views/includes/footer.php'; ?>
+
+<style>
+    /* 🔵 Styles pour les cercles interactifs */
+    .circle-link {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid #8B5A2B; /* Bordure marron */
+        background: rgba(255, 255, 255, 0.2); /* Fond semi-transparent */
+        backdrop-filter: blur(12px); /* Effet de flou sur le fond */
+        border-radius: 50%; /* Cercle */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Ombre légère */
+        transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease; /* Effet animé */
+        z-index: 10;
+    }
+
+    /* 🎯 Effet au survol pour agrandir et accentuer l'ombre */
+    .circle-link:hover {
+        transform: scale(1.2); /* Zoom */
+        box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5); /* Ombre plus marquée */
+        background: rgba(255, 255, 255, 0.3); /* Augmentation de la brillance */
+    }
+</style>
 
 <script>
     function adjustElements() {
@@ -34,16 +61,38 @@
         let width = container.offsetWidth;
         let height = container.offsetHeight;
 
-        // Ajustement du cercle central
+        // 🔵 Ajustement dynamique du cercle principal
         let mainCircle = document.getElementById('circle-main');
         mainCircle.style.width = width * 0.25 + "px";
         mainCircle.style.height = width * 0.25 + "px";
         mainCircle.style.left = "50%";
         mainCircle.style.top = "48%";
         mainCircle.style.transform = "translate(-50%, -50%)";
-        mainCircle.querySelector("p").style.fontSize = width * 0.03 + "px";
 
-        // Cercles décoratifs
+        // 🟠 Ajustement du texte dans le cercle central
+        let chic = document.getElementById('chic');
+        let and = document.getElementById('and');
+        let chill = document.getElementById('chill');
+
+        let fontSize = width * 0.035 + "px"; /* Taille relative au viewport */
+        chic.style.fontSize = fontSize;
+        and.style.fontSize = fontSize;
+        chill.style.fontSize = fontSize;
+
+        /* Décalage du texte pour un positionnement asymétrique */
+        chic.style.top = "30%";
+        chic.style.left = "15%";
+        chic.style.transform = "translate(-20%, -50%)";
+
+        and.style.top = "50%";
+        and.style.left = "50%";
+        and.style.transform = "translate(-50%, -50%)";
+
+        chill.style.top = "70%";
+        chill.style.right = "15%";
+        chill.style.transform = "translate(20%, -50%)";
+
+        // 🔵 Positionnement dynamique des cercles interactifs
         let evenCircle = document.getElementById('circle-even');
         let locationCircle = document.getElementById('circle-location');
         let magasinCircle = document.getElementById('circle-magasin');
@@ -52,36 +101,42 @@
         evenCircle.style.height = width * 0.13 + "px";
         evenCircle.style.left = "9%";
         evenCircle.style.top = "12%";
+        evenCircle.style.transform = "translate(140%, 20%)";
 
         locationCircle.style.width = width * 0.13 + "px";
         locationCircle.style.height = width * 0.13 + "px";
         locationCircle.style.right = "9%";
         locationCircle.style.top = "12%";
+        locationCircle.style.transform = "translate(-150%, 60px)";
 
         magasinCircle.style.width = width * 0.11 + "px";
         magasinCircle.style.height = width * 0.11 + "px";
         magasinCircle.style.left = "10%";
         magasinCircle.style.bottom = "14%";
+        magasinCircle.style.transform = "translate(200%, -45px)";
 
-        // Labels repositionnés
+        // 🎯 Labels repositionnés pour suivre les cercles
         let evenLabel = document.getElementById('label-even');
         let locationLabel = document.getElementById('label-location');
         let magasinLabel = document.getElementById('label-magasin');
 
-        evenLabel.style.left = "11%";
-        evenLabel.style.top = "14%";
+        evenLabel.style.left = "9%";
+        evenLabel.style.top = "12%";
+        evenLabel.style.transform = "translate(155%, 290%)";
         evenLabel.style.fontSize = width * 0.018 + "px";
 
-        locationLabel.style.right = "11%";
-        locationLabel.style.top = "14%";
+        locationLabel.style.right = "9%";
+        locationLabel.style.top = "12%";
+        locationLabel.style.transform = "translate(-230%, 145px)";
         locationLabel.style.fontSize = width * 0.018 + "px";
 
-        magasinLabel.style.left = "12%";
-        magasinLabel.style.bottom = "15%";
+        magasinLabel.style.left = "10%";
+        magasinLabel.style.bottom = "14%";
+        magasinLabel.style.transform = "translate(260%, -115px)";
         magasinLabel.style.fontSize = width * 0.018 + "px";
     }
 
-    // Ajustement automatique à chaque redimensionnement
+    // ⚙️ Écouteurs d'événements pour ajuster les tailles lors du chargement et du redimensionnement
     window.addEventListener('resize', adjustElements);
     window.addEventListener('load', adjustElements);
 </script>
