@@ -13,10 +13,11 @@
     <!-- Cercle central avec texte décalé menant à l'accueil -->
     <a href="accueil" id="circle-main" class="absolute flex justify-center items-center z-10 rounded-full border-[3px] border-[#8B5A2B] bg-white/20 backdrop-blur-md shadow-lg">
         <!-- Texte dans le cercle principal avec positionnement personnalisé -->
-        <span id="chic" class="absolute text-[#8B5A2B] font-bold tracking-wide">CHIC</span>
-        <span id="and" class="absolute text-gray-800 font-bold tracking-wide">AND</span>
-        <span id="chill" class="absolute text-[#8B5A2B] font-bold tracking-wide">CHILL</span>
+        <span id="chic" class="absolute text-[#8B5A2B] font-bold tracking-wide" style="font-family: 'Cormorant Garamond', serif;">CHIC</span>
+        <span id="and" class="absolute text-gray-800 font-bold tracking-wide" style="font-family: 'Cormorant Garamond', serif;">&</span>
+        <span id="chill" class="absolute text-[#8B5A2B] font-bold tracking-wide" style="font-family: 'Cormorant Garamond', serif;">CHILL</span>
     </a>
+
 
     <!-- Cercles cliquables menant aux différentes pages -->
     <a href="evenements.php" id="circle-even" class="circle-link"></a>
@@ -154,7 +155,7 @@
         /* Décalage du texte pour un positionnement asymétrique */
         chic.style.top = "30%";
         chic.style.left = "15%";
-        chic.style.transform = "translate(-20%, -50%)";
+        chic.style.transform = "translate(-20%, -10%)";
 
         and.style.top = "50%";
         and.style.left = "50%";
@@ -162,7 +163,7 @@
 
         chill.style.top = "70%";
         chill.style.right = "15%";
-        chill.style.transform = "translate(20%, -50%)";
+        chill.style.transform = "translate(8%, -80%)";
 
         // 🔵 Positionnement dynamique des cercles interactifs
         let evenCircle = document.getElementById('circle-even');
@@ -173,19 +174,19 @@
         evenCircle.style.height = width * 0.13 + "px";
         evenCircle.style.left = "9%";
         evenCircle.style.top = "12%";
-        evenCircle.style.transform = "translate(140%, 20%)";
+        evenCircle.style.transform = "translate(139%, 20%)";
 
         locationCircle.style.width = width * 0.13 + "px";
         locationCircle.style.height = width * 0.13 + "px";
         locationCircle.style.right = "9%";
         locationCircle.style.top = "12%";
-        locationCircle.style.transform = "translate(-150%, 60px)";
+        locationCircle.style.transform = "translate(-155%, 60px)";
 
         magasinCircle.style.width = width * 0.11 + "px";
         magasinCircle.style.height = width * 0.11 + "px";
         magasinCircle.style.left = "10%";
         magasinCircle.style.bottom = "14%";
-        magasinCircle.style.transform = "translate(200%, -45px)";
+        magasinCircle.style.transform = "translate(195%, -45px)";
 
         // 🎯 Labels repositionnés pour suivre les cercles
         let evenLabel = document.getElementById('label-even');
