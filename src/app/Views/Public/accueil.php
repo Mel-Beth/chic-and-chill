@@ -38,20 +38,92 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 3px solid #8B5A2B; /* Bordure marron */
-        background: rgba(255, 255, 255, 0.2); /* Fond semi-transparent */
-        backdrop-filter: blur(12px); /* Effet de flou sur le fond */
-        border-radius: 50%; /* Cercle */
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Ombre légère */
-        transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease; /* Effet animé */
+        border: 3px solid #8B5A2B;
+        /* Bordure marron */
+        background: rgba(255, 255, 255, 0.2);
+        /* Fond semi-transparent */
+        backdrop-filter: blur(3px);
+        /* Effet de flou sur le fond */
+        border-radius: 50%;
+        /* Cercle */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        /* Ombre légère */
+        transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+        /* Effet animé */
         z-index: 10;
     }
 
-    /* 🎯 Effet au survol pour agrandir et accentuer l'ombre */
+    /* 🎯 Effet au survol plus dynamique */
     .circle-link:hover {
-        transform: scale(1.2); /* Zoom */
-        box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5); /* Ombre plus marquée */
-        background: rgba(255, 255, 255, 0.3); /* Augmentation de la brillance */
+        transform: scale(1.2);
+        /* Zoom */
+        box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5);
+        /* Ombre plus marquée */
+        background: rgba(255, 255, 255, 0.3);
+        /* Augmentation de la brillance */
+    }
+
+    /* 🔹 Rendre le site plus responsive sur tablettes */
+    @media (max-width: 1024px) {
+        #circle-main {
+            width: 22vw !important;
+            height: 22vw !important;
+        }
+
+        .circle-link {
+            width: 10vw !important;
+            height: 10vw !important;
+        }
+    }
+
+    /* 🔸 Ajustements spécifiques pour les mobiles */
+    @media (max-width: 768px) {
+        #circle-main {
+            width: 18vw !important;
+            height: 18vw !important;
+        }
+
+        /* Réduire la taille des cercles interactifs */
+        .circle-link {
+            width: 9vw !important;
+            height: 9vw !important;
+        }
+
+        /* Ajustement du texte pour éviter les superpositions */
+        #chic {
+            font-size: 3vw !important;
+            left: 10% !important;
+        }
+
+        #and {
+            font-size: 3vw !important;
+            left: 50% !important;
+        }
+
+        #chill {
+            font-size: 3vw !important;
+            right: 10% !important;
+        }
+    }
+
+    /* 📱 Gestion spécifique pour les très petits écrans (smartphones) */
+    @media (max-width: 480px) {
+        #circle-main {
+            width: 30vw !important;
+            height: 30vw !important;
+        }
+
+        .circle-link {
+            width: 14vw !important;
+            height: 14vw !important;
+        }
+
+        /* Réduction des espacements pour éviter les débordements */
+        #chic,
+        #and,
+        #chill {
+            font-size: 5vw !important;
+        }
     }
 </style>
 
@@ -142,4 +214,5 @@
 </script>
 
 </body>
+
 </html>
