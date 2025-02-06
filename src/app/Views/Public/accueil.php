@@ -25,9 +25,24 @@
     <a href="magasin.php" id="circle-magasin" class="circle-link"></a>
 
     <!-- Labels interactifs associés aux cercles -->
-    <a href="evenements.php"> <span id="label-even" class="absolute text-gray-800 font-bold tracking-wide z-10">EVENEMENTS</span></a>
-    <a href="location.php"> <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10">LOCATION</span></a>
-    <a href="magasin.php"> <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10">MAGASIN</span></a>
+    <a href="evenements.php">
+        <span id="label-even" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.6s;">
+            EVENEMENTS
+        </span>
+    </a>
+
+    <a href="location.php">
+        <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.8s;">
+            LOCATION
+        </span>
+    </a>
+
+    <a href="magasin.php">
+        <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 1s;">
+            MAGASIN
+        </span>
+    </a>
+
 </div>
 
 <?php include 'src/app/Views/includes/footer.php'; ?>
@@ -105,6 +120,24 @@
             font-size: 3vw !important;
             right: 10% !important;
         }
+    }
+
+    /* 🎯 Animation d'apparition des labels */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* 🔥 Appliquer l'animation avec un délai différent pour chaque élément */
+    .label-fade {
+        animation: fadeIn 1s ease-in-out forwards;
+        opacity: 0;
+        /* Commence invisible */
     }
 
     /* 📱 Gestion spécifique pour les très petits écrans (smartphones) */
