@@ -1,4 +1,7 @@
 <?php
+// Détecter automatiquement le chemin du projet
+define("BASE_URL", "/projets/projetsExo/chic-and-chill/");
+
 // Routeur principal de l'application
 
 // Récupération de la route depuis l'URL, suppression des éventuels espaces et des slashes au début/fin
@@ -25,9 +28,14 @@ if (empty($route[0])) {
 
             case "evenements": // Si l'utilisateur accède à "/evenements"
                 $controller = new Controllers\EventsController();
-                $controller->index();
+                // Vérifie si un ID est passé pour afficher un événement en détail
+                if (!empty($route[1]) && is_numeric($route[1])) {
+                    $controller->showEvent($route[1]);
+                } else {
+                    $controller->index();
+                }
                 break;
-            
+
             case 'location': // Si l'utilisateur accède à "/location"
                 $controller = new Controllers\LocationController();
                 $controller->index();
@@ -41,6 +49,15 @@ if (empty($route[0])) {
             case 'contact': // Si l'utilisateur accède à "/contact"
                 $controller = new Controllers\ContactController();
                 $controller->index();
+                break;
+
+            case 'admin_evenements': // Route pour l'administration des événements
+                $controller = new Controllers\AdminEventsController();
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->handleRequest(); // Gestion des requêtes POST (ajout/modification/suppression)
+                } else {
+                    $controller->index(); // Affichage de la page admin
+                }
                 break;
 
             default:

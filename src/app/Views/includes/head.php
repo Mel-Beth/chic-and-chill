@@ -5,7 +5,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="src/css/output.css" rel="stylesheet">
-  <link href="src/css/style.css" rel="stylesheet">
+  <link href="<?= BASE_URL ?>src/css/output.css" rel="stylesheet">
+  <link href="<?= BASE_URL ?>src/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
+  <script src="node_modules/swiper/swiper-bundle.min.js"></script>
   <title>Chic and Chill</title>
 </head>
