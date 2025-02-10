@@ -1,0 +1,73 @@
+/* Grille des produits */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colonnes adaptatives */
+    gap: 20px;
+    padding: 40px;
+  }
+  
+  /* Carte produit */
+  .product-card {
+    background-color: #ffffff; /* Blanc pur */
+    border: 1px solid #eeeeee; /* Bordure discrète */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    overflow: hidden; /* Évite que les éléments débordent */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    text-align: center;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px); /* Légère élévation au survol */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Ombre accentuée */
+  }
+  
+  /* Image produit */
+  .product-card img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #a75e27; /* Légère séparation avec la description */
+  }
+  
+  /* Infos produit */
+  .product-info {
+    padding: 15px;
+  }
+  
+  .product-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: #333333; /* Noir doux */
+    margin-bottom: 10px;
+  }
+  
+  .product-info p {
+    font-size: 14px;
+    color: #666666; /* Gris doux */
+    margin-bottom: 15px;
+  }
+  
+  .product-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #a75e27; /* Marron clair */
+  }
+  
+  /* Bouton (si nécessaire pour "voir plus") */
+  .product-info a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #A8C3A5; /* Vert doux */
+    color: #ffffff; /* Blanc pur */
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .product-info a:hover {
+    background-color: #8CA58A; /* Vert légèrement plus foncé */
+  }
+  
