@@ -43,7 +43,7 @@
 </header>
 
 <!-- Conteneur principal contenant l'image de fond et les cercles interactifs -->
-<div id="hero-container" class="relative w-full h-screen flex items-center justify-center overflow-hidden pt-[80px]">
+<div id="hero-container" class="relative w-full h-screen flex items-center justify-center overflow-hidden pt-[70px] mt-10">
 
     <!-- Image de fond qui couvre toute la page -->
     <img src="assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
@@ -83,7 +83,7 @@
 
 </div>
 
-<footer class="bg-[#EFE7DD] text-[#8B5A2B] text-center py-4 left-0 w-full shadow-md relative mt-8" style="font-family: 'Cormorant Garamond', serif;">
+<footer class="bg-[#EFE7DD] text-[#8B5A2B] text-center py-4 left-0 w-full shadow-md relative" style="font-family: 'Cormorant Garamond', serif;">
     © 2025 Chic And Chill - Tous droits réservés.
 </footer>
 

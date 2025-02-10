@@ -28,12 +28,17 @@ class EventsController
             echo "Une erreur est survenue. Veuillez réessayer plus tard.";
         }
     }
-    
+
     public function showEvent($id)
     {
         try {
             $eventsModel = new EventsModel();
             $event = $eventsModel->getEventById($id);
+            $eventImages = $eventsModel->getEventImages($id);
+
+            // Récupère l'événement précédent et suivant
+            $prevEvent = $eventsModel->getPrevEvent($id);
+            $nextEvent = $eventsModel->getNextEvent($id);
 
             include('src/app/Views/Public/evenement_detail.php');
         } catch (\Exception $e) {

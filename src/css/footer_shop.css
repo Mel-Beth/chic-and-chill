@@ -103,10 +103,3 @@
   .footer_shop_column a:hover {
     color: #a75e27; /* le marron des autres onglets au survol */
   }
-  
-  /* Prévention des chevauchements */
-  body {
-    margin: 0;
-    padding-bottom: 100px; /* Réserve de place pour le footer */
-  }
-  

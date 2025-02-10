@@ -68,7 +68,7 @@
                 <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
                     <h1 class="text-white text-5xl font-bold"><?= htmlspecialchars($event['title']) ?></h1>
                     <p class="text-white text-lg mt-4 max-w-2xl"><?= htmlspecialchars($event['description']) ?></p>
-                    <a href="evenement_detail.php?id=<?= $event['id'] ?>" class="inline-block text-white bg-[#8B5A2B] px-4 py-2 text-sm rounded-md font-medium transition duration-300 hover:scale-105 hover:shadow-lg">En savoir plus</a>
+                    <a href="evenement_detail?id=<?= $event['id'] ?>" class="inline-block text-white bg-[#8B5A2B] px-4 py-2 text-sm rounded-md font-medium transition duration-300 hover:scale-105 hover:shadow-lg">En savoir plus</a>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -121,7 +121,7 @@
 
                     <!-- BOUTON EN SAVOIR PLUS PETIT ET CENTRÉ -->
                     <div class="text-center mt-3">
-                        <a href="evenement_detail.php?id=<?= $event['id'] ?>"
+                        <a href="evenement_detail?id=<?= $event['id'] ?>"
                             class="inline-block text-white bg-[#8B5A2B] px-4 py-2 text-sm rounded-md font-medium transition duration-300 hover:scale-105 hover:shadow-lg">
                             En savoir plus
                         </a>
@@ -230,13 +230,13 @@
                     <!-- Bordure intérieure épaisse qui s’amincit -->
                     <div class="absolute inset-2 border-[3px] border-[#8B5A2B] transition-all duration-500 group-hover:inset-4 group-hover:border-[1px]"></div>
 
-                    <!-- Titre qui se soulève légèrement -->
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-6">
+                    <!-- Titre qui remonte encore plus haut -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-18">
                         <?= htmlspecialchars($pack['title']); ?>
                     </div>
 
                     <!-- Contenu caché qui apparaît progressivement -->
-                    <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-10">
+                    <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-12">
                         <p class="text-sm"><?= htmlspecialchars($pack['description']); ?></p>
                         <button class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
                             Découvrir

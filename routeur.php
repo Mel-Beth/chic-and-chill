@@ -41,6 +41,15 @@ if (empty($route[0])) {
                 }
                 break;
 
+            case 'evenement_detail':
+                $controller = new Controllers\EventsController();
+                if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
+                    $controller->showEvent($_GET['id']);
+                } else {
+                    include('src/app/Views/404.php');
+                }
+                break;
+
             case 'location': // Si l'utilisateur accède à "/location"
                 $controller = new Controllers\LocationController();
                 $controller->index();
