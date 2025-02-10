@@ -1,3 +1,21 @@
+/* Style de base pour la page accueil */
+
+@import url('header_shop.css');
+@import url('footer_shop.css');
+@import url('produits_shop.css');
+
+
+
+
+.cormorant-garamond-regular {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 /* Importation des polices */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap');
 
