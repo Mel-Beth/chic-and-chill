@@ -1,0 +1,17 @@
+/* Importation des polices */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap');
+
+/* Définition globale : Cormorant Garamond comme police de base */
+body {
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* Appliquer Cormorant Garamond pour tous les textes marron */
+.text-[#8B5A2B], .border-[#8B5A2B] {
+    font-family: 'Cormorant Garamond', serif !important;
+}
+
+/* Appliquer Cormorant Garamond pour tous les textes gris */
+.text-gray-800 {
+    font-family: 'Cormorant Garamond', serif !important;
+}

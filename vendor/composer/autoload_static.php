@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2bff9195820afd1c613a806c5a404230
+class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -18,6 +18,7 @@ class ComposerStaticInit2bff9195820afd1c613a806c5a404230
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Stripe\\' => 7,
         ),
         'P' => 
         array (
@@ -39,10 +40,6 @@ class ComposerStaticInit2bff9195820afd1c613a806c5a404230
         array (
             'Controllers\\' => 12,
         ),
-        'A' => 
-        array (
-            'Alaji\\ChicAndChill\\' => 19,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -57,6 +54,10 @@ class ComposerStaticInit2bff9195820afd1c613a806c5a404230
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
         'PhpOption\\' => 
         array (
@@ -78,17 +79,28 @@ class ComposerStaticInit2bff9195820afd1c613a806c5a404230
         array (
             0 => __DIR__ . '/../..' . '/src/app/Controllers',
         ),
-        'Alaji\\ChicAndChill\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
-        ),
     );
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Datamatrix' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
+        'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
+        'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
+        'TCPDF2DBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',
+        'TCPDFBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_1d.php',
+        'TCPDF_COLORS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_colors.php',
+        'TCPDF_FILTERS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_filters.php',
+        'TCPDF_FONTS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_fonts.php',
+        'TCPDF_FONT_DATA' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_font_data.php',
+        'TCPDF_IMAGES' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_images.php',
+        'TCPDF_IMPORT' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_import.php',
+        'TCPDF_PARSER' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_parser.php',
+        'TCPDF_STATIC' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_static.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
@@ -96,9 +108,9 @@ class ComposerStaticInit2bff9195820afd1c613a806c5a404230
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit2bff9195820afd1c613a806c5a404230::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit2bff9195820afd1c613a806c5a404230::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit2bff9195820afd1c613a806c5a404230::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$classMap;
 
         }, null, ClassLoader::class);
     }

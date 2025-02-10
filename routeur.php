@@ -22,6 +22,27 @@ if (empty($route[0])) {
                 $controller = new Controllers\HomeController();
                 $controller->index();
                 break;
+
+            case "evenements": // Si l'utilisateur accède à "/evenements"
+                $controller = new Controllers\EventsController();
+                $controller->index();
+                break;
+            
+            case 'location': // Si l'utilisateur accède à "/location"
+                $controller = new Controllers\LocationController();
+                $controller->index();
+                break;
+
+            case 'magasin': // Si l'utilisateur accède à "/magasin"
+                $controller = new Controllers\ShopController();
+                $controller->index();
+                break;
+
+            case 'contact': // Si l'utilisateur accède à "/contact"
+                $controller = new Controllers\ContactController();
+                $controller->index();
+                break;
+
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
                 include('src/app/Views/404.php');
