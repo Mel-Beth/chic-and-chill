@@ -1,0 +1,112 @@
+/* Footer global */
+.footer_shop {
+    font-family: 'Lato', sans-serif;
+    color: #333333; /* Noir doux */
+  }
+
+  
+/* Positionnement et style du bouton "Retour en haut de page" */
+.back-to-top-footer-shop {
+    position: absolute; /* Position absolue pour le placer au-dessus du footer */
+    bottom: 0.1rem; /* Ajuste la hauteur juste au-dessus du footer */
+    left: 50%; /* Centre horizontalement */
+    transform: translateX(-50%); /* Centre exact */
+    text-align: center;
+    z-index: 2; /* Assure que le bouton reste visible au-dessus de tout */
+    background-color: transparent; /* Fond totalement transparent */
+  }
+  
+  .back-to-top-footer-shop a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff; /* Vert doux */
+    border: 2px solid #A8C3A5; /* Bordure verte */
+    padding: 10px 20px;
+    border-radius: 30px; /* Coins arrondis */
+    transition: all 0.3s ease-in-out;
+    background-color: transparent; /* Fond transparent */
+  }
+  
+  .back-to-top-footer-shop a:hover {
+    background-color: #A8C3A5; /* Fond vert doux au survol */
+    color: #ffffff; /* Texte blanc au survol */
+  }
+  
+  
+  
+  
+  /* Bande supérieure - Réseaux sociaux */
+  .footer_shop_top {
+    background-color: #A8C3A5; /* Vert doux */
+    color: #ffffff; /* Texte blanc */
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+  }
+  
+  .footer_shop_top p {
+    font-size: 16px;
+    margin-left: 17rem;
+  }
+  
+  .social-icons_shop_footer{
+    margin-right: 38rem;  
+    /* pour decoler les icons à droite */
+  }
+  .social-icons_shop_footer a {
+    text-decoration: none;
+    color: #ffffff; /* Blanc pour les icônes */
+    margin-left: 15px;
+    margin-right: 2rem;
+    font-size: 20px; /* Taille des icônes */
+    transition: color 0.3s ease;
+  }
+  
+  .social-icons_shop_footer a:hover {
+    color:#a75e27; /* marron comme les uatres au survol */
+  }
+  
+  /* Bande inférieure - Informations */
+  .footer_shop_bottom {
+    background-color: #F5F5F5; /* Gris clair */
+    color: #333333; /* Noir doux */
+    padding: 40px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* S'adapte sur plusieurs lignes si nécessaire */
+    gap: 10rem; /* Espace entre les colonnes */
+  }
+  
+  .footer_shop_column {
+    flex: 1;
+    min-width: 200px; /* Largeur minimale d'une colonne */
+  }
+  
+  .footer_shop_column h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .footer_shop_column a {
+    display: block;
+    margin: 5px 0;
+    font-size: 14px;
+    text-decoration: none;
+    color: #666666; /* Gris doux */
+    transition: color 0.3s ease;
+  }
+  
+  .footer_shop_column a:hover {
+    color: #a75e27; /* le marron des autres onglets au survol */
+  }
+  
+  /* Prévention des chevauchements */
+  body {
+    margin: 0;
+    padding-bottom: 100px; /* Réserve de place pour le footer */
+  }
+  
