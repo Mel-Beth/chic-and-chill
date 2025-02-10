@@ -28,7 +28,7 @@ class EventsController
             echo "Une erreur est survenue. Veuillez réessayer plus tard.";
         }
     }
-    
+
     public function showEvent($id)
     {
         try {

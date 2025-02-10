@@ -15,11 +15,11 @@
 
         <!-- Menu -->
         <nav class="hidden md:flex space-x-8 text-lg font-semibold transition-all duration-300">
-            <a href="accueil.php" class="menu-link">Accueil</a>
-            <a href="evenements.php" class="menu-link">Événements</a>
-            <a href="location.php" class="menu-link">Location</a>
-            <a href="magasin.php" class="menu-link">Magasin</a>
-            <a href="contact.php" class="menu-link">Contact</a>
+            <a href="accueil" class="menu-link">Accueil</a>
+            <a href="evenements" class="menu-link">Événements</a>
+            <a href="location" class="menu-link">Location</a>
+            <a href="magasin" class="menu-link">Magasin</a>
+            <a href="contact" class="menu-link">Contact</a>
         </nav>
 
         <!-- Menu mobile -->
