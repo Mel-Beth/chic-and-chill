@@ -358,7 +358,7 @@ require __DIR__ . '/lib/TaxId.php';
 require __DIR__ . '/lib/TaxRate.php';
 require __DIR__ . '/lib/Terminal/Configuration.php';
 require __DIR__ . '/lib/Terminal/ConnectionToken.php';
-require __DIR__ . '/lib/Terminal/Location.php';
+require __DIR__ . '/lib/Terminal/location';
 require __DIR__ . '/lib/Terminal/Reader.php';
 require __DIR__ . '/lib/TestHelpers/TestClock.php';
 require __DIR__ . '/lib/Token.php';

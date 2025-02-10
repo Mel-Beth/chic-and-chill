@@ -1,3 +1,7 @@
+<?php
+define('BASE_URL', 'http://localhost/projets/projetsExo/chic-and-chill/');
+?>
+
 <!doctype html>
 <html lang="fr">
 <html>
