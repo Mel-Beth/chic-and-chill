@@ -1,5 +1,5 @@
-<?php include('src/app/Views/includes/head.php'); ?>
-<?php include('src/app/Views/includes/header.php'); ?>
+<?php include('src/app/Views/includes/headEvents.php'); ?>
+<?php include('src/app/Views/includes/headerEvents.php'); ?>
 
 <style>
     /* Empêcher le débordement du carrousel */
@@ -221,15 +221,27 @@
 <!-- PACKS ÉVÉNEMENTIELS -->
 <div class="container mx-auto px-4 py-12">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Packs événementiels</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
         <?php if (!empty($eventPacks)) : ?>
             <?php foreach ($eventPacks as $pack) : ?>
-                <div class="bg-white shadow-lg rounded-lg p-6 text-center">
-                    <h4 class="font-bold text-lg"><?= htmlspecialchars($pack['title']); ?></h4>
-                    <p class="text-gray-700 mb-2"><?= htmlspecialchars($pack['description']); ?></p>
-                    <button class="bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
-                        Découvrir
-                    </button>
+                <div class="relative bg-black text-white rounded-lg shadow-lg overflow-hidden group transition-all duration-500 h-64 flex flex-col items-center justify-center">
+
+                    <!-- Bordure intérieure épaisse qui s’amincit -->
+                    <div class="absolute inset-2 border-[3px] border-[#8B5A2B] transition-all duration-500 group-hover:inset-4 group-hover:border-[1px]"></div>
+
+                    <!-- Titre qui se soulève légèrement -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-6">
+                        <?= htmlspecialchars($pack['title']); ?>
+                    </div>
+
+                    <!-- Contenu caché qui apparaît progressivement -->
+                    <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-10">
+                        <p class="text-sm"><?= htmlspecialchars($pack['description']); ?></p>
+                        <button class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
+                            Découvrir
+                        </button>
+                    </div>
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
@@ -275,4 +287,4 @@
 </div>
 
 
-<?php include('src/app/Views/includes/footer.php'); ?>
+<?php include('src/app/Views/includes/footerEvents.php'); ?>
