@@ -18,7 +18,7 @@ class EventsModel extends ModeleParent
     public function getEventById($id)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id = ?");
+            $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id = ? ASC");
             $stmt->execute([$id]);
             return $stmt->fetch();
         } catch (\PDOException $e) {

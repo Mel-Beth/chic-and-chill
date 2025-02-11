@@ -6,7 +6,7 @@
             <img src="<?= BASE_URL ?>assets/images/logo.png" alt="Chic & Chill Logo" class="w-24 h-24">
             <p class="mt-4 text-gray-300 leading-relaxed text-center md:text-left max-w-sm">
                 <span class="font-semibold">Chic & Chill</span> est une boutique et service de location de vêtements 
-                proposant une mode chic, responsable et accessible à tous.
+                proposant une mode responsable et accessible à tous.
             </p>
         </div>
 

@@ -262,7 +262,7 @@
             <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Concept</h3>
             <p class="text-gray-600">
                 Chic & Chill est plus qu’une boutique, c’est un **univers où l’élégance rencontre l’accessibilité**.
-                Nous proposons des vêtements chics à la vente et à la location, pour que chacun puisse se sentir unique, sans compromis sur le prix ni sur l’éthique.
+                Nous proposons des vêtements chics et chills à la vente et à la location, pour que chacun puisse se sentir unique, sans compromis sur le prix ni sur l’éthique.
             </p>
         </div>
 
@@ -271,7 +271,7 @@
             <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Vision</h3>
             <p class="text-gray-600">
                 Nous croyons en une mode **plus responsable et inclusive**.
-                Chic & Chill valorise la **seconde main et l’éco-responsabilité** en mettant en avant des pièces soigneusement sélectionnées, pour offrir une mode chic et engagée.
+                Chic & Chill valorise la **seconde main et l’éco-responsabilité** en mettant en avant des pièces soigneusement sélectionnées, pour offrir une mode pour tous et engagée.
             </p>
         </div>
 
@@ -280,7 +280,7 @@
             <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Engagement</h3>
             <p class="text-gray-600">
                 Chaque article est pensé pour **s’adapter à tous les budgets** et occasions.
-                Que ce soit pour une location événementielle ou un achat coup de cœur, **notre mission est de rendre la mode chic accessible à tous**.
+                Que ce soit pour une location événementielle ou un achat coup de cœur, **notre mission est de rendre la mode accessible à tous**.
             </p>
         </div>
     </div>
