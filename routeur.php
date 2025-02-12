@@ -23,6 +23,11 @@ if (empty($route[0])) {
                 $controller->index();
                 break;
 
+            case 'accueil_shop':
+                $controller = new Controllers\HomeController();
+                $controller->shop();
+                break;
+
             case "evenements": // Si l'utilisateur accède à "/evenements"
                 $controller = new Controllers\EventsController();
                 $controller->index();

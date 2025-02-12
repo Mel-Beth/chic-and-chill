@@ -13,9 +13,9 @@
     <!-- Menu -->
     <nav class="hidden md:flex space-x-8 text-lg text-[#8B5A2B] font-semibold">
         <a href="index.php" class="hover:text-gray-800 transition">Accueil</a>
-        <a href="evenements.php" class="hover:text-gray-800 transition">Événements</a>
-        <a href="location.php" class="hover:text-gray-800 transition">Location</a>
-        <a href="magasin.php" class="hover:text-gray-800 transition">Magasin</a>
+        <a href="evenements" class="hover:text-gray-800 transition">Événements</a>
+        <a href="location" class="hover:text-gray-800 transition">Location</a>
+        <a href="magasin" class="hover:text-gray-800 transition">Magasin</a>
         <a href="contact.php" class="hover:text-gray-800 transition">Contact</a>
     </nav>
 

@@ -20,24 +20,24 @@
 
 
     <!-- Cercles cliquables menant aux différentes pages -->
-    <a href="evenements.php" id="circle-even" class="circle-link"></a>
-    <a href="location.php" id="circle-location" class="circle-link"></a>
-    <a href="magasin.php" id="circle-magasin" class="circle-link"></a>
+    <a href="evenements" id="circle-even" class="circle-link"></a>
+    <a href="location" id="circle-location" class="circle-link"></a>
+    <a href="magasin" id="circle-magasin" class="circle-link"></a>
 
     <!-- Labels interactifs associés aux cercles -->
-    <a href="evenements.php">
+    <a href="evenements">
         <span id="label-even" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.6s;">
             EVENEMENTS
         </span>
     </a>
 
-    <a href="location.php">
+    <a href="location">
         <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.8s;">
             LOCATION
         </span>
     </a>
 
-    <a href="magasin.php">
+    <a href="magasin">
         <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 1s;">
             MAGASIN
         </span>
@@ -203,11 +203,11 @@
         let locationCircle = document.getElementById('circle-location');
         let magasinCircle = document.getElementById('circle-magasin');
 
-        evenCircle.style.width = width * 0.13 + "px";
-        evenCircle.style.height = width * 0.13 + "px";
+        evenCircle.style.width = width * 0.15 + "px";
+        evenCircle.style.height = width * 0.15 + "px";
         evenCircle.style.left = "9%";
         evenCircle.style.top = "12%";
-        evenCircle.style.transform = "translate(139%, 20%)";
+        evenCircle.style.transform = "translate(105%, 10%)";
 
         locationCircle.style.width = width * 0.13 + "px";
         locationCircle.style.height = width * 0.13 + "px";
@@ -228,17 +228,17 @@
 
         evenLabel.style.left = "9%";
         evenLabel.style.top = "12%";
-        evenLabel.style.transform = "translate(155%, 290%)";
+        evenLabel.style.transform = "translate(130%, 290%)";
         evenLabel.style.fontSize = width * 0.018 + "px";
 
         locationLabel.style.right = "9%";
         locationLabel.style.top = "12%";
-        locationLabel.style.transform = "translate(-230%, 145px)";
+        locationLabel.style.transform = "translate(-215%, 145px)";
         locationLabel.style.fontSize = width * 0.018 + "px";
 
         magasinLabel.style.left = "10%";
         magasinLabel.style.bottom = "14%";
-        magasinLabel.style.transform = "translate(260%, -115px)";
+        magasinLabel.style.transform = "translate(250%, -110px)";
         magasinLabel.style.fontSize = width * 0.018 + "px";
     }
 
