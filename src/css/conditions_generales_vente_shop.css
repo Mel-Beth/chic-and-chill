@@ -1,0 +1,51 @@
+
+.body_conditions_shop{
+    padding-top: 10rem;
+}
+
+.cgv_container_shop {
+    
+    max-width: 80%;
+    margin: 5rem auto;
+    padding: 2rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Lato', sans-serif;
+    color: #333;
+}
+
+.cgv_container_shop h1 {
+    
+    font-family: 'Cormorant Garamond', serif ;
+    font-size: 2.5rem;
+    text-align: center;
+    color:  #2a2731;
+    margin-bottom: 3.5rem;
+}
+
+.cgv_section {
+    margin-bottom: 2rem;
+}
+
+.cgv_section h2 {
+    font-family:  'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #2a2731;
+    margin-bottom: 1rem;
+}
+
+
+.para_conditions_shop{
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #3a3636;
+}
+
+.cgv_date {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #999;
+    margin-top: 3rem;
+}

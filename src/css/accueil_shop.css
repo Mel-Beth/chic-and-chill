@@ -1,0 +1,55 @@
+/* Section Bannière */
+.container_banniere_accueil_shop {
+    background-image: url("../../assets/images/pexels-yankrukov-7314246.jpg"); /* Chemin vers  image page accueil du shop */
+    background-size: cover; /* Ajuste l'image pour couvrir toute la zone */
+    background-position: center -20%; /* Centre l'image */
+    background-repeat: no-repeat; /* pas de repet 2 l'img */
+    background-attachment: fixed; /* Image reste fixe qd scroll */
+    height: 100vh; /* bannière prend 100% de la hauteur 2 la fenêtre */
+    display: flex; /* Pr centrer contenu */
+    flex-direction: column;
+    justify-content: center; /* Centre verticalement*/
+    align-items: center; /* Centre horizontalement le contenu */
+    text-align: center; 
+    color: #333333; 
+  }
+  
+  .container_banniere_accueil_shop .content {
+    background-color: rgba(255, 255, 255, 0.8); /* Fond blanc translucide */
+    padding: 20px 40px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  }
+  
+  
+  
+  
+  .container_banniere_accueil_shop h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: #333333; 
+  }
+  
+  .container_banniere_accueil_shop p {
+    font-size: 18px;
+    color: #666666; 
+    margin-bottom: 20px;
+  }
+  
+  .container_banniere_accueil_shop a {
+    text-decoration: none;
+    color: #333333; 
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 10px;
+    border: 2px solid #A8C3A5; /* Bordure vert doux */
+    padding: 10px 20px;
+    border-radius: 30px; /* Boutons arrondis */
+    background-color: #A8C3A5; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .container_banniere_accueil_shop a:hover {
+    background-color: #8CA58A; 
+    color: #ffffff;
+  }
