@@ -58,6 +58,100 @@
         color: #8B5A2B !important;
         /* Change la couleur en marron */
     }
+
+    /* Correction de la grille pour un alignement propre */
+    .grid_events {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* S'adapte au nombre d'éléments */
+        gap: 30px;
+        justify-items: center;
+    }
+
+    /* Styles des cartes */
+    .pack-card {
+        position: relative;
+        width: 100%;
+        max-width: 350px;
+        height: 400px;
+        /* Taille uniforme pour toutes les cartes */
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+    }
+
+    .group:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Correction de la taille des images */
+    .pack-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Effet au survol (overlay noir avec texte) */
+    .overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+    }
+
+    .group:hover .overlay {
+        opacity: 1;
+    }
+
+    /* Style du texte dans l'overlay */
+    .overlay h3 {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .overlay p {
+        color: white;
+        font-size: 1rem;
+        text-align: center;
+        margin-top: 8px;
+        max-width: 80%;
+    }
+
+    /* Bouton dans l'overlay */
+    .overlay .btn {
+        background: #8B5A2B;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 6px;
+        margin-top: 10px;
+        text-decoration: none;
+        transition: transform 0.2s ease-in-out, background 0.3s;
+    }
+
+    .overlay .btn:hover {
+        background: #5a3d1c;
+        transform: scale(1.1);
+    }
+
+    /* Ajustement mobile */
+    @media (max-width: 768px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+
+        .group {
+            height: 350px;
+        }
+    }
 </style>
 
 <!-- CARROUSEL SWIPER PLEIN ÉCRAN -->
@@ -107,25 +201,21 @@
 <div class="container mx-auto px-4 py-12">
     <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">Nos Événements</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="grid_events">
         <?php foreach ($events as $event) : ?>
-            <div class="relative group bg-white shadow-lg rounded-lg overflow-hidden max-w-[350px] mx-auto">
+            <div class="group pack-card">
                 <!-- Image de l'événement -->
-                <img src="<?= BASE_URL ?>assets/images/events/<?= htmlspecialchars($event['image']) ?>"
-                    class="w-full h-[400px] object-cover transition-transform duration-500 group-hover:scale-105">
+                <?php if (!empty($event['image'])) : ?>
+                    <img src="<?= BASE_URL ?>/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
+                <?php else : ?>
+                    <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut">
+                <?php endif; ?>
 
-                <!-- Contenu affiché au survol -->
-                <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <h3 class="text-white text-xl font-semibold text-center"><?= htmlspecialchars($event['title']) ?></h3>
-                    <p class="text-gray-300 text-sm mt-2 text-center"><?= htmlspecialchars($event['description']) ?></p>
-
-                    <!-- BOUTON EN SAVOIR PLUS PETIT ET CENTRÉ -->
-                    <div class="text-center mt-3">
-                        <a href="evenement_detail?id=<?= $event['id'] ?>"
-                            class="inline-block text-white bg-[#8B5A2B] px-4 py-2 text-sm rounded-md font-medium transition duration-300 hover:scale-105 hover:shadow-lg">
-                            En savoir plus
-                        </a>
-                    </div>
+                <!-- Effet au survol -->
+                <div class="overlay">
+                    <h3><?= htmlspecialchars($event['title']) ?></h3>
+                    <p><?= htmlspecialchars($event['description']) ?></p>
+                    <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn">En savoir plus</a>
                 </div>
             </div>
         <?php endforeach; ?>

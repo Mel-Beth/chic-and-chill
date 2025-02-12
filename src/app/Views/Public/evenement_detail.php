@@ -34,13 +34,15 @@
 
                 <div class="swiper-container-gallery relative w-full">
                     <div class="swiper-wrapper">
-                        <?php foreach ($eventImages as $image) : ?>
-                            <div class="swiper-slide">
-                                <img src="<?= BASE_URL ?>assets/images/events/gallery/<?= htmlspecialchars($image['image_url']); ?>"
-                                    alt="Image de <?= htmlspecialchars($event['title']); ?>"
-                                    class="w-full h-[400px] object-cover rounded-lg shadow-lg">
+                        <?php if (!empty($eventImages)) : ?>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                <?php foreach ($eventImages as $image) : ?>
+                                    <img src="<?= BASE_URL . htmlspecialchars($image); ?>" alt="Photo de l'événement" class="w-full h-auto rounded-lg shadow-lg">
+                                <?php endforeach; ?>
                             </div>
-                        <?php endforeach; ?>
+                        <?php else : ?>
+                            <p class="text-gray-500 text-center">Aucune image disponible pour cet événement.</p>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Navigation (flèches marron) -->

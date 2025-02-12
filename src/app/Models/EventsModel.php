@@ -18,7 +18,7 @@ class EventsModel extends ModeleParent
     public function getEventById($id)
     {
         try {
-            $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id = ? ASC");
+            $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id = ?");
             $stmt->execute([$id]);
             return $stmt->fetch();
         } catch (\PDOException $e) {
@@ -43,12 +43,13 @@ class EventsModel extends ModeleParent
         try {
             $stmt = $this->pdo->prepare("SELECT image_url FROM event_images WHERE event_id = ?");
             $stmt->execute([$eventId]);
-            return $stmt->fetchAll();
+            return $stmt->fetchAll(\PDO::FETCH_COLUMN);
         } catch (\PDOException $e) {
             error_log($e->getMessage());
             return [];
         }
     }
+
     public function getPrevEvent($id)
     {
         $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id < ? ORDER BY id DESC LIMIT 1");

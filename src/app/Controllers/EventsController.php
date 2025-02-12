@@ -36,7 +36,7 @@ class EventsController
             $event = $eventsModel->getEventById($id);
             $eventImages = $eventsModel->getEventImages($id);
 
-            // Récupère l'événement précédent et suivant
+            // Récupérer l'événement précédent et suivant
             $prevEvent = $eventsModel->getPrevEvent($id);
             $nextEvent = $eventsModel->getNextEvent($id);
 

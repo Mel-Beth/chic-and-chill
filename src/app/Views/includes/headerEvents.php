@@ -3,8 +3,8 @@
         <!-- Logo + Texte -->
         <div class="flex items-center space-x-4">
             <!-- Logo -->
-            <a href="accueil.php">
-                <img src="<?= BASE_URL ?>assets/images/logo.png" alt="Chic & Chill Logo" class="w-30 h-30 object-contain">
+            <a href="accueil">
+                <img src="<?= BASE_URL ?>assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-30 h-30 object-contain">
             </a>
 
             <!-- Texte CHIC AND CHILL -->

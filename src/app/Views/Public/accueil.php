@@ -19,7 +19,7 @@
     <!-- Logo + Texte -->
     <div class="flex items-center space-x-4">
         <!-- Logo -->
-        <img src="<?= BASE_URL ?>assets/images/logo.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
+        <img src="<?= BASE_URL ?>assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
 
         <!-- Texte CHIC AND CHILL -->
         <div class="text-[#8B5A2B] font-bold text-3xl tracking-wide font-family: 'Cormorant Garamond', serif;" style="font-family: 'Cormorant Garamond', serif;">
