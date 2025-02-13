@@ -40,10 +40,12 @@
     }
 
     /* Supprime toute bordure blanche indésirable */
-.swiper-container, .swiper-wrapper, .swiper-slide {
-    box-sizing: border-box;
-    border: none;
-}
+    .swiper-container,
+    .swiper-wrapper,
+    .swiper-slide {
+        box-sizing: border-box;
+        border: none;
+    }
 
     /* Swiper Effet Coverflow */
     .swiper-slide-active {
