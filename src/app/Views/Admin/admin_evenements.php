@@ -36,7 +36,7 @@
     </tr>
     <?php foreach ($events as $event) : ?>
         <tr>
-            <td><img src="assets/images/events/<?= htmlspecialchars($event['image'] ?? 'placeholder.jpg') ?>" width="50"></td>
+            <td><img src="assets/images/events/<?= htmlspecialchars($event['image'] ?? 'assets/images/events/placeholder.jpg') ?>" width="50"></td>
             <td><?= htmlspecialchars($event['title']) ?></td>
             <td><?= htmlspecialchars($event['date_event']) ?></td>
             <td><?= htmlspecialchars($event['time_event']) ?></td>

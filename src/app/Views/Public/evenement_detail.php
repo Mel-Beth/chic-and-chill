@@ -1,6 +1,20 @@
 <?php include('src/app/Views/includes/headEvents.php'); ?>
 <?php include('src/app/Views/includes/headerEvents.php'); ?>
 
+<style>
+    /* Harmonisation des images dans la galerie */
+    .swiper-container-gallery img {
+        width: 100%;
+        /* Prend toute la largeur de son conteneur */
+        height: 250px;
+        /* Taille uniforme pour toutes les images */
+        object-fit: cover;
+        /* Coupe l'image pour remplir sans distorsion */
+        border-radius: 10px;
+        /* Ajoute un effet arrondi harmonieux */
+    }
+</style>
+
 <?php if (!empty($event)) : ?>
     <!-- HERO SECTION -->
     <div class="relative w-full h-screen bg-cover bg-center flex justify-center items-center"
@@ -34,15 +48,11 @@
 
                 <div class="swiper-container-gallery relative w-full">
                     <div class="swiper-wrapper">
-                        <?php if (!empty($eventImages)) : ?>
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <?php foreach ($eventImages as $image) : ?>
-                                    <img src="<?= BASE_URL . htmlspecialchars($image); ?>" alt="Photo de l'événement" class="w-full h-auto rounded-lg shadow-lg">
-                                <?php endforeach; ?>
+                        <?php foreach ($eventImages as $image) : ?>
+                            <div class="swiper-slide">
+                                <img src="<?= BASE_URL . htmlspecialchars($image); ?>" alt="Photo de l'événement" class="rounded-lg shadow-lg">
                             </div>
-                        <?php else : ?>
-                            <p class="text-gray-500 text-center">Aucune image disponible pour cet événement.</p>
-                        <?php endif; ?>
+                        <?php endforeach; ?>
                     </div>
 
                     <!-- Navigation (flèches marron) -->
@@ -54,25 +64,25 @@
         <?php endif; ?>
 
         <!-- PAGINATION DES ÉVÉNEMENTS -->
-        <div class="flex justify-between items-center max-w-4xl mx-auto mt-16 border-t border-gray-300 pt-8">
+        <div class="flex justify-between items-center max-w-4xl mx-auto mt-16 border-t border-gray-300 pt-8 w-full">
             <?php if (!empty($prevEvent)) : ?>
                 <a href="<?= BASE_URL ?>evenement_detail?id=<?= $prevEvent['id'] ?>"
-                    class="flex items-center text-gray-800 hover:text-[#8B5A2B] transition duration-300">
+                    class="flex items-center text-gray-800 hover:text-[#8B5A2B] transition duration-300 flex-grow">
                     <span class="inline-block border border-gray-800 p-3 rounded-lg mr-4">←</span>
                     <span class="text-lg font-semibold"><?= htmlspecialchars($prevEvent['title']); ?></span>
                 </a>
             <?php else : ?>
-                <span></span>
+                <span class="flex-grow"></span>
             <?php endif; ?>
 
             <?php if (!empty($nextEvent)) : ?>
                 <a href="<?= BASE_URL ?>evenement_detail?id=<?= $nextEvent['id'] ?>"
-                    class="flex items-center text-gray-800 hover:text-[#8B5A2B] transition duration-300">
+                    class="flex items-center text-gray-800 hover:text-[#8B5A2B] transition duration-300 flex-grow justify-end">
                     <span class="text-lg font-semibold"><?= htmlspecialchars($nextEvent['title']); ?></span>
                     <span class="inline-block border border-gray-800 p-3 rounded-lg ml-4">→</span>
                 </a>
             <?php else : ?>
-                <span></span>
+                <span class="flex-grow"></span>
             <?php endif; ?>
         </div>
 
@@ -122,6 +132,8 @@
             delay: 5000,
             disableOnInteraction: false,
         },
+        slidesPerView: 3, // S'assure qu'on voit bien 3 images en même temps
+        spaceBetween: 15, // Ajoute un petit espace entre les images
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
@@ -132,5 +144,16 @@
         },
         effect: 'slide',
         speed: 1200,
+        breakpoints: {
+            640: {
+                slidesPerView: 1 // Affiche une seule image sur petit écran
+            },
+            768: {
+                slidesPerView: 2 // Affiche 2 images sur tablette
+            },
+            1024: {
+                slidesPerView: 3 // Affiche 3 images sur grand écran
+            }
+        }
     });
 </script>

@@ -17,6 +17,7 @@ class EventsController
 
             $events = $eventsModel->getAllEvents();
             $pastEvents = $eventsModel->getPastEvents();
+            $upcomingEvents = $eventsModel->getUpcomingEvents(); // Récupérer les événements futurs
 
             // Récupération des packs et suggestions par événement
             $eventPacks = $packsModel->getAllPacks();
@@ -37,8 +38,8 @@ class EventsController
             $eventImages = $eventsModel->getEventImages($id);
 
             // Récupérer l'événement précédent et suivant
-            $prevEvent = $eventsModel->getPrevEvent($id);
-            $nextEvent = $eventsModel->getNextEvent($id);
+            $prevEvent = $eventsModel->getPrevEvent($event['date_event']);
+            $nextEvent = $eventsModel->getNextEvent($event['date_event']);
 
             include('src/app/Views/Public/evenement_detail.php');
         } catch (\Exception $e) {

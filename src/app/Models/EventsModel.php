@@ -7,7 +7,7 @@ class EventsModel extends ModeleParent
     public function getAllEvents()
     {
         try {
-            $stmt = $this->pdo->query("SELECT * FROM events ORDER BY date_event ASC");
+            $stmt = $this->pdo->query("SELECT * FROM events ORDER BY date_event DESC");
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             error_log($e->getMessage());
@@ -50,17 +50,27 @@ class EventsModel extends ModeleParent
         }
     }
 
-    public function getPrevEvent($id)
+    public function getPrevEvent($date)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id < ? ORDER BY id DESC LIMIT 1");
-        $stmt->execute([$id]);
+        $stmt = $this->pdo->prepare("SELECT * FROM events WHERE date_event > ? ORDER BY date_event ASC LIMIT 1");
+        $stmt->execute([$date]);
         return $stmt->fetch();
     }
 
-    public function getNextEvent($id)
+    public function getNextEvent($date)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM events WHERE id > ? ORDER BY id ASC LIMIT 1");
-        $stmt->execute([$id]);
+        $stmt = $this->pdo->prepare("SELECT * FROM events WHERE date_event < ? ORDER BY date_event DESC LIMIT 1");
+        $stmt->execute([$date]);
         return $stmt->fetch();
+    }
+    public function getUpcomingEvents()
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT * FROM events WHERE date_event >= NOW() ORDER BY date_event ASC");
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return [];
+        }
     }
 }
