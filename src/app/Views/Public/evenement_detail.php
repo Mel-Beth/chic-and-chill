@@ -2,16 +2,199 @@
 <?php include('src/app/Views/includes/headerEvents.php'); ?>
 
 <style>
-    /* Harmonisation des images dans la galerie */
+    /* =============================== */
+    /* 1. Configuration générale       */
+    /* =============================== */
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    /* =============================== */
+    /* 2. Hero Section                 */
+    /* =============================== */
+    .hero-section {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-content {
+        position: relative;
+        text-align: center;
+        color: white;
+        padding: 20px;
+    }
+
+    .hero-content h1 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: bold;
+    }
+
+    /* =============================== */
+    /* 3. Sections de Contenu          */
+    /* =============================== */
+    .section-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 40px 20px;
+    }
+
+    /* Styles des blocs */
+    .text-block,
+    .info-block {
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .text-block {
+        background: black;
+        color: white;
+        text-align: center;
+    }
+
+    .info-block {
+        background: #f7f7f7;
+        text-align: center;
+    }
+
+    /* =============================== */
+    /* 4. Galerie Swiper               */
+    /* =============================== */
+    .swiper-container-gallery {
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+    }
+
+    /* Images de la galerie */
     .swiper-container-gallery img {
         width: 100%;
-        /* Prend toute la largeur de son conteneur */
         height: 250px;
-        /* Taille uniforme pour toutes les images */
         object-fit: cover;
-        /* Coupe l'image pour remplir sans distorsion */
         border-radius: 10px;
-        /* Ajoute un effet arrondi harmonieux */
+    }
+
+    /* Personnalisation des flèches */
+    .swiper-button-next-gallery,
+    .swiper-button-prev-gallery {
+        color: #8B5A2B !important;
+    }
+
+    .swiper-button-next-gallery::after,
+    .swiper-button-prev-gallery::after {
+        font-size: 30px !important;
+    }
+
+    /* =============================== */
+    /* 5. Pagination des événements    */
+    /* =============================== */
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 800px;
+        margin: 50px auto;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
+
+    .pagination-container a {
+        display: flex;
+        align-items: center;
+        color: #8B5A2B;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .pagination-container a:hover {
+        color: black;
+    }
+
+    .pagination-container span {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    /* =============================== */
+    /* 6. Bouton Retour                */
+    /* =============================== */
+    .return-button {
+        display: block;
+        text-align: center;
+        background: #8B5A2B;
+        color: white;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        margin: 30px auto;
+        transition: transform 0.3s ease-in-out;
+        max-width: 300px;
+    }
+
+    .return-button:hover {
+        transform: scale(1.05);
+    }
+
+    /* =============================== */
+    /* 7. Responsive Design            */
+    /* =============================== */
+    @media (max-width: 1024px) {
+        .hero-section {
+            height: 60vh;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+        }
+
+        .text-block,
+        .info-block {
+            max-width: 90%;
+            margin: auto;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-section {
+            height: 50vh;
+        }
+
+        .pagination-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .pagination-container a {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+
+        .return-button {
+            font-size: 1rem;
+            padding: 12px 20px;
+        }
     }
 </style>
 

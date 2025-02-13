@@ -2,7 +2,9 @@
 <?php include('src/app/Views/includes/headerEvents.php'); ?>
 
 <style>
-    /* Empêcher le débordement du carrousel */
+    /* =============================== */
+    /* 1. Configuration générale       */
+    /* =============================== */
     html,
     body {
         margin: 0;
@@ -10,36 +12,15 @@
         overflow-x: hidden;
     }
 
-    /* Assure que le carrousel occupe toute la largeur et la hauteur */
+    /* =============================== */
+    /* 2. Carrousel Swiper principal   */
+    /* =============================== */
     .swiper-container {
         width: 100vw;
         height: 100vh;
-        margin: 0;
-        padding: 0;
     }
 
-    /* Swiper - Carrousel des tenues */
-    .swiper-container-tenues {
-        max-width: 900px;
-        margin: auto;
-        padding: 40px 0;
-    }
-
-    .swiper-slide {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #fff;
-        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
-        transition: transform 0.5s ease-in-out;
-    }
-
-    /* Supprime toute bordure blanche indésirable */
+    /* Suppression des bordures indésirables */
     .swiper-container,
     .swiper-wrapper,
     .swiper-slide {
@@ -47,44 +28,93 @@
         border: none;
     }
 
-    /* Swiper Effet Coverflow */
+    /* Gestion des slides */
+    .swiper-slide {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        transition: transform 0.5s ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Animation des slides */
     .swiper-slide-active {
-        transform: scale(1.2);
-        z-index: 10;
+        transform: scale(1.1);
     }
 
-    .swiper-slide-prev,
-    .swiper-slide-next {
-        transform: scale(0.9);
-        opacity: 0.8;
+    .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
-    .swiper-pagination {
-        margin-top: 15px;
+    /* Overlay texte Swiper */
+    .swiper-slide .overlay-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 20px;
     }
 
-    /* Personnalisation des flèches Swiper */
-    .swiper-button-next-tenues,
-    .swiper-button-prev-tenues {
+    .overlay-content h1 {
+        font-size: clamp(1.5rem, 5vw, 3rem);
+        /* S'adapte aux écrans */
+        font-weight: bold;
+    }
+
+    .overlay-content p {
+        font-size: clamp(1rem, 3vw, 1.5rem);
+        max-width: 80%;
+    }
+
+    /* =============================== */
+    /* 3. Personnalisation des flèches */
+    /* =============================== */
+    .swiper-button-next,
+    .swiper-button-prev {
         color: #8B5A2B !important;
-        font-size: 20px;
     }
 
-    .swiper-button-next-tenues::after,
-    .swiper-button-prev-tenues::after {
-        font-size: 30px !important;
+    .swiper-button-next::after,
+    .swiper-button-prev::after {
+        font-size: 40px !important;
         color: #8B5A2B !important;
     }
 
-    /* Correction de la grille pour un alignement propre */
+    /* =============================== */
+    /* 4. Carrousel des tenues         */
+    /* =============================== */
+    .swiper-container-tenues {
+        max-width: 900px;
+        margin: auto;
+        padding: 40px 0;
+    }
+
+    /* =============================== */
+    /* 5. Grille des événements        */
+    /* =============================== */
     .grid_events {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
         justify-items: center;
+        padding: 20px;
     }
 
-    /* Styles des cartes */
+    /* =============================== */
+    /* 6. Styles des cartes événements */
+    /* =============================== */
     .pack-card {
         position: relative;
         width: 100%;
@@ -93,22 +123,23 @@
         overflow: hidden;
         border-radius: 15px;
         box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+        transition: transform 0.3s ease-in-out;
     }
 
     .group:hover {
         transform: scale(1.05);
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
     }
 
-    /* Correction de la taille des images */
+    /* Images événements */
     .pack-card img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
 
-    /* Effet au survol (overlay noir avec texte) */
+    /* =============================== */
+    /* 7. Overlay (Texte sur image)    */
+    /* =============================== */
     .overlay {
         position: absolute;
         inset: 0;
@@ -125,11 +156,9 @@
         opacity: 1;
     }
 
-    /* Style du texte dans l'overlay */
     .overlay h3 {
         color: white;
         font-size: 1.5rem;
-        font-weight: bold;
         text-align: center;
     }
 
@@ -137,19 +166,19 @@
         color: white;
         font-size: 1rem;
         text-align: center;
-        margin-top: 8px;
         max-width: 80%;
     }
 
-    /* Bouton dans l'overlay */
+    /* =============================== */
+    /* 8. Boutons et interactions      */
+    /* =============================== */
     .overlay .btn {
         background: #8B5A2B;
         color: white;
         padding: 10px 15px;
         border-radius: 6px;
-        margin-top: 10px;
         text-decoration: none;
-        transition: transform 0.2s ease-in-out, background 0.3s;
+        transition: transform 0.2s ease-in-out;
     }
 
     .overlay .btn:hover {
@@ -157,59 +186,67 @@
         transform: scale(1.1);
     }
 
-    /* Ajustement mobile */
+    /* =============================== */
+    /* 9. Responsive Design            */
+    /* =============================== */
+    @media (max-width: 1024px) {
+        .swiper-slide .overlay-content h1 {
+            font-size: 2rem;
+        }
+
+        .swiper-slide .overlay-content p {
+            font-size: 1.1rem;
+        }
+    }
+
     @media (max-width: 768px) {
-        .grid {
+
+        /* Ajustements globaux */
+        .swiper-container {
+            height: 60vh;
+        }
+
+        .grid_events {
             grid-template-columns: 1fr;
+            gap: 20px;
         }
 
-        .group {
-            height: 350px;
+        .pack-card {
+            max-width: 90%;
+        }
+
+        .overlay h3 {
+            font-size: 1.2rem;
+        }
+
+        .overlay p {
+            font-size: 0.9rem;
+        }
+
+        .overlay .btn {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Boutons Swiper plus petits */
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 30px !important;
         }
     }
 
-    /* Ajustement du carrousel Swiper */
-    .swiper-slide {
-        position: relative;
-        overflow: hidden;
-    }
+    @media (max-width: 480px) {
+        .swiper-slide .overlay-content h1 {
+            font-size: 1.5rem;
+        }
 
-    .swiper-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        position: relative;
-        z-index: 1;
-    }
+        .swiper-slide .overlay-content p {
+            font-size: 1rem;
+        }
 
-    /* Overlay pour texte Swiper */
-    .swiper-slide .overlay-content {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        background: rgba(0, 0, 0, 0.4);
-        /* Assure une lisibilité correcte */
-        color: white;
-        padding: 20px;
-        z-index: 2;
-    }
-
-    .overlay-content h1 {
-        font-size: 2rem;
-        font-weight: bold;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-    }
-
-    .overlay-content p {
-        font-size: 1.2rem;
-        max-width: 80%;
-        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
-        margin-top: 10px;
+        .grid_events {
+            gap: 15px;
+        }
     }
 </style>
 
@@ -281,7 +318,8 @@
 
 <!-- GRILLE DES ÉVÉNEMENTS -->
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">Nos Événements</h2>
+    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">📅 Nos Événements</h2>
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">Nos Événements Passés</h2>
 
     <div class="grid_events">
         <?php foreach ($events as $event) : ?>
@@ -304,9 +342,9 @@
     </div>
 </div>
 
-<!-- ENCAR ÉVÉNEMENTS À VENIR -->
+<!-- ENCART ÉVÉNEMENTS À VENIR -->
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">📅 Événements à venir</h2>
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">Nos Événements à venir</h2>
 
     <?php if (!empty($upcomingEvents)) : ?>
         <div class="grid_events mb-12">
@@ -364,20 +402,34 @@
 <div class="container mx-auto px-4 py-12 mt-12">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">💡 Idées de tenues</h2>
 
-    <div class="swiper-container-tenues max-w-4xl mx-auto relative">
+    <div class="swiper-container-tenues max-w-5xl mx-auto relative px-4 py-12">
         <div class="swiper-wrapper">
             <?php if (!empty($suggestedOutfits)) : ?>
                 <?php foreach ($suggestedOutfits as $tenue) : ?>
-                    <div class="swiper-slide bg-white shadow-lg rounded-xl p-6 flex flex-col items-center justify-center text-center transition duration-300 transform scale-90">
-                        <?php if (!empty($tenue['image'])) : ?>
-                            <img src="<?= BASE_URL ?>assets/images/products/<?= htmlspecialchars($tenue['image']); ?>"
-                                alt="<?= htmlspecialchars($tenue['outfit_name']); ?>"
-                                class="w-40 h-40 object-cover rounded-md mb-4">
-                        <?php else : ?>
-                            <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut">
-                        <?php endif; ?>
+                    <div class="swiper-slide bg-white shadow-lg rounded-lg p-6 flex flex-col items-center justify-center text-center transition duration-300 transform hover:scale-105 hover:shadow-2xl">
+
+                        <!-- Lien cliquable sur l'image -->
+                        <a href="<?= BASE_URL ?>achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>" class="group">
+                            <?php if (!empty($tenue['image'])) : ?>
+                                <img src="<?= BASE_URL ?>assets/images/products/<?= htmlspecialchars($tenue['image']); ?>"
+                                    alt="<?= htmlspecialchars($tenue['outfit_name']); ?>"
+                                    class="w-44 h-44 object-cover rounded-md mb-4 transition duration-300 transform group-hover:scale-110">
+                            <?php else : ?>
+                                <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut"
+                                    class="w-44 h-44 object-cover rounded-md mb-4 opacity-70">
+                            <?php endif; ?>
+                        </a>
+
+                        <!-- Titre & Description -->
                         <h4 class="font-semibold text-xl"><?= htmlspecialchars($tenue['outfit_name']); ?></h4>
                         <p class="text-gray-600 text-sm mt-2 max-w-md"><?= htmlspecialchars($tenue['accessories']); ?></p>
+
+                        <!-- Bouton Acheter -->
+                        <a href="<?= BASE_URL ?>achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>"
+                            class="mt-4 bg-[#8B5A2B] text-white px-5 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2">
+                            🛒 Acheter l'article
+                        </a>
+
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
@@ -390,120 +442,119 @@
         <div class="swiper-button-next swiper-button-next-tenues"></div>
         <div class="swiper-button-prev swiper-button-prev-tenues"></div>
     </div>
-</div>
 
-<!-- SwiperJS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- SwiperJS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-<script>
-    var swiperTenues = new Swiper('.swiper-container-tenues', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        loop: true,
-        slidesPerView: "auto",
-        coverflowEffect: {
-            rotate: 0,
-            stretch: 50,
-            depth: 180,
-            modifier: 2.5,
-            slideShadows: false,
-        },
-        autoplay: {
-            delay: 6000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-        },
-        pagination: {
-            el: '.swiper-pagination-tenues',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next-tenues',
-            prevEl: '.swiper-button-prev-tenues',
-        },
-        breakpoints: {
-            640: {
-                slidesPerView: 1.5
+    <script>
+        var swiperTenues = new Swiper('.swiper-container-tenues', {
+            effect: 'coverflow',
+            grabCursor: true,
+            centeredSlides: true,
+            loop: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 60,
+                depth: 200,
+                modifier: 2.5,
+                slideShadows: false,
             },
-            768: {
-                slidesPerView: 2
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
             },
-            1024: {
-                slidesPerView: 3
+            pagination: {
+                el: '.swiper-pagination-tenues',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next-tenues',
+                prevEl: '.swiper-button-prev-tenues',
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 1.2
+                },
+                768: {
+                    slidesPerView: 2
+                },
+                1024: {
+                    slidesPerView: 3
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 
-<!-- PACKS ÉVÉNEMENTIELS -->
-<div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Packs événementiels</h2>
+    <!-- PACKS ÉVÉNEMENTIELS -->
+    <div class="container mx-auto px-4 py-12">
+        <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Packs événementiels</h2>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <?php if (!empty($eventPacks)) : ?>
-            <?php foreach ($eventPacks as $pack) : ?>
-                <div class="relative bg-black text-white rounded-lg shadow-lg overflow-hidden group transition-all duration-500 h-64 flex flex-col items-center justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <?php if (!empty($eventPacks)) : ?>
+                <?php foreach ($eventPacks as $pack) : ?>
+                    <div class="relative bg-black text-white rounded-lg shadow-lg overflow-hidden group transition-all duration-500 h-64 flex flex-col items-center justify-center">
 
-                    <!-- Bordure intérieure épaisse qui s’amincit -->
-                    <div class="absolute inset-2 border-[3px] border-[#8B5A2B] transition-all duration-500 group-hover:inset-4 group-hover:border-[1px]"></div>
+                        <!-- Bordure intérieure épaisse qui s’amincit -->
+                        <div class="absolute inset-2 border-[3px] border-[#8B5A2B] transition-all duration-500 group-hover:inset-4 group-hover:border-[1px]"></div>
 
-                    <!-- Titre qui remonte encore plus haut -->
-                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-18">
-                        <?= htmlspecialchars($pack['title']); ?>
+                        <!-- Titre qui remonte encore plus haut -->
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-18">
+                            <?= htmlspecialchars($pack['title']); ?>
+                        </div>
+
+                        <!-- Contenu caché qui apparaît progressivement -->
+                        <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-12">
+                            <p class="text-sm"><?= htmlspecialchars($pack['description']); ?></p>
+                            <button class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
+                                Découvrir
+                            </button>
+                        </div>
                     </div>
-
-                    <!-- Contenu caché qui apparaît progressivement -->
-                    <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-12">
-                        <p class="text-sm"><?= htmlspecialchars($pack['description']); ?></p>
-                        <button class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
-                            Découvrir
-                        </button>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <p class="text-gray-500 text-center">Aucun pack disponible pour le moment.</p>
-        <?php endif; ?>
-    </div>
-</div>
-
-<!-- SECTION À PROPOS DE CHIC & CHILL -->
-<div class="container mx-auto px-4 py-12">
-    <div class="bg-black text-white text-center py-12">
-        <h2 class="text-3xl font-bold uppercase tracking-wide">L'Expérience Chic & Chill</h2>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 py-12">
-        <!-- Bloc "Notre Concept" -->
-        <div class="text-center">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Concept</h3>
-            <p class="text-gray-600">
-                Chic & Chill est plus qu’une boutique, c’est un **univers où l’élégance rencontre l’accessibilité**.
-                Nous proposons des vêtements chics et chills à la vente et à la location, pour que chacun puisse se sentir unique, sans compromis sur le prix ni sur l’éthique.
-            </p>
-        </div>
-
-        <!-- Bloc "Notre Vision" -->
-        <div class="text-center">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Vision</h3>
-            <p class="text-gray-600">
-                Nous croyons en une mode **plus responsable et inclusive**.
-                Chic & Chill valorise la **seconde main et l’éco-responsabilité** en mettant en avant des pièces soigneusement sélectionnées, pour offrir une mode pour tous et engagée.
-            </p>
-        </div>
-
-        <!-- Bloc "Notre Engagement" -->
-        <div class="text-center">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Engagement</h3>
-            <p class="text-gray-600">
-                Chaque article est pensé pour **s’adapter à tous les budgets** et occasions.
-                Que ce soit pour une location événementielle ou un achat coup de cœur, **notre mission est de rendre la mode accessible à tous**.
-            </p>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p class="text-gray-500 text-center">Aucun pack disponible pour le moment.</p>
+            <?php endif; ?>
         </div>
     </div>
-</div>
+
+    <!-- SECTION À PROPOS DE CHIC & CHILL -->
+    <div class="container mx-auto px-4 py-12">
+        <div class="bg-black text-white text-center py-12">
+            <h2 class="text-3xl font-bold uppercase tracking-wide">L'Expérience Chic & Chill</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 py-12">
+            <!-- Bloc "Notre Concept" -->
+            <div class="text-center">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Concept</h3>
+                <p class="text-gray-600">
+                    Chic & Chill est plus qu’une boutique, c’est un **univers où l’élégance rencontre l’accessibilité**.
+                    Nous proposons des vêtements chics et chills à la vente et à la location, pour que chacun puisse se sentir unique, sans compromis sur le prix ni sur l’éthique.
+                </p>
+            </div>
+
+            <!-- Bloc "Notre Vision" -->
+            <div class="text-center">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Vision</h3>
+                <p class="text-gray-600">
+                    Nous croyons en une mode **plus responsable et inclusive**.
+                    Chic & Chill valorise la **seconde main et l’éco-responsabilité** en mettant en avant des pièces soigneusement sélectionnées, pour offrir une mode pour tous et engagée.
+                </p>
+            </div>
+
+            <!-- Bloc "Notre Engagement" -->
+            <div class="text-center">
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Engagement</h3>
+                <p class="text-gray-600">
+                    Chaque article est pensé pour **s’adapter à tous les budgets** et occasions.
+                    Que ce soit pour une location événementielle ou un achat coup de cœur, **notre mission est de rendre la mode accessible à tous**.
+                </p>
+            </div>
+        </div>
+    </div>
 
 
-<?php include('src/app/Views/includes/footerEvents.php'); ?>
+    <?php include('src/app/Views/includes/footerEvents.php'); ?>
