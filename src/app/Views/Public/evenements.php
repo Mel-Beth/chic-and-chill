@@ -374,9 +374,7 @@
                                 alt="<?= htmlspecialchars($tenue['outfit_name']); ?>"
                                 class="w-40 h-40 object-cover rounded-md mb-4">
                         <?php else : ?>
-                            <div class="w-40 h-40 bg-gray-200 flex items-center justify-center text-gray-500 rounded-md mb-4">
-                                Aucune image
-                            </div>
+                            <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut">
                         <?php endif; ?>
                         <h4 class="font-semibold text-xl"><?= htmlspecialchars($tenue['outfit_name']); ?></h4>
                         <p class="text-gray-600 text-sm mt-2 max-w-md"><?= htmlspecialchars($tenue['accessories']); ?></p>
