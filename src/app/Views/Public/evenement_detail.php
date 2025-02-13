@@ -200,8 +200,7 @@
 
 <?php if (!empty($event)) : ?>
     <!-- HERO SECTION -->
-    <div class="relative w-full h-screen bg-cover bg-center flex justify-center items-center"
-        style="background-image: url('<?= BASE_URL ?>assets/images/events/<?= htmlspecialchars($event['image']); ?>');">
+    <div class="relative w-full h-96 bg-cover bg-center flex justify-center items-center">
         <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
             <h1 class="text-white text-5xl font-bold"><?= htmlspecialchars($event['title']); ?></h1>
         </div>

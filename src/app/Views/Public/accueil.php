@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<!doctype html>
-<html lang="fr">
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="<?= BASE_URL ?>src/css/output.css" rel="stylesheet">
-  <link href="<?= BASE_URL ?>src/css/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
-  <script src="node_modules/swiper/swiper-bundle.min.js"></script>
-  <title>Chic and Chill</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="<?= BASE_URL ?>src/css/output.css" rel="stylesheet">
+    <link href="<?= BASE_URL ?>src/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
+    <script src="node_modules/swiper/swiper-bundle.min.js"></script>
+    <title>Chic and Chill</title>
 </head>
 
 <header class="fixed top-0 left-0 w-full bg-[#EFE7DD] shadow-md z-50 flex justify-between items-center px-10 py-4">

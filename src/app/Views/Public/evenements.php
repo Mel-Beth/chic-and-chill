@@ -382,7 +382,13 @@
     <div class="container mx-auto px-4 py-8 text-center bg-gray-100 rounded-lg shadow-md max-w-2xl">
         <h3 class="text-2xl font-semibold text-gray-800">📩 Ne manquez aucun événement !</h3>
         <p class="text-gray-600 mt-3">Recevez toutes les infos sur nos prochains événements en vous inscrivant à notre newsletter.</p>
-        <form action="newsletter.php" method="post" class="mt-4">
+        <?php if (isset($_GET['success']) && $_GET['success'] == 1) : ?>
+            <p class="text-green-600 text-center font-semibold bg-green-100 p-3 rounded-md">
+                ✅ Vous êtes bien inscrit à la newsletter !
+            </p>
+        <?php endif; ?>
+
+        <form action="newsletter" method="post" class="mt-4">
             <input type="email" name="email" placeholder="Votre e-mail" class="px-4 py-2 border border-gray-300 rounded-md w-64 focus:outline-none focus:ring-2 focus:ring-[#8B5A2B]">
             <button type="submit" class="bg-[#8B5A2B] text-white px-6 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
                 S'inscrire

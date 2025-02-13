@@ -8,29 +8,39 @@
     </div>
 </div>
 
-<div class="container mx-auto px-4 py-12">
+<div class="container mx-auto px-4 py-12 mt-3">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">📅 Réserver un événement pour votre entreprise</h2>
 
     <!-- Vérification s'il y a des événements -->
     <?php if (!empty($events)) : ?>
-        <form action="<?= BASE_URL ?>reservation_process.php" method="post" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <form action="<?= BASE_URL ?>reservation_process" method="post" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
 
-            <!-- Informations de l'entreprise -->
-            <h3 class="text-xl font-bold text-gray-800 mt-6">🏢 Informations de l’entreprise</h3>
+            <!-- Sélection du type de client -->
+            <h3 class="text-xl font-bold text-gray-800">👤 Type de réservation</h3>
+            <label class="block text-lg font-semibold text-gray-800 mt-4">Vous êtes :</label>
+            <select name="customer_type" id="customer_type" class="w-full p-3 border border-gray-300 rounded-md" onchange="toggleClientFields()">
+                <option value="particulier">Particulier</option>
+                <option value="entreprise">Entreprise</option>
+            </select>
 
-            <label for="company_name" class="block text-lg font-semibold text-gray-800 mt-4">Nom de l'entreprise :</label>
-            <input type="text" name="company_name" id="company_name" required class="w-full p-3 border border-gray-300 rounded-md">
+            <!-- Champs pour les entreprises (affiché uniquement si entreprise sélectionnée) -->
+            <div id="entreprise_fields" style="display: none;">
+                <h3 class="text-xl font-bold text-gray-800 mt-6">🏢 Informations de l’entreprise</h3>
 
-            <label for="siret" class="block text-lg font-semibold text-gray-800 mt-4">SIRET (si applicable) :</label>
-            <input type="text" name="siret" id="siret" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Ex: 123 456 789 00012">
+                <label for="company_name" class="block text-lg font-semibold text-gray-800 mt-4">Nom de l'entreprise :</label>
+                <input type="text" name="company_name" id="company_name" class="w-full p-3 border border-gray-300 rounded-md">
 
-            <label for="address" class="block text-lg font-semibold text-gray-800 mt-4">Adresse de facturation :</label>
-            <input type="text" name="address" id="address" required class="w-full p-3 border border-gray-300 rounded-md">
+                <label for="siret" class="block text-lg font-semibold text-gray-800 mt-4">SIRET (si applicable) :</label>
+                <input type="text" name="siret" id="siret" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Ex: 123 456 789 00012">
 
-            <!-- Coordonnées du contact -->
-            <h3 class="text-xl font-bold text-gray-800 mt-6">📞 Coordonnées du responsable</h3>
+                <label for="address" class="block text-lg font-semibold text-gray-800 mt-4">Adresse de facturation :</label>
+                <input type="text" name="address" id="address" class="w-full p-3 border border-gray-300 rounded-md">
+            </div>
 
-            <label for="name" class="block text-lg font-semibold text-gray-800 mt-4">Nom du responsable :</label>
+            <!-- Coordonnées du client (particulier ou entreprise) -->
+            <h3 class="text-xl font-bold text-gray-800 mt-6">📞 Coordonnées</h3>
+
+            <label for="name" class="block text-lg font-semibold text-gray-800 mt-4">Nom :</label>
             <input type="text" name="name" id="name" required class="w-full p-3 border border-gray-300 rounded-md">
 
             <label for="email" class="block text-lg font-semibold text-gray-800 mt-4">Email :</label>
@@ -42,13 +52,11 @@
             <!-- Détails de l'événement -->
             <h3 class="text-xl font-bold text-gray-800 mt-6">🎭 Détails de l’événement</h3>
 
-            <label for="event_type" class="block text-lg font-semibold text-gray-800 mt-4">Type d’événement :</label>
-            <select name="event_type" id="event_type" required class="w-full p-3 border border-gray-300 rounded-md">
-                <option value="Séminaire">Séminaire</option>
-                <option value="Lancement de produit">Lancement de produit</option>
-                <option value="Gala">Gala</option>
-                <option value="Réception privée">Réception privée</option>
-                <option value="Autre">Autre (préciser en commentaire)</option>
+            <label for="event_id" class="block text-lg font-semibold text-gray-800 mt-4">Événement :</label>
+            <select name="event_id" id="event_id" required class="w-full p-3 border border-gray-300 rounded-md">
+                <?php foreach ($events as $event) : ?>
+                    <option value="<?= $event['id']; ?>"><?= htmlspecialchars($event['title']); ?></option>
+                <?php endforeach; ?>
             </select>
 
             <label for="participants" class="block text-lg font-semibold text-gray-800 mt-4">Nombre de participants :</label>
@@ -77,6 +85,19 @@
                 ✅ Envoyer la demande de réservation
             </button>
         </form>
+
+        <script>
+            function toggleClientFields() {
+                var typeClient = document.getElementById("customer_type").value;
+                var entrepriseFields = document.getElementById("entreprise_fields");
+
+                if (typeClient === "entreprise") {
+                    entrepriseFields.style.display = "block";
+                } else {
+                    entrepriseFields.style.display = "none";
+                }
+            }
+        </script>
     <?php else : ?>
         <p class="text-center text-red-600 font-semibold">Aucun événement disponible à la réservation pour le moment.</p>
     <?php endif; ?>

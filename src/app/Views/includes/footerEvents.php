@@ -48,5 +48,30 @@
     © 2025 Chic & Chill - Tous droits réservés | <a href="#" class="hover:text-[#8B5A2B] transition">Mentions Légales</a>
 </footer>
 
+<!-- Bouton Retour en Haut -->
+<button id="scrollToTop" class="fixed bottom-8 right-8 bg-[#8B5A2B] text-white p-4 rounded-full shadow-lg hidden transition duration-300 hover:scale-110">
+    <i class="fa-solid fa-arrow-up text-xl"></i>
+</button>
+
 <!-- FontAwesome pour les icônes sociales -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script> 
+
+<!-- Script pour le retour en haut -->
+<script>
+    // Sélectionne le bouton
+    const scrollToTopButton = document.getElementById("scrollToTop");
+
+    // Affiche/Masque le bouton selon la position du scroll
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) { // S'affiche après un défilement de 200px
+            scrollToTopButton.classList.remove("hidden");
+        } else {
+            scrollToTopButton.classList.add("hidden");
+        }
+    });
+
+    // Ajoute l'effet de retour en haut
+    scrollToTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>

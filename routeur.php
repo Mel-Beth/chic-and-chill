@@ -78,6 +78,10 @@ if (empty($route[0])) {
                 $controller->processReservation();
                 break;
 
+            case 'confirmation_reservation':
+                include('src/app/Views/Public/confirmation_reservation.php');
+                break;
+
             case 'location': // Si l'utilisateur accède à "/location"
                 $controller = new Controllers\LocationController();
                 $controller->index();
@@ -88,9 +92,26 @@ if (empty($route[0])) {
                 $controller->index();
                 break;
 
-            case 'contact': // Si l'utilisateur accède à "/contact"
+            case 'contact_magasin':
+                include('src/app/Views/Public/contact_magasin.php');
+                break;
+
+            case 'contact_location':
+                include('src/app/Views/Public/contact_location.php');
+                break;
+
+            case 'contact_evenements':
+                include('src/app/Views/Public/contact_evenements.php');
+                break;
+
+            case 'contact_process':
                 $controller = new Controllers\ContactController();
-                $controller->index();
+                $controller->processContactForm();
+                break;
+
+            case 'newsletter':
+                $controller = new Controllers\ContactController();
+                $controller->processNewsletter();
                 break;
 
             case 'admin_evenements': // Route pour l'administration des événements

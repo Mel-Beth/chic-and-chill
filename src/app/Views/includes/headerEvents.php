@@ -19,7 +19,7 @@
             <a href="<?= BASE_URL ?>evenements" class="menu-link relative">Événements</a>
             <a href="<?= BASE_URL ?>location" class="menu-link relative">Location</a>
             <a href="<?= BASE_URL ?>magasin" class="menu-link relative">Magasin</a>
-            <a href="<?= BASE_URL ?>contact" class="menu-link relative">Contact</a>
+            <a href="<?= BASE_URL ?>contact_evenements" class="menu-link relative">Contact</a>
         </nav>
 
         <!-- Menu mobile -->
@@ -82,5 +82,18 @@
         } else {
             header.classList.remove("scrolled");
         }
+    });
+    // Menu mobile
+    document.getElementById("menu-toggle").addEventListener("click", function() {
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenu.classList.toggle("hidden");
+    });
+
+    // Sous-menu mobile (dropdown)
+    document.getElementById("mobile-dropdown-toggle").addEventListener("click", function() {
+        const dropdown = document.getElementById("mobile-dropdown");
+        const icon = document.getElementById("dropdown-icon");
+        dropdown.classList.toggle("hidden");
+        icon.textContent = dropdown.classList.contains("hidden") ? "▼" : "▲";
     });
 </script>
