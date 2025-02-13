@@ -59,6 +59,25 @@ if (empty($route[0])) {
                 }
                 break;
 
+            case 'reservation_evenement':
+                $controller = new Controllers\ReservationController();
+                $controller->reservationEvenement();
+                break;
+
+            case 'reservation_pack':
+                $controller = new Controllers\ReservationController();
+                if (!empty($_GET['pack_id']) && is_numeric($_GET['pack_id'])) {
+                    $controller->reservationPack($_GET['pack_id']);
+                } else {
+                    include('src/app/Views/404.php');
+                }
+                break;
+
+            case 'reservation_process':
+                $controller = new Controllers\ReservationController();
+                $controller->processReservation();
+                break;
+
             case 'location': // Si l'utilisateur accède à "/location"
                 $controller = new Controllers\LocationController();
                 $controller->index();

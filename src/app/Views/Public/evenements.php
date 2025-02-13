@@ -393,8 +393,9 @@
 
 <!-- BOUTON RÉSERVATION -->
 <div class="text-center mt-12">
-    <a href="contact" class="inline-block border-2 border-[#8B5A2B] text-[#8B5A2B] text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
-        Réserver votre événement
+    <a href="<?= BASE_URL ?>reservation_evenement"
+        class="inline-block border-2 border-[#8B5A2B] text-[#8B5A2B] text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
+        📅 Réserver un événement
     </a>
 </div>
 

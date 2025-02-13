@@ -32,10 +32,11 @@
 
         <!-- BOUTONS ACTION -->
         <div class="flex justify-center mt-8 space-x-4">
-            <a href="<?= BASE_URL ?>reservation?pack_id=<?= htmlspecialchars($pack['id']); ?>"
+            <a href="<?= BASE_URL ?>reservation_pack?pack_id=<?= htmlspecialchars($pack['id']); ?>"
                 class="bg-[#8B5A2B] text-white px-6 py-3 rounded-md text-lg font-semibold transition duration-300 hover:scale-105 hover:shadow-lg">
                 📅 Réserver ce pack
             </a>
+
             <a href="<?= BASE_URL ?>evenements"
                 class="border-2 border-[#8B5A2B] text-[#8B5A2B] px-6 py-3 rounded-md text-lg font-semibold transition duration-300 hover:scale-105 hover:shadow-lg">
                 🔙 Retour aux packs
