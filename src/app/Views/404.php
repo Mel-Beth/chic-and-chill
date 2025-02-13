@@ -46,7 +46,7 @@
 <div id="error-container" class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
     <!-- Image de fond (identique à celle de l'accueil) -->
-    <img src="assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
+    <img src="<?= BASE_URL ?>assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
 
     <!-- Cercle central indiquant l'erreur -->
     <div id="circle-error" class="absolute flex flex-col justify-center items-center z-10 rounded-full border-[3px] border-[#8B5A2B] bg-white/20 backdrop-blur-md shadow-lg">

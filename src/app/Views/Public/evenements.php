@@ -442,119 +442,118 @@
         <div class="swiper-button-next swiper-button-next-tenues"></div>
         <div class="swiper-button-prev swiper-button-prev-tenues"></div>
     </div>
+</div>
+<!-- SwiperJS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
-    <!-- SwiperJS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-
-    <script>
-        var swiperTenues = new Swiper('.swiper-container-tenues', {
-            effect: 'coverflow',
-            grabCursor: true,
-            centeredSlides: true,
-            loop: true,
-            slidesPerView: "auto",
-            coverflowEffect: {
-                rotate: 0,
-                stretch: 60,
-                depth: 200,
-                modifier: 2.5,
-                slideShadows: false,
+<script>
+    var swiperTenues = new Swiper('.swiper-container-tenues', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        loop: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 60,
+            depth: 200,
+            modifier: 2.5,
+            slideShadows: false,
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        pagination: {
+            el: '.swiper-pagination-tenues',
+            clickable: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next-tenues',
+            prevEl: '.swiper-button-prev-tenues',
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 1.2
             },
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
+            768: {
+                slidesPerView: 2
             },
-            pagination: {
-                el: '.swiper-pagination-tenues',
-                clickable: true,
-            },
-            navigation: {
-                nextEl: '.swiper-button-next-tenues',
-                prevEl: '.swiper-button-prev-tenues',
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 1.2
-                },
-                768: {
-                    slidesPerView: 2
-                },
-                1024: {
-                    slidesPerView: 3
-                }
+            1024: {
+                slidesPerView: 3
             }
-        });
-    </script>
+        }
+    });
+</script>
 
-    <!-- PACKS ÉVÉNEMENTIELS -->
-    <div class="container mx-auto px-4 py-12">
-        <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Packs événementiels</h2>
+<!-- PACKS ÉVÉNEMENTIELS -->
+<div class="container mx-auto px-4 py-12">
+    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Packs événementiels</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <?php if (!empty($eventPacks)) : ?>
-                <?php foreach ($eventPacks as $pack) : ?>
-                    <div class="relative bg-black text-white rounded-lg shadow-lg overflow-hidden group transition-all duration-500 h-64 flex flex-col items-center justify-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <?php if (!empty($eventPacks)) : ?>
+            <?php foreach ($eventPacks as $pack) : ?>
+                <div class="relative bg-black text-white rounded-lg shadow-lg overflow-hidden group transition-all duration-500 h-64 flex flex-col items-center justify-center">
 
-                        <!-- Bordure intérieure épaisse qui s’amincit -->
-                        <div class="absolute inset-2 border-[3px] border-[#8B5A2B] transition-all duration-500 group-hover:inset-4 group-hover:border-[1px]"></div>
+                    <!-- Bordure intérieure épaisse qui s’amincit -->
+                    <div class="absolute inset-2 border-[3px] border-[#8B5A2B] transition-all duration-500 group-hover:inset-4 group-hover:border-[1px]"></div>
 
-                        <!-- Titre qui remonte encore plus haut -->
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-18">
-                            <?= htmlspecialchars($pack['title']); ?>
-                        </div>
-
-                        <!-- Contenu caché qui apparaît progressivement -->
-                        <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-12">
-                            <p class="text-sm"><?= htmlspecialchars($pack['description']); ?></p>
-                            <button class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
-                                Découvrir
-                            </button>
-                        </div>
+                    <!-- Titre qui remonte encore plus haut -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg md:text-xl font-semibold text-center transition-all duration-500 group-hover:-translate-y-18">
+                        <?= htmlspecialchars($pack['title']); ?>
                     </div>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <p class="text-gray-500 text-center">Aucun pack disponible pour le moment.</p>
-            <?php endif; ?>
-        </div>
+
+                    <!-- Contenu caché qui apparaît progressivement -->
+                    <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-12">
+                        <p class="text-sm pb-2"><?= htmlspecialchars($pack['description']); ?></p>
+                        <a href="<?= BASE_URL ?>pack_detail/<?= htmlspecialchars($pack['id']); ?>" class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
+                            Découvrir</a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <p class="text-gray-500 text-center">Aucun pack disponible pour le moment.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- SECTION À PROPOS DE CHIC & CHILL -->
+<div class="container mx-auto px-4 py-12">
+    <div class="bg-black text-white text-center py-12">
+        <h2 class="text-3xl font-bold uppercase tracking-wide">L'Expérience Chic & Chill</h2>
     </div>
 
-    <!-- SECTION À PROPOS DE CHIC & CHILL -->
-    <div class="container mx-auto px-4 py-12">
-        <div class="bg-black text-white text-center py-12">
-            <h2 class="text-3xl font-bold uppercase tracking-wide">L'Expérience Chic & Chill</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 py-12">
+        <!-- Bloc "Notre Concept" -->
+        <div class="text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Concept</h3>
+            <p class="text-gray-600">
+                Chic & Chill est plus qu’une boutique, c’est un **univers où l’élégance rencontre l’accessibilité**.
+                Nous proposons des vêtements chics et chills à la vente et à la location, pour que chacun puisse se sentir unique, sans compromis sur le prix ni sur l’éthique.
+            </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 py-12">
-            <!-- Bloc "Notre Concept" -->
-            <div class="text-center">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Concept</h3>
-                <p class="text-gray-600">
-                    Chic & Chill est plus qu’une boutique, c’est un **univers où l’élégance rencontre l’accessibilité**.
-                    Nous proposons des vêtements chics et chills à la vente et à la location, pour que chacun puisse se sentir unique, sans compromis sur le prix ni sur l’éthique.
-                </p>
-            </div>
+        <!-- Bloc "Notre Vision" -->
+        <div class="text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Vision</h3>
+            <p class="text-gray-600">
+                Nous croyons en une mode **plus responsable et inclusive**.
+                Chic & Chill valorise la **seconde main et l’éco-responsabilité** en mettant en avant des pièces soigneusement sélectionnées, pour offrir une mode pour tous et engagée.
+            </p>
+        </div>
 
-            <!-- Bloc "Notre Vision" -->
-            <div class="text-center">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Vision</h3>
-                <p class="text-gray-600">
-                    Nous croyons en une mode **plus responsable et inclusive**.
-                    Chic & Chill valorise la **seconde main et l’éco-responsabilité** en mettant en avant des pièces soigneusement sélectionnées, pour offrir une mode pour tous et engagée.
-                </p>
-            </div>
-
-            <!-- Bloc "Notre Engagement" -->
-            <div class="text-center">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Engagement</h3>
-                <p class="text-gray-600">
-                    Chaque article est pensé pour **s’adapter à tous les budgets** et occasions.
-                    Que ce soit pour une location événementielle ou un achat coup de cœur, **notre mission est de rendre la mode accessible à tous**.
-                </p>
-            </div>
+        <!-- Bloc "Notre Engagement" -->
+        <div class="text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Notre Engagement</h3>
+            <p class="text-gray-600">
+                Chaque article est pensé pour **s’adapter à tous les budgets** et occasions.
+                Que ce soit pour une location événementielle ou un achat coup de cœur, **notre mission est de rendre la mode accessible à tous**.
+            </p>
         </div>
     </div>
+</div>
 
 
-    <?php include('src/app/Views/includes/footerEvents.php'); ?>
+<?php include('src/app/Views/includes/footerEvents.php'); ?>

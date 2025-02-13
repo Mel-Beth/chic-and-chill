@@ -15,11 +15,11 @@
 
         <!-- Menu -->
         <nav class="hidden md:flex space-x-8 text-lg font-semibold transition-all duration-300">
-            <a href="accueil" class="menu-link relative">Accueil</a>
-            <a href="evenements" class="menu-link relative">Événements</a>
-            <a href="location" class="menu-link relative">Location</a>
-            <a href="magasin" class="menu-link relative">Magasin</a>
-            <a href="contact" class="menu-link relative">Contact</a>
+            <a href="<?= BASE_URL ?>accueil" class="menu-link relative">Accueil</a>
+            <a href="<?= BASE_URL ?>evenements" class="menu-link relative">Événements</a>
+            <a href="<?= BASE_URL ?>location" class="menu-link relative">Location</a>
+            <a href="<?= BASE_URL ?>magasin" class="menu-link relative">Magasin</a>
+            <a href="<?= BASE_URL ?>contact" class="menu-link relative">Contact</a>
         </nav>
 
         <!-- Menu mobile -->

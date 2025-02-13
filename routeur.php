@@ -50,6 +50,15 @@ if (empty($route[0])) {
                 }
                 break;
 
+            case 'pack_detail':
+                $controller = new Controllers\PackController();
+                if (!empty($route[1]) && is_numeric($route[1])) {
+                    $controller->showPack($route[1]); // On passe l'ID du pack
+                } else {
+                    include('src/app/Views/404.php');
+                }
+                break;
+
             case 'location': // Si l'utilisateur accède à "/location"
                 $controller = new Controllers\LocationController();
                 $controller->index();

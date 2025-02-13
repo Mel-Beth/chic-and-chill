@@ -14,5 +14,17 @@ class PacksModel extends ModeleParent
             return [];
         }
     }
+
+    public function getPackById($id)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM event_packs WHERE id = ?");
+            $stmt->execute([$id]);
+            return $stmt->fetch();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
+    }
 }
 ?>
