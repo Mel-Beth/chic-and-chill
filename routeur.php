@@ -20,6 +20,7 @@ if (empty($route[0])) {
 } else {
     try {
         // Gestion des différentes routes possibles
+
         switch ($route[0]) {
             case 'accueil': // Si l'utilisateur accède à "/accueil"
                 $controller = new Controllers\HomeController();
@@ -114,13 +115,133 @@ if (empty($route[0])) {
                 $controller->processNewsletter();
                 break;
 
-            case 'admin_evenements': // Route pour l'administration des événements
-                $controller = new Controllers\AdminEventsController();
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $controller->handleRequest(); // Gestion des requêtes POST (ajout/modification/suppression)
-                } else {
-                    $controller->index(); // Affichage de la page admin
+                // 📌 Routes Admin
+            case 'admin/dashboard':
+                if (!class_exists('Controllers\AdminEventsController')) {
+                    die("Erreur : AdminEventsController introuvable !");
                 }
+                $controller = new Controllers\AdminEventsController();
+                $controller->dashboard();
+                break;
+
+            case 'admin/reservations/detail':
+                $controller = new Controllers\AdminEventsController();
+                $controller->showReservation($_GET['id'] ?? null);
+                break;
+
+            case 'admin/users/modifier':
+                $controller = new Controllers\AdminEventsController();
+                $controller->updateUser($_GET['id'] ?? null);
+                break;
+
+            case 'admin/payments':
+                $controller = new Controllers\AdminEventsController();
+                $controller->managePayments();
+                break;
+
+            case 'admin/export':
+                $controller = new Controllers\AdminEventsController();
+                $controller->exportData($_GET['type'] ?? 'reservations');
+                break;
+
+            case 'admin/evenements':
+                $controller = new Controllers\AdminEventsController();
+                $controller->index();
+                break;
+
+            case 'admin/evenements/ajouter':
+                $controller = new Controllers\AdminEventsController();
+                $controller->addEvent();
+                break;
+
+            case 'admin/evenements/modifier':
+                $controller = new Controllers\AdminEventsController();
+                $controller->updateEvent($_GET['id'] ?? null);
+                break;
+
+            case 'admin/evenements/supprimer':
+                $controller = new Controllers\AdminEventsController();
+                $controller->deleteEvent($_GET['id'] ?? null);
+                break;
+
+            case 'admin/packs':
+                $controller = new Controllers\AdminEventsController();
+                $controller->managePacks();
+                break;
+
+            case 'admin/packs/ajouter':
+                $controller = new Controllers\AdminEventsController();
+                $controller->addPack();
+                break;
+
+            case 'admin/packs/modifier':
+                $controller = new Controllers\AdminEventsController();
+                $controller->updatePack($_GET['id'] ?? null);
+                break;
+
+            case 'admin/packs/supprimer':
+                $controller = new Controllers\AdminEventsController();
+                $controller->deletePack($_GET['id'] ?? null);
+                break;
+
+            case 'admin/reservations':
+                $controller = new Controllers\AdminEventsController();
+                $controller->manageReservations();
+                break;
+
+            case 'admin/reservations/modifier':
+                $controller = new Controllers\AdminEventsController();
+                $controller->updateReservationStatus($_GET['id'] ?? null, $_GET['status'] ?? null);
+                break;
+
+            case 'admin/users':
+                $controller = new Controllers\AdminEventsController();
+                $controller->manageUsers();
+                break;
+
+            case 'admin/users/supprimer':
+                $controller = new Controllers\AdminEventsController();
+                $controller->deleteUser($_GET['id'] ?? null);
+                break;
+
+            case 'admin/messages':
+                $controller = new Controllers\AdminEventsController();
+                $controller->manageMessages();
+                break;
+
+            case 'admin/messages/supprimer':
+                $controller = new Controllers\AdminEventsController();
+                $controller->deleteMessage($_GET['id'] ?? null);
+                break;
+
+            case 'admin/newsletter':
+                $controller = new Controllers\AdminEventsController();
+                $controller->manageNewsletter();
+                break;
+
+            case 'admin/newsletter/supprimer':
+                $controller = new Controllers\AdminEventsController();
+                $controller->deleteSubscriber($_GET['id'] ?? null);
+                break;
+
+            case 'admin/outfits':
+                $controller = new Controllers\AdminEventsController();
+                $controller->manageOutfits();
+                break;
+
+            case 'admin/outfits/ajouter':
+                $controller = new Controllers\AdminEventsController();
+                $controller->addOutfit();
+                break;
+
+            case 'admin/outfits/modifier':
+                $controller = new Controllers\AdminEventsController();
+                $controller->updateOutfit($_GET['id'] ?? null);
+                break;
+
+            case 'admin/outfits/supprimer':
+                $controller = new Controllers\AdminEventsController();
+                $controller->deleteOutfit($_GET['id'] ?? null);
                 break;
 
             default:
