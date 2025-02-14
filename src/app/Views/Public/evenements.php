@@ -256,7 +256,7 @@
         <!-- Slide 1 - Façade du magasin -->
         <div class="swiper-slide">
             <div class="relative w-full h-screen">
-                <img src="<?= BASE_URL ?>assets/images/facadeMagasin.jpg" class="w-full h-full object-cover" alt="Facade Magasin">
+                <img src="assets/images/facadeMagasin.jpg" class="w-full h-full object-cover" alt="Facade Magasin">
                 <div class="overlay-content">
                     <h1>Bienvenue chez Chic & Chill</h1>
                     <p>Découvrez notre boutique et nos collections uniques.</p>
@@ -267,7 +267,7 @@
         <!-- Slide 2 - Rez-de-chaussée du magasin -->
         <div class="swiper-slide">
             <div class="relative w-full h-screen">
-                <img src="<?= BASE_URL ?>assets/images/RDCMagasin.jpg" class="w-full h-full object-cover" alt="RDC Magasin">
+                <img src="assets/images/RDCMagasin.jpg" class="w-full h-full object-cover" alt="RDC Magasin">
                 <div class="overlay-content">
                     <h1>Un espace chaleureux</h1>
                     <p>Mode chic et abordable dans un cadre unique.</p>
@@ -278,7 +278,7 @@
         <!-- Slide 3 - Showroom du magasin -->
         <div class="swiper-slide">
             <div class="relative w-full h-screen">
-                <img src="<?= BASE_URL ?>assets/images/showrromMagasin.jpg" class="w-full h-full object-cover" alt="Showroom Magasin">
+                <img src="assets/images/showrromMagasin.jpg" class="w-full h-full object-cover" alt="Showroom Magasin">
                 <div class="overlay-content">
                     <h1>Notre showroom exclusif</h1>
                     <p>Essayez nos pièces uniques dans un cadre élégant.</p>
@@ -326,9 +326,9 @@
             <div class="group pack-card">
                 <!-- Image de l'événement -->
                 <?php if (!empty($event['image'])) : ?>
-                    <img src="<?= BASE_URL ?>/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
+                    <img src="<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
                 <?php else : ?>
-                    <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut">
+                    <img src="assets/images/events/placeholder.jpg" alt="Image par défaut">
                 <?php endif; ?>
 
                 <!-- Effet au survol -->
@@ -352,9 +352,9 @@
                 <div class="group pack-card">
                     <!-- Image de l'événement -->
                     <?php if (!empty($event['image'])) : ?>
-                        <img src="<?= BASE_URL ?>/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
+                        <img src="<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
                     <?php else : ?>
-                        <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut">
+                        <img src="assets/images/events/placeholder.jpg" alt="Image par défaut">
                     <?php endif; ?>
 
                     <!-- Effet au survol -->
@@ -399,7 +399,7 @@
 
 <!-- BOUTON RÉSERVATION -->
 <div class="text-center mt-12">
-    <a href="<?= BASE_URL ?>reservation_evenement"
+    <a href="reservation_evenement"
         class="inline-block border-2 border-[#8B5A2B] text-[#8B5A2B] text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
         📅 Réserver un événement
     </a>
@@ -416,13 +416,13 @@
                     <div class="swiper-slide bg-white shadow-lg rounded-lg p-6 flex flex-col items-center justify-center text-center transition duration-300 transform hover:scale-105 hover:shadow-2xl">
 
                         <!-- Lien cliquable sur l'image -->
-                        <a href="<?= BASE_URL ?>achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>" class="group">
+                        <a href="achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>" class="group">
                             <?php if (!empty($tenue['image'])) : ?>
-                                <img src="<?= BASE_URL ?>assets/images/products/<?= htmlspecialchars($tenue['image']); ?>"
+                                <img src="assets/images/products/<?= htmlspecialchars($tenue['image']); ?>"
                                     alt="<?= htmlspecialchars($tenue['outfit_name']); ?>"
                                     class="w-44 h-44 object-cover rounded-md mb-4 transition duration-300 transform group-hover:scale-110">
                             <?php else : ?>
-                                <img src="<?= BASE_URL ?>/assets/images/events/placeholder.jpg" alt="Image par défaut"
+                                <img src="assets/images/events/placeholder.jpg" alt="Image par défaut"
                                     class="w-44 h-44 object-cover rounded-md mb-4 opacity-70">
                             <?php endif; ?>
                         </a>
@@ -432,7 +432,7 @@
                         <p class="text-gray-600 text-sm mt-2 max-w-md"><?= htmlspecialchars($tenue['accessories']); ?></p>
 
                         <!-- Bouton Acheter -->
-                        <a href="<?= BASE_URL ?>achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>"
+                        <a href="achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>"
                             class="mt-4 bg-[#8B5A2B] text-white px-5 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2">
                             🛒 Acheter l'article
                         </a>
@@ -515,7 +515,7 @@
                     <!-- Contenu caché qui apparaît progressivement -->
                     <div class="absolute bottom-4 w-full px-6 text-center opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:bottom-12">
                         <p class="text-sm pb-2"><?= htmlspecialchars($pack['description']); ?></p>
-                        <a href="<?= BASE_URL ?>pack_detail/<?= htmlspecialchars($pack['id']); ?>" class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
+                        <a href="pack_detail/<?= htmlspecialchars($pack['id']); ?>" class="mt-4 bg-[#8B5A2B] text-white px-4 py-2 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
                             Découvrir</a>
                     </div>
                 </div>

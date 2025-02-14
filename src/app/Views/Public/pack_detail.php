@@ -6,7 +6,7 @@
 
     <!-- HERO SECTION -->
     <div class="relative w-full h-96 bg-cover bg-center flex justify-center items-center"
-        style="background-image: url('<?= BASE_URL ?>assets/images/packs/<?= htmlspecialchars($pack['image']); ?>');">
+        style="background-image: url('assets/images/packs/<?= htmlspecialchars($pack['image']); ?>');">
         <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-center px-4">
             <h1 class="text-white text-5xl font-bold"><?= htmlspecialchars($pack['title']); ?></h1>
         </div>
@@ -32,12 +32,12 @@
 
         <!-- BOUTONS ACTION -->
         <div class="flex justify-center mt-8 space-x-4">
-            <a href="<?= BASE_URL ?>reservation_pack?pack_id=<?= htmlspecialchars($pack['id']); ?>"
+            <a href="reservation_pack?pack_id=<?= htmlspecialchars($pack['id']); ?>"
                 class="bg-[#8B5A2B] text-white px-6 py-3 rounded-md text-lg font-semibold transition duration-300 hover:scale-105 hover:shadow-lg">
                 📅 Réserver ce pack
             </a>
 
-            <a href="<?= BASE_URL ?>evenements"
+            <a href="evenements"
                 class="border-2 border-[#8B5A2B] text-[#8B5A2B] px-6 py-3 rounded-md text-lg font-semibold transition duration-300 hover:scale-105 hover:shadow-lg">
                 🔙 Retour aux packs
             </a>

@@ -8,6 +8,13 @@ use Models\ReservationModel;
 
 class ReservationController
 {
+    private $reservationModel;
+
+    public function __construct()
+    {
+        $this->reservationModel = new ReservationModel();
+    }
+
     public function reservationEvenement()
     {
         $eventsModel = new EventsModel();
@@ -64,11 +71,34 @@ class ReservationController
             }
 
             if ($success) {
-                header("Location: " . BASE_URL . "confirmation_reservation?success=1");
+                header("Location: " . "confirmation_reservation?success=1");
                 exit();
             } else {
                 die("Erreur lors de l'enregistrement de la réservation.");
             }
+        }
+    }
+
+    public function reservations()
+    {
+        $reservations = $this->reservationModel->getAllReservations();
+        include 'src/app/Views/Admin/admin_reservations.php';
+    }
+
+    public function showReservation($id)
+    {
+        $reservationModel = new ReservationModel();
+        $reservation = $reservationModel->getReservationById($id);
+        include('src/app/Views/Admin/admin_reservation_detail.php');
+    }
+
+    public function updateReservationStatus($id, $status)
+    {
+        if ($this->reservationModel->updateReservationStatus($id, $status)) {
+            header('Location: admin/reservations');
+            exit();
+        } else {
+            die("Erreur lors de la mise à jour du statut de la réservation.");
         }
     }
 }

@@ -33,4 +33,42 @@ class ReservationModel extends ModeleParent
             return false;
         }
     }
+
+    public function getAllReservations()
+    {
+        try {
+            $stmt = $this->pdo->query("
+                SELECT 'event' AS type, id, customer_name, email, phone, event_id, status, created_at 
+                FROM event_reservations
+                UNION
+                SELECT 'pack' AS type, id, customer_name, email, phone, pack_id, status, created_at 
+                FROM pack_reservations
+                ORDER BY created_at DESC
+            ");
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+
+    public function getReservationById($id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM reservations WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    }
+
+    public function updateReservationStatus($id, $status)
+    {
+        try {
+            $stmt = $this->pdo->prepare("
+                UPDATE event_reservations SET status = ? WHERE id = ?
+            ");
+            return $stmt->execute([$status, $id]);
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
 }

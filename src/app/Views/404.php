@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<!doctype html>
-<html lang="fr">
 <html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="<?= BASE_URL ?>src/css/output.css" rel="stylesheet">
-    <link href="<?= BASE_URL ?>src/css/style.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?= BASE_URL ?>node_modules/swiper/swiper-bundle.min.css">
-    <script src="<?= BASE_URL ?>node_modules/swiper/swiper-bundle.min.js"></script>
+    <base href="http://localhost/projets/projetsExo/chic-and-chill/">
+    <link href="src/css/output.css" rel="stylesheet">
+    <link href="src/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
+    <script src="node_modules/swiper/swiper-bundle.min.js"></script>
     <title>Chic and Chill</title>
 </head>
 
@@ -19,7 +17,7 @@
     <!-- Logo + Texte -->
     <div class="flex items-center space-x-4">
         <!-- Logo -->
-        <img src="<?= BASE_URL ?>assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
+        <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
 
         <!-- Texte CHIC AND CHILL -->
         <div class="text-[#8B5A2B] font-bold text-3xl tracking-wide font-family: 'Cormorant Garamond', serif;" style="font-family: 'Cormorant Garamond', serif;">
@@ -46,7 +44,7 @@
 <div id="error-container" class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
     <!-- Image de fond (identique à celle de l'accueil) -->
-    <img src="<?= BASE_URL ?>assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
+    <img src="assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
 
     <!-- Cercle central indiquant l'erreur -->
     <div id="circle-error" class="absolute flex flex-col justify-center items-center z-10 rounded-full border-[3px] border-[#8B5A2B] bg-white/20 backdrop-blur-md shadow-lg">

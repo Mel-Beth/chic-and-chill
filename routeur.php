@@ -1,7 +1,4 @@
 <?php
-// Détecter automatiquement le chemin du projet
-define("BASE_URL", "/projets/projetsExo/chic-and-chill/");
-
 // Routeur principal de l'application
 
 // Récupération de la route depuis l'URL, suppression des éventuels espaces et des slashes au début/fin
@@ -25,11 +22,6 @@ if (empty($route[0])) {
             case 'accueil': // Si l'utilisateur accède à "/accueil"
                 $controller = new Controllers\HomeController();
                 $controller->index();
-                break;
-
-            case 'accueil_shop':
-                $controller = new Controllers\HomeController();
-                $controller->shop();
                 break;
 
             case "evenements": // Si l'utilisateur accède à "/evenements"
@@ -116,137 +108,115 @@ if (empty($route[0])) {
                 break;
 
                 // 📌 Routes Admin
-            case 'admin/dashboard':
-                if (!class_exists('Controllers\AdminEventsController')) {
-                    die("Erreur : AdminEventsController introuvable !");
+            case 'admin':
+                // // Vérifie si l'utilisateur est admin (id_role = 1)
+                // if (!isset($_SESSION['user']) || $_SESSION['user']['id_role'] != 1) {
+                //     header('Location: login');
+                //     exit();
+                // }
+
+                // Gestion des sous-routes Admin
+                switch ($route[1] ?? 'dashboard') {
+
+                    case 'dashboard':
+                        $controller = new Controllers\HomeController();
+                        $controller->dashboard();
+                        break;
+
+                    case 'payments':
+                        $controller = new Controllers\PaymentsController();
+                        $controller->managePayments();
+                        break;
+
+                    case 'export':
+                        $controller = new Controllers\ExportController();
+                        $controller->exportData($_GET['type'] ?? 'reservations');
+                        break;
+
+                    case 'evenements':
+                        $controller = new Controllers\EventsController();
+                        if (!isset($route[2])) {
+                            $controller->manageEvents();
+                        } elseif ($route[2] === 'ajouter') {
+                            $controller->addEvent();
+                        } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->updateEvent((int) $route[3]);
+                        } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->deleteEvent((int) $route[3]);
+                        }
+                        break;
+
+                    case 'packs':
+                        $controller = new Controllers\PackController();
+                        if (!isset($route[2])) {
+                            $controller->managePacks();
+                        } elseif ($route[2] === 'ajouter') {
+                            $controller->addPack();
+                        } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->updatePack((int) $route[3]);
+                        } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->deletePack((int) $route[3]);
+                        }
+                        break;
+
+                    case 'reservations':
+                        $controller = new Controllers\ReservationController();
+                        if (!isset($route[2])) {
+                            $controller->reservations();
+                        } elseif ($route[2] === 'detail' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->showReservation((int) $route[3]);
+                        } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3]) && isset($_GET['status'])) {
+                            $controller->updateReservationStatus((int) $route[3], $_GET['status']);
+                        }
+                        break;
+
+                    case 'users':
+                        $controller = new Controllers\UsersController();
+                        if (!isset($route[2])) {
+                            $controller->users();
+                        } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->updateUser((int) $route[3]);
+                        } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->deleteUser((int) $route[3]);
+                        }
+                        break;
+
+                    case 'messages':
+                        $controller = new Controllers\ContactController();
+                        if (!isset($route[2])) {
+                            $controller->manageMessages();
+                        } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->deleteMessage((int) $route[3]);
+                        }
+                        break;
+
+                    case 'newsletter':
+                        $controller = new Controllers\NewsletterController();
+                        if (!isset($route[2])) {
+                            $controller->manageNewsletter();
+                        } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->deleteSubscriber((int) $route[3]);
+                        }
+                        break;
+
+                    case 'outfits':
+                        $controller = new Controllers\OutfitsController();
+                        if (!isset($route[2])) {
+                            $controller->manageOutfits();
+                        } elseif ($route[2] === 'ajouter') {
+                            $controller->addOutfit();
+                        } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->updateOutfit((int) $route[3]);
+                        } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->deleteOutfit((int) $route[3]);
+                        }
+                        break;
+
+                    default:
+                        include('src/app/Views/404.php');
+                        exit();
                 }
-                $controller = new Controllers\AdminEventsController();
-                $controller->dashboard();
                 break;
-
-            case 'admin/reservations/detail':
-                $controller = new Controllers\AdminEventsController();
-                $controller->showReservation($_GET['id'] ?? null);
-                break;
-
-            case 'admin/users/modifier':
-                $controller = new Controllers\AdminEventsController();
-                $controller->updateUser($_GET['id'] ?? null);
-                break;
-
-            case 'admin/payments':
-                $controller = new Controllers\AdminEventsController();
-                $controller->managePayments();
-                break;
-
-            case 'admin/export':
-                $controller = new Controllers\AdminEventsController();
-                $controller->exportData($_GET['type'] ?? 'reservations');
-                break;
-
-            case 'admin/evenements':
-                $controller = new Controllers\AdminEventsController();
-                $controller->index();
-                break;
-
-            case 'admin/evenements/ajouter':
-                $controller = new Controllers\AdminEventsController();
-                $controller->addEvent();
-                break;
-
-            case 'admin/evenements/modifier':
-                $controller = new Controllers\AdminEventsController();
-                $controller->updateEvent($_GET['id'] ?? null);
-                break;
-
-            case 'admin/evenements/supprimer':
-                $controller = new Controllers\AdminEventsController();
-                $controller->deleteEvent($_GET['id'] ?? null);
-                break;
-
-            case 'admin/packs':
-                $controller = new Controllers\AdminEventsController();
-                $controller->managePacks();
-                break;
-
-            case 'admin/packs/ajouter':
-                $controller = new Controllers\AdminEventsController();
-                $controller->addPack();
-                break;
-
-            case 'admin/packs/modifier':
-                $controller = new Controllers\AdminEventsController();
-                $controller->updatePack($_GET['id'] ?? null);
-                break;
-
-            case 'admin/packs/supprimer':
-                $controller = new Controllers\AdminEventsController();
-                $controller->deletePack($_GET['id'] ?? null);
-                break;
-
-            case 'admin/reservations':
-                $controller = new Controllers\AdminEventsController();
-                $controller->manageReservations();
-                break;
-
-            case 'admin/reservations/modifier':
-                $controller = new Controllers\AdminEventsController();
-                $controller->updateReservationStatus($_GET['id'] ?? null, $_GET['status'] ?? null);
-                break;
-
-            case 'admin/users':
-                $controller = new Controllers\AdminEventsController();
-                $controller->manageUsers();
-                break;
-
-            case 'admin/users/supprimer':
-                $controller = new Controllers\AdminEventsController();
-                $controller->deleteUser($_GET['id'] ?? null);
-                break;
-
-            case 'admin/messages':
-                $controller = new Controllers\AdminEventsController();
-                $controller->manageMessages();
-                break;
-
-            case 'admin/messages/supprimer':
-                $controller = new Controllers\AdminEventsController();
-                $controller->deleteMessage($_GET['id'] ?? null);
-                break;
-
-            case 'admin/newsletter':
-                $controller = new Controllers\AdminEventsController();
-                $controller->manageNewsletter();
-                break;
-
-            case 'admin/newsletter/supprimer':
-                $controller = new Controllers\AdminEventsController();
-                $controller->deleteSubscriber($_GET['id'] ?? null);
-                break;
-
-            case 'admin/outfits':
-                $controller = new Controllers\AdminEventsController();
-                $controller->manageOutfits();
-                break;
-
-            case 'admin/outfits/ajouter':
-                $controller = new Controllers\AdminEventsController();
-                $controller->addOutfit();
-                break;
-
-            case 'admin/outfits/modifier':
-                $controller = new Controllers\AdminEventsController();
-                $controller->updateOutfit($_GET['id'] ?? null);
-                break;
-
-            case 'admin/outfits/supprimer':
-                $controller = new Controllers\AdminEventsController();
-                $controller->deleteOutfit($_GET['id'] ?? null);
-                break;
-
-            default:
-                // Si la route n'est pas reconnue, on affiche une page 404
-                include('src/app/Views/404.php');
         }
     } catch (Exception $e) {
         // Enregistrement de l'erreur dans les logs pour le suivi des erreurs

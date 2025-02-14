@@ -13,7 +13,7 @@
 
     <!-- Vérification s'il y a des événements -->
     <?php if (!empty($events)) : ?>
-        <form action="<?= BASE_URL ?>reservation_process" method="post" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+        <form action="reservation_process" method="post" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
 
             <!-- Sélection du type de client -->
             <h3 class="text-xl font-bold text-gray-800">👤 Type de réservation</h3>

@@ -73,4 +73,28 @@ class EventsModel extends ModeleParent
             return [];
         }
     }
+
+    public function getAllEventsAdmin()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM events ORDER BY date_event DESC");
+        return $stmt->fetchAll();
+    }
+
+    public function createEvent($title, $description, $date_event, $status)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO events (title, description, date_event, status) VALUES (?, ?, ?, ?)");
+        return $stmt->execute([$title, $description, $date_event, $status]);
+    }
+
+    public function updateEvent($event_id, $title, $description, $date_event, $status)
+    {
+        $stmt = $this->pdo->prepare("UPDATE events SET title = ?, description = ?, date_event = ?, status = ? WHERE id = ?");
+        return $stmt->execute([$title, $description, $date_event, $status, $event_id]);
+    }
+
+    public function deleteEvent($event_id)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM events WHERE id = ?");
+        return $stmt->execute([$event_id]);
+    }
 }

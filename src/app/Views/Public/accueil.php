@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="<?= BASE_URL ?>src/css/output.css" rel="stylesheet">
-    <link href="<?= BASE_URL ?>src/css/style.css" rel="stylesheet">
+    <link href="src/css/output.css" rel="stylesheet">
+    <link href="src/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
     <script src="node_modules/swiper/swiper-bundle.min.js"></script>
     <title>Chic and Chill</title>
@@ -16,7 +16,7 @@
     <!-- Logo + Texte -->
     <div class="flex items-center space-x-4">
         <!-- Logo -->
-        <img src="<?= BASE_URL ?>assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
+        <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
 
         <!-- Texte CHIC AND CHILL -->
         <div class="text-[#8B5A2B] font-bold text-3xl tracking-wide font-family: 'Cormorant Garamond', serif;" style="font-family: 'Cormorant Garamond', serif;">

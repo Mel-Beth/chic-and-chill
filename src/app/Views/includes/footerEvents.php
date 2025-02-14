@@ -3,7 +3,7 @@
         
         <!-- Bloc À propos (centré correctement) -->
         <div class="flex flex-col items-center md:items-start">
-            <img src="<?= BASE_URL ?>assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-24 h-24">
+            <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-24 h-24">
             <p class="mt-4 text-gray-300 leading-relaxed text-center md:text-left max-w-sm">
                 <span class="font-semibold">Chic & Chill</span> est une boutique et service de location de vêtements 
                 proposant une mode responsable et accessible à tous.
@@ -75,3 +75,5 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
     });
 </script>
+
+</html>

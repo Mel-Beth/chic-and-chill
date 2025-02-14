@@ -2,5 +2,4 @@
     <p>© 2025 Chic & Chill - Administration | Tous droits réservés.</p>
 </footer>
 
-</body>
 </html>

@@ -15,7 +15,7 @@ class ContactModel extends ModeleParent
             return false;
         }
     }
-    
+
     public function addNewsletterSubscription($email)
     {
         try {
@@ -23,6 +23,28 @@ class ContactModel extends ModeleParent
             return $stmt->execute([$email]);
         } catch (\PDOException $e) {
             error_log("Erreur Newsletter: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function getAllMessages()
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC");
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
+
+    public function deleteMessage($id)
+    {
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM contact_messages WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
             return false;
         }
     }

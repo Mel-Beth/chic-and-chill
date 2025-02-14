@@ -4,8 +4,17 @@ namespace Controllers;
 
 use Models\ContactModel;
 
-class ContactController {
-    public function processContactForm() {
+class ContactController
+{
+    private $contactModel;
+
+    public function __construct()
+    {
+        $this->contactModel = new ContactModel();
+    }
+
+    public function processContactForm()
+    {
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             die("Méthode non autorisée.");
         }
@@ -27,14 +36,15 @@ class ContactController {
         $success = $contactModel->addMessage($name, $email, $message, $source);
 
         if ($success) {
-            header("Location: " . BASE_URL . "contact_" . $source . "?success=1");
+            header("Location: " . "contact_" . $source . "?success=1");
             exit();
         } else {
             die("Erreur lors de l'envoi du message.");
         }
     }
 
-    public function processNewsletter() {
+    public function processNewsletter()
+    {
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"])) {
             $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
 
@@ -46,11 +56,27 @@ class ContactController {
             $success = $contactModel->addNewsletterSubscription($email);
 
             if ($success) {
-                header("Location: " . BASE_URL . "evenements?success=1");
+                header("Location: " . "evenements?success=1");
                 exit();
             } else {
                 die("Erreur lors de l'inscription.");
             }
+        }
+    }
+
+    public function manageMessages()
+    {
+        $messages = $this->contactModel->getAllMessages();
+        include 'src/app/Views/Admin/admin_messages.php';
+    }
+
+    public function deleteMessage($id)
+    {
+        if ($this->contactModel->deleteMessage($id)) {
+            header('Location: /admin/messages');
+            exit();
+        } else {
+            die("Erreur lors de la suppression du message.");
         }
     }
 }

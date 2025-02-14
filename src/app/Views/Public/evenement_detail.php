@@ -232,7 +232,7 @@
                     <div class="swiper-wrapper">
                         <?php foreach ($eventImages as $image) : ?>
                             <div class="swiper-slide">
-                                <img src="<?= BASE_URL . htmlspecialchars($image); ?>" alt="Photo de l'événement" class="rounded-lg shadow-lg">
+                                <img src="<?= htmlspecialchars($image); ?>" alt="Photo de l'événement" class="rounded-lg shadow-lg">
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -248,7 +248,7 @@
         <!-- PAGINATION DES ÉVÉNEMENTS -->
         <div class="flex justify-between items-center max-w-4xl mx-auto mt-16 border-t border-gray-300 pt-8 w-full">
             <?php if (!empty($prevEvent)) : ?>
-                <a href="<?= BASE_URL ?>evenement_detail?id=<?= $prevEvent['id'] ?>"
+                <a href="evenement_detail?id=<?= $prevEvent['id'] ?>"
                     class="flex items-center text-gray-800 hover:text-[#8B5A2B] transition duration-300 flex-grow">
                     <span class="inline-block border border-gray-800 p-3 rounded-lg mr-4">←</span>
                     <span class="text-lg font-semibold"><?= htmlspecialchars($prevEvent['title']); ?></span>
@@ -258,7 +258,7 @@
             <?php endif; ?>
 
             <?php if (!empty($nextEvent)) : ?>
-                <a href="<?= BASE_URL ?>evenement_detail?id=<?= $nextEvent['id'] ?>"
+                <a href="evenement_detail?id=<?= $nextEvent['id'] ?>"
                     class="flex items-center text-gray-800 hover:text-[#8B5A2B] transition duration-300 flex-grow justify-end">
                     <span class="text-lg font-semibold"><?= htmlspecialchars($nextEvent['title']); ?></span>
                     <span class="inline-block border border-gray-800 p-3 rounded-lg ml-4">→</span>
@@ -270,7 +270,7 @@
 
         <!-- BOUTON RETOUR -->
         <div class="text-center mt-12">
-            <a href="<?= BASE_URL ?>evenements"
+            <a href="evenements"
                 class="inline-block bg-[#8B5A2B] text-white text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
                 Retour aux événements
             </a>
@@ -280,7 +280,7 @@
     <div class="container mx-auto px-4 py-12 text-center">
         <h1 class="text-3xl font-bold text-red-600">Événement introuvable</h1>
         <p class="text-gray-600 mt-4">L'événement demandé n'existe pas ou a été supprimé.</p>
-        <a href="<?= BASE_URL ?>evenements" class="mt-6 inline-block bg-[#8B5A2B] text-white text-lg font-semibold px-6 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
+        <a href="evenements" class="mt-6 inline-block bg-[#8B5A2B] text-white text-lg font-semibold px-6 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
             Retour aux événements
         </a>
     </div>

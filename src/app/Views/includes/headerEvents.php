@@ -4,7 +4,7 @@
         <div class="flex items-center space-x-4">
             <!-- Logo -->
             <a href="accueil">
-                <img src="<?= BASE_URL ?>assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-30 h-30 object-contain">
+                <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-30 h-30 object-contain">
             </a>
 
             <!-- Texte CHIC AND CHILL -->
@@ -15,11 +15,12 @@
 
         <!-- Menu -->
         <nav class="hidden md:flex space-x-8 text-lg font-semibold transition-all duration-300">
-            <a href="<?= BASE_URL ?>accueil" class="menu-link relative">Accueil</a>
-            <a href="<?= BASE_URL ?>evenements" class="menu-link relative">Événements</a>
-            <a href="<?= BASE_URL ?>location" class="menu-link relative">Location</a>
-            <a href="<?= BASE_URL ?>magasin" class="menu-link relative">Magasin</a>
-            <a href="<?= BASE_URL ?>contact_evenements" class="menu-link relative">Contact</a>
+            <a href="accueil" class="menu-link relative">Accueil</a>
+            <a href="evenements" class="menu-link relative">Événements</a>
+            <a href="location" class="menu-link relative">Location</a>
+            <a href="magasin" class="menu-link relative">Magasin</a>
+            <a href="contact_evenements" class="menu-link relative">Contact</a>
+            <a href="admin/dashboard" class="menu-link relative">Dashboard</a>
         </nav>
 
         <!-- Menu mobile -->

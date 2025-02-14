@@ -23,7 +23,7 @@
             </ul>
 
             <!-- FORMULAIRE DE RÉSERVATION -->
-            <form action="<?= BASE_URL ?>reservation_process" method="post" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
+            <form action="reservation_process" method="post" class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
 
                 <!-- Champ caché pour l'ID du pack -->
                 <input type="hidden" name="pack_id" value="<?= $pack['id']; ?>">

@@ -23,5 +23,29 @@ class PackController
             echo "Une erreur est survenue. Veuillez réessayer plus tard.";
         }
     }
+
+    public function managePacks()
+    {
+        $packsModel = new PacksModel();
+        $packs = $packsModel->getAllPacksAdmin();
+        include('src/app/Views/Admin/admin_packs.php');
+    }
+
+    public function addPack()
+    {
+        include('src/app/Views/Admin/admin_packs.php');
+    }
+
+    public function updatePack($id)
+    {
+        include('src/app/Views/Admin/admin_packs.php');
+    }
+
+    public function deletePack($id)
+    {
+        $packsModel = new PacksModel();
+        $packsModel->deletePack($id);
+        header("Location: admin/packs");
+        exit();
+    }
 }
-?>
