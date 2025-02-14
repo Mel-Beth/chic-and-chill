@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
-<?php include("./../includes/head_shop.php"); ?>
+<?php include("src/app/Views/includes/head_shop.php"); ?>
 
 <body class="body_conditions_shop" id="top_shop_accueil">
-<?php include('./../includes/header_shop.php'); ?>
+<?php include('src/app/Views/includes/header_shop.php'); ?>
 
 <main class="cgv_container_shop">
     <h1>Conditions Générales de Vente</h1>
@@ -61,7 +61,7 @@
     <p class="cgv_date">Dernière mise à jour : Février 2025</p>
 </main>
 
-<?php include('./../includes/footer_shop.php'); ?>
+<?php include('src/app/Views/includes/footer_shop.php'); ?>
 
 </body>
 </html>

@@ -38,7 +38,7 @@
     <!-- Colonne 3 -->
     <div class="footer_shop_column">
       <h4>Informations légales</h4>
-      <a href="#">Conditions générales de ventes</a>
+      <a href="conditions_generales">Conditions générales de ventes</a>
       <a href="#">Protection de la vie privée et des cookies</a>
       <a href="#">Mentions légales</a>
       <a href="#">Rappel de produits</a>
