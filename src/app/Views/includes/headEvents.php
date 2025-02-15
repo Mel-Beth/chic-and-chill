@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="fr">
 
@@ -10,5 +9,6 @@
   <link href="src/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
   <script src="node_modules/swiper/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
   <title>Chic and Chill</title>
 </head>

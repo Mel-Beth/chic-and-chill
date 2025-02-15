@@ -15,17 +15,17 @@
 
         <!-- Menu -->
         <nav class="hidden md:flex space-x-8 text-lg font-semibold transition-all duration-300">
-            <a href="accueil" class="menu-link relative">Accueil</a>
-            <a href="evenements" class="menu-link relative">Événements</a>
-            <a href="location" class="menu-link relative">Location</a>
-            <a href="magasin" class="menu-link relative">Magasin</a>
-            <a href="contact_evenements" class="menu-link relative">Contact</a>
-            <a href="admin/dashboard" class="menu-link relative">Dashboard</a>
+            <a href="accueil" class="menu-link relative"><i class="fas fa-home"></i> Accueil</a>
+            <a href="evenements" class="menu-link relative"><i class="fas fa-calendar-alt"></i> Événements</a>
+            <a href="location" class="menu-link relative"><i class="fas fa-map-marker-alt"></i> Location</a>
+            <a href="magasin" class="menu-link relative"><i class="fas fa-shopping-bag"></i> Magasin</a>
+            <a href="contact_evenements" class="menu-link relative"><i class="fas fa-envelope"></i> Contact</a>
+            <a href="admin/dashboard" class="menu-link relative"><i class="fas fa-chart-line"></i> Dashboard</a>
         </nav>
 
         <!-- Menu mobile -->
         <div class="md:hidden">
-            <button id="menu-toggle" class="text-white focus:outline-none">☰</button>
+            <button id="menu-toggle" class="text-white focus:outline-none text-2xl"><i class="fas fa-bars"></i></button>
         </div>
     </div>
 </header>
@@ -34,14 +34,12 @@
     /* Style du header par défaut (transparent au départ) */
     #main-header {
         background: rgba(0, 0, 0, 0);
-        /* Complètement transparent */
         transition: background 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
     }
 
     /* Style du header après scroll */
     #main-header.scrolled {
         background: rgba(0, 0, 0, 0.9) !important;
-        /* Fond noir semi-transparent */
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     }
 
@@ -49,11 +47,13 @@
     .menu-link {
         color: white;
         transition: color 0.3s ease-in-out;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     #main-header.scrolled .menu-link {
         color: #8B5A2B;
-        /* Marron Chic & Chill */
     }
 
     /* Changement de couleur du texte du magasin */
@@ -73,6 +73,11 @@
     #main-header.scrolled .brand-chill {
         color: white;
     }
+
+    /* Icônes */
+    .menu-link i {
+        font-size: 1.2rem;
+    }
 </style>
 
 <script>
@@ -84,6 +89,7 @@
             header.classList.remove("scrolled");
         }
     });
+
     // Menu mobile
     document.getElementById("menu-toggle").addEventListener("click", function() {
         const mobileMenu = document.getElementById("mobile-menu");
