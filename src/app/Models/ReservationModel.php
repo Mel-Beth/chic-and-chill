@@ -71,4 +71,21 @@ class ReservationModel extends ModeleParent
             return false;
         }
     }
+    public function getRecentReservations()
+    {
+        try {
+            $stmt = $this->pdo->query("
+            (SELECT 'event' AS type, id, customer_name, email, created_at 
+            FROM event_reservations ORDER BY created_at DESC LIMIT 5)
+            UNION
+            (SELECT 'pack' AS type, id, customer_name, email, created_at 
+            FROM pack_reservations ORDER BY created_at DESC LIMIT 5)
+            ORDER BY created_at DESC
+        ");
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
 }

@@ -6,6 +6,7 @@
                 <li><a href="admin/dashboard" class="hover:underline">Dashboard</a></li>
                 <li><a href="admin/evenements" class="hover:underline">Événements</a></li>
                 <li><a href="admin/packs" class="hover:underline">Packs</a></li>
+                <li><a href="admin/outfits" class="hover:underline">Tenues</a></li>
                 <li><a href="admin/reservations" class="hover:underline">Réservations</a></li>
                 <li><a href="admin/users" class="hover:underline">Utilisateurs</a></li>
                 <li><a href="admin/messages" class="hover:underline">Messages</a></li>

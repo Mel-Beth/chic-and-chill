@@ -48,4 +48,15 @@ class ContactModel extends ModeleParent
             return false;
         }
     }
+    
+    public function getRecentMessages()
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC LIMIT 5");
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
 }

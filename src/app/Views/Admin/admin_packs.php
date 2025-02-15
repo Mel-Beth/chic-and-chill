@@ -3,36 +3,35 @@ include('src/app/Views/includes/admin_head.php');
 include('src/app/Views/includes/admin_header.php'); 
 ?>
 
-<div class="container mx-auto mt-6">
-    <h2 class="text-2xl font-bold mb-4">Gestion des Packs</h2>
-    <?php if (!empty($packs)): ?>
-        <table class="w-full border-collapse border border-gray-200">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="border border-gray-300 px-4 py-2">Nom</th>
-                    <th class="border border-gray-300 px-4 py-2">Prix</th>
-                    <th class="border border-gray-300 px-4 py-2">Stock</th>
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($packs as $pack): ?>
-                    <tr>
-                        <td class="border border-gray-300 px-4 py-2"><?= htmlspecialchars($pack['title']) ?></td>
-                        <td class="border border-gray-300 px-4 py-2"><?= number_format($pack['price'], 2) ?> €</td>
-                        <td class="border border-gray-300 px-4 py-2"><?= $pack['stock'] ?></td>
-                        <td class="border border-gray-300 px-4 py-2">
-                            <a href="admin/packs/edit/<?= $pack['id'] ?>" class="text-blue-500">Modifier</a> |
-                            <a href="admin/packs/delete/<?= $pack['id'] ?>" class="text-red-500">Supprimer</a>
-                        </td>
+<div class="min-h-screen flex flex-col">
+    <div class="container mx-auto px-4 py-12 flex-grow">
+        <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Gestion des Packs</h2>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <table class="w-full border-collapse border">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-3">Nom</th>
+                        <th class="border p-3">Prix</th>
+                        <th class="border p-3">Stock</th>
+                        <th class="border p-3">Actions</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>Aucun pack disponible.</p>
-    <?php endif; ?>
+                </thead>
+                <tbody>
+                    <?php foreach ($packs as $pack) : ?>
+                        <tr>
+                            <td class="border p-3"><?= htmlspecialchars($pack['title']) ?></td>
+                            <td class="border p-3"><?= htmlspecialchars($pack['price']) ?>€</td>
+                            <td class="border p-3"><?= htmlspecialchars($pack['stock']) ?></td>
+                            <td class="border p-3">
+                                <a href="admin/packs/supprimer/<?= $pack['id'] ?>" class="text-red-600">🗑️ Supprimer</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <?php include('src/app/Views/includes/admin_footer.php'); ?>
 </div>
-
-
-<?php include('src/app/Views/includes/admin_footer.php'); ?>

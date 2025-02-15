@@ -119,8 +119,8 @@ if (empty($route[0])) {
                 switch ($route[1] ?? 'dashboard') {
 
                     case 'dashboard':
-                        $controller = new Controllers\HomeController();
-                        $controller->dashboard();
+                        $controller = new Controllers\DashboardController();
+                        $controller->index();
                         break;
 
                     case 'payments':
