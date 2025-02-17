@@ -86,7 +86,7 @@ include('src/app/Views/includes/admin_sidebar.php');
             <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
                 <span class="material-icons text-purple-600 mr-2">add_circle</span> Ajouter un événement
             </h3>
-            <form action="evenements/ajouter" method="POST">
+            <form action="admin/evenements/ajouter" method="POST">
                 <input type="text" name="title" placeholder="Titre de l'événement" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
                 <textarea name="description" placeholder="Description" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]"></textarea>
                 <input type="date" name="date_event" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
