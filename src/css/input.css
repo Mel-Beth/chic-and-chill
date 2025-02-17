@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+.menu-link {
+    @apply text-white transition-all duration-300 relative;
+}
+
+.menu-link::before {
+    content: "";
+    @apply absolute bottom-0 left-0 w-full h-[2px] bg-[#8B5A2B] scale-x-0 transition-transform duration-300;
+}
+
+.menu-link:hover::before {
+    @apply scale-x-100;
+}
