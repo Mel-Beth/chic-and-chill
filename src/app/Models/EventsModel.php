@@ -97,4 +97,16 @@ class EventsModel extends ModeleParent
         $stmt = $this->pdo->prepare("DELETE FROM events WHERE id = ?");
         return $stmt->execute([$event_id]);
     }
+
+    public function getEventMedia($eventId)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT image_url, type FROM event_images WHERE event_id = ?");
+            $stmt->execute([$eventId]);
+            return $stmt->fetchAll();
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return [];
+        }
+    }
 }

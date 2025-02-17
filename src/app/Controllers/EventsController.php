@@ -41,9 +41,8 @@ class EventsController
     {
         try {
             $event = $this->eventsModel->getEventById($id);
-            $eventImages = $this->eventsModel->getEventImages($id);
+            $eventMedia = $this->eventsModel->getEventMedia($id); // Récupère images & vidéos
 
-            // Récupérer l'événement précédent et suivant
             $prevEvent = $this->eventsModel->getPrevEvent($event['date_event']);
             $nextEvent = $this->eventsModel->getNextEvent($event['date_event']);
 

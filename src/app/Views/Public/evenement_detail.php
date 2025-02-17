@@ -82,8 +82,9 @@
         padding: 20px;
     }
 
-    /* Images de la galerie */
-    .swiper-container-gallery img {
+    /* Images et vidéos dans la galerie */
+    .swiper-container-gallery img,
+    .swiper-container-gallery video {
         width: 100%;
         height: 250px;
         object-fit: cover;
@@ -99,6 +100,34 @@
     .swiper-button-next-gallery::after,
     .swiper-button-prev-gallery::after {
         font-size: 30px !important;
+    }
+
+    /* Centrage et position de la pagination */
+    .swiper-pagination {
+        position: absolute;
+        bottom: -20px !important;
+        /* Descend la pagination */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Couleur marron pour les bullets */
+    .swiper-pagination-bullet {
+        background: #8B5A2B !important;
+        /* Marron Chic & Chill */
+        width: 12px;
+        height: 12px;
+        margin: 0 5px;
+        opacity: 0.5;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    /* Effet sur le bullet actif */
+    .swiper-pagination-bullet-active {
+        background: #8B5A2B !important;
+        opacity: 1;
+        transform: scale(1.3);
+        /* Légère mise en avant */
     }
 
     /* =============================== */
@@ -224,20 +253,31 @@
         </div>
 
         <!-- GALERIE SWIPER (bien intégrée) -->
-        <?php if (!empty($eventImages)) : ?>
-            <div class="max-w-5xl mx-auto mt-12 overflow-hidden"> <!-- Empêche le débordement -->
+        <?php if (!empty($eventMedia)) : ?>
+            <div class="max-w-5xl mx-auto mt-12 overflow-hidden">
                 <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">📸 Galerie de l'événement</h2>
 
                 <div class="swiper-container-gallery relative w-full">
                     <div class="swiper-wrapper">
-                        <?php foreach ($eventImages as $image) : ?>
+                        <?php foreach ($eventMedia as $media) : ?>
                             <div class="swiper-slide">
-                                <img src="<?= htmlspecialchars($image); ?>" alt="Photo de l'événement" class="rounded-lg shadow-lg">
+                                <?php if ($media['type'] === 'image') : ?>
+                                    <!-- Affichage des images -->
+                                    <img src="<?= htmlspecialchars($media['image_url']); ?>"
+                                        alt="Image de l'événement"
+                                        class="rounded-lg shadow-lg w-full h-64 object-cover">
+                                <?php elseif ($media['type'] === 'video') : ?>
+                                    <!-- Affichage des vidéos (Mute activé) -->
+                                    <video muted autoplay loop playsinline class="rounded-lg shadow-lg w-full h-64 object-cover">
+                                        <source src="<?= htmlspecialchars($media['image_url']); ?>" type="video/mp4">
+                                        Votre navigateur ne supporte pas la vidéo.
+                                    </video>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
 
-                    <!-- Navigation (flèches marron) -->
+                    <!-- Navigation -->
                     <div class="swiper-button-next swiper-button-next-gallery"></div>
                     <div class="swiper-button-prev swiper-button-prev-gallery"></div>
                     <div class="swiper-pagination mt-4"></div>
@@ -314,8 +354,8 @@
             delay: 5000,
             disableOnInteraction: false,
         },
-        slidesPerView: 3, // S'assure qu'on voit bien 3 images en même temps
-        spaceBetween: 15, // Ajoute un petit espace entre les images
+        slidesPerView: 3,
+        spaceBetween: 15,
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
@@ -328,13 +368,13 @@
         speed: 1200,
         breakpoints: {
             640: {
-                slidesPerView: 1 // Affiche une seule image sur petit écran
+                slidesPerView: 1
             },
             768: {
-                slidesPerView: 2 // Affiche 2 images sur tablette
+                slidesPerView: 2
             },
             1024: {
-                slidesPerView: 3 // Affiche 3 images sur grand écran
+                slidesPerView: 3
             }
         }
     });
