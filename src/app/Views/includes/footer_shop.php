@@ -2,7 +2,7 @@
     <!-- Bouton  top pour aller en haut -->
   <div class="back-to-top-footer-shop">
     <!-- il y a cet id dans le header de mon fichier header_shop  -->
-    <a href="#top_shop_accueil">↑ Retour en haut de page</a>
+    <a href="#top_shop_accueil"><i class="fas fa-arrow-up"></i></a>
   </div>
 
 

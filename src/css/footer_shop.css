@@ -5,108 +5,110 @@
   }
 
   
-/* Positionnement et style du bouton "Retour en haut de page" */
+
+/* Bouton Retour en haut (flèche) */
 .back-to-top-footer-shop {
-    position: absolute; /* Position absolue pour le placer au-dessus du footer */
-    bottom: 0.1rem; /* Ajuste la hauteur juste au-dessus du footer */
-    left: 50%; /* Centre horizontalement */
-    transform: translateX(-50%); /* Centre exact */
-    text-align: center;
-    z-index: 2; /* Assure que le bouton reste visible au-dessus de tout */
-    background-color: transparent; /* Fond totalement transparent */
-  }
+  position: fixed; /* Fixé pour qu'il reste visible au même endroit */
+  bottom: 2rem; /* Distance du bas de la page */
+  right: 1rem; /* Distance du côté droit */
+  z-index: 999; /* Pour qu'il passe au-dessus des autres éléments */
+  background-color: #A8C3A5; /* Vert doux */
+  color: #ffffff; /* Blanc */
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Pour un bouton circulaire */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.back-to-top-footer-shop:hover {
+  background-color: #8CA58A; /* Vert légèrement plus foncé */
+  transform: translateY(-5px); /* Animation légère au survol */
+}
+
+.back-to-top-footer-shop a {
+  text-decoration: none;
+  color: #ffffff; /* Couleur de la flèche */
+  font-size: 1.5rem; /* Taille de la flèche */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
   
-  .back-to-top-footer-shop a {
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: bold;
-    color: #ffffff; /* Vert doux */
-    border: 2px solid #A8C3A5; /* Bordure verte */
-    padding: 10px 20px;
-    border-radius: 30px; /* Coins arrondis */
-    transition: all 0.3s ease-in-out;
-    background-color: transparent; /* Fond transparent */
-  }
-  
-  .back-to-top-footer-shop a:hover {
-    background-color: #A8C3A5; /* Fond vert doux au survol */
-    color: #ffffff; /* Texte blanc au survol */
-  }
-  
-  
-  
+ .span_and_logo_barre_nav_shop{
+  color: #8CA58A;
+ } 
   
   /* Bande supérieure - Réseaux sociaux */
-  .footer_shop_top {
-    background-color: #A8C3A5; /* Vert doux */
-    color: #ffffff; /* Texte blanc */
-    padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    
-  }
-  
-  .footer_shop_top p {
-    font-size: 16px;
-    margin-left: 17rem;
-  }
-  
-  .social-icons_shop_footer{
-    margin-right: 38rem;  
-    /* pour decoler les icons à droite */
-  }
-  .social-icons_shop_footer a {
-    text-decoration: none;
-    color: #ffffff; /* Blanc pour les icônes */
-    margin-left: 15px;
-    margin-right: 2rem;
-    font-size: 20px; /* Taille des icônes */
-    transition: color 0.3s ease;
-  }
-  
-  .social-icons_shop_footer a:hover {
-    color:#a75e27; /* marron comme les uatres au survol */
-  }
-  
-  /* Bande inférieure - Informations */
-  .footer_shop_bottom {
-    background-color: #F5F5F5; /* Gris clair */
-    color: #333333; /* Noir doux */
-    padding: 40px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap; /* S'adapte sur plusieurs lignes si nécessaire */
-    gap: 10rem; /* Espace entre les colonnes */
-  }
-  
-  .footer_shop_column {
-    flex: 1;
-    min-width: 200px; /* Largeur minimale d'une colonne */
-  }
-  
-  .footer_shop_column h4 {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .footer_shop_column a {
-    display: block;
-    margin: 5px 0;
-    font-size: 14px;
-    text-decoration: none;
-    color: #666666; /* Gris doux */
-    transition: color 0.3s ease;
-  }
-  
-  .footer_shop_column a:hover {
-    color: #a75e27; /* le marron des autres onglets au survol */
-  }
-  
-  /* Prévention des chevauchements */
-  body {
-    margin: 0;
-    padding-bottom: 100px; /* Réserve de place pour le footer */
-  }
-  
+ /* Bande supérieure - Réseaux sociaux */
+.footer_shop_top {
+  background-color: #A8C3A5; /* Vert doux */
+  color: #ffffff; /* Texte blanc */
+  padding: 1.25rem 2.5rem; /* Espacement en haut et sur les côtés */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer_shop_top p {
+  font-size: 1rem; /* Texte plus lisible */
+  margin-left: 10rem; /* Ajuste l'espacement en rem */
+}
+
+.social-icons_shop_footer {
+  margin-right: 20rem; /* Espace ajusté pour les icônes */
+}
+
+.social-icons_shop_footer a {
+  text-decoration: none;
+  color: #ffffff; /* Blanc pour les icônes */
+  margin-left: 0.9375rem; /* 15px -> 0.9375rem */
+  margin-right: 1.25rem; /* 20px -> 1.25rem */
+  font-size: 1.25rem; /* Taille des icônes */
+  transition: color 0.3s ease;
+}
+
+.social-icons_shop_footer a:hover {
+  color: #a75e27; /* Marron comme les autres au survol */
+}
+
+/* Bande inférieure - Informations */
+.footer_shop_bottom {
+  background-color: #F5F5F5; /* Gris clair */
+  color: #333333; /* Noir doux */
+  padding: 2.5rem; /* Espacement plus adapté */
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* S'adapte sur plusieurs lignes si nécessaire */
+  gap: 5rem; /* Espace entre les colonnes */
+}
+
+.footer_shop_column {
+  flex: 1;
+  min-width: 12.5rem; /* Largeur minimale ajustée en rem */
+}
+
+.footer_shop_column h4 {
+  font-size: 1.125rem; /* 18px -> 1.125rem */
+  font-weight: bold;
+  margin-bottom: 0.625rem; /* 10px -> 0.625rem */
+}
+
+.footer_shop_column a {
+  display: block;
+  margin: 0.3125rem 0; /* 5px -> 0.3125rem */
+  font-size: 0.875rem; /* 14px -> 0.875rem */
+  text-decoration: none;
+  color: #666666; /* Gris doux */
+  transition: color 0.3s ease;
+}
+
+.footer_shop_column a:hover {
+  color: #a75e27; /* Le marron des autres onglets au survol */
+}
+
+
