@@ -35,7 +35,7 @@ class AuthController
                 ];
 
                 if ($user["role"] === "admin") {
-                    header("Location: dashboard");
+                    header("Location: admin/dashboard");
                 } else {
                     header("Location: boutique");
                 }
