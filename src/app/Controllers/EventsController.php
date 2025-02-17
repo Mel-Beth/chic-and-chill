@@ -64,14 +64,25 @@ class EventsController
 
             $success = $this->eventsModel->createEvent($title, $description, $date_event, $status);
 
-            header("Location: admin/evenements?success=" . ($success ? 1 : 0));
-            exit();
+            if ($success) {
+                header("Location: evenements?success=1");
+                exit();
+            } else {
+                header("Location: evenements?success=0");
+                exit();
+            }
         }
     }
 
     public function updateEvent($id)
     {
-        include('src/app/Views/Admin/admin_events.php');
+        try {
+            $events = $this->eventsModel->getAllEventsAdmin();
+            include('src/app/Views/Admin/admin_events.php');
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            echo "Erreur lors du chargement des événements.";
+        }
     }
 
     public function deleteEvent($id)
@@ -85,6 +96,11 @@ class EventsController
     {
         try {
             $events = $this->eventsModel->getAllEventsAdmin();
+
+            if (!$events) {
+                $events = []; // S'assurer que la variable est bien définie même si la table est vide
+            }
+
             include('src/app/Views/Admin/admin_events.php');
         } catch (\Exception $e) {
             error_log($e->getMessage());

@@ -48,7 +48,7 @@ class ContactModel extends ModeleParent
             return false;
         }
     }
-    
+
     public function getRecentMessages()
     {
         try {
@@ -57,6 +57,39 @@ class ContactModel extends ModeleParent
         } catch (\PDOException $e) {
             error_log($e->getMessage());
             return [];
+        }
+    }
+
+    public function markMessageAsRead($id)
+    {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE contact_messages SET status = 'read' WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (\PDOException $e) {
+            error_log("Erreur mise à jour message lu: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function countUnreadMessages()
+    {
+        try {
+            $stmt = $this->pdo->query("SELECT COUNT(*) AS unread FROM contact_messages WHERE status = 'unread'");
+            return $stmt->fetchColumn();
+        } catch (\PDOException $e) {
+            error_log("Erreur récupération messages non lus: " . $e->getMessage());
+            return 0;
+        }
+    }
+
+    public function updateMessageStatus($id, $status)
+    {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE contact_messages SET status = ? WHERE id = ?");
+            return $stmt->execute([$status, $id]);
+        } catch (\PDOException $e) {
+            error_log("Erreur mise à jour statut du message: " . $e->getMessage());
+            return false;
         }
     }
 }

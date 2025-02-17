@@ -94,11 +94,28 @@ class ReservationController
 
     public function updateReservationStatus($id, $status)
     {
-        if ($this->reservationModel->updateReservationStatus($id, $status)) {
+        $reservation = $this->reservationModel->getReservationById($id);
+
+        if ($reservation) {
+            $this->reservationModel->updateReservationStatus($id, $status);
+
+            // Générer la facture si accepté
+            $attachmentPath = null;
+            if ($status === 'confirmed') {
+                require_once 'invoice_generator.php';
+                $attachmentPath = InvoiceGenerator::generateInvoice($reservation);
+            }
+
+            // Envoi d’email
+            require_once 'EmailHelper.php';
+            $subject = ($status === 'confirmed') ? "Votre réservation a été acceptée !" : "Votre réservation a été refusée";
+            $body = ($status === 'confirmed') ? "<p>Votre réservation a été confirmée.</p>" : "<p>Nous sommes désolés, votre réservation a été refusée.</p>";
+            EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+
             header('Location: admin/reservations');
             exit();
         } else {
-            die("Erreur lors de la mise à jour du statut de la réservation.");
+            die("Réservation introuvable.");
         }
     }
 }

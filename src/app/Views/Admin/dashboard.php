@@ -1,88 +1,133 @@
-<?php 
+<?php
 include('src/app/Views/includes/admin_head.php');
-include('src/app/Views/includes/admin_header.php'); 
+include('src/app/Views/includes/admin_header.php');
+include('src/app/Views/includes/admin_sidebar.php');
 ?>
 
-<div class="min-h-screen flex flex-col">
-    <div class="container mx-auto px-4 py-12 flex-grow">
-        <h1 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">📊 Tableau de Bord</h1>
+<div id="dashboard" class="min-h-screen flex flex-col transition-all duration-300 pl-20 lg:pl-64 mt-10">
+    <div class="container mx-auto px-6 py-12 flex-grow max-w-7xl">
+        <!-- 🔔 Notifications -->
+        <div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-lg font-bold text-gray-700 mb-2">📢 Notifications</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-            <!-- Messages récents -->
+            <ul id="notificationsList" class="divide-y divide-gray-300">
+                <?php if (!empty($dashboardData['notifications'])): ?>
+                    <?php foreach ($dashboardData['notifications'] as $notif): ?>
+                        <li class="py-3 flex justify-between">
+                            <span class="text-gray-600"><?= htmlspecialchars($notif['message']) ?></span>
+                            <button class="markAsRead text-sm text-blue-500 hover:underline" data-id="<?= $notif['id'] ?>">Marquer comme lu</button>
+                        </li>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <li class="py-3 text-gray-500">Aucune nouvelle notification</li>
+                <?php endif; ?>
+            </ul>
+        </div>
+
+        <!-- Cartes de statistiques -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-2">
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold text-gray-700 mb-2">📩 Nouveaux Messages</h2>
-                <ul>
-                    <?php if (!empty($dashboardData['messages'])) : ?>
-                        <?php foreach ($dashboardData['messages'] as $msg) : ?>
-                            <li class="border-b py-2">
-                                <strong><?= htmlspecialchars($msg['name']); ?></strong> (<em><?= $msg['email']; ?></em>) :
-                                <?= htmlspecialchars(substr($msg['message'], 0, 50)) . '...'; ?>
-                                <span class="text-sm text-gray-500">[<?= $msg['created_at']; ?>]</span>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p class="text-gray-500">Aucun message pour le moment.</p>
-                    <?php endif; ?>
-                </ul>
+                <h2 class="text-lg font-bold text-gray-700 mb-2">📩 Messages</h2>
+                <p class="text-3xl font-bold text-gray-900"> <?= $dashboardData['messages_count']; ?> </p>
             </div>
-
-            <!-- Réservations événements -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold text-gray-700 mb-2">🎟️ Nouvelles Réservations d'Événements</h2>
-                <ul>
-                    <?php if (!empty($dashboardData['event_reservations'])) : ?>
-                        <?php foreach ($dashboardData['event_reservations'] as $res) : ?>
-                            <li class="border-b py-2">
-                                <strong><?= htmlspecialchars($res['customer_name']); ?></strong> a réservé pour 
-                                <strong><?= $res['participants']; ?> personnes</strong> à 
-                                <em><?= htmlspecialchars($res['event_type']); ?></em>.
-                                <span class="text-sm text-gray-500">[<?= $res['created_at']; ?>]</span>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p class="text-gray-500">Aucune réservation récente.</p>
-                    <?php endif; ?>
-                </ul>
+                <h2 class="text-lg font-bold text-gray-700 mb-2">🎉 Événements</h2>
+                <p class="text-3xl font-bold text-gray-900"> <?= $dashboardData['active_events']; ?> / <?= $dashboardData['total_events']; ?> actifs</p>
             </div>
-
-            <!-- Réservations de packs -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold text-gray-700 mb-2">🎁 Nouvelles Réservations de Packs</h2>
-                <ul>
-                    <?php if (!empty($dashboardData['pack_reservations'])) : ?>
-                        <?php foreach ($dashboardData['pack_reservations'] as $pack) : ?>
-                            <li class="border-b py-2">
-                                <strong><?= htmlspecialchars($pack['customer_name']); ?></strong> a réservé 
-                                le pack <em><?= htmlspecialchars($pack['pack_id']); ?></em>.
-                                <span class="text-sm text-gray-500">[<?= $pack['created_at']; ?>]</span>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p class="text-gray-500">Aucune réservation de pack récente.</p>
-                    <?php endif; ?>
-                </ul>
+                <h2 class="text-lg font-bold text-gray-700 mb-2">🛒 Réservations</h2>
+                <p class="text-3xl font-bold text-gray-900"> <?= $dashboardData['pending_reservations']; ?> en attente</p>
             </div>
-
-            <!-- Commandes récentes -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold text-gray-700 mb-2">🛒 Nouvelles Commandes</h2>
-                <ul>
-                    <?php if (!empty($dashboardData['orders'])) : ?>
-                        <?php foreach ($dashboardData['orders'] as $order) : ?>
-                            <li class="border-b py-2">
-                                <strong>Commande #<?= $order['id']; ?></strong> de 
-                                <strong><?= $order['total_price']; ?>€</strong> 
-                                (Status: <span class="text-sm text-gray-600"><?= $order['status']; ?></span>).
-                                <span class="text-sm text-gray-500">[<?= $order['created_at']; ?>]</span>
-                            </li>
-                        <?php endforeach; ?>
-                    <?php else : ?>
-                        <p class="text-gray-500">Aucune commande récente.</p>
-                    <?php endif; ?>
-                </ul>
+                <h2 class="text-lg font-bold text-gray-700 mb-2">📢 Newsletter</h2>
+                <p class="text-3xl font-bold text-gray-900"> <?= $dashboardData['subscribers_count']; ?> abonnés</p>
+            </div>
+        </div>
+
+        <!-- Graphiques -->
+        <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow-md h-96">
+                <h2 class="text-lg font-bold text-gray-700 mb-2">📈 Évolution des réservations</h2>
+                <canvas id="reservationsChart"></canvas>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md h-96">
+                <h2 class="text-lg font-bold text-gray-700 mb-2">📊 Packs réservés</h2>
+                <canvas id="packsChart"></canvas>
             </div>
         </div>
     </div>
-
-    <?php include('src/app/Views/includes/admin_footer.php'); ?>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    console.log(<?= json_encode($dashboardData); ?>);
+
+    var ctx1 = document.getElementById('reservationsChart').getContext('2d');
+    var reservationsChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode($dashboardData['reservation_months']); ?>,
+            datasets: [{
+                label: 'Réservations',
+                data: <?= json_encode($dashboardData['reservation_counts']); ?>,
+                borderColor: '#8B5A2B',
+                fill: false
+            }]
+        }
+    });
+
+    var ctx2 = document.getElementById('packsChart').getContext('2d');
+    var packsChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: <?= json_encode($dashboardData['packs_labels']); ?>,
+            datasets: [{
+                label: 'Packs réservés',
+                data: <?= json_encode($dashboardData['packs_counts']); ?>,
+                backgroundColor: '#8B5A2B'
+            }]
+        }
+    });
+
+    function fetchNotifications() {
+        fetch("admin/notifications/unread")
+            .then(response => response.json())
+            .then(data => {
+                const notificationsList = document.getElementById("notificationsList");
+                notificationsList.innerHTML = ""; // Vide la liste avant de la remplir
+
+                if (data.length > 0) {
+                    data.forEach(notification => {
+                        const li = document.createElement("li");
+                        li.className = "py-3 flex justify-between";
+                        li.innerHTML = `
+                            <span class="text-gray-600">${notification.message}</span>
+                            <button class="markAsRead text-sm text-blue-500 hover:underline" data-id="${notification.id}">Marquer comme lu</button>
+                        `;
+                        notificationsList.appendChild(li);
+                    });
+                } else {
+                    notificationsList.innerHTML = `<li class="py-3 text-gray-500">Aucune nouvelle notification</li>`;
+                }
+
+                attachReadEvent();
+            })
+            .catch(error => console.error("Erreur lors de la récupération des notifications :", error));
+    }
+
+    function attachReadEvent() {
+        document.querySelectorAll(".markAsRead").forEach(button => {
+            button.addEventListener("click", function() {
+                let notifId = this.dataset.id;
+                fetch(`admin/notifications/read/${notifId}`, {
+                        method: "POST"
+                    })
+                    .then(() => fetchNotifications()); // Rafraîchir les notifications après la mise à jour
+            });
+        });
+    }
+
+    // Rafraîchir les notifications toutes les 10 secondes
+    setInterval(fetchNotifications, 10000);
+    fetchNotifications(); // Charger les notifications au chargement de la page
+</script>

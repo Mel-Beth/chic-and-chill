@@ -20,7 +20,7 @@
             <a href="location" class="menu-link relative"><i class="fas fa-map-marker-alt"></i> Location</a>
             <a href="magasin" class="menu-link relative"><i class="fas fa-shopping-bag"></i> Magasin</a>
             <a href="contact_evenements" class="menu-link relative"><i class="fas fa-envelope"></i> Contact</a>
-            <a href="admin/dashboard" class="menu-link relative"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="login" class="menu-link relative"><i class="fas fa-chart-line"></i> Dashboard</a>
         </nav>
 
         <!-- Menu mobile -->

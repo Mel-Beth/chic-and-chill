@@ -79,4 +79,38 @@ class ContactController
             die("Erreur lors de la suppression du message.");
         }
     }
+
+    public function unreadCount()
+    {
+        $unreadCount = $this->contactModel->countUnreadMessages();
+        echo json_encode(["unread" => $unreadCount]);
+        exit;
+    }
+
+    public function markAsRead($id)
+    {
+        if ($this->contactModel->markMessageAsRead($id)) {
+            echo json_encode(["success" => true]);
+        } else {
+            echo json_encode(["success" => false]);
+        }
+        exit;
+    }
+
+    public function updateMessageStatus($id)
+    {
+        if (!isset($_GET['status']) || !in_array($_GET['status'], ['read', 'unread'])) {
+            echo json_encode(['success' => false, 'error' => 'Statut invalide']);
+            exit;
+        }
+
+        $status = $_GET['status'];
+
+        if ($this->contactModel->updateMessageStatus($id, $status)) {
+            echo json_encode(['success' => true]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Erreur lors de la mise à jour']);
+        }
+        exit;
+    }
 }

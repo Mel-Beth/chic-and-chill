@@ -97,8 +97,6 @@
     /* =============================== */
     .swiper-container-tenues {
         max-width: 900px;
-        margin: auto;
-        padding: 40px 0;
     }
 
     /* =============================== */
@@ -318,8 +316,13 @@
 
 <!-- GRILLE DES ÉVÉNEMENTS -->
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">📅 Nos Événements</h2>
-    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">Nos Événements Passés</h2>
+    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">
+        <span class="material-symbols-rounded text-white text-5xl">event</span> Nos Événements
+    </h2>
+
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">
+        <span class="ph ph-calendar-check"></span> Nos Événements Passés
+    </h2>
 
     <div class="grid_events">
         <?php foreach ($events as $event) : ?>
@@ -344,7 +347,9 @@
 
 <!-- ENCART ÉVÉNEMENTS À VENIR -->
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">Nos Événements à venir</h2>
+    <h2 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">
+        <span class="ph ph-calendar-star"></span> Nos Événements à venir
+    </h2>
 
     <?php if (!empty($upcomingEvents)) : ?>
         <div class="grid_events mb-12">
@@ -370,9 +375,7 @@
     <?php else : ?>
         <div class="text-center bg-gray-100 p-6 rounded-lg shadow-md max-w-lg mx-auto mt-6 mb-10">
             <p class="text-lg font-semibold text-[#8B5A2B] flex items-center justify-center">
-                <svg class="w-6 h-6 mr-2 text-[#8B5A2B]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4H9m4 0h1m1-5.002A2 2 0 0012 5a2 2 0 00-2 2v.002m2 0h2m2 5v4h-1m-4 4h.01" />
-                </svg>
+                <span class="ph ph-calendar-x text-[#8B5A2B] text-2xl mr-2"></span>
                 Aucun événement n'est prévu pour le moment, mais restez informé en vous inscrivant à notre Newsletter !
             </p>
         </div>
@@ -380,7 +383,10 @@
 
     <!-- Formulaire Newsletter (Toujours affiché) -->
     <div class="container mx-auto px-4 py-8 text-center bg-gray-100 rounded-lg shadow-md max-w-2xl">
-        <h3 class="text-2xl font-semibold text-gray-800">📩 Ne manquez aucun événement !</h3>
+        <h3 class="text-2xl font-semibold text-gray-800 flex items-center justify-center">
+            <span class="material-symbols-rounded text-3xl text-gray-800 mr-2">mail</span>
+            Ne manquez aucun événement !
+        </h3>
         <p class="text-gray-600 mt-3">Recevez toutes les infos sur nos prochains événements en vous inscrivant à notre newsletter.</p>
         <?php if (isset($_GET['success']) && $_GET['success'] == 1) : ?>
             <p class="text-green-600 text-center font-semibold bg-green-100 p-3 rounded-md">
@@ -400,14 +406,17 @@
 <!-- BOUTON RÉSERVATION -->
 <div class="text-center mt-12">
     <a href="reservation_evenement"
-        class="inline-block border-2 border-[#8B5A2B] text-[#8B5A2B] text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
-        📅 Réserver un événement
+        class="inline-block border-2 border-[#8B5A2B] text-[#8B5A2B] text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2">
+        <span class="ph ph-calendar-plus text-xl"></span> Réserver un événement
     </a>
 </div>
 
+
 <!-- IDÉES DE TENUES -->
 <div class="container mx-auto px-4 py-12 mt-12">
-    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">💡 Idées de tenues</h2>
+    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">
+        <span class="material-symbols-rounded text-4xl">styler</span> Idées de tenues
+    </h2>
 
     <div class="swiper-container-tenues max-w-5xl mx-auto relative px-4 py-12">
         <div class="swiper-wrapper">
@@ -434,7 +443,7 @@
                         <!-- Bouton Acheter -->
                         <a href="achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>"
                             class="mt-4 bg-[#8B5A2B] text-white px-5 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2">
-                            🛒 Acheter l'article
+                            <span class="material-symbols-rounded text-lg">shopping_cart</span> Acheter l'article
                         </a>
 
                     </div>
@@ -445,7 +454,6 @@
         </div>
 
         <!-- Pagination et Navigation -->
-        <div class="swiper-pagination-tenues absolute bottom-0 left-1/2 transform -translate-x-1/2 mt-4"></div>
         <div class="swiper-button-next swiper-button-next-tenues"></div>
         <div class="swiper-button-prev swiper-button-prev-tenues"></div>
     </div>
@@ -473,10 +481,6 @@
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
         },
-        pagination: {
-            el: '.swiper-pagination-tenues',
-            clickable: true,
-        },
         navigation: {
             nextEl: '.swiper-button-next-tenues',
             prevEl: '.swiper-button-prev-tenues',
@@ -497,7 +501,9 @@
 
 <!-- PACKS ÉVÉNEMENTIELS -->
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">🎁 Packs événementiels</h2>
+    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white flex items-center justify-center gap-3">
+        <span class="ph ph-gift text-5xl"></span> Packs événementiels
+    </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
         <?php if (!empty($eventPacks)) : ?>
@@ -528,8 +534,10 @@
 
 <!-- SECTION À PROPOS DE CHIC & CHILL -->
 <div class="container mx-auto px-4 py-12">
-    <div class="bg-black text-white text-center py-12">
-        <h2 class="text-3xl font-bold uppercase tracking-wide">L'Expérience Chic & Chill</h2>
+    <div class="bg-black text-white text-center py-12 flex items-center justify-center">
+        <h2 class="text-3xl font-bold uppercase tracking-wide flex items-center justify-center gap-3">
+            <span class="material-symbols-rounded text-4xl">spa</span> L'Expérience Chic & Chill
+        </h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 py-12">

@@ -3,13 +3,20 @@
 namespace Controllers;
 
 use Models\UsersModel;
+use Models\SettingsModel;
 
 class UsersController
 {
+    private $usersModel;
+
+    public function __construct()
+    {
+        $this->usersModel = new UsersModel();
+    }
+
     public function users()
     {
-        $usersModel = new UsersModel();
-        $users = $usersModel->getAllUsers();
+        $users = $this->usersModel->getAllUsers();
         include('src/app/Views/Admin/admin_users.php');
     }
 
@@ -36,21 +43,38 @@ class UsersController
         include('src/app/Views/Admin/admin_users.php');
     }
 
-    public function addUser()
+    public function updateUserStatus($id, $status)
     {
-        include('src/app/Views/Admin/admin_users.php');
-    }
+        $status = ($status === 'active') ? 'active' : 'inactive';
+        $success = $this->usersModel->updateStatus($id, $status);
 
-    public function updateUser($id)
-    {
-        include('src/app/Views/Admin/admin_users.php');
+        header('Content-Type: application/json');
+        echo json_encode(['success' => $success]);
+        exit();
     }
 
     public function deleteUser($id)
     {
+        if ($this->usersModel->deleteUser($id)) {
+            $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'], "Suppression de l'utilisateur ID: $id", $_SERVER['REMOTE_ADDR']);
+            header('Location: admin/users');
+            exit();
+        } else {
+            die("Erreur lors de la suppression de l'utilisateur.");
+        }
+    }
+
+    public function viewUserHistory($id)
+    {
         $usersModel = new UsersModel();
-        $usersModel->deleteUser($id);
-        header("Location: admin/users");
-        exit();
+        $history = $usersModel->getUserFullHistory($id);
+        $user = $usersModel->getUserById($id);
+
+        if (!$user) {
+            include('src/app/Views/404.php');
+            exit();
+        }
+
+        include('src/app/Views/Admin/admin_user_history.php');
     }
 }
