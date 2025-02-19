@@ -1,14 +1,18 @@
 <?php
 
 namespace Controllers;
-// Inclure la connexion à la base de données
-require_once('src/app/Controllers/DatabaseShop.php');
+
+use PDO;
+use PDOException;
+use Controllers\DatabaseShop; // ← Ajoute ceci
+
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // Vérifier si l'utilisateur existe déjà
 function userExists($pdo, $email) {
+    include 'src/app/Views/Public/inscription_shop.php'; // Charge la page d'inscription
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM users WHERE email = :email');
     $stmt->execute(['email' => $email]);
     return $stmt->fetchColumn() > 0; // Renvoie true si l'email est déjà utilisé
@@ -76,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /site_stage/chic-and-chill/connexion_shop');
         exit();
 
-    } catch (PDOException $e) {
+    } catch (\PDOException $e) {
         $_SESSION['error'] = "Erreur lors de l'inscription : " . $e->getMessage();
         header('Location: /site_stage/chic-and-chill/inscription_shop');
         exit();
