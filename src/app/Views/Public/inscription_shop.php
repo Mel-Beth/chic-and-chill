@@ -12,13 +12,13 @@
             <!-- Formulaire -->
             <form action="/site_stage/chic-and-chill/inscription_shop" method="POST">
                 <div class="form_group_shop">
-                    <label for="nom">Nom</label>
-                    <input type="text" id="nom" name="nom" required>
+                    <label for="name">Nom complet</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
 
                 <div class="form_group_shop">
-                    <label for="prenom">Prénom</label>
-                    <input type="text" id="prenom" name="prenom" required>
+                    <label for="surname">Prénom</label>
+                    <input type="text" id="surname" name="surname" required>
                 </div>
 
                 <div class="form_group_shop">
@@ -27,13 +27,8 @@
                 </div>
 
                 <div class="form_group_shop">
-                    <label for="numero_tel">Numéro de Téléphone</label>
-                    <input type="text" id="numero_tel" name="numero_tel" required>
-                </div>
-
-                <div class="form_group_shop">
-                    <label for="date_naissance">Date de Naissance</label>
-                    <input type="date" id="date_naissance" name="date_naissance" required>
+                    <label for="number_phone">Numéro de Téléphone</label>
+                    <input type="text" id="number_phone" name="number_phone" required>
                 </div>
 
                 <div class="form_group_shop">
@@ -42,18 +37,13 @@
                 </div>
 
                 <div class="form_group_shop">
-                    <label for="pseudo">Pseudo</label>
-                    <input type="text" id="pseudo" name="pseudo" required>
+                    <label for="password">Mot de Passe</label>
+                    <input type="password" id="password" name="password" required>
                 </div>
 
                 <div class="form_group_shop">
-                    <label for="motdepasse">Mot de Passe</label>
-                    <input type="password" id="motdepasse" name="motdepasse" required>
-                </div>
-
-                <div class="form_group_shop">
-                    <label for="confirm_motdepasse">Confirmer le Mot de Passe</label>
-                    <input type="password" id="confirm_motdepasse" name="confirm_motdepasse" required>
+                    <label for="confirm_password">Confirmer le Mot de Passe</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
                 </div>
 
                 <button type="submit" class="btn_shop">S'inscrire</button>
