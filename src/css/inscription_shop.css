@@ -1,0 +1,91 @@
+/* Centrer et styliser le formulaire */
+.container_form_shop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 80px;
+    background-color: #f8f9fa;
+}
+
+/* Boîte contenant le formulaire */
+.login_container_shop {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Titre */
+.login_container_shop h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Groupes de champs */
+.form_group_shop {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form_group_shop label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form_group_shop input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.form_group_shop input:focus {
+    border: 1px solid #007bff;
+}
+
+/* Bouton d'inscription */
+.btn_shop {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #8CA58A;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn_shop:hover {
+    background-color: #7c9474;
+}
+
+/* Lien de connexion */
+.inscription_btn_shop {
+    margin-top: 15px;
+}
+
+.inscription_btn_shop p {
+    color: #555;
+}
+
+.inscription_btn_shop a {
+    color: #8CA58A;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.inscription_btn_shop a:hover {
+    text-decoration: underline;
+}
