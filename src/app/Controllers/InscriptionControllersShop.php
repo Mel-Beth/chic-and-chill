@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /site_stage/chic-and-chill/connexion_shop');
         exit();
 
-    } catch (PDOException $e) {
+    } catch (\PDOException $e) {
         $_SESSION['error'] = "Erreur lors de l'inscription : " . $e->getMessage();
         header('Location: /site_stage/chic-and-chill/inscription_shop');
         exit();

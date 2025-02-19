@@ -1,6 +1,6 @@
 <?php
 
-namespace Models;
+namespace Controllers;
 
 use PDO;
 use PDOException;
@@ -13,13 +13,14 @@ class DatabaseShop
     {
         if (self::$pdo === null) {
             try {
-                self::$pdo = new PDO("mysql:host=localhost;dbname=chicandchill;charset=utf8", "root", "");
-                self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                self::$pdo = new PDO('mysql:host=localhost;dbname=site_produits_laitiers;charset=utf8', 'root', '', [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                ]);
             } catch (PDOException $e) {
-                die("Erreur de connexion à la base de données : " . $e->getMessage());
+                die('Erreur de connexion : ' . $e->getMessage());
             }
         }
         return self::$pdo;
     }
 }
-
