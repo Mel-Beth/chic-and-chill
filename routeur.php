@@ -263,6 +263,11 @@ if (empty($route[0])) {
                     
                 
 
+                case 'inscription_shop':
+                    $controller = new Controllers\InscriptionControllersShop();
+                    $controller->registerUserShop();
+                    break;
+                
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
                 include('src/app/Views/404.php');
