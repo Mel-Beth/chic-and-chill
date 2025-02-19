@@ -1,0 +1,113 @@
+
+.body_co_shop{
+    background-image: url("../../assets/images/devantureMag.jpg");
+    background-size: cover;
+    margin: 0;
+}
+/* Assurez-vous que le header ne recouvre pas le formulaire */
+.container_form_shop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Pour centrer verticalement */
+    padding-top: 80px; /* Ajuste l'espace sous le header */
+    
+}
+
+/* Style de la boîte de connexion */
+.login_container_shop {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Titre */
+.login_box_shop h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    font-family:  'Lato', sans-serif;
+}
+
+/* Style des champs de formulaire */
+.form_id_shop,
+.form_mdp_shop {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form_id_shop label,
+.form_mdp_shop label {
+    display: block;
+    font-weight: bold;
+   
+    margin-bottom: 5px;
+    margin-left: 0.2rem;
+    color: #555;
+}
+
+.form_id_shop input,
+.form_mdp_shop input {
+    width: calc(100% - 0.2rem); /* Ajuste pour éviter les débordements */
+    max-width: 100%; /* S'assure que les inputs ne dépassent pas */
+    box-sizing: border-box; /* Inclut padding et bordure dans la largeur */
+    padding: 1rem;
+    border-radius: 0.7rem;
+}
+
+.form_id_shop input:focus,
+.form_mdp_shop input:focus {
+    border: 1px solid #007bff;
+}
+
+/* Bouton de connexion */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #8CA58A;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color:#8CA58A;
+}
+
+/* Lien d'inscription */
+.inscription_btn_shop {
+    margin-top: 15px;
+}
+
+.inscription_btn_shop p {
+    color: #555;
+}
+
+.inscription_btn_shop a {
+    color: #8CA58A;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.inscription_btn_shop a:hover {
+    text-decoration: underline;
+}
+
+/* Messages d'erreur */
+.alert_shop {
+    background-color: #ffcccc;
+    color: #d8000c;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+}

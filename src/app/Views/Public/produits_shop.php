@@ -1,87 +1,64 @@
+
 <!DOCTYPE html>
-<html lang="en" class="html_shop">
-<?php include("./../includes/head_shop.php"); ?>
+<html lang="fr" class="html_shop">
+<?php include('src/app/Views/includes/head_shop.php'); ?>
+
 <body class="body_shop_produits" id="top_shop_accueil">
-<?php include('./../includes/header_shop.php'); ?>
-    
-<main class="product-grid" >
 
-  <!-- Produit 1 -->
-  <div class="product-card">
-    <img src="assets/images/haut_printemps.jpg" alt="Produit 1"> 
-    <div class="product-info">
-      <h3>Top blanc corset</h3>
-      <p>Petit top blanc, style corset avec fermeture dorée.</p>
-      <span class="product-price">15,00 €</span>
-    </div>
-  </div>
-
-  <!-- Produit 2 -->
-  <div class="product-card">
-    <img src="assets/images/pull_pastel.jpg" alt="Produit 2">
-    <div class="product-info">
-      <h3>Pull pastel </h3>
-      <p>Pull en laine, couleur vert d'eau pastel, manche longue.</p>
-      <span class="product-price">20,00 €</span>
-    </div>
-  </div>
-
-    <!-- Produit 3 -->
-    <div class="product-card">
-    <img src="assets/images/robe_soiree.jpg" alt="Produit 2">
-    <div class="product-info">
-      <h3>Robe de soirée</h3>
-      <p>Robe de soirée à sequins, manches longues et décoletté échancré</p>
-      <span class="product-price">30,00 €</span>
-    </div>
-  </div>
-
-    <!-- Produit 4 -->
-    <div class="product-card">
-    <img src="assets/images/pantacourt_jean.jpg" alt="Produit 2">
-    <div class="product-info">
-      <h3>Pantacourt</h3>
-      <p>Pantacourt en jean et tissu. </p>
-      <span class="product-price">10,00 €</span>
-    </div>
-  </div>
-
+<?php include('src/app/Views/includes/header_shop.php'); ?>
+<main class="product-grid">
+  <br>
+  <h1>hellooooooooooooooooooooooooooooooooo</h1>
   
-    <!-- Produit 5 -->
-    <div class="product-card">
-    <img src="assets/images/manteau_fourrure.jpg" alt="Produit 2">
-    <div class="product-info">
-      <h3>Manteau blanc</h3>
-      <p>Manteau blanc, fausse fourrure, idéal pour passer l'hiver avec style</p>
-      <span class="product-price">40,00 €</span>
+  <?php if (!empty($subCategories)) : ?>
+    <div class="subcategories-container">
+        <?php foreach ($subCategories as $sub) : ?>
+            <a href="produit_shop.php?gender=<?= htmlspecialchars($gender) ?>&id_categories=<?= htmlspecialchars($id_categories) ?>&id_ss_categories=<?= htmlspecialchars($sub['id_ss_categories']) ?>" 
+               class="subcategory-button">
+                <?= htmlspecialchars($sub['name_ss_categories']) ?>
+            </a>
+        <?php endforeach; ?>
     </div>
-  </div>
+<?php else : ?>
+    <p>❌ Aucune sous-catégorie trouvée.</p>
+<?php endif; ?>
 
-  
-    <!-- Produit 6 -->
-    <div class="product-card">
-    <img src="assets/images/veste_croptop.jpg" alt="Produit 2">
-    <div class="product-info">
-      <h3>Veste Crop Top</h3>
-      <p>Veste courte, à pailettes, idéale pour vos soirées.</p>
-      <span class="product-price">20,00 €</span>
-    </div>
-  </div>
 
-  <!-- Ajoutez d'autres produits de la même manière -->
-</div>
+
+
+
+
+
+
+    <?php if (!empty($products)): ?>
+        <?php foreach ($products as $product): ?>
+            <div class="product-card">
+                <img src="<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['name']); ?>">
+                <div class="product-info">
+                    <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                    <p><?php echo htmlspecialchars($product['description']); ?></p>
+                    <span class="product-price"><?php echo number_format($product['price'], 2, ',', ' '); ?> €</span>
+                    <a href="produit_detail_shop.php?id=<?php echo $product['id']; ?>" class="product-link">Voir le produit</a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>Aucun produit trouvé.</p>
+    <?php endif; ?>
 </main>
-<?php include('./../includes/footer_shop.php');?>
+
+<?php include('src/app/Views/includes/footer_shop.php'); ?>
+
 <script>
  document.addEventListener('scroll', function () {
     const header = document.querySelector('.header_shop');
-    if (window.scrollY > 50) { // Quand le scroll dépasse 50px
+    if (window.scrollY > 50) { 
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
     }
 });
-
 </script>
+
 </body>
 </html>

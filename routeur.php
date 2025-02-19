@@ -240,6 +240,29 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/conditions_generales_vente_shop.php');
                 break;
 
+            case 'accueil_shop';
+                include('src/app/Views/Public/accueil_shop.php');
+                break;
+
+                // afficher la page des produits dans le shop
+                case 'produit_shop':
+                    include('src/app/Views/Public/produits_shop.php');
+                    break;
+                
+
+                case 'produits':
+                    $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
+                    $controller->showProducts();
+                    break;
+
+
+                 case 'connexion_shop':
+                    $controller = new Controllers\ConnexionControllersShop();
+                     $controller->loginUserShop();
+                    break;
+                    
+                
+
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
                 include('src/app/Views/404.php');

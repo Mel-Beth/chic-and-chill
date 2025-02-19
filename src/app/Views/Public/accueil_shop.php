@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="html_shop">
-<?php include("./../includes/head_shop.php"); ?>
+<?php include('src/app/Views/includes/head_shop.php'); ?>
 <body class="body_shop_accueil" id="top_shop_accueil">
-<?php include('./../includes/header_shop.php'); ?>
+<?php include('src/app/Views/includes/header_shop.php'); ?>
 
 
 
@@ -22,7 +22,7 @@
 </div>
 
   </section>
-  <?php include('./../includes/footer_shop.php');?>
+  <?php include('src/app/Views/includes/footer_shop.php'); ?>
 
   <script>
  document.addEventListener('scroll', function () {

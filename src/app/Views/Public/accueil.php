@@ -2,6 +2,9 @@
 <html lang="fr">
 
 <?php include("src/app/Views/includes/head.php"); ?>
+<body>
+    
+
 <?php include("src/app/Views/includes/header.php"); ?>
 
 <!-- Conteneur principal contenant l'image de fond et les cercles interactifs -->

@@ -84,3 +84,26 @@
 .product-info a:hover {
     background-color: #8CA58A; /* Vert légèrement plus foncé */
 }
+
+
+/* css pour les btn sous categories */
+.subcategories-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subcategory-btn {
+    text-decoration: none;
+    padding: 8px 15px;
+    color: yellow;
+    background: rgba(0, 0, 0, 0.1);
+    color: black;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.subcategory-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
