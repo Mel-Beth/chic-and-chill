@@ -240,9 +240,11 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/conditions_generales_vente_shop.php');
                 break;
 
-            case 'inscription_shop';
-                $controller = new Controllers\
-
+                case 'inscription_shop':
+                    $controller = new Controllers\InscriptionControllersShop();
+                    $controller->registerUserShop();
+                    break;
+                
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
                 include('src/app/Views/404.php');
