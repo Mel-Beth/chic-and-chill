@@ -1,0 +1,87 @@
+
+.body_profil_shop {
+        margin: 0;
+        display: flex;
+        flex-direction: column; /* Assure une disposition verticale */
+        min-height: 100vh; /* Assure que la page prend toute la hauteur */
+        background-color: white;
+    }
+    
+
+
+
+.container_profil_shop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Pour centrer verticalement */
+    padding-top: 10rem; /* Ajuste l'espace sous le header */
+}
+
+.profil_card_shop {
+    background: rgba(255, 255, 255, 0.9); /* Légère transparence */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.profil_titre_shop {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.profil_menu_shop {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.profil_menu_shop li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+.profil_liens_shop {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profil_btn_shop {
+    display: block;
+    background: #8CA58A;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.profil_btn_shop:hover {
+    background: #7c9474;
+}
+
+.btn_deconnexion_shop {
+    display: block;
+    background: #633c27;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background 0.3s;
+}
+
+.btn_deconnexion_shop:hover {
+    background: #a93226;
+}

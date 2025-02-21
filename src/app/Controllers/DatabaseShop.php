@@ -1,5 +1,4 @@
 <?php
-
 namespace Controllers;
 
 use PDO;
@@ -13,7 +12,7 @@ class DatabaseShop
     {
         if (self::$pdo === null) {
             try {
-                self::$pdo = new PDO('mysql:host=localhost;dbname=site_produits_laitiers;charset=utf8', 'root', '', [
+                self::$pdo = new PDO('mysql:host=localhost;dbname=chicandchill;charset=utf8', 'root', '', [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 ]);
@@ -24,3 +23,4 @@ class DatabaseShop
         return self::$pdo;
     }
 }
+?>

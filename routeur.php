@@ -245,29 +245,52 @@ if (empty($route[0])) {
                 break;
 
                 // afficher la page des produits dans le shop
-                case 'produit_shop':
-                    include('src/app/Views/Public/produits_shop.php');
-                    break;
-                
-
-                case 'produits':
-                    $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
-                    $controller->showProducts();
-                    break;
+            case 'produit_shop':
+                include('src/app/Views/Public/produits_shop.php');
+                break;
 
 
-                 case 'connexion_shop':
+            case 'produits':
+                $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
+                $controller->showProducts();
+                break;
+
+
+                case 'connexion_shop':
                     $controller = new Controllers\ConnexionControllersShop();
-                     $controller->loginUserShop();
+                    $controller->loginUserShop();
+                
+                    // Si la requête est GET, on affiche la page de connexion
+                    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                        include 'src/app/Views/Public/connexion_shop.php';
+                    }
                     break;
+
+                    case 'profil_user_shop':
+                        $controller = new Controllers\ProfilControllersShop();
+                        $controller->showUserProfile();
+                        break;
                     
                 
 
-                case 'inscription_shop':
-                    $controller = new Controllers\InscriptionControllersShop();
-                    $controller->registerUserShop();
+
+
+
+            case 'inscription_shop':
+                $controller = new Controllers\InscriptionControllersShop();
+                $controller->registerUserShop();
+                break;
+
+
+
+                case 'deconnexion_shop':
+                    $controller = new Controllers\DecoShopController();
+                    $controller->logout();
                     break;
                 
+                
+                
+
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
                 include('src/app/Views/404.php');

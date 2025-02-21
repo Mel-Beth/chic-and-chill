@@ -5,12 +5,12 @@
     margin: 0;
 }
 /* Assurez-vous que le header ne recouvre pas le formulaire */
-.container_form_shop {
+.container_form_co_shop {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh; /* Pour centrer verticalement */
-    padding-top: 80px; /* Ajuste l'espace sous le header */
+    padding-top: 10rem; /* Ajuste l'espace sous le header */
     
 }
 
@@ -44,7 +44,6 @@
 .form_mdp_shop label {
     display: block;
     font-weight: bold;
-   
     margin-bottom: 5px;
     margin-left: 0.2rem;
     color: #555;
@@ -52,11 +51,14 @@
 
 .form_id_shop input,
 .form_mdp_shop input {
-    width: calc(100% - 0.2rem); /* Ajuste pour éviter les débordements */
-    max-width: 100%; /* S'assure que les inputs ne dépassent pas */
-    box-sizing: border-box; /* Inclut padding et bordure dans la largeur */
+    width: calc(100% - 0.2rem);
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 1rem;
     border-radius: 0.7rem;
+    background: white; /* Fond totalement opaque */
+    border: 1px solid #ccc;
+    transition: border 0.3s;
 }
 
 .form_id_shop input:focus,

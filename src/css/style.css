@@ -1,6 +1,6 @@
 
 
-/* Style de base pour la page accueil */
+/* Import css pour la partie eCommerce du site */
 
 @import url('header_shop.css');
 @import url('footer_shop.css');
@@ -10,7 +10,7 @@
 @import url('conditions_generales_vente_shop.css');
 @import url('co_user_shop.css');
 @import url('inscription_shop.css');
-
+@import url('profil_user_shop.css');
 
 
 

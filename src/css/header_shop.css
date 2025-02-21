@@ -1,6 +1,6 @@
 /* Corps du site */
 .body_shop_accueil {
-  font-family: 'Lato', sans-serif;
+  
   background-color: #ffffff; 
   color: #333333; 
   margin: 0;
@@ -41,7 +41,7 @@
 }
 
 .header_shop .logo-chic-and-chill-shop {
-  font-family: 'Playfair Display', serif;
+  font-family: "Nunito Sans", serif;
   font-size: 22px;
   font-weight: bold;
   color: #333333; 
@@ -59,16 +59,24 @@
   margin-right: 10rem;
 }
 
-.header_shop nav a {
-  text-decoration: none;
-  color: #333333; 
-  font-weight: bold;
+.header_shop nav a,
+.header_shop .right-section a {
+  font-family: "Nunito Sans", serif;
   font-size: 16px;
-  transition: color 0.3s ease;
+  font-weight: 500;
+  color: #333333;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  display: flex;
+
 }
 
-.header_shop nav a:hover {
-  color:#ffffff; /* Marron clair pour l'accent */
+.header_shop nav a:hover,
+.header_shop .right-section a:hover {
+  background-color: #bccfba; 
+
+  color: white;
+  border-radius: 0.1rem;
 }
 
 .header_shop .right-section {
@@ -80,7 +88,7 @@
 }
 
 .header_shop .right-section  {
-  font-family: 'Playfair Display', serif;
+  font-family: "Nunito Sans", serif;
   font-size: 20px;
   font-weight: bold;
   color: #333333; 
@@ -100,49 +108,61 @@
 }
 
 .header_shop .right-section .icons_shop_nav_bar a:hover {
-  color: #A67B5B; /* Marron clair pour l'accent */
+  background: rgba(188, 236, 166, 0.45);
 }
 
 
 
 
-
-
-/* Styles pour le dropdown */
-.dropdown {
+/* Styles de base pour le dropdown */
+.dropdown_shop {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-content {
-  display: none; /* Caché par défaut */
+/* Contenu du dropdown (caché par défaut) */
+.dropdown_content_shop {
+  display: none;
   position: absolute;
-  background-color: #ffffff; 
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+  left: 0;
+  top: 100%; /* Positionne en-dessous du lien parent */
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: 10px 0;
-  z-index: 1;
-  min-width: 200px; 
+  z-index: 1000;
+  min-width: 200px;
+  text-align: left;
 }
 
-.dropdown-content a {
-  color: #333333; 
-  padding: 10px 20px;
-  text-decoration: none;
+/* Style pour chaque lien du dropdown */
+.dropdown_content_shop a {
   display: block;
+  color: #333;
+  padding: 10px 15px;
+  text-decoration: none;
   font-size: 14px;
+  white-space: nowrap; /* Empêche le retour à la ligne */
 }
 
-.dropdown-content a:hover {
-  background-color: #A8C3A5; 
-  color: #ffffff; /* Texte blanc hover */
+/* Effet hover */
+.dropdown_shop:hover .dropdown_content_shop {
+  display: block;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block; /* Affiche menuac hover */
+/* Effet hover sur les liens */
+.dropdown_content_shop a:hover {
+  
+  background: rgba(188, 236, 166, 0.45);
+  color: white;
+}
+
+
+.dropdown_content_shop a:last-child {
+  border-bottom: none;
 }
 
 .chic-and-chill{
-  font-family: normal 900 1em/1 "Font Awesome 6 Free";
+  font-family: 'Cormorant Garamond', serif;
   font-size: 20px;
   font-weight: bold;
   color: #333333; 

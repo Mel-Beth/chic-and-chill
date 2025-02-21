@@ -2,77 +2,80 @@
 
 namespace Controllers;
 
-use PDO;
+use Models\CoModelShop;
 use PDOException;
-require_once 'src/app/Controllers/DatabaseShop.php'; // Connexion à la BDD
+use Controllers\DatabaseShop;
+require_once 'src/app/Models/CoModelShop.php';
 
 class ConnexionControllersShop
 {
+    private $coModel;
+
+    public function __construct()
+    {
+        $this->coModel = new CoModelShop();
+    }
+
     public function loginUserShop()
     {
-        include 'src/app/Views/Public/connexion_shop.php';
+        
+       
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo('ok step 1 ');
+           
+
             // Récupération des données du formulaire
-            $pseudo = isset($_POST['pseudo']) ? trim($_POST['pseudo']) : null;
-            $mot_de_passe = isset($_POST['mot_de_passe']) ? trim($_POST['mot_de_passe']) : null;
+            $identifier = isset($_POST['identifier']) ? trim($_POST['identifier']) : null;
+            $password = isset($_POST['password']) ? trim($_POST['password']) : null;
 
             // Vérification des champs vides
-            if (empty($pseudo) || empty($mot_de_passe)) {
+            if (empty($identifier) || empty($password)) {
                 $_SESSION['error'] = "Veuillez remplir tous les champs.";
-                header("Location: /src/app/Views/Public/connexion_shop.php");
+                header("Location: /site_stage/chic-and-chill/connexion_shop");
                 exit;
             }
 
             try {
-                $pdo = DatabaseShop::getConnection(); // Connexion à la base de données
-
-                // Requête SQL pour récupérer l'utilisateur
-                $stmt = $pdo->prepare("
-                    SELECT id_membre, pseudo, mdp, role, prenom_client, nom_client, adresse_client, date_inscription, date_naissance
-                    FROM membres 
-                    WHERE pseudo = ?
-                ");
-                $stmt->execute([$pseudo]);
-                $membre = $stmt->fetch(PDO::FETCH_ASSOC);
-
+                // Appel au modèle pour récupérer l'utilisateur
+                $user = $this->coModel->getUserByIdentifierOrEmail($identifier);
+                // var_dump($user); die(); // DEBUG : Voir ce que retourne la base de données
+         
+                
                 // Vérification du mot de passe
-                if ($membre && password_verify($mot_de_passe, $membre['mdp'])) {
+                if ($user && password_verify($password, $user['password'])) {
                     // Initialisation des données utilisateur dans la session
-                    $_SESSION['membre_id'] = $membre['id_membre'];
-                    $_SESSION['membre_pseudo'] = $membre['pseudo'];
-                    $_SESSION['membre_prenom'] = $membre['prenom_client'];
-                    $_SESSION['membre_nom'] = $membre['nom_client'];
-                    $_SESSION['membre_adresse'] = $membre['adresse_client'];
-                    $_SESSION['membre_inscription'] = $membre['date_inscription'];
-                    $_SESSION['membre_naissance'] = $membre['date_naissance'];
-                    $_SESSION['membre_role'] = $membre['role'];
+                    $_SESSION['user_id'] = $user['id'];
+                    $_SESSION['user_identifiant'] = $user['identifiant'];
+                    $_SESSION['user_name'] = $user['name'];
+                    $_SESSION['user_surname'] = $user['surname'];
+                    $_SESSION['user_email'] = $user['email'];
+                    $_SESSION['user_role'] = $user['role'];
+                    $_SESSION['user_adresse'] = $user['adresse'];
+                    $_SESSION['user_number_phone'] = $user['number_phone'];
 
                     // Redirection selon le rôle
-                    if ($membre['role'] == 2) { // Utilisateur lambda
-                        $_SESSION['message'] = "Bonjour, " . htmlspecialchars($membre['prenom_client']) . "!";
-                        header("Location: /src/app/Views/Public/accueil_shop.php");
-                    } elseif ($membre['role'] == 1) { // Administrateur
-                        $_SESSION['message'] = "Bonjour, " . htmlspecialchars($membre['prenom_client']) . "!";
+                    if ($user['role'] == 'client') {
+                        $_SESSION['message'] = "Bonjour, " . htmlspecialchars($user['name']) . "!";
+                        header("Location: /site_stage/chic-and-chill/accueil_shop");
+                    } elseif ($user['role'] == 'admin') {
+                        $_SESSION['message'] = "Bonjour, " . htmlspecialchars($user['name']) . "!";
                         $_SESSION['admin_dashboard'] = true;
-                        header("Location: /src/app/Views/Admin/dashboard.php");
+                        header("Location: /site_stage/chic-and-chill/dashboard_admin");
                     }
                     exit;
                 } else {
                     // Gestion des identifiants incorrects
-                    $_SESSION['error'] = "Pseudo ou mot de passe incorrect.";
-                    header("Location: /src/app/Views/Public/connexion_shop.php");
+                    $_SESSION['error'] = "Identifiant ou mot de passe incorrect.";
+                    header("Location: connexion_shop");
                     exit;
                 }
             } catch (PDOException $e) {
                 // Gestion des erreurs de connexion à la base de données
                 $_SESSION['error'] = "Erreur de connexion à la base de données : " . $e->getMessage();
-                header("Location: /src/app/Views/Public/connexion_shop.php");
+                header("Location: /site_stage/chic-and-chill/connexion_shop");
                 exit;
-                
-                
             }
         }
     }
 }
+?>

@@ -1,16 +1,3 @@
-<?php 
-namespace Models;
-require_once 'src/app/Models/AppelArticleModelShop.php';
-
-$model = new AppelArticleModelShop();
-
-$gender = $_GET['gender'] ?? 'femmes'; // Par défaut, affiche les femmes
-$id_categories = $_GET['id_categories'] ?? null;
-$gender_child = $_GET['gender_child'] ?? null;
-
-$products = $model->getProductsFiltered($gender, $id_categories, $gender_child);
-?>
-
 <header class="header_shop">
   <div class="logo-chic-and-chill-shop">
     <img src="assets/images/logo_magasin-chic-mel.png" alt="logo-magasin-chic-and-chill">
@@ -18,10 +5,10 @@ $products = $model->getProductsFiltered($gender, $id_categories, $gender_child);
   </div>
   
   <nav>
-        <a href="accueil_shop">Accueil</a>
-    <div class="dropdown">
-      <a href="produit_shop?gender=femmes">Femmes</a>
-      <div class="dropdown-content">
+    <a href="accueil_shop">ACCUEIL</a>
+    <div class="dropdown_shop">
+      <a href="produit_shop?gender=femmes">FEMMES</a>
+      <div class="dropdown_content_shop">
         <a href="produit_shop?gender=femmes">Tout voir</a>
         <a href="produit_shop?gender=femmes&id_categories=1">Vestes et Manteaux</a>
         <a href="produit_shop?gender=femmes&id_categories=6">Pulls, Sweats & Gilets</a>
@@ -33,9 +20,9 @@ $products = $model->getProductsFiltered($gender, $id_categories, $gender_child);
         <a href="produit_shop?gender=femmes&id_categories=9">Sportwear</a>
       </div>
     </div>
-    <div class="dropdown">
-      <a href="#">Enfants</a>
-      <div class="dropdown-content">
+    <div class="dropdown_shop">
+      <a href="#">ENFANTS</a>
+      <div class="dropdown_content_shop">
         <a href="produit_shop?gender=enfants">Tout voir</a>
         <a href="produit_shop?gender=enfants&id_categories=10">Vestes et manteaux</a>
         <a href="produit_shop?gender=enfants&id_categories=10">Pantalons et Shorts</a>
@@ -47,35 +34,34 @@ $products = $model->getProductsFiltered($gender, $id_categories, $gender_child);
         <a href="produit_shop?gender=enfants&id_categories=17">Sportwear</a>
       </div>
     </div>
-    <div class="dropdown">
-    <a href="#">Marques</a>
-    <div class="dropdown-content">
+    <div class="dropdown_shop">
+      <a href="#">MARQUES</a>
+      <div class="dropdown_content_shop">
         <a href="#">Tout voir</a>
         <a href="#">Zara</a>
         <a href="#">Petit bateau</a>
         <a href="#">Prada</a>
         <a href="#">Tommy Hilfiger</a>
       </div>
-     </div>
-    <a href="#">Nouveautés</a>
-    <a href="#">Promotions</a>
-    <a href="#">Evenements</a>
-    <a href="#">Location</a>
-  
+    </div>
+    <a href="#">NOUVEAUTES</a>
+    <a href="#">PROMOTIONS</a>
+    <a href="#">EVENEMENTS</a>
+    <a href="#">LOCATION</a>
   </nav>
+
   <div class="right-section">
-    
+    <?php if (isset($_SESSION['user_id'])): ?>
+      <a class="nav-link" href="profil_user_shop">MON PROFIL</a>
+      <?php if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
+        <a href="views/dashboard.php">Dashboard</a>
+      <?php endif; ?>
+    <?php else: ?>
+      <a class="nav-link" href="connexion_shop">Connexion</a>
+    <?php endif; ?>
     <div class="icons_shop_nav_bar">
-  <a href="#"><i class="fas fa-search"></i></a> <!-- Loupe -->
-  <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Panier -->
-  
-    <!-- btn profil user -->
-    <?php if (isset($_SESSION['membre_id'])): ?>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="src/app/Views/Public/profil_user_shop.php">Mon profil</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="src/app/Controllers/deconnexion_shop.php">Déconnexion</a></li>
-                    <?php else: ?>
-                      <a href="connexion_shop"><i class="fas fa-user"></i></a> <!-- Profil -->
-<?php endif; ?> 
-</div>
-</div>
+      <a href="#"><i class="fas fa-search"></i></a>
+      <a href="#"><i class="fas fa-shopping-cart"></i></a>
+    </div>
+  </div>
 </header>

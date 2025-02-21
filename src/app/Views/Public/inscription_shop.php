@@ -2,7 +2,7 @@
 <html lang="fr">
 <?php include('src/app/Views/includes/head_shop.php'); ?>
 
-<body>
+<body class="body_inscription_shop" id="top_shop_accueil">
     <?php include('src/app/Views/includes/header_shop.php'); ?>
 
     <div class="container_form_shop">

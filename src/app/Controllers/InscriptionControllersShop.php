@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\UserModel;
 use PDOException;
+require_once 'src/app/Models/InscriptionModelShop.php';
 
 class InscriptionControllersShop
 {
@@ -16,7 +17,7 @@ class InscriptionControllersShop
 
     public function registerUserShop()
     {
-        session_start();
+        include 'src/app/Views/Public/inscription_shop.php';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Récupération des données du formulaire
@@ -48,8 +49,18 @@ class InscriptionControllersShop
             }
 
             try {
-                // Appel du modèle pour enregistrer l'utilisateur
-                $result = $this->userModel->registerUser($name, $surname, $adresse, $number_phone, $email, $password);
+                // Vérification si l'utilisateur existe déjà via le modèle
+                if ($this->userModel->userExists($email)) {
+                    $_SESSION['error'] = "Email déjà utilisé.";
+                    header('Location: /site_stage/chic-and-chill/inscription_shop');
+                    exit();
+                }
+
+                // Hachage du mot de passe
+                $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+                // Inscription de l'utilisateur
+                $result = $this->userModel->registerUser($name, $surname, $adresse, $number_phone, $email, $hashedPassword);
 
                 if ($result === true) {
                     $_SESSION['message'] = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
@@ -66,44 +77,6 @@ class InscriptionControllersShop
                 exit();
             }
         }
-    }
-}
-    try {
-        $pdo = DatabaseShop::getConnection();
-
-        // Vérification si l'utilisateur existe déjà
-        if (userExists($pdo, $email)) {
-            $_SESSION['error'] = "Email déjà utilisé.";
-            header('Location: /site_stage/chic-and-chill/inscription_shop');
-            exit();
-        }
-
-        // Hachage du mot de passe
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        // Insertion dans la base de données
-        $stmt = $pdo->prepare('
-            INSERT INTO users (name, surname, adresse, number_phone, email, password, role, created_at) 
-            VALUES (:name, :surname, :adresse, :number_phone, :email, :password, :role, NOW())'
-        );
-        $stmt->execute([
-            'name' => $name,
-            'surname' => $surname,
-            'adresse' => $adresse,
-            'number_phone' => $number_phone,
-            'email' => $email,
-            'password' => $hashedPassword,
-            'role' => 'client' // Par défaut, l'utilisateur est un client
-        ]);
-
-        $_SESSION['message'] = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
-        header('Location: /site_stage/chic-and-chill/connexion_shop');
-        exit();
-
-    } catch (\PDOException $e) {
-        $_SESSION['error'] = "Erreur lors de l'inscription : " . $e->getMessage();
-        header('Location: /site_stage/chic-and-chill/inscription_shop');
-        exit();
     }
 }
 ?>
