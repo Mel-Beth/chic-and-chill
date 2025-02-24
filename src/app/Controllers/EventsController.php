@@ -61,13 +61,13 @@ class EventsController
             $date_event = $_POST['date_event'];
             $status = $_POST['status'];
 
-            $success = $this->eventsModel->createEvent($title, $description, $date_event, $status);
+            $success = $this->eventsModel->addEvent($title, $description, $date_event, $status);
 
             if ($success) {
-                header("Location: evenements?success=1");
+                header("Location: ../evenements?success=1&action=add");
                 exit();
             } else {
-                header("Location: evenements?success=0");
+                header("Location: ../evenements?success=0&action=add");
                 exit();
             }
         }
@@ -75,20 +75,35 @@ class EventsController
 
     public function updateEvent($id)
     {
-        try {
-            $events = $this->eventsModel->getAllEventsAdmin();
-            include('src/app/Views/Admin/admin_events.php');
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
-            echo "Erreur lors du chargement des événements.";
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = htmlspecialchars($_POST['title']);
+            $description = htmlspecialchars($_POST['description']);
+            $date_event = $_POST['date_event'];
+            $status = $_POST['status'];
+
+            $success = $this->eventsModel->updateEvent($id, $title, $description, $date_event, $status);
+
+            if ($success) {
+                header("Location: ../?success=1&action=update");
+                exit();
+            } else {
+                header("Location: ../?success=0&action=update");
+                exit();
+            }
         }
     }
 
     public function deleteEvent($id)
     {
-        $this->eventsModel->deleteEvent($id);
-        header("Location: admin/evenements");
-        exit();
+        $success = $this->eventsModel->deleteEvent($id);
+        
+        if ($success) {
+            header("Location: ../?success=1&action=delete");
+            exit();
+        } else {
+            header("Location: ../?success=0&action=delete");
+            exit();
+        }
     }
 
     public function manageEvents()
@@ -100,6 +115,10 @@ class EventsController
                 $events = []; // S'assurer que la variable est bien définie même si la table est vide
             }
 
+            // Vérification du paramètre 'success' dans l'URL
+            $success = isset($_GET['success']) ? $_GET['success'] : null;
+
+            // Passer $success à la vue
             include('src/app/Views/Admin/admin_events.php');
         } catch (\Exception $e) {
             error_log($e->getMessage());

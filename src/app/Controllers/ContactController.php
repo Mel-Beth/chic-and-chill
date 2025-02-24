@@ -72,11 +72,14 @@ class ContactController
 
     public function deleteMessage($id)
     {
-        if ($this->contactModel->deleteMessage($id)) {
-            header('Location: admin/messages');
+        $success = $this->contactModel->deleteMessage($id);
+
+        if ($success) {
+            header("Location: ../?success=1&action=delete");
             exit();
         } else {
-            die("Erreur lors de la suppression du message.");
+            header("Location: ../?success=0&action=delete");
+            exit();
         }
     }
 

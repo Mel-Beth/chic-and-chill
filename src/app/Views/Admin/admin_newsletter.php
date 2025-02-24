@@ -1,11 +1,29 @@
-<?php 
+<?php
 include('src/app/Views/includes/admin_head.php');
 include('src/app/Views/includes/admin_header.php');
 include('src/app/Views/includes/admin_sidebar.php');
 ?>
+<style>
+    #notification {
+        position: fixed;
+        /* Rendre la notification fixe */
+        top: 20px;
+        /* Ajustez la position verticale */
+        right: 20px;
+        /* Ajustez la position horizontale */
+        z-index: 9999;
+        /* Assurez-vous que l'élément est au-dessus des autres éléments */
+        /* Ajoutez éventuellement une ombre pour la rendre plus visible */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+</style>
 
 <div class="min-h-screen flex flex-col lg:pl-64 mt-12">
     <div class="container mx-auto px-6 py-8 flex-grow">
+
+        <!-- Notification -->
+        <div id="notification" class="hidden fixed top-0 right-0 m-4 p-4 bg-green-500 text-white rounded-md"></div>
+
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold text-gray-800">📩 Gestion de la Newsletter</h2>
         </div>
@@ -62,11 +80,11 @@ include('src/app/Views/includes/admin_sidebar.php');
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         let deleteSubscriberId = null;
 
         // Recherche dynamique
-        document.getElementById('search').addEventListener('input', function () {
+        document.getElementById('search').addEventListener('input', function() {
             let filter = this.value.toLowerCase();
             let rows = document.querySelectorAll('#newsletterTable tr');
             rows.forEach(row => {
@@ -101,24 +119,63 @@ include('src/app/Views/includes/admin_sidebar.php');
 
         // Suppression des abonnés avec confirmation
         document.querySelectorAll('.deleteSubscriberBtn').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 deleteSubscriberId = this.dataset.id;
                 document.getElementById('deleteModal').classList.remove('hidden');
             });
         });
 
-        document.getElementById('cancelDelete').addEventListener('click', function () {
+        // Annuler la suppression
+        document.getElementById('cancelDelete').addEventListener('click', function() {
             document.getElementById('deleteModal').classList.add('hidden');
         });
 
-        document.getElementById('confirmDelete').addEventListener('click', function () {
+        // Confirmer la suppression
+        document.getElementById('confirmDelete').addEventListener('click', function() {
             if (deleteSubscriberId) {
-                window.location.href = `admin/newsletter/supprimer/${deleteSubscriberId}`;
+                fetch(`admin/newsletter/supprimer/${deleteSubscriberId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            document.querySelector(`button[data-id="${deleteSubscriberId}"]`).closest('tr').remove(); // Retire l'utilisateur de la table
+                            showNotification('Email supprimé avec succès.', 'bg-green-500'); // Message de confirmation
+                        } else {
+                            showNotification('Erreur lors de la suppression de l\'Email.', 'bg-red-500'); // Message d'erreur
+                        }
+                        document.getElementById('deleteModal').classList.add('hidden'); // Masque la modal
+                    })
+                    .catch(error => console.error('Erreur:', error));
             }
         });
 
+        // Fonction pour afficher la notification
+        function showNotification(message, bgColor) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500'); // Supprime toutes les classes de couleur et 'hidden'
+            notification.classList.add(bgColor); // Ajoute la classe de couleur
+
+            // Affiche la notification
+            notification.classList.remove('hidden'); // Assurez-vous que la notification est visible
+
+            // Masque la notification après 3 secondes
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Notifiaction délai message succès
+        const successDiv = document.getElementById('successMessage');
+        if (successDiv) {
+            // Au bout de 3 secondes, on masque la div
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000); // 3000 ms = 3 secondes
+        }
+
         // Exporter la liste des abonnés
-        document.getElementById('exportBtn').addEventListener('click', function () {
+        document.getElementById('exportBtn').addEventListener('click', function() {
             let csv = "Email, Date d'inscription\n";
             document.querySelectorAll("#newsletterTable tr").forEach(row => {
                 let cells = row.querySelectorAll("td");
@@ -127,7 +184,9 @@ include('src/app/Views/includes/admin_sidebar.php');
                 }
             });
 
-            let blob = new Blob([csv], { type: 'text/csv' });
+            let blob = new Blob([csv], {
+                type: 'text/csv'
+            });
             let a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = "abonnés_newsletter.csv";

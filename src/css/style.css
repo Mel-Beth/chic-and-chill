@@ -18,23 +18,6 @@ html {
 }
 
 
-/* j'ai du retirer l'import ici car il empechait mon css de charger, car les regles d'import doivent etre au dessus */
-
-/* Appliquer Cormorant Garamond pour tous les textes marron */
-.text-marron, .border-marron {
-  font-family: 'Cormorant Garamond', serif !important;
-  color: #8B5A2B; /* Marron */
-  border-color: #8B5A2B; /* Pour les bordures */
-}
-
-/* Appliquer Cormorant Garamond pour tous les textes gris */
-.text-gray {
-  font-family: 'Cormorant Garamond', serif !important;
-  color: #4A4A4A; /* Gris foncé */
-}
-
-
-
 /* media query pour la partie shop car je mets la taille des elements en rem pas px, n'affecte pas votre site, j'ai mis une classe sur mes balises html */
 
 .html_shop {

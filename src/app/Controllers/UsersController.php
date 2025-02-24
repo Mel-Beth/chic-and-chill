@@ -8,10 +8,12 @@ use Models\SettingsModel;
 class UsersController
 {
     private $usersModel;
+    private $settingsModel;
 
     public function __construct()
     {
         $this->usersModel = new UsersModel();
+        $this->settingsModel = new SettingsModel();
     }
 
     public function users()
@@ -55,12 +57,15 @@ class UsersController
 
     public function deleteUser($id)
     {
-        if ($this->usersModel->deleteUser($id)) {
-            $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'], "Suppression de l'utilisateur ID: $id", $_SERVER['REMOTE_ADDR']);
-            header('Location: admin/users');
+        $success = $this->usersModel->deleteUser($id);
+        $success = $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'], "Suppression de l'utilisateur ID: $id", $_SERVER['REMOTE_ADDR']);
+
+        if ($success) {
+            header("Location: ../?success=1&action=delete");
             exit();
         } else {
-            die("Erreur lors de la suppression de l'utilisateur.");
+            header("Location: ../?success=0&action=delete");
+            exit();
         }
     }
 

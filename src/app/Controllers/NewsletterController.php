@@ -6,6 +6,13 @@ use Models\NewsletterModel;
 
 class NewsletterController
 {
+    private $newsletterModel;
+
+    public function __construct()
+    {
+        $this->newsletterModel = new NewsletterModel(); // Initialisation correcte
+    }
+
     public function manageNewsletter()
     {
         $newsletterModel = new NewsletterModel();
@@ -15,9 +22,14 @@ class NewsletterController
 
     public function deleteSubscriber($id)
     {
-        $newsletterModel = new NewsletterModel();
-        $newsletterModel->deleteSubscriber($id);
-        header("Location: admin/newsletter");
-        exit();
+        $success = $this->newsletterModel->deleteSubscriber($id);
+
+        if ($success) {
+            header("Location: ../?success=1&action=delete");
+            exit();
+        } else {
+            header("Location: ../?success=0&action=delete");
+            exit();
+        }
     }
 }

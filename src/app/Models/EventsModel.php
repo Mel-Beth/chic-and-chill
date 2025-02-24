@@ -7,7 +7,7 @@ class EventsModel extends ModeleParent
     public function getAllEvents()
     {
         try {
-            $stmt = $this->pdo->query("SELECT * FROM events ORDER BY date_event DESC");
+            $stmt = $this->pdo->query("SELECT * FROM events ORDER BY created_at DESC");
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             error_log($e->getMessage());
@@ -80,7 +80,7 @@ class EventsModel extends ModeleParent
         return $stmt->fetchAll();
     }
 
-    public function createEvent($title, $description, $date_event, $status)
+    public function addEvent($title, $description, $date_event, $status)
     {
         $stmt = $this->pdo->prepare("INSERT INTO events (title, description, date_event, status) VALUES (?, ?, ?, ?)");
         return $stmt->execute([$title, $description, $date_event, $status]);

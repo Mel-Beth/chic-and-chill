@@ -71,7 +71,7 @@ class ReservationController
             }
 
             if ($success) {
-                header("Location: " . "confirmation_reservation?success=1");
+                header("Location: confirmation_reservation?success=1");
                 exit();
             } else {
                 die("Erreur lors de l'enregistrement de la réservation.");
@@ -117,5 +117,45 @@ class ReservationController
         } else {
             die("Réservation introuvable.");
         }
+    }
+
+    public function showInvoice($id)
+    {
+        // 1. Récupérer la réservation
+        $reservation = $this->reservationModel->getReservationById($id);
+        if (!$reservation) {
+            die("Réservation introuvable.");
+        }
+
+        // 2. Générer le PDF via ton invoice_generator
+        require_once 'invoice_generator.php';
+        $filePath = \InvoiceGenerator::generateInvoice($reservation);
+
+        // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
+        header('Content-Type: application/pdf');
+        // -> Pour un affichage direct : inline
+        header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
+        // -> Pour un téléchargement direct : attachment
+        // header('Content-Disposition: attachment; filename="facture_'.$id.'.pdf"');
+
+        readfile($filePath);
+        exit();
+    }
+
+    public function cancelReservation($id)
+    {
+        $reservation = $this->reservationModel->getReservationById($id);
+        if (!$reservation) {
+            die("Réservation introuvable.");
+        }
+
+        // Mettre un champ status = 'canceled'
+        $this->reservationModel->updateReservationStatus($id, 'canceled');
+
+        // Eventuellement envoyer un email pour prévenir de l’annulation
+        // ...
+
+        header('Location: admin/reservations');
+        exit();
     }
 }

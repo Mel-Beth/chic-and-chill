@@ -4,8 +4,27 @@ include('src/app/Views/includes/admin_header.php');
 include('src/app/Views/includes/admin_sidebar.php');
 ?>
 
+<style>
+    #notification {
+        position: fixed;
+        /* Rendre la notification fixe */
+        top: 20px;
+        /* Ajustez la position verticale */
+        right: 20px;
+        /* Ajustez la position horizontale */
+        z-index: 9999;
+        /* Assurez-vous que l'élément est au-dessus des autres éléments */
+        /* Ajoutez éventuellement une ombre pour la rendre plus visible */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
 <div class="min-h-screen flex flex-col lg:pl-64 mt-12">
     <div class="container mx-auto px-6 py-8 flex-grow">
+
+        <!-- Notification -->
+        <div id="notification" class="hidden fixed top-0 right-0 m-4 p-4 bg-green-500 text-white rounded-md"></div>
+
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold text-gray-800">📩 Gestion des Messages</h2>
         </div>
@@ -221,13 +240,52 @@ include('src/app/Views/includes/admin_sidebar.php');
         });
     });
 
+    // Annuler la suppression
     document.getElementById('cancelDelete').addEventListener('click', function() {
         document.getElementById('deleteModal').classList.add('hidden');
     });
 
+    // Confirmer la suppression
     document.getElementById('confirmDelete').addEventListener('click', function() {
         if (deleteMessageId) {
-            window.location.href = `admin/messages/supprimer/${deleteMessageId}`;
+            fetch(`admin/messages/supprimer/${deleteMessageId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector(`button[data-id="${deleteMessageId}"]`).closest('tr').remove(); // Retire l'utilisateur de la table
+                        showNotification('Message supprimé avec succès.', 'bg-green-500'); // Message de confirmation
+                    } else {
+                        showNotification('Erreur lors de la suppression du message.', 'bg-red-500'); // Message d'erreur
+                    }
+                    document.getElementById('deleteModal').classList.add('hidden'); // Masque la modal
+                })
+                .catch(error => console.error('Erreur:', error));
         }
     });
+
+    // Fonction pour afficher la notification
+    function showNotification(message, bgColor) {
+        const notification = document.getElementById('notification');
+        notification.textContent = message;
+        notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500'); // Supprime toutes les classes de couleur et 'hidden'
+        notification.classList.add(bgColor); // Ajoute la classe de couleur
+
+        // Affiche la notification
+        notification.classList.remove('hidden'); // Assurez-vous que la notification est visible
+
+        // Masque la notification après 3 secondes
+        setTimeout(() => {
+            notification.classList.add('hidden');
+        }, 3000);
+    }
+
+    // Notifiaction délai message succès
+    const successDiv = document.getElementById('successMessage');
+    if (successDiv) {
+        // Au bout de 3 secondes, on masque la div
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 3000); // 3000 ms = 3 secondes
+    }
 </script>

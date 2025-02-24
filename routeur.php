@@ -44,7 +44,7 @@ if (empty($route[0])) {
                 break;
 
             case 'pack_detail':
-                $controller = new Controllers\PackController();
+                $controller = new Controllers\PacksController();
                 if (!empty($route[1]) && is_numeric($route[1])) {
                     $controller->showPack($route[1]); // On passe l'ID du pack
                 } else {
@@ -75,14 +75,14 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/confirmation_reservation.php');
                 break;
 
-            case 'location': // Si l'utilisateur accède à "/location"
+            case 'location': 
                 $controller = new Controllers\LocationController();
                 $controller->index();
                 break;
 
             case 'magasin': // Si l'utilisateur accède à "/magasin"
-                $controller = new Controllers\ShopController();
-                $controller->index();
+                $controller = new Controllers\ArticleControllerShop();
+                $controller->showProducts();
                 break;
 
             case 'contact_magasin':
@@ -135,6 +135,19 @@ if (empty($route[0])) {
             case 'verify-email':
                 $controller = new Controllers\AuthController();
                 $controller->verifyEmail();
+                break;
+
+            case 'billing':
+                $controller = new Controllers\SettingsController();
+                if (!isset($route[2])) {
+                    $controller->viewInvoices();
+                } elseif ($route[2] === 'cancel-subscription') {
+                    $controller->cancelSubscription();
+                } elseif ($route[2] === 'apply-promo') {
+                    $controller->applyPromo();
+                } elseif ($route[2] === 'update-language') {
+                    $controller->updateLanguageSettings();
+                }
                 break;
 
                 // 📌 Routes Admin
@@ -200,7 +213,7 @@ if (empty($route[0])) {
                         break;
 
                     case 'packs':
-                        $controller = new Controllers\PackController();
+                        $controller = new Controllers\PacksController();
                         if (!isset($route[2])) {
                             $controller->managePacks();
                         } elseif ($route[2] === 'ajouter') {
@@ -214,10 +227,15 @@ if (empty($route[0])) {
 
                     case 'reservations':
                         $controller = new Controllers\ReservationController();
+
                         if (!isset($route[2])) {
                             $controller->reservations();
                         } elseif ($route[2] === 'detail' && isset($route[3]) && ctype_digit($route[3])) {
                             $controller->showReservation((int) $route[3]);
+                        } elseif ($route[2] === 'facture' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->showInvoice((int) $route[3]);
+                        } elseif ($route[2] === 'annuler' && isset($route[3]) && ctype_digit($route[3])) {
+                            $controller->cancelReservation((int) $route[3]);
                         } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3]) && isset($_GET['status'])) {
                             $controller->updateReservationStatus((int) $route[3], $_GET['status']);
                         }
@@ -228,7 +246,7 @@ if (empty($route[0])) {
                         if (!isset($route[2])) {
                             $controller->users();
                         } elseif ($route[2] === 'historique' && isset($route[3]) && ctype_digit($route[3])) {
-                            $controller->viewUserHistory((int) $route[3]); // 📌 Nouvelle route pour l'historique
+                            $controller->viewUserHistory((int) $route[3]);
                         } elseif ($route[2] === 'modifier_status' && isset($route[3]) && ctype_digit($route[3]) && isset($_GET['status'])) {
                             $controller->updateUserStatus((int) $route[3], $_GET['status']);
                         } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
@@ -271,19 +289,6 @@ if (empty($route[0])) {
                             $controller->updateOutfit((int) $route[3]);
                         } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
                             $controller->deleteOutfit((int) $route[3]);
-                        }
-                        break;
-
-                    case 'billing':
-                        $controller = new Controllers\SettingsController();
-                        if (!isset($route[2])) {
-                            $controller->viewInvoices();
-                        } elseif ($route[2] === 'cancel-subscription') {
-                            $controller->cancelSubscription();
-                        } elseif ($route[2] === 'apply-promo') {
-                            $controller->applyPromo();
-                        } elseif ($route[2] === 'update-language') {
-                            $controller->updateLanguageSettings();
                         }
                         break;
 

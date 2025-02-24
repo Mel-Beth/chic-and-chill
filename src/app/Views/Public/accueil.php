@@ -10,6 +10,25 @@
     <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
     <script src="node_modules/swiper/swiper-bundle.min.js"></script>
     <title>Chic and Chill</title>
+
+    <style>
+        /* Appliquer Cormorant Garamond pour tous les textes marron */
+        .text-marron,
+        .border-marron {
+            font-family: 'Cormorant Garamond', serif !important;
+            color: #8B5A2B;
+            /* Marron */
+            border-color: #8B5A2B;
+            /* Pour les bordures */
+        }
+
+        /* Appliquer Cormorant Garamond pour tous les textes gris */
+        .text-gray {
+            font-family: 'Cormorant Garamond', serif !important;
+            color: #4A4A4A;
+            /* Gris foncé */
+        }
+    </style>
 </head>
 
 <header class="fixed top-0 left-0 w-full bg-[#EFE7DD] shadow-md z-50 flex justify-between items-center px-10 py-4">
@@ -265,17 +284,17 @@
 
         evenLabel.style.left = "9%";
         evenLabel.style.top = "12%";
-        evenLabel.style.transform = "translate(130%, 290%)";
+        evenLabel.style.transform = "translate(142%, 290%)";
         evenLabel.style.fontSize = width * 0.018 + "px";
 
         locationLabel.style.right = "9%";
         locationLabel.style.top = "12%";
-        locationLabel.style.transform = "translate(-215%, 145px)";
+        locationLabel.style.transform = "translate(-235%, 140px)";
         locationLabel.style.fontSize = width * 0.018 + "px";
 
         magasinLabel.style.left = "10%";
         magasinLabel.style.bottom = "14%";
-        magasinLabel.style.transform = "translate(250%, -110px)";
+        magasinLabel.style.transform = "translate(255%, -110px)";
         magasinLabel.style.fontSize = width * 0.018 + "px";
     }
 

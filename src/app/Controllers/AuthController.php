@@ -14,34 +14,39 @@ class AuthController
     }
 
     public function login()
-    {
+{
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
+        $password = $_POST["password"];
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-            $password = $_POST["password"];
+        if (!$email || !$password) {
+            $_SESSION["error"] = "Email ou mot de passe invalide.";
+            header("Location: login");
+            exit;
+        }
 
-            if (!$email || !$password) {
-                die("Email ou mot de passe invalide.");
-            }
+        $user = $this->authModel->getUserByEmail($email);
 
-            $user = $this->authModel->getUserByEmail($email);
-
-            if ($user && password_verify($password, $user["password"])) {
-                $_SESSION["user"] = [
-                    "id" => $user["id"],
-                    "name" => $user["name"],
-                    "email" => $user["email"],
-                    "role" => $user["role"]
-                ];
+        if ($user && password_verify($password, $user["password"])) {
+            $_SESSION["user"] = [
+                "id" => $user["id"],
+                "name" => $user["name"],
+                "email" => $user["email"],
+                "role" => $user["role"]
+            ];
 
                 if ($user["role"] === "admin") {
                     header("Location: admin/dashboard");
+                    exit();
                 } else {
                     header("Location: boutique");
+                    exit();
                 }
                 exit();
             } else {
-                die("Identifiants incorrects.");
+                $_SESSION["error"] = "Identifiants incorrects.";
+                header("Location: login.php");
+                exit;
             }
         }
 
