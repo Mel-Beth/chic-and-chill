@@ -44,7 +44,6 @@
         <a href="#">Tommy Hilfiger</a>
       </div>
     </div>
-    <a href="#">NOUVEAUTES</a>
     <a href="#">PROMOTIONS</a>
     <a href="#">EVENEMENTS</a>
     <a href="#">LOCATION</a>
@@ -61,7 +60,7 @@
     <?php endif; ?>
     <div class="icons_shop_nav_bar">
       <a href="#"><i class="fas fa-search"></i></a>
-      <a href="#"><i class="fas fa-shopping-cart"></i></a>
+      <a href="panier_shop"><i class="fas fa-shopping-cart"></i></a>
     </div>
   </div>
 </header>

@@ -1,6 +1,8 @@
 /* Conteneur principal */
 .body_detail_produit_shop{
     padding-top: 10 rem;
+    background-color: #ffffff;
+    margin: 0;
 }
 
 
@@ -10,51 +12,64 @@
     justify-content: center;
     align-items: flex-start;
     gap: 3rem;
-    padding: 4rem;
-    background-color: #f1f1ea; 
+    padding: 6rem;
+    background-color: #ffffff; 
 }
 
 /* Image produit */
-.produit_image_shop {
-    max-width: 40%;
-}
-
-
-
 .produit_image_shop img {
-    width: 100%;
+    max-width: 100%;  /* S'assure que l'image ne dépasse pas son conteneur */
+    width: auto;      /* Ajuste la largeur en fonction du conteneur */
+    height: auto;     /* Garde les proportions d'origine */
+    max-height: 600px; /* Limite la hauteur pour éviter une image trop grande */
+    display: block;   /* Évite les espaces indésirables sous l'image */
+    margin: 0 auto;   /* Centre l'image si nécessaire */
+    object-fit: contain; /* Assure que l’image est bien ajustée */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
+    margin-right: 4rem;
+   
 }
 
 /* Encadré blanc avec fond gris clair */
 .produit_info_container_shop {
     background-color: #F5F5F5; /* Fond gris clair */
-    padding: 2rem;
+    padding: 0.5rem;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* pr la marge entre le container info et le header qd on scroll */
+.produit_info_shop.scrolled {
+    margin-top: 5rem; /* On ne va plus utiliser cette méthode */
+}
+
 
 /* Informations produit */
 .produit_info_shop {
     max-width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 0.5rem;
     background-color: #ffffff; /* Fond blanc */
     padding: 2rem;
+    padding-bottom: 1rem;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     /* FIXE L'ENCART EN POSITION */
-    position: sticky;
-    top: 10rem; /* Ajuste selon la hauteur du header */
-
-}
+    
+        position: sticky;
+        top: 100px; /* Ajuste la distance par rapport au header */
+        align-self: flex-start; /* S'aligne en haut */
+        transition: top 0.3s ease-in-out;
+    }
 
 /* Nom du produit */
 .produit_titre_shop {
-    font-family: 'Lato', sans-serif;
+    font-family: "Nunito Sans", serif;
+    margin-bottom: 0.1rem;
+    font-weight:400;
     font-size: 2rem;
     font-weight: 400; /* Police plus fine */
     color: #000000; /* Noir */
@@ -66,6 +81,7 @@
     font-size: 1rem;
     font-weight: bold;
     color: #333333; 
+    margin-top: 0.1rem;
 }
 
 /* Couleurs */
@@ -112,11 +128,13 @@
     font-size: 1rem;
     color: #666666;
     line-height: 1.6;
+    margin-top: 0.1rem;
+    margin-bottom: 2rem;
 }
 
 /* Bouton Ajouter au panier */
 .btn_ajout_panier_shop {
-    padding: 0.6rem 1rem;
+    padding: 0.8rem 1rem;
     background-color: #A8C3A5; 
     color: #ffffff;
     border: none;
@@ -124,8 +142,10 @@
     font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
+    
     transition: background-color 0.3s ease;
     margin-bottom: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .btn_ajout_panier_shop:hover {
@@ -172,4 +192,32 @@
 .header_shop.scrolled {
     background-color: rgba(255, 255, 255, 0.8); /* Fond semi-transparent */
     backdrop-filter: blur(5px);
+}
+
+
+
+.titre_description_shop{
+    font-family: "Nunito Sans", serif; 
+    font-weight: 400;
+    margin-bottom: 0.1rem;
+
+}
+
+
+.alert {
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
 }

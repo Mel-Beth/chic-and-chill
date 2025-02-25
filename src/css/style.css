@@ -11,14 +11,16 @@
 @import url('co_user_shop.css');
 @import url('inscription_shop.css');
 @import url('profil_user_shop.css');
-
+@import url('panier_shop.css');
+@import url('paiement_succes_shop.css');
 
 
 html {
   scroll-behavior: smooth;
 }
 
-
+/* font-family: "Nunito Sans", serif; */
+/* font-family: "Raleway", serif; */
 /* j'ai du retirer l'import ici car il empechait mon css de charger, car les regles d'import doivent etre au dessus */
 
 /* Appliquer Cormorant Garamond pour tous les textes marron */

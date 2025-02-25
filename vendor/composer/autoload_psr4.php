@@ -15,4 +15,5 @@ return array(
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'Controllers\\' => array($baseDir . '/src/app/Controllers'),
+    'Alaji\\ChicAndChill\\' => array($baseDir . '/src'),
 );

@@ -14,8 +14,31 @@ class AppelArticleModelShop
 
     public function __construct()
     {
+        
         $this->pdo = DatabaseShop::getConnection(); // Assurez-vous que cette méthode retourne bien une instance PDO
     }
+
+
+// Récupérer les produits en fonction du genre
+    public function getProductsByGender($gender) {
+    $query = "SELECT * FROM products WHERE gender = :gender";
+    $stmt = $this->pdo->prepare($query);
+    $stmt->execute(['gender' => $gender]);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+    }
+
+
+    public function getProduitById($id) {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :id");
+            $stmt->execute(['id' => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new \Exception("Erreur lors de la récupération du produit : " . $e->getMessage());
+        }
+    }
+    
 
     public function getProductsFiltered($gender, $id_categories = null, $gender_child = null)
     {

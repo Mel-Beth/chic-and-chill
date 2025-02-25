@@ -244,35 +244,37 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/accueil_shop.php');
                 break;
 
-                // afficher la page des produits dans le shop
+                // Afficher la page des produits dans le shop
             case 'produit_shop':
-                include('src/app/Views/Public/produits_shop.php');
-                break;
-
-
-            case 'produits':
                 $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
                 $controller->showProducts();
                 break;
 
 
-                case 'connexion_shop':
-                    $controller = new Controllers\ConnexionControllersShop();
-                    $controller->loginUserShop();
-                
-                    // Si la requête est GET, on affiche la page de connexion
-                    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                        include 'src/app/Views/Public/connexion_shop.php';
-                    }
+                case 'produit_detail_shop':
+                    $controller = new Controllers\ProduitDetailControllerShop();
+                    $controller->afficherDetailProduit();
                     break;
-
-                    case 'profil_user_shop':
-                        $controller = new Controllers\ProfilControllersShop();
-                        $controller->showUserProfile();
-                        break;
-                    
                 
 
+
+
+            case 'connexion_shop':
+                $controller = new Controllers\ConnexionControllersShop();
+                $controller->loginUserShop();
+
+                // Si la requête est GET, on affiche la page de connexion
+                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                    include 'src/app/Views/Public/connexion_shop.php';
+                }
+                break;
+
+
+
+            case 'profil_user_shop':
+                $controller = new Controllers\ProfilControllersShop();
+                $controller->showUserProfile();
+                break;
 
 
 
@@ -283,13 +285,67 @@ if (empty($route[0])) {
 
 
 
-                case 'deconnexion_shop':
-                    $controller = new Controllers\DecoShopController();
-                    $controller->logout();
+            case 'deconnexion_shop':
+                $controller = new Controllers\DecoShopController();
+                $controller->logout();
+                break;
+
+
+                // Page du panier
+                case 'panier_shop':
+                    $controller = new Controllers\PanierControllerShop();
+                    
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        $controller->ajouterAuPanier();
+                    } else {
+                        $controller->afficherPanier();
+                    }
                     break;
                 
-                
-                
+
+                // Modifier la quantité d'un produit dans le panier
+            case 'modifier_panier':
+                $controller = new Controllers\PanierControllerShop();
+                $controller->modifierQuantite();
+                break;
+
+                // Supprimer un produit du panier
+            case 'supprimer_panier':
+                $controller = new Controllers\PanierControllerShop();
+                $controller->supprimerProduit();
+                header("Location: panier_shop"); // ✅ On reste sur la page panier
+                exit;
+                break;
+
+
+                // Vider complètement le panier
+            case 'vider_panier':
+                $controller = new Controllers\PanierControllerShop();
+                $controller->viderPanier();
+                break;
+
+
+
+
+            // Page du paiement
+            case 'paiement_cb_shop':
+                $controller = new Controllers\PaiementCbControllerShop();
+                $controller->processPaiement();
+                break;
+
+            // Page de succès du paiement
+            case 'paiement_succes':
+                include 'src/app/Views/Public/paiement_valide_shop.php';
+                break;
+
+            // Page d'annulation du paiement
+            case 'paiement_annule':
+                include 'src/app/Views/Public/paiement_annule_shop.php';
+                break;
+
+
+
+
 
             default:
                 // Si la route n'est pas reconnue, on affiche une page 404
