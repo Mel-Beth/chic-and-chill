@@ -3,13 +3,8 @@
 namespace Models;
 
 
-use PDO;
-use PDOException;
-use Controllers\DatabaseShop;
 
-require_once 'src/app/Controllers/DatabaseShop.php'; // Correction du chemin
-
-class AppelArticleModelShop
+class AppelArticleModelShop extends ModeleParent
 {
     private $pdo;
 
