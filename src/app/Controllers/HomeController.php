@@ -16,4 +16,8 @@ class HomeController
         }
     }
 
+    public function dashboard()
+    {
+        include('src/app/Views/Admin/dashboard.php');
+    }
 }

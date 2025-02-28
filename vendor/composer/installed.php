@@ -1,6 +1,10 @@
 <?php return array(
     'root' => array(
         'name' => 'alaji/chic-and-chill',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '20369e4705a11e0a9f372fefd4c298c164f72bfe',
+        'name' => 'alaji/chic-and-chill',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
         'reference' => 'aa09e7591982f3705b27522fb6c934a78023e54e',
@@ -10,6 +14,10 @@
         'dev' => true,
     ),
     'versions' => array(
+        'alaji/chic-and-chill' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '20369e4705a11e0a9f372fefd4c298c164f72bfe',
         'alaji/chic-and-chill' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
@@ -25,6 +33,15 @@
             'reference' => '3ba905c11371512af9d9bdd27d99b782216b6945',
             'type' => 'library',
             'install_path' => __DIR__ . '/../graham-campbell/result-type',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'phpmailer/phpmailer' => array(
+            'pretty_version' => 'v6.9.3',
+            'version' => '6.9.3.0',
+            'reference' => '2f5c94fe7493efc213f643c23b1b1c249d40f47e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

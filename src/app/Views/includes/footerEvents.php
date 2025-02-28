@@ -3,10 +3,10 @@
         
         <!-- Bloc À propos (centré correctement) -->
         <div class="flex flex-col items-center md:items-start">
-            <img src="<?= BASE_URL ?>assets/images/logo.png" alt="Chic & Chill Logo" class="w-24 h-24">
+            <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-24 h-24">
             <p class="mt-4 text-gray-300 leading-relaxed text-center md:text-left max-w-sm">
                 <span class="font-semibold">Chic & Chill</span> est une boutique et service de location de vêtements 
-                proposant une mode chic, responsable et accessible à tous.
+                proposant une mode responsable et accessible à tous.
             </p>
         </div>
 
@@ -48,5 +48,32 @@
     © 2025 Chic & Chill - Tous droits réservés | <a href="#" class="hover:text-[#8B5A2B] transition">Mentions Légales</a>
 </footer>
 
+<!-- Bouton Retour en Haut -->
+<button id="scrollToTop" class="fixed bottom-8 right-8 bg-[#8B5A2B] text-white p-4 rounded-full shadow-lg hidden transition duration-300 hover:scale-110">
+    <i class="fa-solid fa-arrow-up text-xl"></i>
+</button>
+
 <!-- FontAwesome pour les icônes sociales -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script> 
+
+<!-- Script pour le retour en haut -->
+<script>
+    // Sélectionne le bouton
+    const scrollToTopButton = document.getElementById("scrollToTop");
+
+    // Affiche/Masque le bouton selon la position du scroll
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 200) { // S'affiche après un défilement de 200px
+            scrollToTopButton.classList.remove("hidden");
+        } else {
+            scrollToTopButton.classList.add("hidden");
+        }
+    });
+
+    // Ajoute l'effet de retour en haut
+    scrollToTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+</script>
+
+</html>
