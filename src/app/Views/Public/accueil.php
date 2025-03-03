@@ -76,7 +76,7 @@
     <!-- Cercles cliquables menant aux différentes pages -->
     <a href="evenements" id="circle-even" class="circle-link"></a>
     <a href="location" id="circle-location" class="circle-link"></a>
-    <a href="magasin" id="circle-magasin" class="circle-link"></a>
+    <a href="accueil_shop" id="circle-magasin" class="circle-link"></a>
 
     <!-- Labels interactifs associés aux cercles -->
     <a href="evenements">
