@@ -67,7 +67,7 @@
 }
 
 /* Bouton de connexion */
-button[type="submit"] {
+.btn_submit_shop {
     width: 100%;
     padding: 12px;
     border: none;
@@ -80,7 +80,7 @@ button[type="submit"] {
     transition: background 0.3s;
 }
 
-button[type="submit"]:hover {
+.btn_submit_shop:hover {
     background-color:#8CA58A;
 }
 

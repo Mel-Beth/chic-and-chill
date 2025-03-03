@@ -30,7 +30,7 @@
                 </div>
                 
                 <!-- Bouton de Connexion -->
-                <button type="submit">Connexion</button>
+                <button type="submit" class="btn_submit_shop">Connexion</button>
             </form>
 
             <div class="inscription_btn_shop">
