@@ -6,14 +6,7 @@ namespace Models;
 
 class AppelArticleModelShop extends ModeleParent
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        
-        $this->pdo = DatabaseShop::getConnection(); // Assurez-vous que cette méthode retourne bien une instance PDO
-    }
-
+   
 
 // Récupérer les produits en fonction du genre
     public function getProductsByGender($gender) {
@@ -29,8 +22,8 @@ class AppelArticleModelShop extends ModeleParent
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :id");
             $stmt->execute(['id' => $id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+            return $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
             throw new \Exception("Erreur lors de la récupération du produit : " . $e->getMessage());
         }
     }
@@ -55,22 +48,6 @@ class AppelArticleModelShop extends ModeleParent
 
         $stmt = $this->pdo->prepare($query);
 
-        $stmt->bindValue(':gender', $gender, PDO::PARAM_STR);
-
-        if (!is_null($id_categories)) {
-            $stmt->bindValue(':id_categories', $id_categories, PDO::PARAM_INT);
-        }
-
-        if (!is_null($gender_child)) {
-            $stmt->bindValue(':gender_child', $gender_child, PDO::PARAM_STR);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-}
-?>
-
         $stmt->bindValue(':gender', $gender, \PDO::PARAM_STR);
 
         if (!is_null($id_categories)) {
@@ -84,12 +61,5 @@ class AppelArticleModelShop extends ModeleParent
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
-
-    public function getProducts()
-    {
-        $stmt = $this->pdo->prepare("SELECT id, name, image AS image_path FROM products");
-        $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
 }
-
+?>
