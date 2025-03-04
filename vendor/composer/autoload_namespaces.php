@@ -6,4 +6,13 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Zend_' => array($vendorDir . '/matomo/matomo/libs'),
+    'Twig_' => array($vendorDir . '/twig/twig/lib'),
+    'PEAR_' => array($vendorDir . '/matomo/matomo/libs'),
+    'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
+    'HTML_' => array($vendorDir . '/matomo/matomo/libs'),
+    'Console' => array($vendorDir . '/pear/console_getopt'),
+    'Archive_Tar' => array($vendorDir . '/pear/archive_tar'),
+    'Archive_' => array($vendorDir . '/matomo/matomo/libs'),
+    '' => array($vendorDir . '/pear/pear-core-minimal/src'),
 );

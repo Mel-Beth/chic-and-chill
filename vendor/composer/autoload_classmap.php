@@ -8,8 +8,15 @@ $baseDir = dirname($vendorDir);
 return array(
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'PEAR_Exception' => $vendorDir . '/pear/pear_exception/PEAR/Exception.php',
+    'PclZip' => $vendorDir . '/piwik/decompress/libs/PclZip/pclzip.lib.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+    'lessc' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
+    'lessc_formatter_classic' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
+    'lessc_formatter_compressed' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
+    'lessc_formatter_lessjs' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
+    'lessc_parser' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
 );

@@ -2,8 +2,6 @@
 
 namespace Models;
 
-
-
 class AppelArticleModelShop extends ModeleParent
 {
 // Récupérer les produits en fonction du genre

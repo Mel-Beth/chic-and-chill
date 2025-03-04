@@ -48,7 +48,7 @@
         <a href="accueil" class="hover:text-gray-800 transition">Accueil</a>
         <a href="evenements" class="hover:text-gray-800 transition">Événements</a>
         <a href="location" class="hover:text-gray-800 transition">Location</a>
-        <a href="magasin" class="hover:text-gray-800 transition">Magasin</a>
+        <a href="accueil_shop" class="hover:text-gray-800 transition">Magasin</a>
         <a href="contact" class="hover:text-gray-800 transition">Contact</a>
     </nav>
 
@@ -91,7 +91,7 @@
         </span>
     </a>
 
-    <a href="magasin">
+    <a href="accueil_shop">
         <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 1s;">
             MAGASIN
         </span>

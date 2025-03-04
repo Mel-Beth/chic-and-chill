@@ -103,11 +103,6 @@ if (empty($route[0])) {
                 }
                 break;
 
-            case 'reservation_evenement':
-                $controller = new Controllers\ReservationController();
-                $controller->reservationEvenement();
-                break;
-
             case 'reservation_pack':
                 $controller = new Controllers\ReservationController();
                 if (!empty($_GET['pack_id']) && is_numeric($_GET['pack_id'])) {
@@ -126,23 +121,6 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/confirmation_reservation.php');
                 break;
 
-            case 'magasin': // Si l'utilisateur accède à "/magasin"
-                $controller = new Controllers\ArticleControllerShop();
-                $controller->showProducts();
-                break;
-
-            case 'contact_magasin':
-                include('src/app/Views/Public/contact_magasin.php');
-                break;
-
-            case 'contact_location':
-                include('src/app/Views/Public/contact_location.php');
-                break;
-
-            case 'contact_evenements':
-                include('src/app/Views/Public/contact_evenements.php');
-                break;
-
             case 'contact_process':
                 $controller = new Controllers\ContactController();
                 $controller->processContactForm();
@@ -160,15 +138,13 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/contact_evenements.php');
                 break;
 
-            case 'contact_process':
-                $controller = new Controllers\ContactController();
-                $controller->processContactForm();
-                break;
-
-            case 'newsletter':
             case 'newsletter':
                 $controller = new Controllers\ContactController();
                 $controller->processNewsletter();
+                break;
+
+            case 'localisation':
+                include('src/app/Views/Public/localisation.php');
                 break;
 
             case 'conditions_generales':
@@ -191,9 +167,6 @@ if (empty($route[0])) {
                 $controller->afficherDetailProduit();
                 break;
 
-
-
-
             case 'connexion_shop':
                 $controller = new Controllers\ConnexionControllersShop();
                 $controller->loginUserShop();
@@ -204,27 +177,20 @@ if (empty($route[0])) {
                 }
                 break;
 
-
-
             case 'profil_user_shop':
                 $controller = new Controllers\ProfilControllersShop();
                 $controller->showUserProfile();
                 break;
-
-
 
             case 'inscription_shop':
                 $controller = new Controllers\InscriptionControllersShop();
                 $controller->registerUserShop();
                 break;
 
-
-
             case 'deconnexion_shop':
                 $controller = new Controllers\DecoShopController();
                 $controller->logout();
                 break;
-
 
             // Page du panier
             case 'panier_shop':
@@ -236,7 +202,6 @@ if (empty($route[0])) {
                     $controller->afficherPanier();
                 }
                 break;
-
 
             // Modifier la quantité d'un produit dans le panier
             case 'modifier_panier':
@@ -252,15 +217,11 @@ if (empty($route[0])) {
                 exit;
                 break;
 
-
             // Vider complètement le panier
             case 'vider_panier':
                 $controller = new Controllers\PanierControllerShop();
                 $controller->viderPanier();
                 break;
-
-
-
 
             // Page du paiement
             case 'paiement_cb_shop':
@@ -278,12 +239,6 @@ if (empty($route[0])) {
                 include 'src/app/Views/Public/paiement_annule_shop.php';
                 break;
 
-
-
-
-                $controller->processNewsletter();
-                break;
-
             case 'login':
                 $controller = new Controllers\AuthController();
                 $controller->login();
@@ -292,11 +247,6 @@ if (empty($route[0])) {
             case 'register':
                 $controller = new Controllers\AuthController();
                 $controller->register();
-                break;
-
-            case 'logout':
-                $controller = new Controllers\AuthController();
-                $controller->logout();
                 break;
 
             case 'forgot-password':
@@ -359,11 +309,6 @@ if (empty($route[0])) {
                     case 'login':
                         $controller = new Controllers\AuthController();
                         $controller->login();
-                        break;
-
-                    case 'logout':
-                        $controller = new Controllers\AuthController();
-                        $controller->logout();
                         break;
 
                     case 'payments':
