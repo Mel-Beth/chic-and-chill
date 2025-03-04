@@ -23,11 +23,40 @@
 </header>
 
 <style>
-    #main-header { background: rgba(0, 0, 0, 0); transition: background 0.4s ease-in-out, box-shadow 0.4s ease-in-out; }
-    #main-header.scrolled { background: rgba(0, 0, 0, 0.9) !important; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); }
-    .menu-link { color: white; transition: color 0.3s ease-in-out; display: flex; align-items: center; gap: 8px; }
-    #main-header.scrolled .menu-link { color: #8B5A2B; }
-    .brand-chic, .brand-chill { color: white; transition: color 0.3s ease-in-out; }
-    #main-header.scrolled .brand-chic, #main-header.scrolled .brand-chill { color: white; }
-    .menu-link i { font-size: 1.2rem; }
+    #main-header {
+        background: rgba(0, 0, 0, 0);
+        transition: background 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+    }
+
+    #main-header.scrolled {
+        background: rgba(0, 0, 0, 0.9) !important;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu-link {
+        color: white;
+        transition: color 0.3s ease-in-out;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #main-header.scrolled .menu-link {
+        color: #8B5A2B;
+    }
+
+    .brand-chic,
+    .brand-chill {
+        color: white;
+        transition: color 0.3s ease-in-out;
+    }
+
+    #main-header.scrolled .brand-chic,
+    #main-header.scrolled .brand-chill {
+        color: white;
+    }
+
+    .menu-link i {
+        font-size: 1.2rem;
+    }
 </style>
