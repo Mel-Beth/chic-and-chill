@@ -12,6 +12,7 @@ class ModeleParent
         $dbname = $_ENV["DB_NAME"];
         $dbuser = $_ENV["DB_USER"];
         $dbpassword = $_ENV["DB_PASSWORD"];
+        
 
         try {
             $dsn = "mysql:host=$dbhost;port=$dbport;dbname=$dbname;";

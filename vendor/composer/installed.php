@@ -1,13 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'alaji/chic-and-chill',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '20369e4705a11e0a9f372fefd4c298c164f72bfe',
-        'name' => 'alaji/chic-and-chill',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'aa09e7591982f3705b27522fb6c934a78023e54e',
+        'reference' => 'b64e60a85ce650370adb589b14c9acabd8083005',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -15,13 +11,9 @@
     ),
     'versions' => array(
         'alaji/chic-and-chill' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '20369e4705a11e0a9f372fefd4c298c164f72bfe',
-        'alaji/chic-and-chill' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'aa09e7591982f3705b27522fb6c934a78023e54e',
+            'reference' => 'b64e60a85ce650370adb589b14c9acabd8083005',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

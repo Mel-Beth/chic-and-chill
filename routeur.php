@@ -138,8 +138,8 @@ if (empty($route[0])) {
                 $controller->showProducts();
                 break;
 
-            case 'contact_magasin':
-                include('src/app/Views/Public/contact_magasin.php');
+            case 'contact_shop':
+                include('src/app/Views/Public/contact_shop.php');
                 break;
 
             case 'contact_location':
@@ -308,6 +308,10 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/conditions_generales_vente_shop.php');
                 break;
 
+            case 'mentions_legales':
+                include('src/app/Views/Public/mentions_legales_shop.php');
+                break;
+
             case 'accueil_shop';
                 include('src/app/Views/Public/accueil_shop.php');
                 break;
@@ -409,6 +413,10 @@ if (empty($route[0])) {
             // Page d'annulation du paiement
             case 'paiement_annule':
                 include 'src/app/Views/Public/paiement_annule_shop.php';
+                break;
+
+            case 'modes_paiement_shop':
+                include 'src/app/Views/Public/moyens_paiement_shop.php';
                 break;
 
 

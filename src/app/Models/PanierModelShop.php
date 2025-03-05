@@ -2,16 +2,30 @@
 
 namespace Models;
 
-class PanierModelShop extends ModeleParent
+use PDO;
+use PDOException;
+use Controllers\DatabaseShop;
+
+require_once 'src/app/Controllers/DatabaseShop.php'; // Correction du chemin
+
+class PanierModelShop
 {
- 
+    private $pdo;
     
+    public function __construct()
+    {
+       
+        $this->pdo = DatabaseShop::getConnection(); 
+        if (!isset($_SESSION['panier'])) {
+            $_SESSION['panier'] = []; // Initialise un panier vide
+        }
+    }
     public function getProduitById($id) {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM products WHERE id = :id");
             $stmt->execute(['id' => $id]);
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             throw new \Exception("Erreur lors de la récupération du produit : " . $e->getMessage());
         }
     }

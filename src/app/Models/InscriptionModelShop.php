@@ -1,19 +1,10 @@
 <?php
 namespace Models;
 
-use PDO;
-use PDOException;
-use Controllers\DatabaseShop;
 
-class UserModel
+
+class UserModel extends ModeleParent
 {
-    private $pdo;
-
-    public function __construct()
-    {
-        $this->pdo = DatabaseShop::getConnection();
-    }
-
     // Vérifie si l'utilisateur existe déjà avec cet email
     public function userExists($email)
     {
