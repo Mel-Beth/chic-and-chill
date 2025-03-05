@@ -46,18 +46,22 @@
     <h3 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">
         <span class="ph ph-calendar-check"></span> Nos Événements Passés
     </h3>
+
     <div class="grid_events">
         <?php foreach ($events as $event) : ?>
             <div class="group pack-card">
+                <!-- Image de l'événement -->
                 <?php if (!empty($event['image'])) : ?>
-                    <img src="<?= htmlspecialchars($event['image']) ?>" loading="lazy" alt="Événement <?= htmlspecialchars($event['title']) ?>" width="350" height="400">
+                    <img src="<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
                 <?php else : ?>
-                    <img src="assets/images/events/placeholder.webp" loading="lazy" alt="Image par défaut" width="350" height="400">
+                    <img src="assets/images/events/placeholder.jpg" alt="Image par défaut">
                 <?php endif; ?>
+
+                <!-- Effet au survol -->
                 <div class="overlay">
-                    <h4><?= htmlspecialchars($event['title']) ?></h4>
-                    <p><?= htmlspecialchars($event['description']) ?></p>
-                    <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn" aria-label="En savoir plus sur <?= htmlspecialchars($event['title']) ?>">En savoir plus</a>
+                    <h4 class="text-2xl text-center text-white"><?= htmlspecialchars($event['title']) ?></h4>
+                    <p class="mb-4"><?= htmlspecialchars($event['description']) ?></p>
+                    <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn">En savoir plus</a>
                 </div>
             </div>
         <?php endforeach; ?>

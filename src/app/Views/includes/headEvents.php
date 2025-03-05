@@ -4,16 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-  <!-- <base href="http://localhost/projets/projetsExo/chic-and-chill/"> -->
-  <base href="http://localhost/site_stage/chic-and-chill/">
-=======
-  <meta name="description" content="Découvrez les événements Chic & Chill, une mode élégante et accessible.">
   <base href="http://localhost/projets/projetsExo/chic-and-chill/">
-  <title>Chic and Chill - Événements</title>
-
-  <!-- CSS critiques combinés et minifiés -->
->>>>>>> bd8e2ba20723394bf72b6bd4822dcd47af7dbb4b
+  <!-- <base href="http://localhost/site_stage/chic-and-chill/"> -->
   <link href="src/css/output.css" rel="stylesheet">
   <link href="src/css/style.css" rel="stylesheet">
   <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">

@@ -24,8 +24,4 @@ class ArticleControllerShop {
         include 'src/app/Views/Public/produits_shop.php'; // Charger la vue
     }
 }
-<<<<<<< HEAD
 ?>
-=======
-?>
->>>>>>> bd8e2ba20723394bf72b6bd4822dcd47af7dbb4b
