@@ -20,8 +20,6 @@ class AppelArticleModelShop extends ModeleParent
             $stmt->execute(['id' => $id]);
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
-            return $stmt->fetch(\PDO::FETCH_ASSOC);
-        } catch (\PDOException $e) {
             throw new \Exception("Erreur lors de la récupération du produit : " . $e->getMessage());
         }
     }

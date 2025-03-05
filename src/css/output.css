@@ -572,6 +572,9 @@
   .\!fixed {
     position: fixed !important;
   }
+  .\!static {
+    position: static !important;
+  }
   .absolute {
     position: absolute;
   }
@@ -2765,14 +2768,29 @@
   .forced-color-adjust-none {
     forced-color-adjust: none;
   }
+  .\[code\:protected\] {
+    code: protected;
+  }
+  .\[file\:protected\] {
+    file: protected;
+  }
   .\[hostname\:port\] {
     hostname: port;
   }
   .\[keywords\:node-addon-api\] {
     keywords: node-addon-api;
   }
+  .\[line\:protected\] {
+    line: protected;
+  }
   .\[localhost\:8000\] {
     localhost: 8000;
+  }
+  .\[message\:protected\] {
+    message: protected;
+  }
+  .\[severity\:protected\] {
+    severity: protected;
   }
   .backface-hidden {
     backface-visibility: hidden;
