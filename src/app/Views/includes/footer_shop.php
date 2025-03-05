@@ -22,7 +22,7 @@
     <!-- Colonne 1 -->
     <div class="footer_shop_column">
       <h4>Les modes et frais de livraison</h4>
-      <a href="#">Les moyens de paiement</a>
+      <a href="modes_paiement_shop">Les moyens de paiement</a>
       <a href="#">Paiement sécurisé</a>
     </div>
 
@@ -40,7 +40,7 @@
       <h4>Informations légales</h4>
       <a href="conditions_generales">Conditions générales de ventes</a>
       <a href="#">Protection de la vie privée et des cookies</a>
-      <a href="#">Mentions légales</a>
+      <a href="mentions_legales">Mentions légales</a>
       <a href="#">Rappel de produits</a>
     </div>
   </div>

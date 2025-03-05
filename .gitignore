@@ -1,4 +1,4 @@
-﻿# Fichiers qui ne seront pas versionnés afin de na pas finir sur Gtihub/Gitlab
+# Fichiers qui ne seront pas versionnés afin de na pas finir sur Gtihub/Gitlab
 vendor/
 node_modules/
 .env

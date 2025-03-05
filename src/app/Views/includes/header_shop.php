@@ -45,7 +45,7 @@
       </div>
     </div>
     <a href="#">PROMOTIONS</a>
-    <a href="#">EVENEMENTS</a>
+    <a href="evenements">EVENEMENTS</a>
     <a href="#">LOCATION</a>
   </nav>
 

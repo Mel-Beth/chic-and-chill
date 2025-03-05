@@ -151,6 +151,10 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/conditions_generales_vente_shop.php');
                 break;
 
+            case 'mentions_legales':
+                include('src/app/Views/Public/mentions_legales_shop.php');
+                break;
+
             case 'accueil_shop';
                 include('src/app/Views/Public/accueil_shop.php');
                 break;

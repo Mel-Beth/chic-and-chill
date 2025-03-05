@@ -12,13 +12,14 @@ class PaiementCbControllerShop
 {
     private $stripeSecretKey;
     private $yourDomain;
+    
 
     public function __construct()
     {
-        
+        $stripeSecretKey = $_ENV['PIVATE_STRIPE_API_KEY'];
         $this->stripeSecretKey = 'sk_test_51Qee9BBrAcYVY0bNbJcxBCduVDtGK7aw0282iy4WHVNxuFszOCiLmsK8Wt07MoAJdjcsJq2PIQupiQJ1FYktFCQr006fqiHitA'; // ⚠️ Mets ta vraie clé API ici
         $this->yourDomain = 'http://localhost/site_stage/chic-and-chill'; // Change si nécessaire
-        Stripe::setApiKey('sk_test_51Qee9KPkuME3YnyVG0Ighto9Gwz7CshqoI1Bnf8ag4OMUzEEwcEbaiwI5uxMg7eHJa0OCRZ5L8zINcSeKPK3pHlN00iObhMwZi'); // Mets bien ta clé secrète test ici
+        Stripe::setApiKey('sk_test_51Qee9BBrAcYVY0bNbJcxBCduVDtGK7aw0282iy4WHVNxuFszOCiLmsK8Wt07MoAJdjcsJq2PIQupiQJ1FYktFCQr006fqiHitA'); // Mets bien ta clé secrète test ici
 
     }
 
