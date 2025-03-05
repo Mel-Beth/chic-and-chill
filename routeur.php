@@ -48,7 +48,7 @@ if (empty($route[0])) {
                 break;
 
             case 'pack_detail':
-                $controller = new Controllers\PackController();
+                $controller = new Controllers\PacksController();
                 if (!empty($route[1]) && is_numeric($route[1])) {
                     $controller->showPack($route[1]); // On passe l'ID du pack
                 } else {
@@ -103,11 +103,6 @@ if (empty($route[0])) {
                 }
                 break;
 
-            case 'reservation_evenement':
-                $controller = new Controllers\ReservationController();
-                $controller->reservationEvenement();
-                break;
-
             case 'reservation_pack':
                 $controller = new Controllers\ReservationController();
                 if (!empty($_GET['pack_id']) && is_numeric($_GET['pack_id'])) {
@@ -124,30 +119,6 @@ if (empty($route[0])) {
 
             case 'confirmation_reservation':
                 include('src/app/Views/Public/confirmation_reservation.php');
-                break;
-
-            case 'location': // Si l'utilisateur accède à "/location"
-
-            case 'location': 
-                $controller = new Controllers\LocationController();
-                $controller->index();
-                break;
-
-            case 'magasin': // Si l'utilisateur accède à "/magasin"
-                $controller = new Controllers\ArticleControllerShop();
-                $controller->showProducts();
-                break;
-
-            case 'contact_shop':
-                include('src/app/Views/Public/contact_shop.php');
-                break;
-
-            case 'contact_location':
-                include('src/app/Views/Public/contact_location.php');
-                break;
-
-            case 'contact_evenements':
-                include('src/app/Views/Public/contact_evenements.php');
                 break;
 
             case 'contact_process':
@@ -167,141 +138,13 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/contact_evenements.php');
                 break;
 
-            case 'contact_process':
-                $controller = new Controllers\ContactController();
-                $controller->processContactForm();
-                break;
-
-            case 'newsletter':
             case 'newsletter':
                 $controller = new Controllers\ContactController();
                 $controller->processNewsletter();
                 break;
 
-                // 📌 Routes Admin
-            case 'admin/dashboard':
-                $controller = new Controllers\HomeController();
-                $controller->dashboard();
-                break;
-
-            case 'admin/payments':
-                $controller = new Controllers\AdminEventsController();
-                $controller->managePayments();
-                break;
-
-            case 'admin/export':
-                $controller = new Controllers\AdminEventsController();
-                $controller->exportData($_GET['type'] ?? 'reservations');
-                break;
-
-            case 'admin/evenements':
-                $controller = new Controllers\EventsController();
-                $controller->index();
-                break;
-
-            case 'admin/evenements/ajouter':
-                $controller = new Controllers\EventsController();
-                $controller->addEvent();
-                break;
-
-            case 'admin/evenements/modifier':
-                $controller = new Controllers\EventsController();
-                $controller->updateEvent($_GET['id'] ?? null);
-                break;
-
-            case 'admin/evenements/supprimer':
-                $controller = new Controllers\EventsController();
-                $controller->deleteEvent($_GET['id'] ?? null);
-                break;
-
-            case 'admin/packs':
-                $controller = new Controllers\PackController();
-                $controller->managePacks();
-                break;
-
-            case 'admin/packs/ajouter':
-                $controller = new Controllers\PackController();
-                $controller->addPack();
-                break;
-
-            case 'admin/packs/modifier':
-                $controller = new Controllers\PackController();
-                $controller->updatePack($_GET['id'] ?? null);
-                break;
-
-            case 'admin/packs/supprimer':
-                $controller = new Controllers\PackController();
-                $controller->deletePack($_GET['id'] ?? null);
-                break;
-
-            case 'admin/reservations':
-                $controller = new Controllers\ReservationController();
-                $controller->reservations();
-                break;
-
-            case 'admin/reservations/detail':
-                $controller = new Controllers\ReservationController();
-                $controller->showReservation($_GET['id'] ?? null);
-                break;
-
-            case 'admin/reservations/modifier':
-                $controller = new Controllers\ReservationController();
-                $controller->updateReservationStatus($_GET['id'] ?? null, $_GET['status'] ?? null);
-                break;
-
-            case 'admin/users':
-                $controller = new Controllers\UsersController();
-                $controller->users();
-                break;
-
-            case 'admin/users/modifier':
-                $controller = new Controllers\UsersController();
-                $controller->updateUser($_GET['id'] ?? null);
-                break;
-
-            case 'admin/users/supprimer':
-                $controller = new Controllers\UsersController();
-                $controller->deleteUser($_GET['id'] ?? null);
-                break;
-
-            case 'admin/messages':
-                $controller = new Controllers\ContactController();
-                $controller->manageMessages();
-                break;
-
-            case 'admin/messages/supprimer':
-                $controller = new Controllers\ContactController();
-                $controller->deleteMessage($_GET['id'] ?? null);
-                break;
-
-            case 'admin/newsletter':
-                $controller = new Controllers\NewsletterController();
-                $controller->manageNewsletter();
-                break;
-
-            case 'admin/newsletter/supprimer':
-                $controller = new Controllers\NewsletterController();
-                $controller->deleteSubscriber($_GET['id'] ?? null);
-                break;
-
-            case 'admin/outfits':
-                $controller = new Controllers\OutfitsController();
-                $controller->manageOutfits();
-                break;
-
-            case 'admin/outfits/ajouter':
-                $controller = new Controllers\OutfitsController();
-                $controller->addOutfit();
-                break;
-
-            case 'admin/outfits/modifier':
-                $controller = new Controllers\OutfitsController();
-                $controller->updateOutfit($_GET['id'] ?? null);
-                break;
-
-            case 'admin/outfits/supprimer':
-                $controller = new Controllers\OutfitsController();
-                $controller->deleteOutfit($_GET['id'] ?? null);
+            case 'localisation':
+                include('src/app/Views/Public/localisation.php');
                 break;
 
             case 'conditions_generales':
@@ -316,20 +159,17 @@ if (empty($route[0])) {
                 include('src/app/Views/Public/accueil_shop.php');
                 break;
 
-                // Afficher la page des produits dans le shop
+            // Afficher la page des produits dans le shop
             case 'produit_shop':
                 $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
                 $controller->showProducts();
                 break;
 
 
-                case 'produit_detail_shop':
-                    $controller = new Controllers\ProduitDetailControllerShop();
-                    $controller->afficherDetailProduit();
-                    break;
-                
-
-
+            case 'produit_detail_shop':
+                $controller = new Controllers\ProduitDetailControllerShop();
+                $controller->afficherDetailProduit();
+                break;
 
             case 'connexion_shop':
                 $controller = new Controllers\ConnexionControllersShop();
@@ -341,47 +181,39 @@ if (empty($route[0])) {
                 }
                 break;
 
-
-
             case 'profil_user_shop':
                 $controller = new Controllers\ProfilControllersShop();
                 $controller->showUserProfile();
                 break;
-
-
 
             case 'inscription_shop':
                 $controller = new Controllers\InscriptionControllersShop();
                 $controller->registerUserShop();
                 break;
 
-
-
             case 'deconnexion_shop':
                 $controller = new Controllers\DecoShopController();
                 $controller->logout();
                 break;
 
+            // Page du panier
+            case 'panier_shop':
+                $controller = new Controllers\PanierControllerShop();
 
-                // Page du panier
-                case 'panier_shop':
-                    $controller = new Controllers\PanierControllerShop();
-                    
-                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        $controller->ajouterAuPanier();
-                    } else {
-                        $controller->afficherPanier();
-                    }
-                    break;
-                
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $controller->ajouterAuPanier();
+                } else {
+                    $controller->afficherPanier();
+                }
+                break;
 
-                // Modifier la quantité d'un produit dans le panier
+            // Modifier la quantité d'un produit dans le panier
             case 'modifier_panier':
                 $controller = new Controllers\PanierControllerShop();
                 $controller->modifierQuantite();
                 break;
 
-                // Supprimer un produit du panier
+            // Supprimer un produit du panier
             case 'supprimer_panier':
                 $controller = new Controllers\PanierControllerShop();
                 $controller->supprimerProduit();
@@ -389,15 +221,11 @@ if (empty($route[0])) {
                 exit;
                 break;
 
-
-                // Vider complètement le panier
+            // Vider complètement le panier
             case 'vider_panier':
                 $controller = new Controllers\PanierControllerShop();
                 $controller->viderPanier();
                 break;
-
-
-
 
             // Page du paiement
             case 'paiement_cb_shop':
@@ -415,16 +243,6 @@ if (empty($route[0])) {
                 include 'src/app/Views/Public/paiement_annule_shop.php';
                 break;
 
-            case 'modes_paiement_shop':
-                include 'src/app/Views/Public/moyens_paiement_shop.php';
-                break;
-
-
-
-
-                $controller->processNewsletter();
-                break;
-
             case 'login':
                 $controller = new Controllers\AuthController();
                 $controller->login();
@@ -433,11 +251,6 @@ if (empty($route[0])) {
             case 'register':
                 $controller = new Controllers\AuthController();
                 $controller->register();
-                break;
-
-            case 'logout':
-                $controller = new Controllers\AuthController();
-                $controller->logout();
                 break;
 
             case 'forgot-password':
@@ -468,7 +281,7 @@ if (empty($route[0])) {
                 }
                 break;
 
-                // 📌 Routes Admin
+            // 📌 Routes Admin
             case 'admin':
                 // Vérifie si l'utilisateur est admin (id_role = 1)
                 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== "admin") {
@@ -500,11 +313,6 @@ if (empty($route[0])) {
                     case 'login':
                         $controller = new Controllers\AuthController();
                         $controller->login();
-                        break;
-
-                    case 'logout':
-                        $controller = new Controllers\AuthController();
-                        $controller->logout();
                         break;
 
                     case 'payments':

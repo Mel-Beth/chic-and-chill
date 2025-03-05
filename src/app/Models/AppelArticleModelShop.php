@@ -2,12 +2,8 @@
 
 namespace Models;
 
-
-
 class AppelArticleModelShop extends ModeleParent
 {
-   
-
 // Récupérer les produits en fonction du genre
     public function getProductsByGender($gender) {
     $query = "SELECT * FROM products WHERE gender = :gender";
@@ -27,8 +23,6 @@ class AppelArticleModelShop extends ModeleParent
             throw new \Exception("Erreur lors de la récupération du produit : " . $e->getMessage());
         }
     }
-    
-
 
     public function getProductsFiltered($gender, $id_categories = null, $gender_child = null)
     {
@@ -61,5 +55,13 @@ class AppelArticleModelShop extends ModeleParent
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function getProducts()
+    {
+        $stmt = $this->pdo->prepare("SELECT id, name, image AS image_path FROM products");
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }
+
 ?>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 namespace Models;
 
@@ -23,4 +24,31 @@ class ModeleParent
             die("Erreur de connexion ou de requête : " . $e->getMessage());
         }
     }
+=======
+<?php
+namespace Models;
+
+class ModeleParent
+{
+    protected $pdo;
+
+    public function __construct()
+    {
+        $dbhost = $_ENV["DB_HOST"];
+        $dbport = $_ENV["DB_PORT"];
+        $dbname = $_ENV["DB_NAME"];
+        $dbuser = $_ENV["DB_USER"];
+        $dbpassword = $_ENV["DB_PASSWORD"];
+
+        try {
+            $dsn = "mysql:host=$dbhost;port=$dbport;dbname=$dbname;";
+            $this->pdo = new \PDO($dsn, $dbuser, $dbpassword);
+            $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            die("Erreur de connexion ou de requête : " . $e->getMessage());
+        }
+    }
+    
+>>>>>>> bd8e2ba20723394bf72b6bd4822dcd47af7dbb4b
 }
