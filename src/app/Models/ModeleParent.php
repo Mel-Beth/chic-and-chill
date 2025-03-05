@@ -22,4 +22,5 @@ class ModeleParent
             die("Erreur de connexion ou de requête : " . $e->getMessage());
         }
     }
+    
 }
