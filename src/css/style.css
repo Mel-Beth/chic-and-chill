@@ -1,17 +1,56 @@
-/* Importation des polices */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:wght@400;700&display=swap');
+/* Import css pour la partie eCommerce du site */
+@import url('header_shop.css');
+@import url('footer_shop.css');
+@import url('produits_shop.css');
+@import url('accueil_shop.css');
+@import url('produit_detail_shop.css');
+@import url('conditions_generales_vente_shop.css');
+@import url('co_user_shop.css');
+@import url('inscription_shop.css');
+@import url('profil_user_shop.css');
+@import url('panier_shop.css');
+@import url('paiement_succes_shop.css');
+@import url('mentions_shop.css');
+@import url('moyen_paiement_shop.css');
+@import url('evenements.css');
 
-/* Définition globale : Cormorant Garamond comme police de base */
-body {
-    font-family: 'Cormorant Garamond', serif;
+html {
+  scroll-behavior: smooth;
 }
 
+/* font-family: "Nunito Sans", serif; */
+/* font-family: "Raleway", serif; */
+/* j'ai du retirer l'import ici car il empechait mon css de charger, car les regles d'import doivent etre au dessus */
+
 /* Appliquer Cormorant Garamond pour tous les textes marron */
-.text-[#8B5A2B], .border-[#8B5A2B] {
-    font-family: 'Cormorant Garamond', serif !important;
+.text-marron, .border-marron {
+  font-family: 'Cormorant Garamond', serif !important;
+  color: #8B5A2B; /* Marron */
+  border-color: #8B5A2B; /* Pour les bordures */
 }
 
 /* Appliquer Cormorant Garamond pour tous les textes gris */
-.text-gray-800 {
-    font-family: 'Cormorant Garamond', serif !important;
+.text-gray {
+  font-family: 'Cormorant Garamond', serif !important;
+  color: #4A4A4A; /* Gris foncé */
+}
+
+
+
+/* media query pour la partie shop car je mets la taille des elements en rem pas px, n'affecte pas votre site, j'ai mis une classe sur mes balises html */
+
+.html_shop {
+  font-size: 16px; /* Taille de base pour calculer 1rem = 16px */
+}
+
+@media (max-width: 768px) {
+  .html_shop {
+      font-size: 14px; /* Réduit la taille de base pour les petits écrans */
+  }
+}
+
+@media (max-width: 480px) {
+  .html_shop {
+      font-size: 12px; /* Encore plus petit pour les écrans très étroits */
+  }
 }

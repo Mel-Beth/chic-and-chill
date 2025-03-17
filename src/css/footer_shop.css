@@ -1,0 +1,114 @@
+/* Footer global */
+.footer_shop {
+    font-family: 'Lato', sans-serif;
+    color: #333333; /* Noir doux */
+  }
+
+  
+
+/* Bouton Retour en haut (flèche) */
+.back-to-top-footer-shop {
+  position: fixed; /* Fixé pour qu'il reste visible au même endroit */
+  bottom: 2rem; /* Distance du bas de la page */
+  right: 1rem; /* Distance du côté droit */
+  z-index: 999; /* Pour qu'il passe au-dessus des autres éléments */
+  background-color: #A8C3A5; /* Vert doux */
+  color: #ffffff; /* Blanc */
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Pour un bouton circulaire */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.back-to-top-footer-shop:hover {
+  background-color: #8CA58A; /* Vert légèrement plus foncé */
+  transform: translateY(-5px); /* Animation légère au survol */
+}
+
+.back-to-top-footer-shop a {
+  text-decoration: none;
+  color: #ffffff; /* Couleur de la flèche */
+  font-size: 1.5rem; /* Taille de la flèche */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  
+ .span_and_logo_barre_nav_shop{
+  color: #8CA58A;
+ } 
+  
+  /* Bande supérieure - Réseaux sociaux */
+ /* Bande supérieure - Réseaux sociaux */
+.footer_shop_top {
+  background-color: #A8C3A5; /* Vert doux */
+  color: #ffffff; /* Texte blanc */
+  padding: 1.25rem 2.5rem; /* Espacement en haut et sur les côtés */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer_shop_top p {
+  font-size: 1rem; /* Texte plus lisible */
+  margin-left: 10rem; /* Ajuste l'espacement en rem */
+}
+
+.social-icons_shop_footer {
+  margin-right: 20rem; /* Espace ajusté pour les icônes */
+}
+
+.social-icons_shop_footer a {
+  text-decoration: none;
+  color: #ffffff; /* Blanc pour les icônes */
+  margin-left: 0.9375rem; /* 15px -> 0.9375rem */
+  margin-right: 1.25rem; /* 20px -> 1.25rem */
+  font-size: 1.25rem; /* Taille des icônes */
+  transition: color 0.3s ease;
+}
+
+.social-icons_shop_footer a:hover {
+  color: #a75e27; /* Marron comme les autres au survol */
+}
+
+/* Bande inférieure - Informations */
+.footer_shop_bottom {
+  background-color: #F5F5F5; /* Gris clair */
+  color: #333333; /* Noir doux */
+  padding: 2.5rem; /* Espacement plus adapté */
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap; /* S'adapte sur plusieurs lignes si nécessaire */
+  gap: 5rem; /* Espace entre les colonnes */
+}
+
+.footer_shop_column {
+  flex: 1;
+  min-width: 12.5rem; /* Largeur minimale ajustée en rem */
+}
+
+.footer_shop_column h4 {
+  font-size: 1.125rem; /* 18px -> 1.125rem */
+  font-weight: bold;
+  margin-bottom: 0.625rem; /* 10px -> 0.625rem */
+}
+
+.footer_shop_column a {
+  display: block;
+  margin: 0.3125rem 0; /* 5px -> 0.3125rem */
+  font-size: 0.875rem; /* 14px -> 0.875rem */
+  text-decoration: none;
+  color: #666666; /* Gris doux */
+  transition: color 0.3s ease;
+}
+
+.footer_shop_column a:hover {
+  color: #a75e27; /* Le marron des autres onglets au survol */
+}
+
+

@@ -1,0 +1,170 @@
+/* Corps du site */
+.body_shop_accueil {
+  
+  background-color: #ffffff; 
+  color: #333333; 
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  padding-top: 6rem; /* Ajusté pour correspondre à la hauteur du header */
+  overflow-x: hidden; /* Empêche tout dépassement horizontal */
+}
+
+/* Header */
+.header_shop {
+  background-color: #ffffff; 
+  height: 10rem;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);position: fixed; /* Fixe la barre nav en haut */
+  top: 0;
+  left: 0;
+  width: 100%; 
+  z-index: 10; /* pour que la barre reste au-dessus de tt */
+  transition: background-color 0.3s ease-in-out;  /*pr le scroll, qd ça devient moins opaque*/    
+  
+  box-sizing: border-box; /* Inclus les paddings dans le calcul de la largeur */
+}
+/* Header moins opaque */
+.header_shop.scrolled {
+  background-color: rgba(255, 255, 255, 0.8); /* Fond blanc avec opacité réduite */
+}
+
+.header_shop .logo-chic-and-chill-shop img {
+  max-width: 20%; 
+  height: auto; /* garder les proportions peu importe les ecrans*/
+  display: flex;
+  flex-direction: row; 
+  margin-right: 1rem;
+}
+
+.header_shop .logo-chic-and-chill-shop {
+  font-family: "Nunito Sans", serif;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333333; 
+  margin-right: 1px; /* Espacement ac la bar nav*/
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.header_shop nav {
+  flex-grow: 1; /* def l'espace de la barNav entre logo et icones a droite */
+  display: flex;
+  justify-content: flex-start; /* liens a gauche 2 la bar nav */
+  gap: 15px;
+  margin-right: 10rem;
+}
+
+.header_shop nav a,
+.header_shop .right-section a {
+  font-family: "Nunito Sans", serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333333;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  display: flex;
+
+}
+
+.header_shop nav a:hover,
+.header_shop .right-section a:hover {
+  background-color: #bccfba; 
+
+  color: white;
+  border-radius: 0.1rem;
+}
+
+.header_shop .right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espace entre les élmts */
+  flex-direction: row-reverse; /* Inverse l'ordre des elmts */
+  
+}
+
+.header_shop .right-section  {
+  font-family: "Nunito Sans", serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333; 
+  white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
+}
+
+.header_shop .right-section .icons_shop_nav_bar {
+  display: flex;
+  gap: 10px; /* Espacement entre icônes */
+}
+
+.header_shop .right-section .icons_shop_nav_bar a {
+  text-decoration: none;
+  color: #333333; 
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.header_shop .right-section .icons_shop_nav_bar a:hover {
+  background: rgba(188, 236, 166, 0.45);
+}
+
+
+
+
+/* Styles de base pour le dropdown */
+.dropdown_shop {
+  position: relative;
+  display: inline-block;
+}
+
+/* Contenu du dropdown (caché par défaut) */
+.dropdown_content_shop {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%; /* Positionne en-dessous du lien parent */
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  z-index: 1000;
+  min-width: 200px;
+  text-align: left;
+}
+
+/* Style pour chaque lien du dropdown */
+.dropdown_content_shop a {
+  display: block;
+  color: #333;
+  padding: 10px 15px;
+  text-decoration: none;
+  font-size: 14px;
+  white-space: nowrap; /* Empêche le retour à la ligne */
+}
+
+/* Effet hover */
+.dropdown_shop:hover .dropdown_content_shop {
+  display: block;
+}
+
+/* Effet hover sur les liens */
+.dropdown_content_shop a:hover {
+  
+  background: rgba(188, 236, 166, 0.45);
+  color: white;
+}
+
+
+.dropdown_content_shop a:last-child {
+  border-bottom: none;
+}
+
+.chic-and-chill{
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333; 
+  white-space: nowrap;
+}

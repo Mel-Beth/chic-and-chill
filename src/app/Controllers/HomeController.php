@@ -15,4 +15,9 @@ class HomeController
             echo "Une erreur est survenue. Veuillez réessayer plus tard.";
         }
     }
+
+    public function dashboard()
+    {
+        include('src/app/Views/Admin/dashboard.php');
+    }
 }

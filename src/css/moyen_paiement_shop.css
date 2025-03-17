@@ -1,0 +1,73 @@
+/* 🎨 Style général */
+body.moyen_paiement_shop {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding-top: 10rem;
+}
+
+/* 🏠 Conteneur principal */
+.payment-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 📝 Titres */
+.payment-title {
+    text-align: center;
+    color: #86b499;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.payment-subtitle {
+    color: #444;
+    font-size: 1.5em;
+    border-bottom: 2px solid #86b499;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
+
+/* 📖 Texte */
+.payment-intro,
+.payment-method p,
+.payment-security p,
+.payment-contact {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 💳 Icônes de paiement */
+.payment-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.payment-icons img {
+    width: 60px;
+    height: auto;
+}
+
+/* 📞 Contact */
+.payment-contact {
+    text-align: center;
+    font-size: 1.1em;
+    margin-top: 30px;
+}
+
+.payment-contact a {
+    color: #86b499;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.payment-contact a:hover {
+    text-decoration: underline;
+}

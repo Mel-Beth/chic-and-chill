@@ -1,11 +1,65 @@
 <!DOCTYPE html>
 <html lang="fr">
+<html>
 
-<?php include("src/app/Views/includes/head.php"); ?>
-<?php include("src/app/Views/includes/header.php"); ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="src/css/output.css" rel="stylesheet">
+    <link href="src/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
+    <script src="node_modules/swiper/swiper-bundle.min.js"></script>
+    <title>Chic and Chill</title>
+
+    <style>
+        /* Appliquer Cormorant Garamond pour tous les textes marron */
+        .text-marron,
+        .border-marron {
+            font-family: 'Cormorant Garamond', serif !important;
+            color: #8B5A2B;
+            /* Marron */
+            border-color: #8B5A2B;
+            /* Pour les bordures */
+        }
+
+        /* Appliquer Cormorant Garamond pour tous les textes gris */
+        .text-gray {
+            font-family: 'Cormorant Garamond', serif !important;
+            color: #4A4A4A;
+            /* Gris foncé */
+        }
+    </style>
+</head>
+
+<header class="fixed top-0 left-0 w-full bg-[#EFE7DD] shadow-md z-50 flex justify-between items-center px-10 py-4">
+    <!-- Logo + Texte -->
+    <div class="flex items-center space-x-4">
+        <!-- Logo -->
+        <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-20 h-20 object-contain">
+
+        <!-- Texte CHIC AND CHILL -->
+        <div class="text-[#8B5A2B] font-bold text-3xl tracking-wide font-family: 'Cormorant Garamond', serif;" style="font-family: 'Cormorant Garamond', serif;">
+            CHIC <span class="text-gray-800">AND</span> CHILL
+        </div>
+    </div>
+
+    <!-- Menu -->
+    <nav class="hidden md:flex space-x-8 text-lg text-[#8B5A2B] font-semibold">
+        <a href="accueil" class="hover:text-gray-800 transition">Accueil</a>
+        <a href="evenements" class="hover:text-gray-800 transition">Événements</a>
+        <a href="location" class="hover:text-gray-800 transition">Location</a>
+        <a href="accueil_shop" class="hover:text-gray-800 transition">Magasin</a>
+        <a href="contact" class="hover:text-gray-800 transition">Contact</a>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div class="md:hidden">
+        <button id="menu-toggle" class="text-[#8B5A2B] focus:outline-none">☰</button>
+    </div>
+</header>
 
 <!-- Conteneur principal contenant l'image de fond et les cercles interactifs -->
-<div id="hero-container" class="relative w-full h-screen flex items-center justify-center overflow-hidden pt-[80px]">
+<div id="hero-container" class="relative w-full h-screen flex items-center justify-center overflow-hidden pt-[70px] mt-10">
 
     <!-- Image de fond qui couvre toute la page -->
     <img src="assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
@@ -20,17 +74,34 @@
 
 
     <!-- Cercles cliquables menant aux différentes pages -->
-    <a href="evenements.php" id="circle-even" class="circle-link"></a>
-    <a href="location.php" id="circle-location" class="circle-link"></a>
-    <a href="magasin.php" id="circle-magasin" class="circle-link"></a>
+    <a href="evenements" id="circle-even" class="circle-link"></a>
+    <a href="location" id="circle-location" class="circle-link"></a>
+    <a href="accueil_shop" id="circle-magasin" class="circle-link"></a>
 
     <!-- Labels interactifs associés aux cercles -->
-    <a href="evenements.php"> <span id="label-even" class="absolute text-gray-800 font-bold tracking-wide z-10">EVENEMENTS</span></a>
-    <a href="location.php"> <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10">LOCATION</span></a>
-    <a href="magasin.php"> <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10">MAGASIN</span></a>
+    <a href="evenements">
+        <span id="label-even" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.6s;">
+            EVENEMENTS
+        </span>
+    </a>
+
+    <a href="location">
+        <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.8s;">
+            LOCATION
+        </span>
+    </a>
+
+    <a href="accueil_shop">
+        <span id="label-magasin" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 1s;">
+            MAGASIN
+        </span>
+    </a>
+
 </div>
 
-<?php include 'src/app/Views/includes/footer.php'; ?>
+<footer class="bg-[#EFE7DD] text-[#8B5A2B] text-center py-4 left-0 w-full shadow-md relative" style="font-family: 'Cormorant Garamond', serif;">
+    © 2025 Chic And Chill - Tous droits réservés.
+</footer>
 
 <style>
     /* 🔵 Styles pour les cercles interactifs */
@@ -107,6 +178,24 @@
         }
     }
 
+    /* 🎯 Animation d'apparition des labels */
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    /* 🔥 Appliquer l'animation avec un délai différent pour chaque élément */
+    .label-fade {
+        animation: fadeIn 1s ease-in-out forwards;
+        opacity: 0;
+        /* Commence invisible */
+    }
+
     /* 📱 Gestion spécifique pour les très petits écrans (smartphones) */
     @media (max-width: 480px) {
         #circle-main {
@@ -170,11 +259,11 @@
         let locationCircle = document.getElementById('circle-location');
         let magasinCircle = document.getElementById('circle-magasin');
 
-        evenCircle.style.width = width * 0.13 + "px";
-        evenCircle.style.height = width * 0.13 + "px";
+        evenCircle.style.width = width * 0.15 + "px";
+        evenCircle.style.height = width * 0.15 + "px";
         evenCircle.style.left = "9%";
         evenCircle.style.top = "12%";
-        evenCircle.style.transform = "translate(139%, 20%)";
+        evenCircle.style.transform = "translate(105%, 10%)";
 
         locationCircle.style.width = width * 0.13 + "px";
         locationCircle.style.height = width * 0.13 + "px";
@@ -195,17 +284,17 @@
 
         evenLabel.style.left = "9%";
         evenLabel.style.top = "12%";
-        evenLabel.style.transform = "translate(155%, 290%)";
+        evenLabel.style.transform = "translate(142%, 290%)";
         evenLabel.style.fontSize = width * 0.018 + "px";
 
         locationLabel.style.right = "9%";
         locationLabel.style.top = "12%";
-        locationLabel.style.transform = "translate(-230%, 145px)";
+        locationLabel.style.transform = "translate(-235%, 140px)";
         locationLabel.style.fontSize = width * 0.018 + "px";
 
         magasinLabel.style.left = "10%";
         magasinLabel.style.bottom = "14%";
-        magasinLabel.style.transform = "translate(260%, -115px)";
+        magasinLabel.style.transform = "translate(255%, -110px)";
         magasinLabel.style.fontSize = width * 0.018 + "px";
     }
 

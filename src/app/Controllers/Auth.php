@@ -1,4 +1,0 @@
-<?php
-// Controleur d'authentification
-
-?>

@@ -1,0 +1,138 @@
+/* Grille des produits */
+
+.body_shop_produits{
+
+    background-color: #d2e3d1; 
+    padding-top: 3rem; /* pr pas que mon main soit ss le header */
+    
+    
+}
+
+
+/* grid pr les cards, affichage des articles */
+.product-grid {
+    margin-top: 15rem;
+    display: grid;
+    grid-template-columns: repeat(4,1fr); /* pr choisir combien de cards affichées par lignes*/
+    gap: 1.25rem; /* espacement entre les cards */
+    padding: 2.5rem; /* espacement autour */
+}
+
+
+/* Carte produit */
+.product-card {
+    background-color: #ffffff; 
+    border: 0.0625rem solid #eeeeee; 
+    box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1); 
+    border-radius: 1rem;
+    overflow: hidden; /* Évite que les éléments débordent */
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    
+}
+
+.product-card:hover {
+    transform: translateY(-0.3125rem); /* ptit bump au survol */
+    box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.2); /* le shadow autour */
+}
+
+/* Image produit */
+.product-card img {
+    width: 100%;
+    height: auto;
+     
+    border-bottom: 0.125rem solid #050505; 
+    
+}
+
+/* Infos produit */
+.product-info {
+    padding: 1rem; /* Espace entre*/
+}
+
+.product-info h3 {
+    font-family: "Nunito Sans", serif;
+    font-size: 1.125rem; 
+    color: #1a1920;
+    margin-bottom: 0.625rem;
+}
+
+.product-info p {
+    font-family: "Raleway", serif;
+    font-size: 0.875rem; 
+    color: #666666; 
+    margin-bottom: 0.9375rem;
+    
+    
+}
+
+.product-price {
+    font-size: 1rem; 
+    
+    font-family: "Raleway", serif;
+    color: #2c2b35;
+}
+
+/* Bouton (si nécessaire pour "voir plus") */
+.product-info a {
+    display: inline-block;
+    margin-top: 0.625rem;
+    padding: 0.5rem 1rem;
+    background-color: #A8C3A5; 
+    color: #ffffff; 
+    text-decoration: none;
+    border-radius: 1.25rem; 
+    font-size: 0.875rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.product-info a:hover {
+    background-color: #8CA58A; 
+}
+
+
+/* css pour les btn sous categories */
+.subcategories-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.subcategory-btn {
+    text-decoration: none;
+    padding: 8px 15px;
+    color: yellow;
+    background: rgba(0, 0, 0, 0.1);
+    color: black;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.subcategory-btn:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsivité */
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 cartes par ligne sur tablette */
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 cartes par ligne sur mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: repeat(1, 1fr); /* 1 carte par ligne sur petits écrans */
+    }
+}
