@@ -103,14 +103,13 @@ class ReservationController
             $attachmentPath = null;
             if ($status === 'confirmed') {
                 require_once 'invoice_generator.php';
-                $attachmentPath = \InvoiceGenerator::generateInvoice($reservation);
+                $attachmentPath = InvoiceGenerator::generateInvoice($reservation);
             }
 
             // Envoi d’email
             require_once 'EmailHelper.php';
             $subject = ($status === 'confirmed') ? "Votre réservation a été acceptée !" : "Votre réservation a été refusée";
             $body = ($status === 'confirmed') ? "<p>Votre réservation a été confirmée.</p>" : "<p>Nous sommes désolés, votre réservation a été refusée.</p>";
-
             EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
 
             header('Location: admin/reservations');

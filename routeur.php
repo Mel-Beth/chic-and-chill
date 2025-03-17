@@ -36,14 +36,24 @@ if (empty($route[0])) {
             }
             break;
 
+        case 'showroom': // Pour les réservations de showroom (ex. /showroom)
+            $controller = new Controllers\ShowroomController();
+            $controller->index(); // Ou une méthode spécifique comme showroomReservation()
+            break;
+
+        case 'location': // Pour les locations de produits (ex. /rental, remplace 'location' par 'rental')
+            $controller = new Controllers\RentalController();
+            $controller->index(); // Ou une méthode spécifique comme productRental()
+            break;
+
         case 'evenement_detail':
             $controller = new Controllers\EventsController();
             if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
                 $controller->showEvent($_GET['id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -53,8 +63,8 @@ if (empty($route[0])) {
                 $controller->showPack($route[1]); // On passe l'ID du pack
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -69,8 +79,8 @@ if (empty($route[0])) {
                 $controller->reservationPack($_GET['pack_id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -95,8 +105,8 @@ if (empty($route[0])) {
                 $controller->showEvent($_GET['id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -106,8 +116,8 @@ if (empty($route[0])) {
                 $controller->showPack($route[1]); // On passe l'ID du pack
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -117,8 +127,8 @@ if (empty($route[0])) {
                 $controller->reservationPack($_GET['pack_id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -467,15 +477,15 @@ if (empty($route[0])) {
 
                 default:
                     $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                    $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                    include('src/app/Views/erreur.php');
                     exit();
             }
             break;
         default:
             $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+            $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+            include('src/app/Views/erreur.php');
             exit();
             break;
     }

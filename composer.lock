@@ -2151,6 +2151,7 @@
             "time": "2024-09-09T11:45:10+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "tecnickcom/tcpdf",
             "version": "6.8.2",
             "source": {
@@ -2224,6 +2225,8 @@
             "time": "2025-01-26T14:03:12+00:00"
         },
         {
+=======
+>>>>>>> 3ecd073920515f50cf218defd098309a566a62f2
             "name": "tedivm/jshrink",
             "version": "v0.5.2",
             "source": {

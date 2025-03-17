@@ -32,19 +32,19 @@ class InscriptionControllersShop
             // Vérifications des champs
             if (empty($name) || empty($surname) || empty($adresse) || empty($number_phone) || empty($email) || empty($password) || empty($confirm_password)) {
                 $_SESSION['error'] = "Tous les champs doivent être remplis.";
-                header('Location: /site_stage/chic-and-chill/inscription_shop');
+                header('Location: inscription_shop');
                 exit();
             }
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $_SESSION['error'] = "L'adresse email est invalide.";
-                header('Location: /site_stage/chic-and-chill/inscription_shop');
+                header('Location: inscription_shop');
                 exit();
             }
 
             if ($password !== $confirm_password) {
                 $_SESSION['error'] = "Les mots de passe ne correspondent pas.";
-                header('Location: /site_stage/chic-and-chill/inscription_shop');
+                header('Location: inscription_shop');
                 exit();
             }
 
@@ -52,7 +52,7 @@ class InscriptionControllersShop
                 // Vérification si l'utilisateur existe déjà via le modèle
                 if ($this->userModel->userExists($email)) {
                     $_SESSION['error'] = "Email déjà utilisé.";
-                    header('Location: /site_stage/chic-and-chill/inscription_shop');
+                    header('Location: inscription_shop');
                     exit();
                 }
 
@@ -64,7 +64,7 @@ class InscriptionControllersShop
 
                 if ($result === true) {
                     $_SESSION['message'] = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
-                    header('Location: /site_stage/chic-and-chill/connexion_shop');
+                    header('Location: connexion_shop');
                     exit();
                 } else {
                     $_SESSION['error'] = $result;
@@ -73,7 +73,7 @@ class InscriptionControllersShop
                 }
             } catch (PDOException $e) {
                 $_SESSION['error'] = "Erreur lors de l'inscription : " . $e->getMessage();
-                header('Location: /site_stage/chic-and-chill/inscription_shop');
+                header('Location: inscription_shop');
                 exit();
             }
         }

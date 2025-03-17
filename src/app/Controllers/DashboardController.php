@@ -17,8 +17,14 @@ class DashboardController
     {
 
         if (!isset($_SESSION['user_role']) || empty($_SESSION['user_role']) || $_SESSION['user_role'] != 'admin') {
+<<<<<<< HEAD
             header("Location: ../connexion_shop");
             exit();
+=======
+           var_dump($_SESSION['user_role']); die();
+            header("Location: ../connexion_shop");
+            exit(); 
+>>>>>>> 3ecd073920515f50cf218defd098309a566a62f2
         } else {
 
             $stats = $this->dashboardModel->getDashboardStats();

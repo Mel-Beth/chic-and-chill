@@ -7,7 +7,7 @@ class InvoiceGenerator
     public static function generateInvoice($reservation)
     {
         // Créer un objet TCPDF
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new TCPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Chic & Chill');
         $pdf->SetTitle('Facture');
