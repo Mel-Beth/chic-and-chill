@@ -19,12 +19,7 @@ class SettingsController
     public function showSettings()
     {
 
-        if (!isset($_SESSION['user'])) {
-            header("Location: login");
-            exit();
-        }
-
-        $settings = $this->settingsModel->getSettings($_SESSION['user']);
+        $settings = $this->settingsModel->getSettings($_SESSION['user_id']);
         $history = $this->settingsModel->getActionHistory();
 
         include 'src/app/Views/Admin/admin_settings.php';
@@ -34,12 +29,12 @@ class SettingsController
     public function updateSettings()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $userId = $_SESSION['user'];
+            $userId = $_SESSION['user_id'];
             $username = htmlspecialchars($_POST["username"]);
             $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
 
@@ -59,12 +54,12 @@ class SettingsController
     public function updateAppearanceSettings()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $userId = $_SESSION['user'];
+            $userId = $_SESSION['user_id'];
             $darkMode = $_POST["darkMode"] ?? "disabled";
             $themeColor = $_POST["themeColor"] ?? "blue";
             $fontFamily = $_POST["fontFamily"] ?? "sans-serif";
@@ -83,12 +78,12 @@ class SettingsController
     public function updatePassword()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $userId = $_SESSION['user'];
+            $userId = $_SESSION['user_id'];
             $currentPassword = $_POST["current_password"];
             $newPassword = $_POST["new_password"];
             $confirmPassword = $_POST["confirm_password"];
@@ -112,11 +107,11 @@ class SettingsController
     public function deleteAccount()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
-        $userId = $_SESSION['user'];
+        $userId = $_SESSION['user_id'];
         $this->settingsModel->deleteAccount($userId);
 
         session_destroy();
@@ -127,14 +122,14 @@ class SettingsController
     public function updateNotifications()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
         $input = json_decode(file_get_contents("php://input"), true);
 
         if ($input) {
-            $userId = $_SESSION['user'];
+            $userId = $_SESSION['user_id'];
 
             $this->settingsModel->updateNotificationSettings(
                 $userId,
@@ -157,11 +152,11 @@ class SettingsController
     public function viewInvoices()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
-        $userId = $_SESSION['user'];
+        $userId = $_SESSION['user_id'];
         $invoices = $this->settingsModel->getInvoices($userId);
         include 'src/app/Views/Admin/admin_invoices.php';
     }
@@ -169,12 +164,12 @@ class SettingsController
     public function cancelSubscription()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             echo json_encode(["success" => false, "message" => "Accès refusé."]);
             exit();
         }
 
-        $userId = $_SESSION['user'];
+        $userId = $_SESSION['user_id'];
         $success = $this->settingsModel->cancelUserSubscription($userId);
 
         echo json_encode(["success" => $success]);
@@ -184,7 +179,7 @@ class SettingsController
     public function applyPromo()
     {
 
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             echo json_encode(["success" => false, "message" => "Accès refusé."]);
             exit();
         }
@@ -195,7 +190,7 @@ class SettingsController
             exit();
         }
 
-        $userId = $_SESSION['user'];
+        $userId = $_SESSION['user_id'];
         $success = $this->settingsModel->applyPromoCode($userId, $input["promoCode"]);
 
         echo json_encode(["success" => $success]);
@@ -238,11 +233,11 @@ class SettingsController
 
     public function logAction($action)
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             return;
         }
 
-        $userId = $_SESSION['user'];
+        $userId = $_SESSION['user_id'];
         $username = $_SESSION['username'];
         $ipAddress = $_SERVER['REMOTE_ADDR'];
 
@@ -324,7 +319,7 @@ class SettingsController
     // Réinitialisation du cache
     public function resetCache()
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
@@ -338,7 +333,7 @@ class SettingsController
     // Mise à jour des statistiques
     public function updateStats()
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 
@@ -351,7 +346,7 @@ class SettingsController
     // Nettoyage des commandes inactives
     public function cleanOldOrders()
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isset($_SESSION['user_id'])) {
             die("Accès refusé.");
         }
 

@@ -64,7 +64,7 @@
 
     <!-- Déconnexion -->
     <div class="border-t border-gray-700 p-4">
-        <a href="logout" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
+        <a href="admin/logout" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
             <span class="material-icons">logout</span>
             <span>Déconnexion</span>
         </a>

@@ -1,9 +1,10 @@
 <?php
 
-namespace Helpers;
+namespace Controllers;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 class EmailHelper
 {
@@ -13,12 +14,13 @@ class EmailHelper
 
         try {
             // Paramètres du serveur SMTP
-            $mail->isSMTP();
-            $mail->Host = $_ENV['SMTP_HOST'];
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $mail->isSMTP();                                            //Send using SMTP            $mail->Host = $_ENV['SMTP_HOST'];
+            $mail->Host       = $_ENV["SMTP_HOST"];                     //Set the SMTP server to send through
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['SMTP_USER'];
-            $mail->Password = $_ENV['SMTP_PASS'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Password = $_ENV['SMTP_PASSWORD'];
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
             $mail->Port = $_ENV['SMTP_PORT'];
 
             // Expéditeur et destinataire

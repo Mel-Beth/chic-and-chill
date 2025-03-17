@@ -103,13 +103,14 @@ class ReservationController
             $attachmentPath = null;
             if ($status === 'confirmed') {
                 require_once 'invoice_generator.php';
-                $attachmentPath = InvoiceGenerator::generateInvoice($reservation);
+                $attachmentPath = \InvoiceGenerator::generateInvoice($reservation);
             }
 
             // Envoi d’email
             require_once 'EmailHelper.php';
             $subject = ($status === 'confirmed') ? "Votre réservation a été acceptée !" : "Votre réservation a été refusée";
             $body = ($status === 'confirmed') ? "<p>Votre réservation a été confirmée.</p>" : "<p>Nous sommes désolés, votre réservation a été refusée.</p>";
+
             EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
 
             header('Location: admin/reservations');
@@ -121,25 +122,74 @@ class ReservationController
 
     public function showInvoice($id)
     {
-        // 1. Récupérer la réservation
-        $reservation = $this->reservationModel->getReservationById($id);
-        if (!$reservation) {
-            die("Réservation introuvable.");
+        // var_dump($_SESSION);
+        // die();
+        if (!isset($_SESSION['user_role']) || empty($_SESSION['user_role'])) {
+
+            // Redirection vers page erreur
+            $code_erreur = 401;
+            $description_erreur = "Vous n'avez pas les droits pour accéder à cette page.";
+            include('src/app/Views/erreur.php');
+            exit();
+            // Sinon si on est connecté en tant qu'admin
+        } else if ($_SESSION['user_role'] === 'admin') {
+            // 1. Récupérer la réservation
+            $reservation = $this->reservationModel->getReservationById($id);
+            if (!$reservation) {
+                $code_erreur = 404;
+                $description_erreur = "Oups... Réservation introuvable.";
+                include('src/app/Views/erreur.php');
+            } else {
+
+                // 2. Générer le PDF via ton invoice_generator
+                require_once 'invoice_generator.php';
+                $filePath = \InvoiceGenerator::generateInvoice($reservation);
+
+                // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
+                header('Content-Type: application/pdf');
+                // -> Pour un affichage direct : inline
+                header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
+                // -> Pour un téléchargement direct : attachment
+                // header('Content-Disposition: attachment; filename="facture_'.$id.'.pdf"');
+                readfile($filePath);
+                exit();
+            }
+            // Sinon si on est connecté en tant que client
+        } else {
+            // On va récupérer tous les id de commandes dans la bdd liée à l'id du client qui vaut $_SESSION['id']
+            $reservations = $this->reservationModel->getReservationsByCustomerId($_SESSION['id']);
+            // On va vérifier si l'id de la commande demandée est bien dans le tableau des id de commandes
+            $id_reservations = array_column($reservations, 'id');
+            if (in_array($id, $id_reservations)) {
+                // 1. Récupérer la réservation
+                $reservation = $this->reservationModel->getReservationById($id);
+                if (!$reservation) {
+                    $code_erreur = 404;
+                    $description_erreur = "Oups... Réservation introuvable.";
+                    include('src/app/Views/erreur.php');
+                } else {
+
+                    // 2. Générer le PDF via ton invoice_generator
+                    require_once 'invoice_generator.php';
+                    $filePath = \InvoiceGenerator::generateInvoice($reservation);
+
+                    // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
+                    header('Content-Type: application/pdf');
+                    // -> Pour un affichage direct : inline
+                    header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
+                    // -> Pour un téléchargement direct : attachment
+                    // header('Content-Disposition: attachment; filename="facture_'.$id.'.pdf"');
+                    readfile($filePath);
+                    exit();
+                }
+            } else {
+                // Redirection vers page erreur
+                $code_erreur = 401;
+                $description_erreur = "Vous n'avez pas les droits pour accéder à cette page.";
+                include('src/app/Views/erreur.php');
+                exit();
+            }
         }
-
-        // 2. Générer le PDF via ton invoice_generator
-        require_once 'invoice_generator.php';
-        $filePath = \InvoiceGenerator::generateInvoice($reservation);
-
-        // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
-        header('Content-Type: application/pdf');
-        // -> Pour un affichage direct : inline
-        header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
-        // -> Pour un téléchargement direct : attachment
-        // header('Content-Disposition: attachment; filename="facture_'.$id.'.pdf"');
-
-        readfile($filePath);
-        exit();
     }
 
     public function cancelReservation($id)

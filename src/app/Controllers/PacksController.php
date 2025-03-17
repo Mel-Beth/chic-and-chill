@@ -20,7 +20,9 @@ class PacksController
             $pack = $packsModel->getPackById($id);
 
             if (!$pack) {
-                include('src/app/Views/404.php');
+                $code_erreur = 404;
+                $description_erreur = "Oups... Le pack que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
                 exit();
             }
 

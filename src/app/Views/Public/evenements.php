@@ -54,7 +54,7 @@
                 <?php if (!empty($event['image'])) : ?>
                     <img src="<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
                 <?php else : ?>
-                    <img src="assets/images/events/placeholder.jpg" alt="Image par défaut">
+                    <img src="assets/images/placeholder.webp" alt="Image par défaut">
                 <?php endif; ?>
 
                 <!-- Effet au survol -->
@@ -80,7 +80,7 @@
                     <?php if (!empty($event['image'])) : ?>
                         <img src="<?= htmlspecialchars($event['image']) ?>" loading="lazy" alt="Événement <?= htmlspecialchars($event['title']) ?>" width="350" height="400">
                     <?php else : ?>
-                        <img src="assets/images/events/placeholder.webp" loading="lazy" alt="Image par défaut" width="350" height="400">
+                        <img src="assets/images/placeholder.webp" loading="lazy" alt="Image par défaut" width="350" height="400">
                     <?php endif; ?>
                     <div class="overlay">
                         <h4><?= htmlspecialchars($event['title']) ?></h4>
@@ -138,7 +138,7 @@
                             <?php if (!empty($tenue['image'])) : ?>
                                 <img src="assets/images/products/<?= htmlspecialchars($tenue['image']) ?>" loading="lazy" alt="<?= htmlspecialchars($tenue['outfit_name']) ?>" width="176" height="176">
                             <?php else : ?>
-                                <img src="assets/images/events/placeholder.webp" loading="lazy" alt="Image par défaut" width="176" height="176">
+                                <img src="assets/images/placeholder.webp" loading="lazy" alt="Image par défaut" width="176" height="176">
                             <?php endif; ?>
                         </a>
                         <h4 class="font-semibold text-xl"><?= htmlspecialchars($tenue['outfit_name']) ?></h4>

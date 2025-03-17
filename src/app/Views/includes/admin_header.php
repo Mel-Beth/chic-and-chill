@@ -9,7 +9,6 @@ $adminProfileImage = $adminProfileImage ?? 'assets/images/admin/default-avatar.p
         <div class="flex items-center space-x-2">
             <img src="<?= htmlspecialchars($adminProfileImage) ?>" alt="Admin" class="w-10 h-10 rounded-full border">
             <span class="text-gray-700"><?= htmlspecialchars($adminName) ?></span>
-            <span class="material-icons text-gray-600">arrow_drop_down</span>
         </div>
     </div>
 </header>

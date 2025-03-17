@@ -29,7 +29,9 @@ class UsersController
             $user = $usersModel->getUserById($id);
 
             if (!$user) {
-                include('src/app/Views/404.php');
+                $code_erreur = 404;
+                $description_erreur = "Oups... L'utilisateur que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
                 exit();
             }
 
@@ -76,7 +78,9 @@ class UsersController
         $user = $usersModel->getUserById($id);
 
         if (!$user) {
-            include('src/app/Views/404.php');
+            $code_erreur = 404;
+            $description_erreur = "Oups... L'utilisateur que vous cherchez n'existe pas.";
+            include('src/app/Views/erreur.php');
             exit();
         }
 

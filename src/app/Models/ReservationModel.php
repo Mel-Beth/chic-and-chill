@@ -55,7 +55,7 @@ class ReservationModel extends ModeleParent
 
     public function getReservationById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM reservations WHERE id = ?");
+        $stmt = $this->pdo->prepare("SELECT * FROM event_reservations WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
     }

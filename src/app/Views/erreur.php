@@ -1,3 +1,10 @@
+<?php
+// Vérifier si les variables sont définies avant de les utiliser
+$code_erreur = isset($code_erreur) ? $code_erreur : 'Erreur inconnue';
+$description_erreur = isset($description_erreur) ? $description_erreur : 'Aucune description fournie';
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <html>
@@ -40,7 +47,6 @@
     </div>
 </header>
 
-<!-- Conteneur principal pour l'erreur 404 -->
 <div id="error-container" class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
 
     <!-- Image de fond (identique à celle de l'accueil) -->
@@ -49,12 +55,13 @@
     <!-- Cercle central indiquant l'erreur -->
     <div id="circle-error" class="absolute flex flex-col justify-center items-center z-10 rounded-full border-[3px] border-[#8B5A2B] bg-white/20 backdrop-blur-md shadow-lg">
         <span class="text-[#8B5A2B] font-bold tracking-wide text-4xl md:text-6xl" style="font-family: 'Cormorant Garamond', serif;">
-            Erreur 404
+            Erreur <?= $code_erreur ?>
         </span>
         <p class="text-gray-800 font-semibold text-lg md:text-xl text-center mt-2 px-4">
-            Oups... La page que vous cherchez n'existe pas.
+            <?= $description_erreur ?>
         </p>
     </div>
+
 
     <!-- Bouton retour à l'accueil, repositionné plus haut -->
     <a href="accueil"
@@ -75,10 +82,10 @@
 <style>
     /* Style du cercle d'erreur */
     #circle-error {
-        width: 28vw;
-        height: 28vw;
-        max-width: 280px;
-        max-height: 280px;
+        width: 40vw;
+        height: 40vw;
+        max-width: 320px;
+        max-height: 320px;
         text-align: center;
     }
 
