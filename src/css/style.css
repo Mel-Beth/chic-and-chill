@@ -1,8 +1,4 @@
-
-
 /* Import css pour la partie eCommerce du site */
-
-@import url('output.css');
 @import url('header_shop.css');
 @import url('footer_shop.css');
 @import url('produits_shop.css');
@@ -14,13 +10,12 @@
 @import url('profil_user_shop.css');
 @import url('panier_shop.css');
 @import url('paiement_succes_shop.css');
-<<<<<<< HEAD
 @import url('mentions_shop.css');
 @import url('moyen_paiement_shop.css');
-
-=======
 @import url('evenements.css');
->>>>>>> bd8e2ba20723394bf72b6bd4822dcd47af7dbb4b
+@import url('loupe_recherche.css');
+@import url('contact_shop.css');
+
 
 html {
   scroll-behavior: smooth;

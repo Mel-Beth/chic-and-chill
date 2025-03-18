@@ -52,7 +52,7 @@ class ConnexionControllersShop
                     $_SESSION['user_role'] = $user['role'];
                     $_SESSION['user_adresse'] = $user['adresse'];
                     $_SESSION['user_number_phone'] = $user['number_phone'];
-
+                    
                     // Redirection selon le rôle
                     if ($user['role'] == 'client') {
                         $_SESSION['message'] = "Bonjour, " . htmlspecialchars($user['name']) . "!";
@@ -60,7 +60,7 @@ class ConnexionControllersShop
                     } elseif ($user['role'] == 'admin') {
                         $_SESSION['message'] = "Bonjour, " . htmlspecialchars($user['name']) . "!";
                         $_SESSION['admin_dashboard'] = true;
-                        header("Location: /site_stage/chic-and-chill/dashboard_admin");
+                        header("Location: /site_stage/chic-and-chill/admin/dashboard");
                     }
                     exit;
                 } else {

@@ -34,7 +34,8 @@
 
         <?php if (!empty($products)): ?>
             <?php foreach ($products as $product): ?>
-                <div class="product-card">
+                <!-- le data stock c'est pr suppr les produits avec un stock à 0 -->
+              <div class="product-card" data-stock="<?= $product['stock'] ?>">
                 <?php
     $defaultImage = '/site_stage/chic-and-chill/assets/images/default_photo.jpg';
     $imageSrc = (!empty($product['image']) && file_exists($product['image'])) ? htmlspecialchars($product['image']) : $defaultImage;
@@ -66,6 +67,19 @@
         });
     </script>
 
+
+<!-- le script pr suppr la card ac stock à 0 -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".product-card").forEach(card => {
+        let stock = card.getAttribute("data-stock");
+        if (parseInt(stock) === 0) {
+            card.remove(); // Supprime la card si le stock est 0
+        }
+    });
+});
+</script>
+<script src="src/app/js/loupe_recherche.js"></script>
 </body>
 
 </html>

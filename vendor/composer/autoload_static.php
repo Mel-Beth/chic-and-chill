@@ -4,30 +4,57 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
+class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        'bbf73f3db644d3dced353b837903e74c' => __DIR__ . '/..' . '/php-di/php-di/src/DI/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\HttpKernel\\' => 29,
+            'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Component\\EventDispatcher\\' => 34,
+            'Symfony\\Component\\Debug\\' => 24,
+            'Symfony\\Component\\Console\\' => 26,
+            'Symfony\\Bridge\\Monolog\\' => 23,
             'Stripe\\' => 7,
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
+            'Psr\\Container\\' => 14,
+            'Piwik\\Plugins\\' => 14,
+            'Piwik\\Network\\' => 14,
+            'Piwik\\Ini\\' => 10,
+            'Piwik\\Decompress\\' => 17,
+            'Piwik\\Cache\\' => 12,
+            'Piwik\\' => 6,
             'PhpOption\\' => 10,
+            'PhpDocReader\\' => 13,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
+            'Monolog\\' => 8,
             'Models\\' => 7,
+        ),
+        'I' => 
+        array (
+            'Invoker\\' => 8,
+            'Interop\\Container\\' => 18,
         ),
         'G' => 
         array (
@@ -36,6 +63,9 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'DeviceDetector\\' => 15,
+            'DI\\' => 3,
         ),
         'C' => 
         array (
@@ -48,6 +78,10 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -60,21 +94,93 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Symfony\\Component\\HttpKernel\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-kernel',
+        ),
+        'Symfony\\Component\\HttpFoundation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-foundation',
+        ),
+        'Symfony\\Component\\EventDispatcher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/event-dispatcher',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Symfony\\Bridge\\Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/monolog-bridge',
+        ),
         'Stripe\\' => 
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Psr\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Piwik\\Plugins\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/matomo/plugins',
+        ),
+        'Piwik\\Network\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/piwik/network/src',
+        ),
+        'Piwik\\Ini\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/piwik/ini/src',
+        ),
+        'Piwik\\Decompress\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/piwik/decompress/src',
+        ),
+        'Piwik\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/piwik/cache/src',
+        ),
+        'Piwik\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/matomo/matomo/core',
         ),
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
+        'PhpDocReader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
         'Models\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/app/Models',
+        ),
+        'Invoker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-di/invoker/src',
+        ),
+        'Interop\\Container\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (
@@ -83,6 +189,18 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/piwik/device-detector',
+        ),
+        'DI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-di/php-di/src/DI',
         ),
         'Controllers\\' => 
         array (
@@ -94,21 +212,90 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'Z' => 
+        array (
+            'Zend_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'P' => 
+        array (
+            'PEAR_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+        'J' => 
+        array (
+            'JShrink' => 
+            array (
+                0 => __DIR__ . '/..' . '/tedivm/jshrink/src',
+            ),
+        ),
+        'H' => 
+        array (
+            'HTML_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+        'C' => 
+        array (
+            'Console' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/console_getopt',
+            ),
+        ),
+        'A' => 
+        array (
+            'Archive_Tar' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/archive_tar',
+            ),
+            'Archive_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+    );
+
+    public static $fallbackDirsPsr0 = array (
+        0 => __DIR__ . '/..' . '/pear/pear-core-minimal/src',
+    );
+
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'PEAR_Exception' => __DIR__ . '/..' . '/pear/pear_exception/PEAR/Exception.php',
+        'PclZip' => __DIR__ . '/..' . '/piwik/decompress/libs/PclZip/pclzip.lib.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
+        'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$classMap;
 
         }, null, ClassLoader::class);
     }

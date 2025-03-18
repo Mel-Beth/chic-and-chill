@@ -14,7 +14,7 @@ class PanierControllerShop
     public function __construct()
     {
         $this->panierModel = new PanierModelShop();
-        $this->produitModel = new AppelArticleModelShop(); // Permet d'aller chercher les infos produits
+        $this->produitModel = new AppelArticleModelShop(); // on va chercher les infos d produits
     }
 
     // 🔹 Ajouter un produit au panier
@@ -40,14 +40,14 @@ class PanierControllerShop
                 exit;
             }
 
-            // Vérifier si la quantité demandée est disponible
+            // vérifier si la quantité demandée est dispo
             if ($quantite > $produit['stock']) {
                 $_SESSION['error'] = "Stock insuffisant.";
                 header('Location: produit_detail_shop?id=' . $id);
                 exit;
             }
 
-            // Ajouter au panier via le modèle
+            // On ajoute au panier, panierModel c'est le model du même nom
             $ajout = $this->panierModel->ajouterProduit(
                 $produit['id'],
                 $produit['name'],
@@ -80,7 +80,7 @@ class PanierControllerShop
         }
     }
 
-    // 🔹 Modifier la quantité d’un produit
+    // partie ou on modifie la quantité dans le panier, mais a voir, car si un seul produit faut faire en sorte qu'on est pas ce choix
     public function modifierQuantite()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -105,7 +105,7 @@ class PanierControllerShop
         }
     }
 
-    // 🔹 Supprimer un produit du panier
+    // Supprimer un produit du panier
 public function supprimerProduit()
 {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -122,7 +122,7 @@ public function supprimerProduit()
             }
         }
     }
-    // ✅ Redirection vers la page panier après suppression
+    // redirection vers le panier 
     header('Location: panier_shop');
     exit;
 }
@@ -130,7 +130,7 @@ public function supprimerProduit()
 
 
 
-    // 🔹 Vider le panier complètement
+    // vider completement le panier
     public function viderPanier()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -141,12 +141,15 @@ public function supprimerProduit()
         }
     }
 
-    // 🔹 Afficher le panier
+    //afficher le panier
     public function afficherPanier()
     {
         $panier = $this->panierModel->getPanier();
         $total = $this->panierModel->calculerTotal();
 
-        include 'src/app/Views/Public/panier_shop.php'; // Charge la vue du panier
-    }
+        // Stocker le total du panier en session pr l'utiliser plus tard ac stripe
+    $_SESSION['panier_total'] = $total;
+
+        include 'src/app/Views/Public/panier_shop.php'; //afficher la page du panier
+}
 }

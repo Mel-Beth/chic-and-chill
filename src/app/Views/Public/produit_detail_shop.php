@@ -39,7 +39,7 @@ unset($_SESSION['message']); // Supprime le message dès le chargement de la pag
             <p class="produit_prix_shop"><?php echo number_format($produit['price'], 2, ',', ' '); ?> €</p>
 
 
-            <!-- Affichage de la taille -->
+            <!-- Affichage de la taille du vêtement-->
             <?php if (!empty($produit['size'])): ?>
                 <p class="produit_taille_shop"><strong>Taille :</strong> <?php echo htmlspecialchars($produit['size']); ?></p>
             <?php endif; ?>
@@ -61,7 +61,7 @@ unset($_SESSION['message']); // Supprime le message dès le chargement de la pag
     <button type="submit" class="btn_ajout_panier_shop">Ajouter au panier</button>
 </form>
 
-            <!-- ✅ Affichage conditionnel de la section "Disponible à la location" -->
+            <!-- Affichage conditionnel pr la location, si oui, affichage du btn -->
             <?php if ($produit['is_rentable'] === 'oui') : ?>
                 <div class="produit_location_shop">
                     <span class="span_loc_detail_produit">Disponible à la location</span>
@@ -87,6 +87,7 @@ unset($_SESSION['message']); // Supprime le message dès le chargement de la pag
     </script>
 
 
+<!-- afficher le message d'ajout au panier sans rechargement de la page  -->
 <script>
 document.getElementById("ajoutPanierForm").addEventListener("submit", function(event) {
     event.preventDefault(); // Empêche le rechargement de la page

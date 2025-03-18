@@ -19,12 +19,7 @@ class SettingsController
     public function showSettings()
     {
 
-        if (!isset($_SESSION['user'])) {
-            header("Location: login");
-            exit();
-        }
-
-        $settings = $this->settingsModel->getSettings($_SESSION['user']);
+        $settings = $this->settingsModel->getSettings($_SESSION['user_id']);
         $history = $this->settingsModel->getActionHistory();
 
         include 'src/app/Views/Admin/admin_settings.php';

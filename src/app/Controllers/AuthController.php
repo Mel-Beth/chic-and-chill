@@ -13,80 +13,16 @@ class AuthController
         $this->authModel = new AuthModel();
     }
 
-    public function login()
-{
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-        $password = $_POST["password"];
-
-        if (!$email || !$password) {
-            $_SESSION["error"] = "Email ou mot de passe invalide.";
-            header("Location: login");
-            exit;
-        }
-
-        $user = $this->authModel->getUserByEmail($email);
-
-        if ($user && password_verify($password, $user["password"])) {
-            $_SESSION["user"] = [
-                "id" => $user["id"],
-                "name" => $user["name"],
-                "email" => $user["email"],
-                "role" => $user["role"]
-            ];
-
-                if ($user["role"] === "admin") {
-                    header("Location: admin/dashboard");
-                    exit();
-                } else {
-                    header("Location: boutique");
-                    exit();
-                }
-                exit();
-            } else {
-                $_SESSION["error"] = "Identifiants incorrects.";
-                header("Location: login.php");
-                exit;
-            }
-        }
-
-        include 'src/app/Views/Auth/login.php';
-    }
-
-    public function register()
-    {
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $name = htmlspecialchars($_POST["name"]);
-            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-            $password = $_POST["password"];
-            $confirmPassword = $_POST["confirm_password"];
-
-            if (!$email || !$password || $password !== $confirmPassword) {
-                die("Erreur dans l'inscription.");
-            }
-
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-            $success = $this->authModel->registerUser($name, $email, $hashedPassword);
-
-            if ($success) {
-                header("Location: login?registered=1");
-                exit();
-            } else {
-                die("Erreur d'inscription.");
-            }
-        }
-
-        include 'src/app/Views/Auth/register.php';
-    }
 
     public function logout()
     {
+        session_start(); // Démarrer la session
+        session_unset(); // Supprime toutes les variables de session
+        session_destroy(); // Détruit la session
         
-        session_destroy();
-        header("Location: login");
-        exit();
+        // Redirection vers la page d'accueil
+        header("Location: ../accueil_shop");
+        exit;
     }
 
     public function forgotPassword()
