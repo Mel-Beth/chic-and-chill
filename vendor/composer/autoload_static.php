@@ -5,6 +5,7 @@
 namespace Composer\Autoload;
 
 class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
+class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -13,9 +14,14 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'bbf73f3db644d3dced353b837903e74c' => __DIR__ . '/..' . '/php-di/php-di/src/DI/functions.php',
+        'bbf73f3db644d3dced353b837903e74c' => __DIR__ . '/..' . '/php-di/php-di/src/DI/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'T' => 
+        array (
+            'Twig\\' => 5,
+        ),
         'T' => 
         array (
             'Twig\\' => 5,
@@ -52,12 +58,22 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
             'Piwik\\Decompress\\' => 17,
             'Piwik\\Cache\\' => 12,
             'Piwik\\' => 6,
+            'Psr\\Log\\' => 8,
+            'Psr\\Container\\' => 14,
+            'Piwik\\Plugins\\' => 14,
+            'Piwik\\Network\\' => 14,
+            'Piwik\\Ini\\' => 10,
+            'Piwik\\Decompress\\' => 17,
+            'Piwik\\Cache\\' => 12,
+            'Piwik\\' => 6,
             'PhpOption\\' => 10,
+            'PhpDocReader\\' => 13,
             'PhpDocReader\\' => 13,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
+            'Monolog\\' => 8,
             'Monolog\\' => 8,
             'Models\\' => 7,
         ),
@@ -80,6 +96,9 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
             'Doctrine\\Common\\Cache\\' => 22,
             'DeviceDetector\\' => 15,
             'DI\\' => 3,
+            'Doctrine\\Common\\Cache\\' => 22,
+            'DeviceDetector\\' => 15,
+            'DI\\' => 3,
         ),
         'C' => 
         array (
@@ -99,6 +118,10 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
     );
 
     public static $prefixDirsPsr4 = array (
+        'Twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
@@ -207,9 +230,17 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         array (
             0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
         ),
+        'PhpDocReader\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
+        ),
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Monolog\\' => 
         array (
@@ -238,6 +269,18 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Doctrine\\Common\\Cache\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'DeviceDetector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/piwik/device-detector',
+        ),
+        'DI\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-di/php-di/src/DI',
         ),
         'Doctrine\\Common\\Cache\\' => 
         array (
@@ -349,6 +392,66 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         0 => __DIR__ . '/..' . '/pear/pear-core-minimal/src',
     );
 
+    public static $prefixesPsr0 = array (
+        'Z' => 
+        array (
+            'Zend_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'P' => 
+        array (
+            'PEAR_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+        'J' => 
+        array (
+            'JShrink' => 
+            array (
+                0 => __DIR__ . '/..' . '/tedivm/jshrink/src',
+            ),
+        ),
+        'H' => 
+        array (
+            'HTML_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+        'C' => 
+        array (
+            'Console' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/console_getopt',
+            ),
+        ),
+        'A' => 
+        array (
+            'Archive_Tar' => 
+            array (
+                0 => __DIR__ . '/..' . '/pear/archive_tar',
+            ),
+            'Archive_' => 
+            array (
+                0 => __DIR__ . '/..' . '/matomo/matomo/libs',
+            ),
+        ),
+    );
+
+    public static $fallbackDirsPsr0 = array (
+        0 => __DIR__ . '/..' . '/pear/pear-core-minimal/src',
+    );
+
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
@@ -377,11 +480,21 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
         'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
         'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_formatter_lessjs' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
+        'lessc_parser' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$classMap;
             $loader->prefixLengthsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixesPsr0;

@@ -45,7 +45,7 @@ class ConnexionControllersShop
                     $_SESSION['user_role'] = $user['role'];
                     $_SESSION['user_adresse'] = $user['adresse'];
                     $_SESSION['user_number_phone'] = $user['number_phone'];
-
+                    
                     // Redirection selon le rôle
                     $_SESSION['message'] = "Bonjour, " . htmlspecialchars($user['name']) . "!";
 

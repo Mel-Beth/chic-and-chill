@@ -1,9 +1,12 @@
 /*! tailwindcss v4.0.9 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.9 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(0.637 0.237 25.331);
@@ -1384,6 +1387,7 @@
   initial-value: 0;
 }
 @property --tw-divide-y-reverse {
+@property --tw-divide-y-reverse {
   syntax: "*";
   inherits: false;
   initial-value: 0;
@@ -1500,6 +1504,10 @@
   syntax: "*";
   inherits: false;
 }
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-backdrop-blur {
   syntax: "*";
   inherits: false;
@@ -1545,17 +1553,23 @@
   inherits: false;
 }
 @property --tw-scale-x {
+@property --tw-scale-x {
   syntax: "*";
   inherits: false;
   initial-value: 1;
+  initial-value: 1;
 }
+@property --tw-scale-y {
 @property --tw-scale-y {
   syntax: "*";
   inherits: false;
   initial-value: 1;
+  initial-value: 1;
 }
+@property --tw-scale-z {
 @property --tw-scale-z {
   syntax: "*";
   inherits: false;
+  initial-value: 1;
   initial-value: 1;
 }

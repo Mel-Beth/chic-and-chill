@@ -3,7 +3,11 @@
         'name' => 'alaji/chic-and-chill',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
+<<<<<<< HEAD
         'reference' => '16ccd1beda27174683fc1fe73fcd9defdded9aa8',
+=======
+        'reference' => '7d0297ab2ad15aa93d50039a3103febd6c0f7d97',
+>>>>>>> 16ccd1b (commit pauline)
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,12 +17,17 @@
         'alaji/chic-and-chill' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
+<<<<<<< HEAD
             'reference' => '16ccd1beda27174683fc1fe73fcd9defdded9aa8',
+=======
+            'reference' => '7d0297ab2ad15aa93d50039a3103febd6c0f7d97',
+>>>>>>> 16ccd1b (commit pauline)
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'composer/ca-bundle' => array(
             'pretty_version' => '1.5.6',
             'version' => '1.5.6.0',
@@ -82,6 +91,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'container-interop/container-interop' => array(
             'pretty_version' => '1.2.0',
             'version' => '1.2.0.0',
@@ -115,6 +126,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'justinrainbow/json-schema' => array(
             'pretty_version' => '5.3.0',
             'version' => '5.3.0.0',
@@ -124,6 +136,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'leafo/lessphp' => array(
             'pretty_version' => 'v0.4.0',
             'version' => '0.4.0.0',
@@ -331,6 +345,7 @@
                 0 => '1.0.0',
             ),
         ),
+<<<<<<< HEAD
         'react/promise' => array(
             'pretty_version' => 'v2.11.0',
             'version' => '2.11.0.0',
@@ -340,12 +355,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'rsky/pear-core-min' => array(
             'dev_requirement' => false,
             'provided' => array(
                 0 => '*',
             ),
         ),
+<<<<<<< HEAD
         'seld/jsonlint' => array(
             'pretty_version' => '1.11.0',
             'version' => '1.11.0.0',
@@ -364,6 +382,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'stripe/stripe-php' => array(
             'pretty_version' => 'v16.6.0',
             'version' => '16.6.0.0',
@@ -400,6 +420,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'symfony/filesystem' => array(
             'pretty_version' => 'v6.4.13',
             'version' => '6.4.13.0',
@@ -418,6 +439,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'symfony/http-foundation' => array(
             'pretty_version' => 'v3.1.10',
             'version' => '3.1.10.0',
@@ -481,6 +504,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'symfony/process' => array(
             'pretty_version' => 'v6.4.19',
             'version' => '6.4.19.0',
@@ -499,6 +523,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'tedivm/jshrink' => array(
             'pretty_version' => 'v0.5.2',
             'version' => '0.5.2.0',
