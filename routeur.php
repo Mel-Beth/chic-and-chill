@@ -183,7 +183,7 @@ if (empty($route[0])) {
 
             case 'profil_user_shop':
                 $controller = new Controllers\ProfilControllersShop();
-                $controller->showUserProfile();
+                $controller->showUserInfos();
                 break;
 
             case 'inscription_shop':
