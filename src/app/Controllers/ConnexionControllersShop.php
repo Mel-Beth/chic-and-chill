@@ -19,9 +19,9 @@ class ConnexionControllersShop
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                // Récupération des données du formulaire
-                $identifier = isset($_POST['identifier']) ? trim($_POST['identifier']) : null;
-                $password = isset($_POST['password']) ? trim($_POST['password']) : null;
+            // Récupération des données du formulaire
+            $identifier = isset($_POST['identifier']) ? trim($_POST['identifier']) : null;
+            $password = isset($_POST['password']) ? trim($_POST['password']) : null;
 
             // Vérification des champs vides
             if (empty($identifier) || empty($password)) {
@@ -33,7 +33,7 @@ class ConnexionControllersShop
             try {
                 // Appel au modèle pour récupérer l'utilisateur
                 $user = $this->coModel->getUserByIdentifierOrEmail($identifier);
-                
+
                 // Vérification du mot de passe
                 if ($user && password_verify($password, $user['password'])) {
                     // Initialisation des données utilisateur dans la session
@@ -45,7 +45,7 @@ class ConnexionControllersShop
                     $_SESSION['user_role'] = $user['role'];
                     $_SESSION['user_adresse'] = $user['adresse'];
                     $_SESSION['user_number_phone'] = $user['number_phone'];
-                    
+
                     // Redirection selon le rôle
                     $_SESSION['message'] = "Bonjour, " . htmlspecialchars($user['name']) . "!";
 
@@ -59,15 +59,15 @@ class ConnexionControllersShop
                 } else {
                     // Gestion des identifiants incorrects
                     $_SESSION['error'] = "Identifiant ou mot de passe incorrect.";
-                        header("Location: connexion_shop");
-                        exit;
-                    }
-                } catch (\PDOException $e) {
-                    // Gestion des erreurs de connexion à la base de données
-                    $_SESSION['error'] = "Erreur de connexion à la base de données : " . $e->getMessage();
                     header("Location: connexion_shop");
                     exit;
                 }
+            } catch (\PDOException $e) {
+                // Gestion des erreurs de connexion à la base de données
+                $_SESSION['error'] = "Erreur de connexion à la base de données : " . $e->getMessage();
+                header("Location: connexion_shop");
+                exit;
             }
         }
+    }
 }
