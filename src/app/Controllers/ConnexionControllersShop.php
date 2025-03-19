@@ -65,7 +65,6 @@ class ConnexionControllersShop
                 } catch (\PDOException $e) {
                     // Gestion des erreurs de connexion à la base de données
                     $_SESSION['error'] = "Erreur de connexion à la base de données : " . $e->getMessage();
->>>>>>> ed44300d624c33647369b42203ed15526d849112
                     header("Location: connexion_shop");
                     exit;
                 }
