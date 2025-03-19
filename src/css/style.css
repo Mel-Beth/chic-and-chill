@@ -13,9 +13,12 @@
 @import url('mentions_shop.css');
 @import url('moyen_paiement_shop.css');
 @import url('evenements.css');
+<<<<<<< HEAD
 @import url('loupe_recherche.css');
 @import url('contact_shop.css');
 
+=======
+>>>>>>> ed44300d624c33647369b42203ed15526d849112
 
 html {
   scroll-behavior: smooth;

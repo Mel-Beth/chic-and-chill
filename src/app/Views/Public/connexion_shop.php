@@ -16,7 +16,7 @@
     <div class="login_container_shop">
         <div class="login_box_shop">
             <h2>Connexion</h2>
-            <form action="/site_stage/chic-and-chill/connexion_shop" method="POST">
+            <form action="connexion_shop" method="POST">
                 <!-- Champ Identifiant ou Email -->
                 <div class="form_id_shop">
                     <label for="identifier">Identifiant ou Email</label>

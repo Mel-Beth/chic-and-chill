@@ -11,7 +11,9 @@ class ExportController
         $exportModel = new ExportModel();
 
         if (!in_array($type, ['reservations', 'users', 'payments'])) {
-            include 'app/Views/404.php';
+            $code_erreur = 404;
+            $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+            include('src/app/Views/erreur.php');
             return;
         }
 

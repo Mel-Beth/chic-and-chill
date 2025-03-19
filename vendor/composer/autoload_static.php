@@ -10,6 +10,7 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '04c6c5c2f7095ccf6c481d3e53e1776f' => __DIR__ . '/..' . '/mustangostang/spyc/Spyc.php',
+        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'bbf73f3db644d3dced353b837903e74c' => __DIR__ . '/..' . '/php-di/php-di/src/DI/functions.php',
     );
@@ -24,13 +25,22 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\HttpKernel\\' => 29,
             'Symfony\\Component\\HttpFoundation\\' => 33,
+            'Symfony\\Component\\Finder\\' => 25,
+            'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Bridge\\Monolog\\' => 23,
             'Stripe\\' => 7,
+            'Seld\\PharUtils\\' => 15,
+            'Seld\\JsonLint\\' => 14,
+        ),
+        'R' => 
+        array (
+            'React\\Promise\\' => 14,
         ),
         'P' => 
         array (
@@ -51,6 +61,10 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
             'Monolog\\' => 8,
             'Models\\' => 7,
         ),
+        'J' => 
+        array (
+            'JsonSchema\\' => 11,
+        ),
         'I' => 
         array (
             'Invoker\\' => 8,
@@ -70,6 +84,13 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'C' => 
         array (
             'Controllers\\' => 12,
+            'Composer\\XdebugHandler\\' => 23,
+            'Composer\\Spdx\\' => 14,
+            'Composer\\Semver\\' => 16,
+            'Composer\\Pcre\\' => 14,
+            'Composer\\MetadataMinifier\\' => 26,
+            'Composer\\CaBundle\\' => 18,
+            'Composer\\' => 9,
         ),
         'A' => 
         array (
@@ -94,6 +115,10 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Symfony\\Component\\Process\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/process',
+        ),
         'Symfony\\Component\\HttpKernel\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/http-kernel',
@@ -101,6 +126,14 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'Symfony\\Component\\HttpFoundation\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/http-foundation',
+        ),
+        'Symfony\\Component\\Finder\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/finder',
+        ),
+        'Symfony\\Component\\Filesystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/filesystem',
         ),
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
@@ -121,6 +154,18 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'Stripe\\' => 
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
+        'Seld\\PharUtils\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/phar-utils/src',
+        ),
+        'Seld\\JsonLint\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seld/jsonlint/src/Seld/JsonLint',
+        ),
+        'React\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/react/promise/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -174,6 +219,10 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         array (
             0 => __DIR__ . '/../..' . '/src/app/Models',
         ),
+        'JsonSchema\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
+        ),
         'Invoker\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/invoker/src',
@@ -205,6 +254,34 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
         'Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/app/Controllers',
+        ),
+        'Composer\\XdebugHandler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/xdebug-handler/src',
+        ),
+        'Composer\\Spdx\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/spdx-licenses/src',
+        ),
+        'Composer\\Semver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/semver/src',
+        ),
+        'Composer\\Pcre\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/pcre/src',
+        ),
+        'Composer\\MetadataMinifier\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/metadata-minifier/src',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
+        ),
+        'Composer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/composer/src/Composer',
         ),
         'Alaji\\ChicAndChill\\' => 
         array (
@@ -275,10 +352,24 @@ class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Datamatrix' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
+        'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
         'PEAR_Exception' => __DIR__ . '/..' . '/pear/pear_exception/PEAR/Exception.php',
         'PclZip' => __DIR__ . '/..' . '/piwik/decompress/libs/PclZip/pclzip.lib.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'TCPDF' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf.php',
+        'TCPDF2DBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_2d.php',
+        'TCPDFBarcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_barcodes_1d.php',
+        'TCPDF_COLORS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_colors.php',
+        'TCPDF_FILTERS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_filters.php',
+        'TCPDF_FONTS' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_fonts.php',
+        'TCPDF_FONT_DATA' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_font_data.php',
+        'TCPDF_IMAGES' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_images.php',
+        'TCPDF_IMPORT' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_import.php',
+        'TCPDF_PARSER' => __DIR__ . '/..' . '/tecnickcom/tcpdf/tcpdf_parser.php',
+        'TCPDF_STATIC' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/tcpdf_static.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
         'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
