@@ -1,7 +1,7 @@
 <?php
-include('src/app/Views/includes/admin_head.php');
-include('src/app/Views/includes/admin_header.php');
-include('src/app/Views/includes/admin_sidebar.php');
+include('src/app/Views/includes/Admin/admin_head.php');
+include('src/app/Views/includes/Admin/admin_header.php');
+include('src/app/Views/includes/Admin/admin_sidebar.php');
 ?>
 
 <style>
@@ -30,39 +30,39 @@ include('src/app/Views/includes/admin_sidebar.php');
             <?php if ($success == 1): ?>
                 <?php if (isset($_GET['action']) && $_GET['action'] == 'add'): ?>
                     <div id="successMessage" class="bg-green-500 text-white p-3 rounded-md mb-4">
-                        ✅ Outfit ajouté avec succès !
+                        ✅ Pack ajouté avec succès !
                     </div>
                 <?php elseif (isset($_GET['action']) && $_GET['action'] == 'update'): ?>
                     <div id="successMessage" class="bg-green-500 text-white p-3 rounded-md mb-4">
-                        ✅ Outfit modifié avec succès !
+                        ✅ Pack modifié avec succès !
                     </div>
 
                 <?php endif; ?>
             <?php elseif ($success == 0): ?>
                 <?php if (isset($_GET['action']) && $_GET['action'] == 'add'): ?>
                     <div id="successMessage" class="bg-red-500 text-white p-3 rounded-md mb-4">
-                        ❌ Une erreur est survenue lors de l'ajout de l'outfit. Veuillez réessayer.
+                        ❌ Une erreur est survenue lors de l'ajout du pack. Veuillez réessayer.
                     </div>
                 <?php elseif (isset($_GET['action']) && $_GET['action'] == 'update'): ?>
                     <div id="successMessage" class="bg-red-500 text-white p-3 rounded-md mb-4">
-                        ❌ Une erreur est survenue lors de la modification de l'outfit. Veuillez réessayer.
+                        ❌ Une erreur est survenue lors de la modification du pack. Veuillez réessayer.
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
 
         <div class="flex justify-between items-center mb-8">
-            <h2 class="text-3xl font-bold text-gray-800">👗 Gestion des Idées de Tenues</h2>
+            <h2 class="text-3xl font-bold text-gray-800">🎁 Gestion des Packs</h2>
             <button id="openModal" class="bg-black text-white px-5 py-2 rounded-lg flex items-center space-x-2 hover:bg-gray-800 transition">
                 <span class="material-icons">add</span>
-                <span>Ajouter une tenue</span>
+                <span>Ajouter un pack</span>
             </button>
         </div>
 
         <!-- Recherche et Export -->
         <div class="bg-white p-6 rounded-lg shadow-md">
             <div class="flex justify-between mb-4">
-                <input id="search" type="text" placeholder="Rechercher une tenue..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
+                <input id="search" type="text" placeholder="Rechercher un pack..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
                     <div class="relative">
                         <button id="exportBtn" class="border px-4 py-2 rounded-md hover:bg-gray-100">Exporter</button>
@@ -74,48 +74,50 @@ include('src/app/Views/includes/admin_sidebar.php');
                     </div>
                     <select id="sort" class="border px-4 py-2 rounded-md">
                         <option value="title">Trier par Nom</option>
-                        <option value="date">Trier par Date</option>
+                        <option value="price">Trier par Prix</option>
+                        <option value="stock">Trier par Stock</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Liste des tenues -->
+            <!-- Liste des packs -->
             <table class="w-full border-collapse border">
                 <thead>
                     <tr class="bg-gray-200">
-                        <th class="border p-3">Nom de la tenue</th>
-                        <th class="border p-3">Accessoires</th>
-                        <th class="border p-3">Image</th>
+                        <th class="border p-3">Titre</th>
+                        <th class="border p-3">Description</th>
+                        <th class="border p-3">Prix</th>
+                        <th class="border p-3">Durée en jours</th>
+                        <th class="border p-3">Comprant</th>
                         <th class="border p-3">Statut</th>
-                        <th class="border p-3">Produit</th>
                         <th class="border p-3">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="outfitTable">
-                    <?php foreach ($outfits as $outfit) : ?>
+                <tbody id="packTable">
+                    <?php foreach ($packs as $pack) : ?>
                         <tr class="hover:bg-gray-100">
-                            <td class="border p-3"> <?= htmlspecialchars($outfit['outfit_name']); ?> </td>
-                            <td class="border p-3"> <?= htmlspecialchars($outfit['accessories']); ?> </td>
+                            <td class="border p-3"> <?= htmlspecialchars($pack['title']) ?> </td>
+                            <td class="border p-3"> <?= htmlspecialchars($pack['description']) ?> </td>
+                            <td class="border p-3"> <?= htmlspecialchars($pack['price']) ?>€ </td>
+                            <td class="border p-3"> <?= htmlspecialchars($pack['duration']) ?> </td>
+                            <td class="border p-3"> <?= htmlspecialchars($pack['included']) ?> </td>
                             <td class="border p-3">
-                                <?php $image = isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp'; ?>
-                                <img src="<?= $image; ?>" alt="Image tenue" class="rounded-md w-40 h-40 object-cover">
-                            </td>
-                            <td class="border p-3">
-                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $outfit['status'] == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
-                                    <?= htmlspecialchars($outfit['status']) ?>
+                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $pack['status'] == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
+                                    <?= htmlspecialchars($pack['status']) ?>
                                 </span>
                             </td>
-                            <td class="border p-3"> <?= $outfit['product_id']; ?> </td>
                             <td class="border p-3">
-                                <button class="edit-outfit text-blue-600 hover:underline"
-                                    data-id="<?= $outfit['id'] ?>" data-name="<?= htmlspecialchars($outfit['outfit_name']) ?>"
-                                    data-accessories="<?= htmlspecialchars($outfit['accessories']) ?>"
-                                    data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp' ?>"
-                                    data-status="<?= $outfit['status'] ?>"
-                                    data-product-id="<?= $outfit['product_id'] ?>">
+                                <button class="edit-pack text-blue-600 hover:underline"
+                                    data-id="<?= $pack['id'] ?>"
+                                    data-title="<?= htmlspecialchars($pack['title']) ?>"
+                                    data-description="<?= htmlspecialchars($pack['description']) ?>"
+                                    data-price="<?= htmlspecialchars($pack['price']) ?>"
+                                    data-duration="<?= $pack['duration'] ?>"
+                                    included="<?= htmlspecialchars($pack['included']) ?>"
+                                    data-status="<?= $pack['status'] ?>">
                                     Modifier
                                 </button>
-                                <button class="text-red-600 font-semibold hover:underline deleteOutfitBtn" data-id="<?= $outfit['id'] ?>">❌ Supprimer</button>
+                                <button class="text-red-600 font-semibold hover:underline deletePackBtn" data-id="<?= $pack['id'] ?>">❌ Supprimer</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -128,52 +130,40 @@ include('src/app/Views/includes/admin_sidebar.php');
     </div>
 
     <!-- Modale ajout et modification -->
-    <div id="outfitModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
+    <div id="packModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
         <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full relative">
             <h3 id="modalTitle" class="text-xl font-bold text-gray-800 mb-4 flex items-center">
-                <span id="modalIcon" class="material-icons text-purple-600 mr-2">add_circle</span> Ajouter une tenue
+                <span id="modalIcon" class="material-icons text-purple-600 mr-2">add_circle</span> Ajouter un pack
             </h3>
-            <form id="outfitForm" action="admin/outfits/ajouter" method="POST">
-                <input type="hidden" id="outfitId" name="id">
-                <input type="text" id="outfitName" name="outfit_name" placeholder="Nom de la tenue" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
-                <textarea id="outfitAccessories" name="accessories" placeholder="Accessoires" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]"></textarea>
-
-                <!-- Sélectionner un produit -->
-                <label for="productSelect" class="block mb-2">Sélectionnez un produit :</label>
-                <select id="productSelect" name="product_id" class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
-                    <?php if (!empty($products)): ?>
-                        <?php foreach ($products as $product): ?>
-                            <option value="<?= $product['id']; ?>" data-image="<?= htmlspecialchars($product['image_path']); ?>">
-                                <?= strip_tags($product['name']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <option value="">Aucun produit disponible</option>
-                    <?php endif; ?>
-                </select>
-
-                <img id="productImagePreview" src="assets/images/placeholder.webp" alt="Aperçu de l'image" class="mt-2 rounded-md w-40 h-40 object-cover hidden">
-
-                <select id="outfitStatus" name="status" class="w-full p-3 border border-gray-300 rounded-md mb-2">
+            <form id="packForm" action="admin/packs/ajouter" method="POST">
+                <input type="hidden" id="packId" name="id"> <!-- Ajouté pour la modification -->
+                <input type="text" id="packTitle" name="title" placeholder="Nom du pack" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
+                <textarea id="packDescription" name="description" placeholder="Description" required class="w-full p-3 border border-gray-300 rounded-md mb-2"></textarea>
+                <input type="number" id="packPrice" name="price" placeholder="Prix" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
+                <input type="number" id="packDuration" name="duration" placeholder="Durée en jours" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
+                <input type="text" id="packIncluded" name="included" placeholder="Comprant" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
+                <select id="packStatus" name="status" class="w-full p-3 border border-gray-300 rounded-md mb-2">
                     <option value="active">Actif</option>
                     <option value="inactive">Inactif</option>
                 </select>
                 <div class="flex justify-between mt-4">
-                    <button type="button" id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 flex items-center">❌ Annuler</button>
-                    <button type="submit" id="submitButton" class="bg-[#8B5A2B] text-white px-6 py-3 rounded-md hover:scale-105 transition flex items-center">✅ Ajouter</button>
+                    <button type="button" id="closeModal" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 flex items-center">
+                        ❌ Annuler
+                    </button>
+                    <button type="submit" id="submitButton" class="bg-[#8B5A2B] text-white px-6 py-3 rounded-md hover:scale-105 transition flex items-center">
+                        ✅ Ajouter
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-</div>
-
 
 <!-- Modale pour la suppression -->
 <div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
     <div class="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h3 class="text-xl font-bold text-gray-800 mb-4">⚠️ Confirmer la suppression</h3>
-        <p class="text-gray-600">Voulez-vous vraiment supprimer cette tenue ? Cette action est irréversible.</p>
+        <p class="text-gray-600">Voulez-vous vraiment supprimer ce pack ? Cette action est irréversible.</p>
         <div class="flex justify-between mt-4">
             <button id="cancelDelete" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 flex items-center">
                 ❌ Annuler
@@ -187,26 +177,12 @@ include('src/app/Views/includes/admin_sidebar.php');
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        let deleteOutfitId = null;
+        let deletePackId = null;
 
-        // Gestion de l'aperçu de l'image du produit sélectionné
-        document.getElementById('productSelect').addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            const imagePath = selectedOption.dataset.image;
-            const previewImage = document.getElementById('productImagePreview');
-
-            if (imagePath) {
-                previewImage.src = imagePath;
-                previewImage.classList.remove('hidden');
-            } else {
-                previewImage.classList.add('hidden');
-            }
-        });
-
-        // Suppression des tenues avec confirmation
-        document.querySelectorAll('.deleteOutfitBtn').forEach(button => {
+        // Suppression des packs avec confirmation
+        document.querySelectorAll('.deletePackBtn').forEach(button => {
             button.addEventListener('click', function() {
-                deleteOutfitId = this.dataset.id; // Stocke l'ID de l'utilisateur
+                deletePackId = this.dataset.id; // Stocke l'ID de l'utilisateur
                 document.getElementById('deleteModal').classList.remove('hidden'); // Affiche la modal
             });
         });
@@ -214,21 +190,21 @@ include('src/app/Views/includes/admin_sidebar.php');
         // Annuler la suppression
         document.getElementById('cancelDelete').addEventListener('click', function() {
             document.getElementById('deleteModal').classList.add('hidden'); // Masque la modal
-            deleteOutfitId = null; // Réinitialise l'ID
+            deletePackId = null; // Réinitialise l'ID
         });
 
-        // Confirmer la suppression 
+        // Confirmer la suppression
         document.getElementById('confirmDelete').addEventListener('click', function() {
-            if (deleteOutfitId) {
-                fetch(`admin/outfits/supprimer/${deleteOutfitId}`, { // Utilise des backticks pour l'interpolation
+            if (deletePackId) {
+                fetch(`admin/packs/supprimer/${deletePackId}`, {
                         method: 'DELETE'
                     })
                     .then(response => {
                         if (response.ok) {
-                            document.querySelector(`button[data-id="${deleteOutfitId}"]`).closest('tr').remove(); // Retire la tenue de la table
-                            showNotification('Tenue supprimée avec succès.', 'bg-green-500'); // Message de confirmation
+                            document.querySelector(`button[data-id="${deletePackId}"]`).closest('tr').remove(); // Retire l'utilisateur de la table
+                            showNotification('Pack supprimé avec succès.', 'bg-green-500'); // Message de confirmation
                         } else {
-                            showNotification('Erreur lors de la suppression de cette tenue.', 'bg-red-500'); // Message d'erreur
+                            showNotification('Erreur lors de la suppression du pack.', 'bg-red-500'); // Message d'erreur
                         }
                         document.getElementById('deleteModal').classList.add('hidden'); // Masque la modal
                     })
@@ -266,23 +242,23 @@ include('src/app/Views/includes/admin_sidebar.php');
     // Recherche dynamique
     document.getElementById('search').addEventListener('input', function() {
         let filter = this.value.toLowerCase();
-        let rows = document.querySelectorAll('#outfitTable tr');
+        let rows = document.querySelectorAll('#packTable tr');
         rows.forEach(row => {
             let text = row.textContent.toLowerCase();
             row.style.display = text.includes(filter) ? '' : 'none';
         });
     });
 
-    // Tri des tenues
+    // Tri des événements
     document.getElementById('sort').addEventListener('change', function() {
-        let rows = Array.from(document.querySelectorAll('#outfitTable tr'));
+        let rows = Array.from(document.querySelectorAll('#packTable tr'));
         let sortType = this.value;
         rows.sort((a, b) => {
             let valA = a.cells[sortType === 'title' ? 0 : sortType === 'price' ? 1 : 2].textContent.toLowerCase();
             let valB = b.cells[sortType === 'title' ? 0 : sortType === 'price' ? 1 : 2].textContent.toLowerCase();
             return valA.localeCompare(valB);
         });
-        document.getElementById('outfitTable').append(...rows);
+        document.getElementById('packTable').append(...rows);
     });
 
     // Exportation
@@ -290,65 +266,57 @@ include('src/app/Views/includes/admin_sidebar.php');
         alert("Exportation en cours...");
     });
 
-
     // Gestion de la modale
     document.addEventListener('DOMContentLoaded', function() {
-        const outfitModal = document.getElementById("outfitModal");
+        const packModal = document.getElementById("packModal");
         const closeModal = document.getElementById("closeModal");
         const openModalButton = document.getElementById("openModal");
-        const outfitForm = document.getElementById("outfitForm");
+        const packForm = document.getElementById("packForm");
         const modalTitle = document.getElementById("modalTitle");
         const modalIcon = document.getElementById("modalIcon");
         const submitButton = document.getElementById("submitButton");
 
-        // Ouvrir le modal pour ajouter une tenue
+        // Ouvrir le modal pour ajouter un événement
         openModalButton.addEventListener("click", () => {
-            outfitForm.reset(); // Réinitialiser le formulaire
-            outfitForm.action = "admin/outfits/ajouter"; // Action pour ajouter
-            modalTitle.textContent = "Ajouter une Tenue";
+            packForm.reset(); // Réinitialiser le formulaire
+            packForm.action = "admin/packs/ajouter"; // Action pour ajouter
+            modalTitle.textContent = "Ajouter un pack";
             modalIcon.textContent = "add_circle";
             submitButton.textContent = "✅ Ajouter";
-            outfitModal.classList.remove("hidden");
+            packModal.classList.remove("hidden");
         });
 
-        document.querySelectorAll('.edit-outfit').forEach(button => {
-            button.addEventListener('click', function() {
-                let outfitId = this.getAttribute("data-id");
-                let outfitName = this.getAttribute("data-name");
-                let outfitAccessories = this.getAttribute("data-accessories");
-                let outfitImage = this.getAttribute("data-image");
-                let outfitStatus = this.getAttribute("data-status");
-                let outfitProductId = this.getAttribute("data-product-id");
+        // Ouvrir le modal pour modifier un pack
+        document.querySelectorAll(".edit-pack").forEach(button => {
+            button.addEventListener("click", function() {
+                let packId = this.getAttribute("data-id");
 
-                // Remplir les champs
-                document.getElementById('outfitId').value = outfitId;
-                document.getElementById('outfitName').value = outfitName;
-                document.getElementById('outfitAccessories').value = outfitAccessories;
-                // On ne met rien pour outfitImage, car on n’a pas de champ #outfitImage
-                document.getElementById('productSelect').value = outfitProductId;
-                document.getElementById('outfitStatus').value = outfitStatus;
+                document.getElementById("packId").value = packId;
+                document.getElementById("packTitle").value = this.getAttribute("data-title");
+                document.getElementById("packDescription").value = this.getAttribute("data-description");
+                document.getElementById("packPrice").value = this.getAttribute("data-price");
+                document.getElementById("packDuration").value = this.getAttribute("data-duration");
+                document.getElementById("packIncluded").value = this.getAttribute("data-included");
+                document.getElementById("packStatus").value = this.getAttribute("data-status");
 
-                // Corriger la route
-                document.getElementById("outfitForm").action = `admin/outfits/modifier/${outfitId}`;
+                // Corriger l'action du formulaire en ajoutant correctement l'ID
+                document.getElementById("packForm").action = `admin/packs/modifier/${packId}`;
 
-                // Mettre à jour le texte du modal
-                document.getElementById("modalTitle").textContent = "Modifier un outfit";
+                document.getElementById("modalTitle").textContent = "Modifier un pack";
                 document.getElementById("submitButton").textContent = "✅ Mettre à jour";
-
-                // Afficher la modale
-                document.getElementById("outfitModal").classList.remove("hidden");
+                document.getElementById("packModal").classList.remove("hidden");
             });
         });
 
         // Fermer le modal
         closeModal.addEventListener("click", () => {
-            outfitModal.classList.add("hidden");
+            packModal.classList.add("hidden");
         });
     });
 
     // Pagination JavaScript
     function paginateTable(rowsPerPage = 10) {
-        let rows = document.querySelectorAll('#outfitTable tr');
+        let rows = document.querySelectorAll('#packTable tr');
         let totalPages = Math.ceil(rows.length / rowsPerPage);
         let pagination = document.getElementById('pagination');
         pagination.innerHTML = '';

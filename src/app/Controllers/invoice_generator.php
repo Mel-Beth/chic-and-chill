@@ -7,7 +7,7 @@ class InvoiceGenerator
     public static function generateInvoice($reservation)
     {
         // Créer un objet TCPDF
-        $pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf = new TCPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Chic & Chill');
         $pdf->SetTitle('Facture');
@@ -25,7 +25,7 @@ class InvoiceGenerator
                 <td style='width:50%;'>
                     <span style='color: #ff0000; font-size: 12pt; font-weight: bold;'>Chic & Chill</span><br>
                     10 Rue Irénée Carré<br>
-                    Charleville-Mézières
+                    08000 Charleville-Mézières
                 </td>
                 <td style='width:50%; text-align: right; vertical-align: top;'>
                     <strong>Client :</strong><br>

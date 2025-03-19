@@ -1,5 +1,5 @@
-<?php include('src/app/Views/includes/headEvents.php'); ?>
-<?php include('src/app/Views/includes/headerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
 <!-- HERO SECTION -->
 <div class="relative w-full h-96 bg-cover bg-center flex justify-center items-center">
@@ -9,8 +9,10 @@
 </div>
 
 <div class="container mx-auto px-4 py-12">
-    <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">📩 Contact - Magasin</h2>
+    <div class="bg-black text-white p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
 
+        <h2 class="text-2xl font-bold mb-4">📩 Contact - Magasin</h2>
+    </div>
     <?php if (isset($_GET['success']) && $_GET['success'] == 1) : ?>
         <p class="text-green-600 text-center font-semibold">Votre message a bien été envoyé !</p>
     <?php endif; ?>
@@ -34,4 +36,4 @@
     </form>
 </div>
 
-<?php include('src/app/Views/includes/footerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/footerEvents.php'); ?>

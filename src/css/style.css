@@ -1,5 +1,6 @@
 /* Import css pour la partie eCommerce du site */
 @import url('header_shop.css');
+@import url('events/headerEvents.css');
 @import url('footer_shop.css');
 @import url('produits_shop.css');
 @import url('accueil_shop.css');
@@ -12,7 +13,9 @@
 @import url('paiement_succes_shop.css');
 @import url('mentions_shop.css');
 @import url('moyen_paiement_shop.css');
-@import url('evenements.css');
+@import url('events/evenements.css');
+@import url('events/evenement_detail.css');
+@import url('events/localisation.css');
 
 html {
   scroll-behavior: smooth;

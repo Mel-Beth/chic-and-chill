@@ -26,7 +26,7 @@ class OutfitsController
 
             // 3) Inclure la vue en lui passant $outfits et $products
             $success = $_GET['success'] ?? null;
-            include('src/app/Views/Admin/admin_outfits.php');
+            include('src/app/Views/Admin/events/admin_outfits.php');
         } catch (\Exception $e) {
             echo "Exception : " . $e->getMessage();
             // Ou var_dump($e); pour voir la trace complète

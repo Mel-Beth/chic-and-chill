@@ -19,7 +19,7 @@ class UsersController
     public function users()
     {
         $users = $this->usersModel->getAllUsers();
-        include('src/app/Views/Admin/admin_users.php');
+        include('src/app/Views/admin/admin_users.php');
     }
 
     public function showUser($id)
@@ -44,7 +44,7 @@ class UsersController
 
     public function manageUsers()
     {
-        include('src/app/Views/Admin/admin_users.php');
+        include('src/app/Views/admin/admin_users.php');
     }
 
     public function updateUserStatus($id, $status)
@@ -84,6 +84,6 @@ class UsersController
             exit();
         }
 
-        include('src/app/Views/Admin/admin_user_history.php');
+        include('src/app/Views/admin/admin_user_history.php');
     }
 }

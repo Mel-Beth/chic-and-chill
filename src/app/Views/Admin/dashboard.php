@@ -1,7 +1,7 @@
 <?php
-include('src/app/Views/includes/admin_head.php');
-include('src/app/Views/includes/admin_header.php');
-include('src/app/Views/includes/admin_sidebar.php');
+include('src/app/Views/includes/Admin/admin_head.php');
+include('src/app/Views/includes/Admin/admin_header.php');
+include('src/app/Views/includes/Admin/admin_sidebar.php');
 ?>
 
 <div id="dashboard" class="min-h-screen flex flex-col transition-all duration-300 pl-20 lg:pl-64 mt-10">

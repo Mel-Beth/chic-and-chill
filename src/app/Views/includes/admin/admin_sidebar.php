@@ -79,12 +79,16 @@
         });
 
         function updateUnreadMessages() {
-            fetch("admin/messages/unread_count")
+            fetch("admin/notifications/unread", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            })
                 .then(response => response.json())
                 .then(data => {
                     const messageBadge = document.getElementById("messageBadge");
-                    if (data.unread > 0) {
-                        messageBadge.textContent = data.unread;
+                    const unreadCount = data.length; // Compter le nombre de notifications non lues
+                    if (unreadCount > 0) {
+                        messageBadge.textContent = unreadCount;
                         messageBadge.classList.remove("hidden");
                     } else {
                         messageBadge.classList.add("hidden");

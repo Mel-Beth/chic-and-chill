@@ -67,7 +67,7 @@ class ContactController
     public function manageMessages()
     {
         $messages = $this->contactModel->getAllMessages();
-        include 'src/app/Views/Admin/admin_messages.php';
+        include 'src/app/Views/admin/admin_messages.php';
     }
 
     public function deleteMessage($id)

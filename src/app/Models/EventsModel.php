@@ -80,16 +80,33 @@ class EventsModel extends ModeleParent
         return $stmt->fetchAll();
     }
 
-    public function addEvent($title, $description, $date_event, $status)
+    public function addEvent($title, $description, $date_event, $location, $status, $image = null)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO events (title, description, date_event, status) VALUES (?, ?, ?, ?)");
-        return $stmt->execute([$title, $description, $date_event, $status]);
+        try {
+            $stmt = $this->pdo->prepare("
+            INSERT INTO events (title, description, date_event, location, status, image) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        ");
+            return $stmt->execute([$title, $description, $date_event, $location, $status, $image]);
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
     }
 
-    public function updateEvent($event_id, $title, $description, $date_event, $status)
+    public function updateEvent($event_id, $title, $description, $date_event, $location, $status, $image = null)
     {
-        $stmt = $this->pdo->prepare("UPDATE events SET title = ?, description = ?, date_event = ?, status = ? WHERE id = ?");
-        return $stmt->execute([$title, $description, $date_event, $status, $event_id]);
+        try {
+            $stmt = $this->pdo->prepare("
+            UPDATE events 
+            SET title = ?, description = ?, date_event = ?, location = ?, status = ?, image = ?
+            WHERE id = ?
+        ");
+            return $stmt->execute([$title, $description, $date_event, $location, $status, $image, $event_id]);
+        } catch (\PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
     }
 
     public function deleteEvent($event_id)
@@ -100,13 +117,20 @@ class EventsModel extends ModeleParent
 
     public function getEventMedia($eventId)
     {
-        try {
-            $stmt = $this->pdo->prepare("SELECT image_url, type FROM event_images WHERE event_id = ?");
-            $stmt->execute([$eventId]);
-            return $stmt->fetchAll();
-        } catch (\PDOException $e) {
-            error_log($e->getMessage());
-            return [];
-        }
+        $stmt = $this->pdo->prepare("SELECT id, image_url, type FROM event_images WHERE event_id = ?");
+        $stmt->execute([$eventId]);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function addEventMedia($eventId, $filePath, $type)
+    {
+        $stmt = $this->pdo->prepare("INSERT INTO event_images (event_id, image_url, type) VALUES (?, ?, ?)");
+        return $stmt->execute([$eventId, $filePath, $type]);
+    }
+
+    public function deleteEventMedia($mediaId)
+    {
+        $stmt = $this->pdo->prepare("DELETE FROM event_images WHERE id = ?");
+        return $stmt->execute([$mediaId]);
     }
 }

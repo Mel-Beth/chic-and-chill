@@ -20,7 +20,7 @@ class ReservationController
         $eventsModel = new EventsModel();
         $events = $eventsModel->getAllEvents();
 
-        include('src/app/Views/Public/reservation_evenement.php');
+        include('src/app/Views/Public/events/reservation_evenement.php');
     }
 
     public function reservationPack($pack_id)
@@ -28,7 +28,7 @@ class ReservationController
         $packsModel = new PacksModel();
         $pack = $packsModel->getPackById($pack_id);
 
-        include('src/app/Views/Public/reservation_pack.php');
+        include('src/app/Views/Public/events/reservation_pack.php');
     }
 
     public function processReservation()
@@ -82,42 +82,148 @@ class ReservationController
     public function reservations()
     {
         $reservations = $this->reservationModel->getAllReservations();
-        include 'src/app/Views/Admin/admin_reservations.php';
+        // var_dump($reservations); // Afficher les données pour vérification
+        // die(); // Commentez cette ligne après avoir vu les données
+        include 'src/app/Views/Admin/events/admin_reservations.php';
     }
 
     public function showReservation($id)
     {
         $reservationModel = new ReservationModel();
         $reservation = $reservationModel->getReservationById($id);
-        include('src/app/Views/Admin/admin_reservation_detail.php');
+        include('src/app/Views/admin/admin_reservation_detail.php');
     }
 
     public function updateReservationStatus($id, $status)
     {
-        $reservation = $this->reservationModel->getReservationById($id);
+        $type = isset($_GET['type']) ? $_GET['type'] : null;
+        $reservation = $this->reservationModel->getReservationById($id, $type);
 
         if ($reservation) {
-            $this->reservationModel->updateReservationStatus($id, $status);
+            $updateSuccess = $this->reservationModel->updateReservationStatus($id, $status, $type);
 
-            // Générer la facture si accepté
-            $attachmentPath = null;
-            if ($status === 'confirmed') {
-                require_once 'invoice_generator.php';
-                $attachmentPath = \InvoiceGenerator::generateInvoice($reservation);
+            if ($updateSuccess) {
+                $attachmentPath = null;
+                if ($status === 'confirmed') {
+                    require_once 'invoice_generator.php';
+                    $attachmentPath = \InvoiceGenerator::generateInvoice($reservation);
+                }
+
+                require_once 'EmailHelper.php';
+
+                // Sujet de l’email
+                $subject = ($status === 'confirmed') ? "Confirmation de votre réservation - Chic & Chill" : "Notification de refus de votre réservation - Chic & Chill";
+
+                // Corps de l’email avec logo
+                $body = '
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>' . $subject . '</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 20px auto; border: 1px solid #e0e0e0; border-radius: 5px;">
+                        <!-- En-tête avec logo -->
+                        <tr>
+                            <td style="background-color: #8B5A2B; padding: 20px; text-align: center; border-bottom: 1px solid #e0e0e0;">
+                                <p style="color: #fff; font-size: 14px; margin: 5px 0 0;">Votre expérience sur mesure</p>
+                            </td>
+                        </tr>
+                        <!-- Corps -->
+                        <tr>
+                            <td style="padding: 20px;">
+                                <h2 style="color: ' . ($status === 'confirmed' ? '#28a745' : '#dc3545') . '; margin: 0 0 15px;">' . ($status === 'confirmed' ? 'Réservation confirmée' : 'Réservation refusée') . '</h2>
+                                <p style="margin: 0 0 15px;">Bonjour ' . htmlspecialchars($reservation['customer_name']) . ',</p>
+                                <p style="margin: 0 0 15px;">Nous vous informons que votre réservation ' . ($reservation['type'] === 'event' ? 'd’événement' : 'de pack') . ' (ID: ' . $reservation['id'] . ') a été ' . ($status === 'confirmed' ? 'confirmée' : 'refusée') . '.</p>
+                                <table width="100%" cellpadding="5" cellspacing="0" style="border: 1px solid #e0e0e0; border-radius: 5px; background-color: #f9f9f9;">
+                                    <tr>
+                                        <td style="font-weight: bold; width: 30%;">Type :</td>
+                                        <td>' . ($reservation['type'] === 'event' ? 'Événement' : 'Pack') . '</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">ID :</td>
+                                        <td>' . $reservation['id'] . '</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">Statut :</td>
+                                        <td>' . ($status === 'confirmed' ? 'Confirmé' : 'Refusé') . '</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">Date de création :</td>
+                                        <td>' . $reservation['created_at'] . '</td>
+                                    </tr>';
+
+                // Ajouter des détails spécifiques selon le type
+                if ($reservation['type'] === 'event') {
+                    $body .= '
+                                    <tr>
+                                        <td style="font-weight: bold;">Type d’événement :</td>
+                                        <td>' . htmlspecialchars($reservation['event_type']) . '</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="font-weight: bold;">Participants :</td>
+                                        <td>' . $reservation['participants'] . '</td>
+                                    </tr>';
+                } elseif ($reservation['type'] === 'pack') {
+                    $body .= '
+                                    <tr>
+                                        <td style="font-weight: bold;">Services :</td>
+                                        <td>' . htmlspecialchars($reservation['services']) . '</td>
+                                    </tr>';
+                }
+
+                $body .= '
+                                </table>
+                                <p style="margin: 15px 0 0;">' . ($status === 'confirmed' ? 'Vous trouverez la facture en pièce jointe. Merci de nous avoir choisis !' : 'Nous sommes désolés de ne pas pouvoir donner suite à votre demande.') . '</p>
+                                <p style="margin: 15px 0 0;">Pour toute question, n’hésitez pas à nous contacter à l’adresse <a href="mailto:contact@chicandchill.fr" style="color: #8B5A2B; text-decoration: none;">contact@chicandchill.fr</a>.</p>
+                            </td>
+                        </tr>
+                        <!-- Pied de page -->
+                        <tr>
+                            <td style="background-color: #f1f1f1; padding: 15px; text-align: center; border-top: 1px solid #e0e0e0; font-size: 12px; color: #666;">
+                                <p style="margin: 0;">Chic & Chill - 10 Rue Irénée Carré, 08000 Charleville-Mézières, France</p>
+                                <p style="margin: 5px 0 0;">Tél : +33 1 23 45 67 89 | Email : <a href="mailto:contact@chicandchill.fr" style="color: #8B5A2B; text-decoration: none;">contact@chicandchill.fr</a></p>
+                                <p style="margin: 5px 0 0;">© ' . date('Y') . ' Chic & Chill. Tous droits réservés.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html>';
+
+                $emailSent = EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+
+                $_SESSION['message'] = [
+                    'type' => $emailSent ? 'success' : 'warning',
+                    'text' => $emailSent ?
+                        "Le statut a été mis à jour et l'email a été envoyé avec succès." :
+                        "Le statut a été mis à jour, mais l'email n'a pas pu être envoyé."
+                ];
+            } else {
+                $_SESSION['message'] = [
+                    'type' => 'error',
+                    'text' => "Échec de la mise à jour du statut pour ID $id (type: " . ($type ?: 'inconnu') . ")."
+                ];
             }
 
-            // Envoi d’email
-            require_once 'EmailHelper.php';
-            $subject = ($status === 'confirmed') ? "Votre réservation a été acceptée !" : "Votre réservation a été refusée";
-            $body = ($status === 'confirmed') ? "<p>Votre réservation a été confirmée.</p>" : "<p>Nous sommes désolés, votre réservation a été refusée.</p>";
-
-            EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
-
-            header('Location: admin/reservations');
+            header("Location: ../confirmation");
             exit();
         } else {
-            die("Réservation introuvable.");
+            $_SESSION['message'] = [
+                'type' => 'error',
+                'text' => "Réservation avec ID $id (type: " . ($type ?: 'inconnu') . ") introuvable."
+            ];
+            header("Location: ../confirmation");
+            exit();
         }
+    }
+
+    public function showConfirmation()
+    {
+        include 'src/app/Views/Admin/events/admin_reservation_confirmation.php';
+        unset($_SESSION['message']);
+        header("Location: ../reservations"); // Redirection immédiate
+        exit();
     }
 
     public function showInvoice($id)

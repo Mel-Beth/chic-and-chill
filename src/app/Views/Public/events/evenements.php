@@ -1,5 +1,5 @@
-<?php include('src/app/Views/includes/headEvents.php'); ?>
-<?php include('src/app/Views/includes/headerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
 <!-- CARROUSEL SWIPER MAGASIN -->
 <div class="swiper-container">
@@ -25,7 +25,7 @@
         </div>
         <div class="swiper-slide">
             <div class="relative w-full h-screen">
-                <img src="assets/images/showrromMagasin.webp" loading="lazy" class="w-full h-full object-cover" alt="Showroom Magasin" width="1920" height="1080">
+                <img src="assets/images/ShowroomMagasin.webp" loading="lazy" class="w-full h-full object-cover" alt="Showroom Magasin" width="1920" height="1080">
                 <div class="overlay-content">
                     <h1>Notre showroom exclusif</h1>
                     <p>Essayez nos pièces uniques dans un cadre élégant.</p>
@@ -52,7 +52,7 @@
             <div class="group pack-card">
                 <!-- Image de l'événement -->
                 <?php if (!empty($event['image'])) : ?>
-                    <img src="<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
+                    <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
                 <?php else : ?>
                     <img src="assets/images/placeholder.webp" alt="Image par défaut">
                 <?php endif; ?>
@@ -78,13 +78,13 @@
             <?php foreach ($upcomingEvents as $event) : ?>
                 <div class="group pack-card">
                     <?php if (!empty($event['image'])) : ?>
-                        <img src="<?= htmlspecialchars($event['image']) ?>" loading="lazy" alt="Événement <?= htmlspecialchars($event['title']) ?>" width="350" height="400">
+                        <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" loading="lazy" alt="Événement <?= htmlspecialchars($event['title']) ?>" width="350" height="400">
                     <?php else : ?>
                         <img src="assets/images/placeholder.webp" loading="lazy" alt="Image par défaut" width="350" height="400">
                     <?php endif; ?>
                     <div class="overlay">
-                        <h4><?= htmlspecialchars($event['title']) ?></h4>
-                        <p><?= htmlspecialchars($event['description']) ?></p>
+                        <h4 class="text-2xl text-center text-white"><?= htmlspecialchars($event['title']) ?></h4>
+                        <p class="mb-4"><?= htmlspecialchars($event['description']) ?></p>
                         <p class="text-white font-semibold mt-2">📅 <?= date('d F Y', strtotime($event['date_event'])); ?></p>
                         <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn" aria-label="Voir l'événement <?= htmlspecialchars($event['title']) ?>">Voir l'événement</a>
                     </div>
@@ -135,8 +135,8 @@
                 <?php foreach ($suggestedOutfits as $tenue) : ?>
                     <div class="swiper-slide bg-white shadow-lg rounded-lg p-6 flex flex-col items-center justify-center text-center transition duration-300 transform hover:scale-105 hover:shadow-2xl">
                         <a href="achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>" class="group">
-                            <?php if (!empty($tenue['image'])) : ?>
-                                <img src="assets/images/products/<?= htmlspecialchars($tenue['image']) ?>" loading="lazy" alt="<?= htmlspecialchars($tenue['outfit_name']) ?>" width="176" height="176">
+                            <?php if (!empty($tenue['product_image'])) : ?>
+                                <img src="<?= htmlspecialchars($tenue['product_image']) ?>" loading="lazy" alt="<?= htmlspecialchars($tenue['outfit_name']) ?>" width="176" height="176">
                             <?php else : ?>
                                 <img src="assets/images/placeholder.webp" loading="lazy" alt="Image par défaut" width="176" height="176">
                             <?php endif; ?>
@@ -219,4 +219,4 @@
     </div>
 </div>
 
-<?php include('src/app/Views/includes/footerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/footerEvents.php'); ?>

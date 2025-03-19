@@ -1,7 +1,7 @@
 <?php
-include('src/app/Views/includes/admin_head.php');
-include('src/app/Views/includes/admin_header.php');
-include('src/app/Views/includes/admin_sidebar.php');
+include('src/app/Views/includes/Admin/admin_head.php');
+include('src/app/Views/includes/Admin/admin_header.php');
+include('src/app/Views/includes/Admin/admin_sidebar.php');
 ?>
 
 <div class="min-h-screen flex flex-col lg:pl-64 mt-12">

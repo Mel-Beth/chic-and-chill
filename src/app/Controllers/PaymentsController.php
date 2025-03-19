@@ -10,6 +10,6 @@ class PaymentsController
     {
         $paymentsModel = new PaymentsModel();
         $payments = $paymentsModel->getAllPayments();
-        include('src/app/Views/Admin/admin_payments.php');
+        include('src/app/Views/admin/admin_payments.php');
     }
 }

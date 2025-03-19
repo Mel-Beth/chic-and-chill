@@ -3,357 +3,301 @@
 namespace Controllers;
 
 use Models\SettingsModel;
-use Models\UsersModel;
 
 class SettingsController
 {
     private $settingsModel;
-    private $userModel;
 
     public function __construct()
     {
         $this->settingsModel = new SettingsModel();
-        $this->userModel = new UsersModel();
     }
 
     public function showSettings()
     {
-
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: connexion_shop");
+            exit();
+        }
         $settings = $this->settingsModel->getSettings($_SESSION['user_id']);
+        $appearance = $this->settingsModel->getAppearanceSettings($_SESSION['user_id']);
+        $_SESSION['appearance'] = $appearance;
+        error_log("showSettings - Apparence chargée dans \$_SESSION['appearance'] : " . print_r($appearance, true));
         $history = $this->settingsModel->getActionHistory();
-
-        include 'src/app/Views/Admin/admin_settings.php';
+        include 'src/app/Views/admin/admin_settings.php';
     }
 
-    // Mise à jour des infos du compte
     public function updateSettings()
     {
-
         if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit();
         }
-
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $userId = $_SESSION['user_id'];
-            $username = htmlspecialchars($_POST["username"]);
-            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-
+            $username = htmlspecialchars($_POST["username"] ?? '');
+            $email = filter_var($_POST["email"] ?? '', FILTER_VALIDATE_EMAIL);
             if (!$email) {
-                die("Adresse e-mail invalide.");
-            }
-
-            if ($this->settingsModel->updateUserSettings($userId, $username, $email)) {
-                header("Location: admin/settings?success=1");
+                echo json_encode(['success' => false, 'message' => 'Email invalide']);
                 exit();
-            } else {
-                die("Erreur lors de la mise à jour.");
             }
+            $settings = $this->settingsModel->getSettings($userId);
+            $result = $this->settingsModel->updateUserSettings($userId, $username, $email, $settings['role']);
+            $this->settingsModel->logAction($userId, $username, "Mise à jour compte", $_SERVER['REMOTE_ADDR']);
+            echo json_encode($result);
+            exit();
         }
     }
 
     public function updateAppearanceSettings()
     {
+        header('Content-Type: application/json');
 
         if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $userId = $_SESSION['user_id'];
-            $darkMode = $_POST["darkMode"] ?? "disabled";
-            $themeColor = $_POST["themeColor"] ?? "blue";
-            $fontFamily = $_POST["fontFamily"] ?? "sans-serif";
-            $fontSize = $_POST["fontSize"] ?? "normal";
-            $showTraffic = $_POST["showTraffic"] ?? "visible";
-            $showSales = $_POST["showSales"] ?? "visible";
-            $showOrders = $_POST["showOrders"] ?? "visible";
-
-            $this->settingsModel->updateAppearance($userId, $darkMode, $themeColor, $fontFamily, $fontSize, $showTraffic, $showSales, $showOrders);
-
-            header("Location: admin/settings?appearance_updated=1");
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
             exit();
         }
+
+        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+            echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
+            exit();
+        }
+
+        $input = json_decode(file_get_contents("php://input"), true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            echo json_encode(['success' => false, 'message' => 'Données JSON invalides : ' . json_last_error_msg()]);
+            exit();
+        }
+
+        if (!$input) {
+            echo json_encode(['success' => false, 'message' => 'Données manquantes']);
+            exit();
+        }
+
+        try {
+            $userId = $_SESSION['user_id'];
+            $result = $this->settingsModel->updateAppearance(
+                $userId,
+                $input['darkMode'] ?? 'disabled',
+                $input['themeColor'] ?? 'blue',
+                $input['fontFamily'] ?? 'sans-serif',
+                $input['fontSize'] ?? 'normal',
+                $input['showTraffic'] ?? false,
+                $input['showSales'] ?? false,
+                $input['showOrders'] ?? false
+            );
+
+            if ($result['success']) {
+                $_SESSION['appearance'] = [
+                    'dark_mode' => $input['darkMode'] ?? 'disabled',
+                    'theme_color' => $input['themeColor'] ?? 'blue',
+                    'font_family' => $input['fontFamily'] ?? 'sans-serif',
+                    'font_size' => $input['fontSize'] ?? 'normal',
+                    'show_traffic' => $input['showTraffic'] ?? false,
+                    'show_sales' => $input['showSales'] ?? false,
+                    'show_orders' => $input['showOrders'] ?? false
+                ];
+                error_log("updateAppearanceSettings - Nouvelle \$_SESSION['appearance'] : " . print_r($_SESSION['appearance'], true));
+                $this->settingsModel->logAction($userId, $_SESSION['username'] ?? 'Utilisateur inconnu', "Mise à jour apparence", $_SERVER['REMOTE_ADDR']);
+                echo json_encode(['success' => true, 'message' => 'Apparence mise à jour avec succès']);
+            } else {
+                echo json_encode(['success' => false, 'message' => $result['message'] ?? 'Erreur lors de la mise à jour']);
+            }
+        } catch (\Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Erreur serveur : ' . $e->getMessage()]);
+        }
+        exit();
     }
 
     public function updatePassword()
     {
-
         if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit();
         }
-
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $userId = $_SESSION['user_id'];
-            $currentPassword = $_POST["current_password"];
-            $newPassword = $_POST["new_password"];
-            $confirmPassword = $_POST["confirm_password"];
-
-            if ($newPassword !== $confirmPassword) {
-                die("Les mots de passe ne correspondent pas.");
-            }
-
+            $currentPassword = $_POST["current_password"] ?? '';
+            $newPassword = $_POST["new_password"] ?? '';
             if (!$this->settingsModel->verifyPassword($userId, $currentPassword)) {
-                die("Mot de passe actuel incorrect.");
+                echo json_encode(['success' => false, 'message' => 'Mot de passe actuel incorrect']);
+                exit();
             }
-
             $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
-            $this->settingsModel->updatePassword($userId, $hashedPassword);
-
-            header("Location: admin/settings?password_updated=1");
+            $result = $this->settingsModel->updatePassword($userId, $hashedPassword);
+            $this->settingsModel->logAction($userId, $_SESSION['username'] ?? 'Utilisateur inconnu', "Mise à jour mot de passe", $_SERVER['REMOTE_ADDR']);
+            echo json_encode($result);
             exit();
         }
     }
 
     public function deleteAccount()
     {
-
         if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit();
         }
-
         $userId = $_SESSION['user_id'];
-        $this->settingsModel->deleteAccount($userId);
-
-        session_destroy();
-        header("Location: accueil");
+        $result = $this->settingsModel->deleteAccount($userId);
+        if ($result['success']) {
+            session_destroy();
+        }
+        echo json_encode($result);
         exit();
     }
 
     public function updateNotifications()
     {
-
         if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit();
         }
-
         $input = json_decode(file_get_contents("php://input"), true);
-
-        if ($input) {
-            $userId = $_SESSION['user_id'];
-
-            $this->settingsModel->updateNotificationSettings(
-                $userId,
-                $input["notifyMessages"],
-                $input["notifyOrders"],
-                $input["notifyReservations"],
-                $input["notifyPackReservations"],
-                $input["notifyProductsSoldRented"],
-                $input["siteNotifications"],
-                $input["emailFrequency"]
-            );
-
-            echo json_encode(["success" => true]);
+        if (!$input) {
+            echo json_encode(['success' => false, 'message' => 'Données invalides']);
             exit();
         }
-
-        echo json_encode(["success" => false]);
-    }
-
-    public function viewInvoices()
-    {
-
-        if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
-        }
-
         $userId = $_SESSION['user_id'];
-        $invoices = $this->settingsModel->getInvoices($userId);
-        include 'src/app/Views/Admin/admin_invoices.php';
-    }
-
-    public function cancelSubscription()
-    {
-
-        if (!isset($_SESSION['user_id'])) {
-            echo json_encode(["success" => false, "message" => "Accès refusé."]);
-            exit();
-        }
-
-        $userId = $_SESSION['user_id'];
-        $success = $this->settingsModel->cancelUserSubscription($userId);
-
-        echo json_encode(["success" => $success]);
+        $result = $this->settingsModel->updateNotificationSettings(
+            $userId,
+            $input["notifyMessages"] ?? false,
+            $input["notifyOrders"] ?? false,
+            $input["notifyReservations"] ?? false,
+            $input["notifyPackReservations"] ?? false,
+            $input["notifyProductsSoldRented"] ?? false,
+            $input["siteNotifications"] ?? false,
+            $input["emailFrequency"] ?? 'immediate'
+        );
+        $this->settingsModel->logAction($userId, $_SESSION['username'] ?? 'Utilisateur inconnu', "Mise à jour notifications", $_SERVER['REMOTE_ADDR']);
+        echo json_encode($result);
         exit();
-    }
-
-    public function applyPromo()
-    {
-
-        if (!isset($_SESSION['user_id'])) {
-            echo json_encode(["success" => false, "message" => "Accès refusé."]);
-            exit();
-        }
-
-        $input = json_decode(file_get_contents("php://input"), true);
-        if (!isset($input["promoCode"])) {
-            echo json_encode(["success" => false, "message" => "Code promo manquant."]);
-            exit();
-        }
-
-        $userId = $_SESSION['user_id'];
-        $success = $this->settingsModel->applyPromoCode($userId, $input["promoCode"]);
-
-        echo json_encode(["success" => $success]);
-        exit();
-    }
-
-    public function updateLanguageSettings()
-    {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $language = htmlspecialchars($_POST["language"]);
-            $timezone = htmlspecialchars($_POST["timezone"]);
-            $country = htmlspecialchars($_POST["country"]);
-
-            $this->settingsModel->updateLanguageSettings($language, $timezone, $country);
-            header("Location: admin/settings?success=1");
-            exit();
-        }
-    }
-
-    public function updateIntegrationSettings()
-    {
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $googleAnalytics = htmlspecialchars($_POST["google_analytics"]);
-            $emailApi = htmlspecialchars($_POST["email_api"]);
-            $paymentProvider = htmlspecialchars($_POST["payment_provider"]);
-            $paymentApi = htmlspecialchars($_POST["payment_api"]);
-            $webhookUrl = htmlspecialchars($_POST["webhook_url"]);
-
-            $this->settingsModel->updateIntegrationSettings($googleAnalytics, $emailApi, $paymentProvider, $paymentApi, $webhookUrl);
-            header("Location: admin/settings?success=1");
-            exit();
-        }
     }
 
     public function getActionHistory()
     {
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit();
+        }
         $history = $this->settingsModel->getActionHistory();
         echo json_encode($history);
-    }
-
-    public function logAction($action)
-    {
-        if (!isset($_SESSION['user_id'])) {
-            return;
-        }
-
-        $userId = $_SESSION['user_id'];
-        $username = $_SESSION['username'];
-        $ipAddress = $_SERVER['REMOTE_ADDR'];
-
-        $this->settingsModel->logAction($userId, $username, $action, $ipAddress);
+        exit();
     }
 
     public function exportUsersCSV()
     {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: site_stage/chic-and-chill/login");
+            exit();
+        }
         $users = $this->settingsModel->getAllUsers();
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="users.csv"');
-
+        header('Content-Disposition: attachment; filename="users_' . date('Y-m-d_H-i-s') . '.csv"');
         $output = fopen('php://output', 'w');
         fputcsv($output, ['ID', 'Nom', 'Email', 'Rôle']);
-
         foreach ($users as $user) {
             fputcsv($output, [$user['id'], $user['name'], $user['email'], $user['role']]);
         }
-
         fclose($output);
+        $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'] ?? 'Utilisateur inconnu', "Export utilisateurs CSV", $_SERVER['REMOTE_ADDR']);
         exit();
     }
 
     public function exportProductsCSV()
     {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: site_stage/chic-and-chill/login");
+            exit();
+        }
         $products = $this->settingsModel->getAllProducts();
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="products.csv"');
-
+        header('Content-Disposition: attachment; filename="products_' . date('Y-m-d_H-i-s') . '.csv"');
         $output = fopen('php://output', 'w');
         fputcsv($output, ['ID', 'Nom', 'Prix', 'Stock']);
-
         foreach ($products as $product) {
             fputcsv($output, [$product['id'], $product['name'], $product['price'], $product['stock']]);
         }
-
         fclose($output);
+        $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'] ?? 'Utilisateur inconnu', "Export produits CSV", $_SERVER['REMOTE_ADDR']);
         exit();
     }
 
     public function importCSV()
     {
-        if ($_FILES['importFile']['error'] == 0) {
-            $file = fopen($_FILES['importFile']['tmp_name'], 'r');
-            fgetcsv($file); // Ignorer la première ligne (en-têtes)
-
-            while (($data = fgetcsv($file)) !== false) {
-                $this->settingsModel->insertImportedUser($data[1], $data[2], $data[3]); // Nom, Email, Rôle
-            }
-
-            fclose($file);
-            header("Location: admin/settings?import_success=1");
+        if (!isset($_SESSION['user_id'])) {
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
             exit();
         }
+        if ($_FILES['importFile']['error'] == UPLOAD_ERR_OK) {
+            $file = fopen($_FILES['importFile']['tmp_name'], 'r');
+            fgetcsv($file); // Ignorer en-têtes
+            $successCount = 0;
+            while (($data = fgetcsv($file)) !== false) {
+                if (count($data) >= 3) {
+                    $result = $this->settingsModel->insertImportedUser($data[1], $data[2], $data[3]);
+                    if ($result['success']) $successCount++;
+                }
+            }
+            fclose($file);
+            $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'] ?? 'Utilisateur inconnu', "Import utilisateurs ($successCount réussis)", $_SERVER['REMOTE_ADDR']);
+            echo json_encode(['success' => true, 'message' => "$successCount utilisateurs importés avec succès"]);
+            exit();
+        }
+        echo json_encode(['success' => false, 'message' => 'Erreur lors du téléchargement du fichier']);
+        exit();
     }
 
     public function backupDatabase()
     {
-        $backupFile = 'backups/db_backup_' . date("Y-m-d_H-i-s") . '.sql';
-        $command = "mysqldump -u root -p database_name > $backupFile";
-
-        system($command);
-        header("Location: admin/settings?backup_success=1");
-        exit();
-    }
-
-    public function restoreDatabase()
-    {
-        if ($_FILES['backupFile']['error'] == 0) {
-            $restoreFile = $_FILES['backupFile']['tmp_name'];
-            $command = "mysql -u root -p database_name < $restoreFile";
-
-            system($command);
-            header("Location: admin/settings?restore_success=1");
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: site_stage/chic-and-chill/login");
+            exit();
+        }
+        $backupDir = __DIR__ . '/../../backups/';
+        if (!is_dir($backupDir)) mkdir($backupDir, 0777, true);
+        $backupFile = $backupDir . 'db_backup_' . date("Y-m-d_H-i-s") . '.sql';
+        $dbName = 'votre_base_de_donnees';
+        $dbUser = 'votre_utilisateur';
+        $dbPass = 'votre_mot_de_passe';
+        $command = "mysqldump -u $dbUser -p$dbPass $dbName > " . escapeshellarg($backupFile);
+        exec($command, $output, $returnVar);
+        if ($returnVar === 0) {
+            $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'] ?? 'Utilisateur inconnu', "Sauvegarde BDD", $_SERVER['REMOTE_ADDR']);
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename="' . basename($backupFile) . '"');
+            readfile($backupFile);
+            unlink($backupFile);
+            exit();
+        } else {
+            error_log("Erreur sauvegarde BDD: " . implode("\n", $output));
+            header("Location: site_stage/chic-and-chill/admin/settings?backup_error=1");
             exit();
         }
     }
 
-    // Réinitialisation du cache
-    public function resetCache()
+    public function restoreDatabase()
     {
         if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
+            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
+            exit();
         }
-
-        // Effacement des fichiers cache
-        array_map('unlink', glob("cache/*.cache"));
-
-        echo json_encode(["success" => true]);
-        exit();
-    }
-
-    // Mise à jour des statistiques
-    public function updateStats()
-    {
-        if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
+        if ($_FILES['backupFile']['error'] == UPLOAD_ERR_OK) {
+            $restoreFile = $_FILES['backupFile']['tmp_name'];
+            $dbName = 'votre_base_de_donnees';
+            $dbUser = 'votre_utilisateur';
+            $dbPass = 'votre_mot_de_passe';
+            $command = "mysql -u $dbUser -p$dbPass $dbName < " . escapeshellarg($restoreFile);
+            exec($command, $output, $returnVar);
+            if ($returnVar === 0) {
+                $this->settingsModel->logAction($_SESSION['user_id'], $_SESSION['username'] ?? 'Utilisateur inconnu', "Restauration BDD", $_SERVER['REMOTE_ADDR']);
+                echo json_encode(['success' => true, 'message' => 'Restauration réussie']);
+            } else {
+                error_log("Erreur restauration BDD: " . implode("\n", $output));
+                echo json_encode(['success' => false, 'message' => 'Erreur lors de la restauration']);
+            }
+            exit();
         }
-
-        $success = $this->settingsModel->refreshStatistics();
-
-        echo json_encode(["success" => $success]);
-        exit();
-    }
-
-    // Nettoyage des commandes inactives
-    public function cleanOldOrders()
-    {
-        if (!isset($_SESSION['user_id'])) {
-            die("Accès refusé.");
-        }
-
-        $days = 7; // Supprimer les commandes non payées après 7 jours
-        $success = $this->settingsModel->deleteInactiveOrders($days);
-
-        echo json_encode(["success" => $success]);
+        echo json_encode(['success' => false, 'message' => 'Erreur lors du téléchargement du fichier']);
         exit();
     }
 }

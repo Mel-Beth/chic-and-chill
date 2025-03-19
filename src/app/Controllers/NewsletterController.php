@@ -17,7 +17,7 @@ class NewsletterController
     {
         $newsletterModel = new NewsletterModel();
         $subscribers = $newsletterModel->getAllSubscribers();
-        include('src/app/Views/Admin/admin_newsletter.php');
+        include('src/app/Views/admin/admin_newsletter.php');
     }
 
     public function deleteSubscriber($id)

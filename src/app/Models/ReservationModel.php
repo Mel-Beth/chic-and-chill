@@ -53,25 +53,55 @@ class ReservationModel extends ModeleParent
         }
     }
 
-    public function getReservationById($id)
+    public function getReservationById($id, $type = null)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM event_reservations WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->fetch();
+        if ($type === 'event' || !$type) {
+            $stmt = $this->pdo->prepare("SELECT *, 'event' AS type FROM event_reservations WHERE id = ?");
+            $stmt->execute([$id]);
+            $reservation = $stmt->fetch();
+            if ($reservation && ($type === 'event' || !$type)) {
+                return $reservation;
+            }
+        }
+
+        if ($type === 'pack' || !$type) {
+            $stmt = $this->pdo->prepare("SELECT *, 'pack' AS type FROM pack_reservations WHERE id = ?");
+            $stmt->execute([$id]);
+            return $stmt->fetch();
+        }
+
+        return false;
     }
 
-    public function updateReservationStatus($id, $status)
+    public function updateReservationStatus($id, $status, $type = null)
     {
         try {
-            $stmt = $this->pdo->prepare("
-                UPDATE event_reservations SET status = ? WHERE id = ?
-            ");
-            return $stmt->execute([$status, $id]);
+            // Si le type est fourni, cibler directement la bonne table
+            if ($type === 'event') {
+                $table = 'event_reservations';
+            } elseif ($type === 'pack') {
+                $table = 'pack_reservations';
+            } else {
+                // Sinon, chercher la réservation pour déterminer la table
+                $reservation = $this->getReservationById($id);
+                if (!$reservation) {
+                    die("Impossible de mettre à jour : réservation avec ID $id introuvable.");
+                }
+                $table = $reservation['type'] === 'event' ? 'event_reservations' : 'pack_reservations';
+            }
+
+            $stmt = $this->pdo->prepare("UPDATE $table SET status = ? WHERE id = ?");
+            $success = $stmt->execute([$status, $id]);
+
+            if (!$success) {
+                die("Échec de la mise à jour dans $table pour ID $id avec status $status.");
+            }
+            return true;
         } catch (\PDOException $e) {
-            error_log($e->getMessage());
-            return false;
+            die("Erreur SQL lors de la mise à jour du statut : " . $e->getMessage());
         }
     }
+
     public function getRecentReservations()
     {
         try {

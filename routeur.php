@@ -36,14 +36,24 @@ if (empty($route[0])) {
             }
             break;
 
+        case 'showroom': // Pour les réservations de showroom (ex. /showroom)
+            $controller = new Controllers\ShowroomController();
+            $controller->index(); // Ou une méthode spécifique comme showroomReservation()
+            break;
+
+        case 'location': // Pour les locations de produits (ex. /rental, remplace 'location' par 'rental')
+            $controller = new Controllers\RentalController();
+            $controller->index(); // Ou une méthode spécifique comme productRental()
+            break;
+
         case 'evenement_detail':
             $controller = new Controllers\EventsController();
             if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
                 $controller->showEvent($_GET['id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -53,8 +63,8 @@ if (empty($route[0])) {
                 $controller->showPack($route[1]); // On passe l'ID du pack
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -69,8 +79,8 @@ if (empty($route[0])) {
                 $controller->reservationPack($_GET['pack_id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -80,7 +90,7 @@ if (empty($route[0])) {
             break;
 
         case 'confirmation_reservation':
-            include('src/app/Views/Public/confirmation_reservation.php');
+            include('src/app/Views/Public/events/confirmation_reservation.php');
             // Vérifie si un ID est passé pour afficher un événement en détail
             if (!empty($route[1]) && is_numeric($route[1])) {
                 $controller->showEvent($route[1]);
@@ -95,8 +105,8 @@ if (empty($route[0])) {
                 $controller->showEvent($_GET['id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -106,8 +116,8 @@ if (empty($route[0])) {
                 $controller->showPack($route[1]); // On passe l'ID du pack
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -117,8 +127,8 @@ if (empty($route[0])) {
                 $controller->reservationPack($_GET['pack_id']);
             } else {
                 $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                include('src/app/Views/erreur.php');
             }
             break;
 
@@ -128,7 +138,7 @@ if (empty($route[0])) {
             break;
 
         case 'confirmation_reservation':
-            include('src/app/Views/Public/confirmation_reservation.php');
+            include('src/app/Views/Public/events/confirmation_reservation.php');
             break;
 
         case 'contact_process':
@@ -145,7 +155,7 @@ if (empty($route[0])) {
             break;
 
         case 'contact_evenements':
-            include('src/app/Views/Public/contact_evenements.php');
+            include('src/app/Views/Public/events/contact_evenements.php');
             break;
 
         case 'newsletter':
@@ -154,7 +164,7 @@ if (empty($route[0])) {
             break;
 
         case 'localisation':
-            include('src/app/Views/Public/localisation.php');
+            include('src/app/Views/Public/events/localisation.php');
             break;
 
         case 'conditions_generales':
@@ -268,20 +278,6 @@ if (empty($route[0])) {
             $controller->verifyEmail();
             break;
 
-        case 'billing':
-            $controller = new Controllers\SettingsController();
-            if (!isset($route[2])) {
-                $controller->viewInvoices();
-            } elseif ($route[2] === 'cancel-subscription') {
-                $controller->cancelSubscription();
-            } elseif ($route[2] === 'apply-promo') {
-                $controller->applyPromo();
-            } elseif ($route[2] === 'update-language') {
-                $controller->updateLanguageSettings();
-            }
-            break;
-
-
         // 📌 Routes Admin
         case 'admin':
             // Vérifie si l'utilisateur est admin (id_role = 1)
@@ -336,6 +332,14 @@ if (empty($route[0])) {
                         $controller->updateEvent((int) $route[3]);
                     } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
                         $controller->deleteEvent((int) $route[3]);
+                    } elseif ($route[2] === 'configurer' && isset($route[3]) && ctype_digit($route[3])) {
+                        if (isset($route[4]) && $route[4] === 'media' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $controller->configureEvent((int) $route[3]); // Ajout de médias
+                        } elseif (isset($route[4]) && $route[4] === 'supprimer_media' && isset($route[5]) && ctype_digit($route[5])) {
+                            $controller->deleteEventMedia((int) $route[5]); // Suppression de média
+                        } else {
+                            $controller->configureEvent((int) $route[3]); // Affichage de la page
+                        }
                     }
                     break;
 
@@ -365,6 +369,8 @@ if (empty($route[0])) {
                         $controller->cancelReservation((int) $route[3]);
                     } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3]) && isset($_GET['status'])) {
                         $controller->updateReservationStatus((int) $route[3], $_GET['status']);
+                    } elseif ($route[2] === 'confirmation') {
+                        $controller->showConfirmation();
                     } else {
                         $code_erreur = 404;
                         $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
@@ -437,8 +443,6 @@ if (empty($route[0])) {
                         $controller->deleteAccount();
                     } elseif ($route[2] === 'update-notifications') {
                         $controller->updateNotifications();
-                    } elseif ($route[2] === 'update-integrations') {
-                        $controller->updateIntegrationSettings();
                     } elseif ($route[2] === 'history') {
                         $controller->getActionHistory();
                     } elseif ($route[2] === 'export_users') {
@@ -451,13 +455,7 @@ if (empty($route[0])) {
                         $controller->backupDatabase();
                     } elseif ($route[2] === 'restore') {
                         $controller->restoreDatabase();
-                    } elseif ($route[2] === 'reset_cache') {
-                        $controller->resetCache();
-                    } elseif ($route[2] === 'update_stats') {
-                        $controller->updateStats();
-                    } elseif ($route[2] === 'clean_orders') {
-                        $controller->cleanOldOrders();
-                    }
+                    } 
                     break;
 
                 case 'logout':
@@ -467,15 +465,15 @@ if (empty($route[0])) {
 
                 default:
                     $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+                    $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+                    include('src/app/Views/erreur.php');
                     exit();
             }
             break;
         default:
             $code_erreur = 404;
-                        $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                        include('src/app/Views/erreur.php');
+            $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
+            include('src/app/Views/erreur.php');
             exit();
             break;
     }

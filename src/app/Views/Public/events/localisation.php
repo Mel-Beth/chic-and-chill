@@ -1,79 +1,5 @@
-<?php include('src/app/Views/includes/headEvents.php'); ?>
-<?php include('src/app/Views/includes/headerEvents.php'); ?>
-
-<style>
-    /* =============================== */
-    /* 1. Configuration générale       */
-    /* =============================== */
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-    }
-
-    /* =============================== */
-    /* 2. Hero Section                 */
-    /* =============================== */
-    .hero-section {
-        position: relative;
-        width: 100%;
-        height: 80vh;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hero-section::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-content {
-        position: relative;
-        text-align: center;
-        color: white;
-        padding: 20px;
-    }
-
-    .hero-content h1 {
-        font-size: clamp(2rem, 5vw, 4rem);
-        font-weight: bold;
-    }
-
-    /* =============================== */
-    /* 3. Sections de Contenu          */
-    /* =============================== */
-    .section-container {
-        max-width: 1200px;
-        margin: auto;
-        padding: 40px 20px;
-    }
-
-    .map {
-        width: 100%;
-        height: 400px;
-        border-radius: 8px;
-    }
-
-    .info {
-        margin-top: 20px;
-    }
-
-    .info p {
-        font-size: 18px;
-        color: #333;
-    }
-
-    .info i {
-        color: #8B5A2B;
-        margin-right: 10px;
-    }
-</style>
+<?php include('src/app/Views/includes/events/headEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
 <!-- HERO SECTION -->
 <div class="relative w-full h-96 bg-cover bg-center flex justify-center items-center">
@@ -84,9 +10,11 @@
 
 <!-- CONTENU PRINCIPAL -->
 <div class="container mx-auto px-4 py-12">
-<h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">📍Notre Localisation</h2>
-    
-<!-- DESCRIPTION -->
+    <div class="bg-black text-white p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
+
+        <h2 class="text-2xl font-bold mb-4">📍Notre Localisation</h2>
+    </div>
+    <!-- DESCRIPTION -->
 
     <div class="bg-gray-100 p-6 rounded-lg shadow-lg max-w-4xl mx-auto text-center">
 
@@ -114,4 +42,4 @@
     </div>
 </div>
 
-<?php include('src/app/Views/includes/footerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/footerEvents.php'); ?>

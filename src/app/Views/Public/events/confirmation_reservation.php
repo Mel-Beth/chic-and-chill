@@ -1,5 +1,5 @@
-<?php include('src/app/Views/includes/headEvents.php'); ?>
-<?php include('src/app/Views/includes/headerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
 <!-- HERO SECTION -->
 <div class="relative w-full h-96 bg-cover bg-center flex justify-center items-center">
@@ -24,4 +24,4 @@
 
 </div>
 
-<?php include('src/app/Views/includes/footerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/footerEvents.php'); ?>

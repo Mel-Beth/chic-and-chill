@@ -1,6 +1,6 @@
 <?php
 $adminName = $adminName ?? 'Administrateur'; // Définit un nom par défaut si $adminName est null
-$adminProfileImage = $adminProfileImage ?? 'assets/images/admin/default-avatar.png'; // Image par défaut
+$adminProfileImage = $adminProfileImage ?? 'assets/images./admin/default-avatar.png'; // Image par défaut
 ?>
 
 <header class="bg-white shadow-md fixed top-0 left-64 right-0 z-10 flex items-center justify-between px-6 py-4">

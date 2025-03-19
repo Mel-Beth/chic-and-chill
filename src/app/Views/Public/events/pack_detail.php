@@ -1,5 +1,5 @@
-<?php include('src/app/Views/includes/headEvents.php'); ?>
-<?php include('src/app/Views/includes/headerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headEvents.php'); ?>
+<?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
 <!-- Vérifie si un pack est défini -->
 <?php if (!empty($pack)) : ?>
@@ -15,8 +15,8 @@
     <!-- CONTENU PRINCIPAL -->
     <div class="container mx-auto px-4 py-12">
         <!-- DESCRIPTION -->
-        <div class="bg-gray-100 p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">📖 Description du pack</h2>
+        <div class="bg-black text-white p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl font-bold mb-4">📖 Description du pack</h2>
             <p class="text-lg leading-relaxed"><?= nl2br(htmlspecialchars($pack['description'])); ?></p>
         </div>
 
@@ -52,4 +52,4 @@
     </div>
 <?php endif; ?>
 
-<?php include('src/app/Views/includes/footerEvents.php'); ?>
+<?php include('src/app/Views/includes/events/footerEvents.php'); ?>
