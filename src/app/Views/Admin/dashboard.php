@@ -4,20 +4,20 @@ include('src/app/Views/includes/admin/admin_header.php');
 include('src/app/Views/includes/admin/admin_sidebar.php');
 ?>
 
-<div id="dashboard" class="min-h-screen flex flex-col transition-all duration-300 pl-20 lg:pl-64 mt-16">
-    <div class="container mx-auto px-6 py-12 flex-grow max-w-7xl">
+<div id="dashboard" class="min-h-screen flex flex-col transition-all duration-300 pl-0 md:pl-64 mt-16">
+    <div class="container mx-auto px-4 py-6 md:px-6 md:py-12 flex-grow max-w-7xl">
         <!-- Boutons de contrôle -->
-        <div class="flex justify-between mb-6">
-            <select id="timeFilter" class="p-2 border rounded">
-                <option value="month">Dernier mois</option>
+        <div class="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0">
+            <select id="timeFilter" class="p-2 border rounded w-full md:w-auto">
+                <option value="month" selected>Dernier mois</option>
                 <option value="quarter">Dernier trimestre</option>
                 <option value="year">Année</option>
             </select>
-            <button id="exportBtn" class="p-2 bg-blue-500 text-white rounded">Exporter en CSV</button>
+            <button id="exportBtn" class="p-2 bg-blue-500 text-white rounded w-full md:w-auto">Exporter en CSV</button>
         </div>
 
         <!-- 🔔 Notifications -->
-        <div class="mt-10 bg-white p-6 rounded-lg shadow-md">
+        <div class="mt-6 md:mt-10 bg-white p-4 md:p-6 rounded-lg shadow-md">
             <h2 class="text-lg font-bold text-gray-700 mb-2">📢 Notifications</h2>
             <div class="flex items-center">
                 <ul id="notificationsList" class="divide-y divide-gray-300 w-full"></ul>
@@ -27,41 +27,37 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         </div>
 
         <!-- Cartes de statistiques -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/messages'">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">📩 Messages</h2>
-                <p class="text-3xl font-bold text-gray-900"><?= $dashboardData['messages_count'] ?? 0; ?></p>
-                <a href="admin/messages" class="text-sm text-blue-500 hover:underline">Voir tout</a>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 mt-6">
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow">
+                <h2 class="text-base md:text-lg font-semibold text-gray-700">Messages</h2>
+                <p class="text-2xl md:text-3xl font-bold text-gray-900"><?= $dashboardData['messages_count'] ?? 0; ?></p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/evenements'">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">🎉 Événements</h2>
-                <p class="text-3xl font-bold text-gray-900"><?= ($dashboardData['active_events'] ?? 0) . ' / ' . ($dashboardData['total_events'] ?? 0); ?> actifs</p>
-                <a href="admin/evenements" class="text-sm text-blue-500 hover:underline">Gérer</a>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow">
+                <h2 class="text-base md:text-lg font-semibold text-gray-700">Événements actifs</h2>
+                <p class="text-2xl md:text-3xl font-bold text-gray-900"><?= ($dashboardData['active_events'] ?? 0) . ' / ' . ($dashboardData['total_events'] ?? 0); ?></p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/reservations'">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">🛒 Réservations</h2>
-                <p class="text-3xl font-bold text-gray-900"><?= $dashboardData['pending_reservations'] ?? 0; ?> en attente</p>
-                <a href="admin/reservations" class="text-sm text-blue-500 hover:underline">Voir tout</a>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow">
+                <h2 class="text-base md:text-lg font-semibold text-gray-700">Réservations</h2>
+                <p class="text-2xl md:text-3xl font-bold text-gray-900"><?= ($dashboardData['pending_reservations'] ?? 0); ?> en attente</p>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/newsletter'">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">📢 Newsletter</h2>
-                <p class="text-3xl font-bold text-gray-900"><?= $dashboardData['subscribers_count'] ?? 0; ?> abonnés</p>
-                <a href="admin/newsletter" class="text-sm text-blue-500 hover:underline">Gérer</a>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow">
+                <h2 class="text-base md:text-lg font-semibold text-gray-700">Abonnés</h2>
+                <p class="text-2xl md:text-3xl font-bold text-gray-900"><?= $dashboardData['subscribers_count'] ?? 0; ?> abonnés</p>
             </div>
         </div>
 
         <!-- Graphiques -->
-        <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-4 rounded-lg shadow-md h-[450px]">
-                <h2 class="text-lg font-bold text-gray-700 mb-1">📈 Évolution des réservations</h2>
+        <div class="mt-6 md:mt-10 grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md h-64 md:h-96">
+                <h2 class="text-base md:text-lg font-bold text-gray-700 mb-2">📈 Évolution des réservations</h2>
                 <canvas id="reservationsChart"></canvas>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow-md h-[450px]">
-                <h2 class="text-lg font-bold text-gray-700 mb-1">📊 Packs réservés</h2>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md h-64 md:h-96">
+                <h2 class="text-base md:text-lg font-bold text-gray-700 mb-2">📊 Packs réservés</h2>
                 <canvas id="packsChart"></canvas>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow-md h-[450px]">
-                <h2 class="text-lg font-bold text-gray-700 mb-1">📊 Sources des messages</h2>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md h-64 md:h-96">
+                <h2 class="text-base md:text-lg font-bold text-gray-700 mb-2">📊 Sources des messages</h2>
                 <?php if (empty($dashboardData['message_sources']['labels']) || empty($dashboardData['message_sources']['counts'])): ?>
                     <p class="text-gray-500 text-center">Aucune donnée disponible</p>
                 <?php else: ?>
@@ -74,7 +70,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const dashboardData = <?php echo json_encode($dashboardData ?? [], JSON_NUMERIC_CHECK); ?>;
+    const dashboardData = <?php echo json_encode($dashboardData ?? []); ?>;
     let reservationsChart, packsChart, sourcesChart;
 
     // Fonctions utilitaires
@@ -83,6 +79,10 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     // Initialisation des graphiques
     const initCharts = (data) => {
+        if (reservationsChart) reservationsChart.destroy();
+        if (packsChart) packsChart.destroy();
+        if (sourcesChart) sourcesChart.destroy();
+
         const ctx1 = document.getElementById('reservationsChart').getContext('2d');
         reservationsChart = new Chart(ctx1, {
             type: 'line',
@@ -97,28 +97,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    }
-                }
+                maintainAspectRatio: false
             }
         });
 
@@ -135,34 +114,12 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    x: {
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            font: {
-                                size: 12
-                            }
-                        }
-                    }
-                }
+                maintainAspectRatio: false
             }
         });
 
         const sourcesChartElement = document.getElementById('sourcesChart');
         if (sourcesChartElement) {
-            console.log("Initialisation du graphique Sources des messages avec:", data.message_sources);
             const ctx3 = sourcesChartElement.getContext('2d');
             sourcesChart = new Chart(ctx3, {
                 type: 'doughnut',
@@ -175,36 +132,49 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        }
-                    }
+                    maintainAspectRatio: false
                 }
             });
         }
     };
 
-    // Mise à jour des graphiques avec filtre
-    const updateCharts = async (period) => {
+    const updateDashboard = async (period) => {
         const response = await fetch(`admin/dashboard/stats?period=${period}`);
-        const data = await response.json();
-        reservationsChart.data.labels = data.reservation_months || [];
-        reservationsChart.data.datasets[0].data = data.reservation_counts || [];
-        reservationsChart.update();
-        packsChart.data.labels = data.packs_labels || [];
-        packsChart.data.datasets[0].data = data.packs_counts || [];
-        packsChart.update();
-        if (sourcesChart) {
-            sourcesChart.data.labels = data.message_sources?.labels || [];
-            sourcesChart.data.datasets[0].data = (data.message_sources?.counts || []).map(Number);
-            sourcesChart.update();
+        const text = await response.text();
+        try {
+            const data = JSON.parse(text);
+
+            if (reservationsChart) {
+                reservationsChart.data.labels = data.reservation_months || [];
+                reservationsChart.data.datasets[0].data = data.reservation_counts || [];
+                reservationsChart.update();
+            }
+
+            if (packsChart) {
+                packsChart.data.labels = data.packs_labels || [];
+                packsChart.data.datasets[0].data = data.packs_counts || [];
+                packsChart.update();
+            }
+
+            if (sourcesChart) {
+                sourcesChart.data.labels = data.message_sources?.labels || [];
+                sourcesChart.data.datasets[0].data = (data.message_sources?.counts || []).map(Number);
+                sourcesChart.update();
+            }
+
+            const messagesCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(1) p.text-2xl.md\\:text-3xl');
+            if (messagesCard) messagesCard.textContent = data.messages_count || 0;
+
+            const eventsCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(2) p.text-2xl.md\\:text-3xl');
+            if (eventsCard) eventsCard.textContent = `${data.active_events || 0} / ${data.total_events || 0}`;
+
+            const reservationsCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(3) p.text-2xl.md\\:text-3xl');
+            if (reservationsCard) reservationsCard.textContent = `${data.pending_reservations || 0} en attente`;
+
+            const subscribersCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(4) p.text-2xl.md\\:text-3xl');
+            if (subscribersCard) subscribersCard.textContent = `${data.subscribers_count || 0} abonnés`;
+        } catch (error) {
+            console.error("Erreur dans updateDashboard :", error);
         }
     };
 
@@ -230,16 +200,16 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         if (notifications.length > 0) {
             notifications.forEach(notif => {
                 const li = document.createElement("li");
-                li.className = "py-3 flex justify-between";
+                li.className = "py-2 md:py-3 flex flex-col md:flex-row justify-between";
                 li.innerHTML = `
-                    <span class="text-gray-600">${notif.message}</span>
-                    <button class="markAsRead text-sm text-blue-500 hover:underline" data-id="${notif.id}">Marquer comme lu</button>
+                    <span class="text-gray-600 text-sm md:text-base">${notif.message}</span>
+                    <button class="markAsRead text-xs md:text-sm text-blue-500 hover:underline mt-2 md:mt-0" data-id="${notif.id}">Marquer comme lu</button>
                 `;
                 notificationsList.appendChild(li);
             });
             attachReadEvents();
         } else {
-            notificationsList.innerHTML = `<li class="py-3 text-gray-500">Aucune nouvelle notification</li>`;
+            notificationsList.innerHTML = `<li class="py-2 md:py-3 text-gray-500 text-sm md:text-base">Aucune nouvelle notification</li>`;
         }
     };
 
@@ -268,13 +238,12 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         window.location.href = 'admin/export?type=dashboard';
     });
 
-    // Filtre temporel
-    document.getElementById('timeFilter').addEventListener('change', (e) => updateCharts(e.target.value));
-
     // Initialisation
     document.addEventListener('DOMContentLoaded', () => {
         initCharts(dashboardData);
         fetchNotifications();
         setInterval(fetchNotifications, 10000);
     });
+
+    document.getElementById('timeFilter').addEventListener('change', (e) => updateDashboard(e.target.value));
 </script>
