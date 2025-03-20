@@ -689,6 +689,9 @@
   .mr-4 {
     margin-right: calc(var(--spacing) * 4);
   }
+  .mb-1 {
+    margin-bottom: calc(var(--spacing) * 1);
+  }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
   }
@@ -787,6 +790,9 @@
   }
   .h-98 {
     height: calc(var(--spacing) * 98);
+  }
+  .h-\[450px\] {
+    height: 450px;
   }
   .h-full {
     height: 100%;

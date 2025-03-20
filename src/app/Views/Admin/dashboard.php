@@ -9,7 +9,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         <!-- Boutons de contrôle -->
         <div class="flex justify-between mb-6">
             <select id="timeFilter" class="p-2 border rounded">
-                <option value="month" selected>Dernier mois</option>
+                <option value="month">Dernier mois</option>
                 <option value="quarter">Dernier trimestre</option>
                 <option value="year">Année</option>
             </select>
@@ -27,37 +27,41 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         </div>
 
         <!-- Cartes de statistiques -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 mt-6">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-lg font-semibold text-gray-700">Messages</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/messages'">
+                <h2 class="text-lg font-bold text-gray-700 mb-2">📩 Messages</h2>
                 <p class="text-3xl font-bold text-gray-900"><?= $dashboardData['messages_count'] ?? 0; ?></p>
+                <a href="admin/messages" class="text-sm text-blue-500 hover:underline">Voir tout</a>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-lg font-semibold text-gray-700">Événements actifs</h2>
-                <p class="text-3xl font-bold text-gray-900"><?= ($dashboardData['active_events'] ?? 0) . ' / ' . ($dashboardData['total_events'] ?? 0); ?></p>
+            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/evenements'">
+                <h2 class="text-lg font-bold text-gray-700 mb-2">🎉 Événements</h2>
+                <p class="text-3xl font-bold text-gray-900"><?= ($dashboardData['active_events'] ?? 0) . ' / ' . ($dashboardData['total_events'] ?? 0); ?> actifs</p>
+                <a href="admin/evenements" class="text-sm text-blue-500 hover:underline">Gérer</a>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-lg font-semibold text-gray-700">Réservations</h2>
-                <p class="text-3xl font-bold text-gray-900"><?= ($dashboardData['pending_reservations'] ?? 0); ?> en attente</p>
+            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/reservations'">
+                <h2 class="text-lg font-bold text-gray-700 mb-2">🛒 Réservations</h2>
+                <p class="text-3xl font-bold text-gray-900"><?= $dashboardData['pending_reservations'] ?? 0; ?> en attente</p>
+                <a href="admin/reservations" class="text-sm text-blue-500 hover:underline">Voir tout</a>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h2 class="text-lg font-semibold text-gray-700">Abonnés</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md cursor-pointer" onclick="window.location.href='admin/newsletter'">
+                <h2 class="text-lg font-bold text-gray-700 mb-2">📢 Newsletter</h2>
                 <p class="text-3xl font-bold text-gray-900"><?= $dashboardData['subscribers_count'] ?? 0; ?> abonnés</p>
+                <a href="admin/newsletter" class="text-sm text-blue-500 hover:underline">Gérer</a>
             </div>
         </div>
 
         <!-- Graphiques -->
         <div class="mt-10 grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-md h-96">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">📈 Évolution des réservations</h2>
+            <div class="bg-white p-4 rounded-lg shadow-md h-[450px]">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">📈 Évolution des réservations</h2>
                 <canvas id="reservationsChart"></canvas>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md h-96">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">📊 Packs réservés</h2>
+            <div class="bg-white p-4 rounded-lg shadow-md h-[450px]">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">📊 Packs réservés</h2>
                 <canvas id="packsChart"></canvas>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md h-96">
-                <h2 class="text-lg font-bold text-gray-700 mb-2">📊 Sources des messages</h2>
+            <div class="bg-white p-4 rounded-lg shadow-md h-[450px]">
+                <h2 class="text-lg font-bold text-gray-700 mb-1">📊 Sources des messages</h2>
                 <?php if (empty($dashboardData['message_sources']['labels']) || empty($dashboardData['message_sources']['counts'])): ?>
                     <p class="text-gray-500 text-center">Aucune donnée disponible</p>
                 <?php else: ?>
@@ -70,7 +74,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const dashboardData = <?php echo json_encode($dashboardData ?? []); ?>;
+    const dashboardData = <?php echo json_encode($dashboardData ?? [], JSON_NUMERIC_CHECK); ?>;
     let reservationsChart, packsChart, sourcesChart;
 
     // Fonctions utilitaires
@@ -79,18 +83,6 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     // Initialisation des graphiques
     const initCharts = (data) => {
-        // Détruire les graphiques existants s’ils existent
-        if (reservationsChart) {
-            reservationsChart.destroy();
-        }
-        if (packsChart) {
-            packsChart.destroy();
-        }
-        if (sourcesChart) {
-            sourcesChart.destroy();
-        }
-
-        // Créer les nouveaux graphiques
         const ctx1 = document.getElementById('reservationsChart').getContext('2d');
         reservationsChart = new Chart(ctx1, {
             type: 'line',
@@ -105,7 +97,28 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
             }
         });
 
@@ -122,12 +135,34 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                }
             }
         });
 
         const sourcesChartElement = document.getElementById('sourcesChart');
         if (sourcesChartElement) {
+            console.log("Initialisation du graphique Sources des messages avec:", data.message_sources);
             const ctx3 = sourcesChartElement.getContext('2d');
             sourcesChart = new Chart(ctx3, {
                 type: 'doughnut',
@@ -140,63 +175,38 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
                 }
             });
         }
     };
 
-    const updateDashboard = async (period) => {
+    // Mise à jour des graphiques avec filtre
+    const updateCharts = async (period) => {
         const response = await fetch(`admin/dashboard/stats?period=${period}`);
-        const text = await response.text();
-        // console.log(`Réponse brute pour period=${period} :`, text);
-        try {
-            const data = JSON.parse(text);
-            // console.log(`Données JSON pour period=${period} :`, data);
-
-            if (reservationsChart) {
-                reservationsChart.data.labels = data.reservation_months || [];
-                reservationsChart.data.datasets[0].data = data.reservation_counts || [];
-                reservationsChart.update();
-            }
-
-            if (packsChart) {
-                packsChart.data.labels = data.packs_labels || [];
-                packsChart.data.datasets[0].data = data.packs_counts || [];
-                packsChart.update();
-            }
-
-            if (sourcesChart) {
-                sourcesChart.data.labels = data.message_sources?.labels || [];
-                sourcesChart.data.datasets[0].data = (data.message_sources?.counts || []).map(Number);
-                sourcesChart.update();
-            }
-
-            const messagesCard = document.querySelector('.bg-white.p-6:nth-child(1) p.text-3xl');
-            if (messagesCard) messagesCard.textContent = data.messages_count || 0;
-            else console.error("Carte Messages non trouvée");
-
-            const eventsCard = document.querySelector('.bg-white.p-6:nth-child(2) p.text-3xl');
-            if (eventsCard) eventsCard.textContent = `${data.active_events || 0} / ${data.total_events || 0}`;
-            else console.error("Carte Événements non trouvée");
-
-            const reservationsCard = document.querySelector('.bg-white.p-6:nth-child(3) p.text-3xl');
-            if (reservationsCard) reservationsCard.textContent = `${data.pending_reservations || 0} en attente`;
-            else console.error("Carte Réservations non trouvée");
-
-            const subscribersCard = document.querySelector('.bg-white.p-6:nth-child(4) p.text-3xl');
-            if (subscribersCard) subscribersCard.textContent = `${data.subscribers_count || 0} abonnés`;
-            else console.error("Carte Abonnés non trouvée");
-        } catch (error) {
-            console.error("Erreur dans updateDashboard :", error);
+        const data = await response.json();
+        reservationsChart.data.labels = data.reservation_months || [];
+        reservationsChart.data.datasets[0].data = data.reservation_counts || [];
+        reservationsChart.update();
+        packsChart.data.labels = data.packs_labels || [];
+        packsChart.data.datasets[0].data = data.packs_counts || [];
+        packsChart.update();
+        if (sourcesChart) {
+            sourcesChart.data.labels = data.message_sources?.labels || [];
+            sourcesChart.data.datasets[0].data = (data.message_sources?.counts || []).map(Number);
+            sourcesChart.update();
         }
     };
-
-    document.addEventListener('DOMContentLoaded', () => {
-        initCharts(dashboardData);
-    });
-
-    document.getElementById('timeFilter').addEventListener('change', (e) => updateDashboard(e.target.value));
 
     // Gestion des notifications
     const fetchNotifications = async () => {
@@ -259,7 +269,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     });
 
     // Filtre temporel
-    document.getElementById('timeFilter').addEventListener('change', (e) => updateDashboard(e.target.value));
+    document.getElementById('timeFilter').addEventListener('change', (e) => updateCharts(e.target.value));
 
     // Initialisation
     document.addEventListener('DOMContentLoaded', () => {
