@@ -1,4 +1,9 @@
-<aside class="h-screen fixed top-0 left-0 flex flex-col bg-gray-900 text-white w-64 shadow-lg">
+<aside class="sidebar fixed top-0 left-0 h-screen flex flex-col bg-gray-900 text-white w-64 shadow-lg z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+    <!-- Bouton de fermeture (mobile uniquement) -->
+    <button id="closeSidebar" class="md:hidden absolute top-4 right-4 text-white focus:outline-none">
+        <span class="material-icons">close</span>
+    </button>
+
     <!-- Logo et Nom -->
     <div class="flex items-center justify-center py-6">
         <span class="text-3xl font-bold">@</span>
@@ -14,8 +19,6 @@
                     <span>Dashboard</span>
                 </a>
             </li>
-
-            <!-- Menu Événements (Déroulable) -->
             <li>
                 <button id="toggleEvenements" class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded focus:outline-none">
                     <span class="material-icons">event</span>
@@ -29,8 +32,6 @@
                     <li><a href="admin/reservations" class="block px-4 py-2 hover:bg-gray-700">Réservations</a></li>
                 </ul>
             </li>
-
-            <!-- Lien Messages avec compteur dynamique -->
             <li>
                 <a href="admin/messages" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded relative">
                     <span class="material-icons">mail</span>
@@ -38,27 +39,9 @@
                     <span id="messageBadge" class="absolute top-2 right-2 bg-red-500 text-xs px-2 py-1 rounded-full hidden">0</span>
                 </a>
             </li>
-
-            <li>
-                <a href="admin/users" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
-                    <span class="material-icons">people</span>
-                    <span>Utilisateurs</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="admin/newsletter" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
-                    <span class="material-icons">subscriptions</span>
-                    <span>Newsletter</span>
-                </a>
-            </li>
-
-            <li>
-                <a href="admin/settings" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
-                    <span class="material-icons">settings</span>
-                    <span>Paramètres</span>
-                </a>
-            </li>
+            <li><a href="admin/users" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded"><span class="material-icons">people</span><span>Utilisateurs</span></a></li>
+            <li><a href="admin/newsletter" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded"><span class="material-icons">subscriptions</span><span>Newsletter</span></a></li>
+            <li><a href="admin/settings" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded"><span class="material-icons">settings</span><span>Paramètres</span></a></li>
         </ul>
     </nav>
 
@@ -71,45 +54,65 @@
     </div>
 </aside>
 
+<!-- Overlay (fond sombre) pour mobile -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden md:hidden"></div>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Basculer l'affichage du menu événements
-        document.getElementById("toggleEvenements").addEventListener("click", function() {
-            document.getElementById("evenementsMenu").classList.toggle("hidden");
-        });
-
-        function updateUnreadMessages() {
-            fetch("admin/messages/unread_count", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // console.log("Données reçues de admin/messages/unread_count :", data);
-                    const messageBadge = document.getElementById("messageBadge");
-                    const unreadCount = data.unread;
-                    // console.log("Nombre de messages non lus :", unreadCount);
-                    if (unreadCount > 0) {
-                        messageBadge.textContent = unreadCount;
-                        messageBadge.classList.remove("hidden");
-                    } else {
-                        messageBadge.classList.add("hidden");
-                    }
-                })
-                .catch(error => console.error("Erreur récupération messages non lus:", error));
-        }
-
-        // Mettre à jour au chargement de la page et toutes les 10 secondes
-        updateUnreadMessages();
-        setInterval(updateUnreadMessages, 10000);
-
-        // Écoute les clics sur les boutons "Lu / Non Lu" pour mise à jour instantanée
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('toggleReadStatus')) {
-                setTimeout(updateUnreadMessages, 1000); // Rafraîchir après 1s pour éviter le délai du serveur
-            }
-        });
+document.addEventListener("DOMContentLoaded", function() {
+    // Basculer l'affichage du menu événements
+    document.getElementById("toggleEvenements").addEventListener("click", function() {
+        document.getElementById("evenementsMenu").classList.toggle("hidden");
     });
+
+    // Gestion de la sidebar et de l'overlay
+    const sidebar = document.querySelector(".sidebar");
+    const menuToggle = document.getElementById("menuToggle"); // Bouton dans header.php
+    const closeSidebar = document.getElementById("closeSidebar");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+    function toggleSidebar() {
+        sidebar.classList.toggle("-translate-x-full");
+        sidebarOverlay.classList.toggle("hidden");
+    }
+
+    if (menuToggle && sidebar) {
+        menuToggle.addEventListener("click", toggleSidebar);
+    }
+    if (closeSidebar && sidebar) {
+        closeSidebar.addEventListener("click", toggleSidebar);
+    }
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener("click", toggleSidebar);
+    }
+
+    function updateUnreadMessages() {
+        fetch("admin/messages/unread_count", {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(response => response.json())
+            .then(data => {
+                const messageBadge = document.getElementById("messageBadge");
+                const unreadCount = data.unread;
+                if (unreadCount > 0) {
+                    messageBadge.textContent = unreadCount;
+                    messageBadge.classList.remove("hidden");
+                } else {
+                    messageBadge.classList.add("hidden");
+                }
+            })
+            .catch(error => console.error("Erreur récupération messages non lus:", error));
+    }
+
+    updateUnreadMessages();
+    setInterval(updateUnreadMessages, 10000);
+
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('toggleReadStatus')) {
+            setTimeout(updateUnreadMessages, 1000);
+        }
+    });
+});
 </script>
 
 <style>

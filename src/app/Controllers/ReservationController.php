@@ -220,10 +220,10 @@ class ReservationController
 
     public function showConfirmation()
     {
+        // On ne redirige pas immédiatement, on laisse la vue s'afficher
         include 'src/app/Views/Admin/events/admin_reservation_confirmation.php';
         unset($_SESSION['message']);
-        header("Location: ../reservations"); // Redirection immédiate
-        exit();
+        // Pas de header() ici, la redirection sera gérée par JavaScript dans la vue
     }
 
     public function showInvoice($id)
