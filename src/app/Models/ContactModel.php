@@ -92,4 +92,19 @@ class ContactModel extends ModeleParent
             return false;
         }
     }
+
+    public function getMessageSources($filter = '')
+    {
+        try {
+            // On ignore le filtre pour toujours récupérer toutes les sources
+            $query = "SELECT source, COUNT(*) as count FROM contact_messages GROUP BY source";
+            $stmt = $this->pdo->query($query);
+            $result = $stmt->fetchAll() ?: [];
+            error_log("ContactModel getMessageSources result: " . json_encode($result));
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("Erreur dans ContactModel getMessageSources: " . $e->getMessage());
+            return [];
+        }
+    }
 }

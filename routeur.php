@@ -292,7 +292,11 @@ if (empty($route[0])) {
                 case 'dashboard':
                 case 'dashboard':
                     $controller = new Controllers\DashboardController();
-                    $controller->index();
+                    if (isset($route[2]) && $route[2] === 'stats') { // Vérifie $route[2] pour "stats"
+                        $controller->stats();
+                    } else {
+                        $controller->index();
+                    }
                     break;
 
                 case 'notifications':
@@ -453,7 +457,7 @@ if (empty($route[0])) {
                         $controller->backupDatabase();
                     } elseif ($route[2] === 'restore') {
                         $controller->restoreDatabase();
-                    } 
+                    }
                     break;
 
                 case 'logout':

@@ -15,13 +15,12 @@ class DashboardController
 
     public function index()
     {
-
         if (!isset($_SESSION['user_role']) || empty($_SESSION['user_role']) || $_SESSION['user_role'] != 'admin') {
             header("Location: ../connexion_shop");
             exit();
         } else {
-
-            $stats = $this->dashboardModel->getDashboardStats();
+            $stats = $this->dashboardModel->getDashboardStats('month');
+            error_log("Pending reservations: " . ($stats['pending_reservations'] ?? 0));
             $notifications = $this->dashboardModel->getUnreadNotifications();
             $dashboardData = [
                 'messages_count' => $stats['messages_count'] ?? 0,
@@ -33,6 +32,7 @@ class DashboardController
                 'reservation_counts' => $stats['reservation_counts'] ?? [],
                 'packs_labels' => $stats['packs_labels'] ?? [],
                 'packs_counts' => $stats['packs_counts'] ?? [],
+                'message_sources' => $stats['message_sources'] ?? ['labels' => [], 'counts' => []],
                 'notifications' => $notifications
             ];
 
@@ -42,5 +42,14 @@ class DashboardController
             include 'src/app/Views/Admin/dashboard.php';
         }
     }
+
+    public function stats()
+    {
+        header('Content-Type: application/json');
+        $period = $_GET['period'] ?? 'month';
+        $stats = $this->dashboardModel->getDashboardStats($period);
+        error_log("Stats retournés pour period=$period : " . json_encode($stats));
+        echo json_encode($stats);
+        exit();
+    }
 }
-?>

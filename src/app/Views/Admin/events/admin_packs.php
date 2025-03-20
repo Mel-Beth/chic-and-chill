@@ -1,7 +1,7 @@
 <?php
-include('src/app/Views/includes/Admin/admin_head.php');
-include('src/app/Views/includes/Admin/admin_header.php');
-include('src/app/Views/includes/Admin/admin_sidebar.php');
+include('src/app/Views/includes/admin/admin_head.php');
+include('src/app/Views/includes/admin/admin_header.php');
+include('src/app/Views/includes/admin/admin_sidebar.php');
 ?>
 
 <style>
