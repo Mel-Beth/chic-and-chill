@@ -14,11 +14,10 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
                 <div class="bg-gray-100 p-4 rounded-lg">
                     <ul class="space-y-2">
                         <li><button class="tab-button active" data-target="account">Mon Compte</button></li>
-                        <li><button class="tab-button" data-target="appearance">Apparence</button></li>
                         <li><button class="tab-button" data-target="security">Sécurité & Confidentialité</button></li>
                         <li><button class="tab-button" data-target="notifications">Notifications</button></li>
                         <li><button class="tab-button" data-target="history">Historique des Actions</button></li>
-                        <li><button class="tab-button" data-target="data">Import/Export des Données</button></li>
+                        <li><button class="tab-button" data-target="data">Import/Export des <br>Données</button></li>
                     </ul>
                 </div>
 
@@ -36,40 +35,6 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
                             <input type="text" name="role" value="<?= htmlspecialchars($settings['role'] ?? '') ?>" class="border px-4 py-2 rounded-md w-full" disabled>
                             <button type="submit" class="mt-4 bg-black text-white px-6 py-3 rounded-md hover:scale-105 transition">Mettre à jour</button>
                         </form>
-                    </div>
-
-                    <!-- Apparence -->
-                    <div id="appearance" class="settings-content hidden">
-                        <h3 class="text-2xl font-semibold mb-4">🎨 Apparence</h3>
-                        <label class="block text-gray-600 mb-2">Mode Sombre / Clair</label>
-                        <button id="toggleDarkMode" class="border px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300"><?= $appearance['dark_mode'] === 'enabled' ? '☀️ Mode Clair' : '🌙 Mode Sombre' ?></button>
-                        <label class="block text-gray-600 mt-4">🎨 Couleur principale</label>
-                        <select id="themeColor" class="border px-4 py-2 rounded-md w-full">
-                            <option value="blue" <?= $appearance['theme_color'] === 'blue' ? 'selected' : '' ?>>Bleu</option>
-                            <option value="red" <?= $appearance['theme_color'] === 'red' ? 'selected' : '' ?>>Rouge</option>
-                            <option value="green" <?= $appearance['theme_color'] === 'green' ? 'selected' : '' ?>>Vert</option>
-                            <option value="purple" <?= $appearance['theme_color'] === 'purple' ? 'selected' : '' ?>>Violet</option>
-                            <option value="orange" <?= $appearance['theme_color'] === 'orange' ? 'selected' : '' ?>>Orange</option>
-                        </select>
-                        <label class="block text-gray-600 mt-4">🔤 Police d'écriture</label>
-                        <select id="fontFamily" class="border px-4 py-2 rounded-md w-full">
-                            <option value="sans-serif" <?= $appearance['font_family'] === 'sans-serif' ? 'selected' : '' ?>>Sans-serif (Par défaut)</option>
-                            <option value="serif" <?= $appearance['font_family'] === 'serif' ? 'selected' : '' ?>>Serif</option>
-                            <option value="monospace" <?= $appearance['font_family'] === 'monospace' ? 'selected' : '' ?>>Monospace</option>
-                        </select>
-                        <label class="block text-gray-600 mt-4">📏 Taille du texte</label>
-                        <select id="fontSize" class="border px-4 py-2 rounded-md w-full">
-                            <option value="normal" <?= $appearance['font_size'] === 'normal' ? 'selected' : '' ?>>Normal</option>
-                            <option value="large" <?= $appearance['font_size'] === 'large' ? 'selected' : '' ?>>Grand</option>
-                            <option value="x-large" <?= $appearance['font_size'] === 'x-large' ? 'selected' : '' ?>>Extra-large</option>
-                        </select>
-                        <label class="block text-gray-600 mt-4">📶 Affichage des statistiques</label>
-                        <div class="flex space-x-4">
-                            <label class="flex items-center"><input type="checkbox" id="showTraffic" <?= $appearance['show_traffic'] ? 'checked' : '' ?> class="mr-2"> Trafic</label>
-                            <label class="flex items-center"><input type="checkbox" id="showSales" <?= $appearance['show_sales'] ? 'checked' : '' ?> class="mr-2"> Ventes</label>
-                            <label class="flex items-center"><input type="checkbox" id="showOrders" <?= $appearance['show_orders'] ? 'checked' : '' ?> class="mr-2"> Commandes</label>
-                        </div>
-                        <button id="saveAppearanceSettings" class="mt-4 bg-blue-600 text-white px-6 py-3 rounded-md hover:scale-105 transition">💾 Sauvegarder</button>
                     </div>
 
                     <!-- Sécurité & Confidentialité -->
@@ -175,46 +140,7 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
     </div>
 </div>
 
-<style>
-    .dark-mode {
-        background-color: #1a202c;
-        color: #e2e8f0;
-    }
-    .dark-mode .bg-white {
-        background-color: #2d3748;
-    }
-    .dark-mode .text-gray-800 {
-        color: #e2e8f0;
-    }
-    .dark-mode .bg-gray-100 {
-        background-color: #4a5568;
-    }
-    .dark-mode .bg-gray-200 {
-        background-color: #718096;
-    }
-    /* Assurez-vous que la couleur principale est utilisée */
-    body {
-        color: var(--main-color);
-    }
-    h2, h3, button {
-        color: var(--main-color);
-    }
-</style>
-
 <script>
-// Appliquer les paramètres d'apparence au chargement
-document.addEventListener("DOMContentLoaded", function() {
-    const body = document.body;
-    const darkMode = "<?= $appearance['dark_mode'] ?>";
-    const themeColor = "<?= $appearance['theme_color'] ?>";
-    const fontFamily = "<?= $appearance['font_family'] ?>";
-    const fontSize = "<?= $appearance['font_size'] === 'normal' ? '16px' : ($appearance['font_size'] === 'large' ? '18px' : '20px') ?>";
-
-    if (darkMode === "enabled") body.classList.add("dark-mode");
-    document.documentElement.style.setProperty("--main-color", themeColor);
-    body.style.fontFamily = fontFamily;
-    body.style.fontSize = fontSize;
-});
 
 // Gestion des onglets
 document.querySelectorAll(".tab-button").forEach(button => {
@@ -233,56 +159,6 @@ document.getElementById("accountForm").addEventListener("submit", function(e) {
         .then(response => response.json())
         .then(data => alert(data.success ? "Compte mis à jour !" : "Erreur: " + data.message))
         .catch(error => console.error("Erreur:", error));
-});
-
-// Apparence
-const darkModeButton = document.getElementById("toggleDarkMode");
-darkModeButton.addEventListener("click", function() {
-    document.body.classList.toggle("dark-mode");
-    this.textContent = document.body.classList.contains("dark-mode") ? "☀️ Mode Clair" : "🌙 Mode Sombre";
-});
-
-// Appliquer les changements en temps réel
-document.getElementById("themeColor").addEventListener("change", function() {
-    document.documentElement.style.setProperty("--main-color", this.value);
-});
-
-document.getElementById("fontFamily").addEventListener("change", function() {
-    document.body.style.fontFamily = this.value;
-});
-
-document.getElementById("fontSize").addEventListener("change", function() {
-    document.body.style.fontSize = this.value === "normal" ? "16px" : this.value === "large" ? "18px" : "20px";
-});
-
-document.getElementById("saveAppearanceSettings").addEventListener("click", function() {
-    const settings = {
-        darkMode: document.body.classList.contains("dark-mode") ? "enabled" : "disabled",
-        themeColor: document.getElementById("themeColor").value,
-        fontFamily: document.getElementById("fontFamily").value,
-        fontSize: document.getElementById("fontSize").value,
-        showTraffic: document.getElementById("showTraffic").checked,
-        showSales: document.getElementById("showSales").checked,
-        showOrders: document.getElementById("showOrders").checked
-    };
-
-    fetch("admin/settings/update-appearance", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(settings)
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Erreur réseau : " + response.status);
-        return response.json();
-    })
-    .then(data => {
-        console.log("Réponse serveur:", data); // Débogage
-        alert(data.success ? data.message : "Erreur: " + data.message);
-    })
-    .catch(error => {
-        console.error("Erreur lors de la sauvegarde:", error);
-        alert("Une erreur est survenue : " + error.message);
-    });
 });
 
 // Sécurité

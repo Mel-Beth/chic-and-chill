@@ -20,9 +20,6 @@ class SettingsController
             exit();
         }
         $settings = $this->settingsModel->getSettings($_SESSION['user_id']);
-        $appearance = $this->settingsModel->getAppearanceSettings($_SESSION['user_id']);
-        $_SESSION['appearance'] = $appearance;
-        error_log("showSettings - Apparence chargée dans \$_SESSION['appearance'] : " . print_r($appearance, true));
         $history = $this->settingsModel->getActionHistory();
         include 'src/app/Views/admin/admin_settings.php';
     }
@@ -47,66 +44,6 @@ class SettingsController
             echo json_encode($result);
             exit();
         }
-    }
-
-    public function updateAppearanceSettings()
-    {
-        header('Content-Type: application/json');
-
-        if (!isset($_SESSION['user_id'])) {
-            echo json_encode(['success' => false, 'message' => 'Accès refusé']);
-            exit();
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-            echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
-            exit();
-        }
-
-        $input = json_decode(file_get_contents("php://input"), true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            echo json_encode(['success' => false, 'message' => 'Données JSON invalides : ' . json_last_error_msg()]);
-            exit();
-        }
-
-        if (!$input) {
-            echo json_encode(['success' => false, 'message' => 'Données manquantes']);
-            exit();
-        }
-
-        try {
-            $userId = $_SESSION['user_id'];
-            $result = $this->settingsModel->updateAppearance(
-                $userId,
-                $input['darkMode'] ?? 'disabled',
-                $input['themeColor'] ?? 'blue',
-                $input['fontFamily'] ?? 'sans-serif',
-                $input['fontSize'] ?? 'normal',
-                $input['showTraffic'] ?? false,
-                $input['showSales'] ?? false,
-                $input['showOrders'] ?? false
-            );
-
-            if ($result['success']) {
-                $_SESSION['appearance'] = [
-                    'dark_mode' => $input['darkMode'] ?? 'disabled',
-                    'theme_color' => $input['themeColor'] ?? 'blue',
-                    'font_family' => $input['fontFamily'] ?? 'sans-serif',
-                    'font_size' => $input['fontSize'] ?? 'normal',
-                    'show_traffic' => $input['showTraffic'] ?? false,
-                    'show_sales' => $input['showSales'] ?? false,
-                    'show_orders' => $input['showOrders'] ?? false
-                ];
-                error_log("updateAppearanceSettings - Nouvelle \$_SESSION['appearance'] : " . print_r($_SESSION['appearance'], true));
-                $this->settingsModel->logAction($userId, $_SESSION['username'] ?? 'Utilisateur inconnu', "Mise à jour apparence", $_SERVER['REMOTE_ADDR']);
-                echo json_encode(['success' => true, 'message' => 'Apparence mise à jour avec succès']);
-            } else {
-                echo json_encode(['success' => false, 'message' => $result['message'] ?? 'Erreur lors de la mise à jour']);
-            }
-        } catch (\Exception $e) {
-            echo json_encode(['success' => false, 'message' => 'Erreur serveur : ' . $e->getMessage()]);
-        }
-        exit();
     }
 
     public function updatePassword()

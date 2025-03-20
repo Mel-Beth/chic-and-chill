@@ -435,8 +435,6 @@ if (empty($route[0])) {
                         $controller->showSettings();
                     } elseif ($route[2] === 'update') {
                         $controller->updateSettings();
-                    } elseif ($route[2] === 'update-appearance') {
-                        $controller->updateAppearanceSettings();
                     } elseif ($route[2] === 'update-password') {
                         $controller->updatePassword();
                     } elseif ($route[2] === 'delete-account') {
