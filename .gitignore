@@ -1,4 +1,5 @@
 # Fichiers qui ne seront pas versionnés afin de na pas finir sur Github/Gitlab
 vendor/
+vendor/composer/
 node_modules/
 .env
