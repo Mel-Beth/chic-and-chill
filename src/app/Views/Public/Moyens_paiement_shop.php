@@ -47,6 +47,7 @@
 </main>
 
 <?php include('src/app/Views/includes/footer_shop.php'); ?>
+<script src="src/app/js/loupe_recherche.js"></script>
 
 </body>
 </html>

@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="dropdown_shop">
-      <a href="#">ENFANTS</a>
+      <a href="produit_shop?gender=enfants">ENFANTS</a>
       <div class="dropdown_content_shop">
         <a href="produit_shop?gender=enfants">Tout voir</a>
         <a href="produit_shop?gender=enfants&id_categories=10">Vestes et manteaux</a>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="dropdown_shop">
-      <a href="#">MARQUES</a>
+      <a href="produit_shop?brand">MARQUES</a>
       <div class="dropdown_content_shop">
         <a href="#">Tout voir</a>
         <a href="#">Zara</a>
@@ -44,7 +44,7 @@
         <a href="#">Tommy Hilfiger</a>
       </div>
     </div>
-    <a href="#">PROMOTIONS</a>
+    <a href="#">NOUVEAUTES</a>
     <a href="evenements">EVENEMENTS</a>
     <a href="#">LOCATION</a>
   </nav>
@@ -59,8 +59,8 @@
       <a class="nav-link" href="connexion_shop">Connexion</a>
     <?php endif; ?>
     <div class="icons_shop_nav_bar">
-      <a href="#"><i class="fas fa-search"></i></a>
-      <a href="panier_shop"><i class="fas fa-shopping-cart"></i></a>
+    <span class="search-icon"><i class="fas fa-search"></i></span>
+    <a href="panier_shop"><i class="fas fa-shopping-cart"></i></a>
     </div>
   </div>
 </header>

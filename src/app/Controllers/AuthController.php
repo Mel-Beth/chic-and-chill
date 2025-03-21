@@ -13,6 +13,18 @@ class AuthController
         $this->authModel = new AuthModel();
     }
 
+
+    public function logout()
+    {
+        session_start(); // Démarrer la session
+        session_unset(); // Supprime toutes les variables de session
+        session_destroy(); // Détruit la session
+        
+        // Redirection vers la page d'accueil
+        header("Location: ../accueil_shop");
+        exit;
+    }
+
     public function forgotPassword()
     {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {

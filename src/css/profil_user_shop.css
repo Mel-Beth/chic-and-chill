@@ -1,87 +1,195 @@
-
+/* Styles généraux */
 .body_profil_shop {
-        margin: 0;
-        display: flex;
-        flex-direction: column; /* Assure une disposition verticale */
-        min-height: 100vh; /* Assure que la page prend toute la hauteur */
-        background-color: white;
-    }
-    
-
-
-
-.container_profil_shop {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Pour centrer verticalement */
-    padding-top: 10rem; /* Ajuste l'espace sous le header */
+    min-height: 100vh;
+flex-direction: column;
+    flex: 1;
+    margin: 0;
+    background-color:#d2e3d1;
+    padding-top: 10rem;
 }
 
-.profil_card_shop {
-    background: rgba(255, 255, 255, 0.9); /* Légère transparence */
+/* Conteneur principal */
+.profil_container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;  
+    max-width: 1200px; 
+    margin: 40px auto;
+    align-items: flex-start;
+}
+
+
+/* Sidebar latérale à gauche */
+.profil_sidebar {
+    font-family: "Nunito Sans", serif;
+    font-weight: 500;
+    font-size: 1rem;
+    width: 250px;
     padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    max-width: 400px;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    position: relative; /* a retirer plus tard si ça gene*/
 }
 
-.profil_titre_shop {
-    font-size: 24px;
-    margin-bottom: 20px;
+.profil_welcome {
+    font-family: "Raleway", serif;
+    font-size: 22px;
+    font-weight: bold;
     color: #333;
 }
 
-.profil_menu_shop {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.profil_menu_shop li {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    color: #555;
-}
-
-.profil_liens_shop {
+/* Liens de navigation */
+.profil_nav {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    width: 100%;
 }
 
-.profil_btn_shop {
-    display: block;
-    background: #8CA58A;
-    color: white;
-    padding: 10px;
-    border-radius: 6px;
-    text-align: center;
+.profil_nav a {
     text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s;
+    color: #555;
+    font-size: 16px;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    transition: color 0.3s;
 }
 
-.profil_btn_shop:hover {
+.profil_nav a:hover {
+    color: #8CA58A;
+}
+
+/* Style du lien Déconnexion */
+.logout {
+    color: #a93226;
+    font-weight: bold;
+}
+
+/* partie avec les commandes */
+.profil_main {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column; 
+    gap: 20px;
+    width: 100%;
+    align-items: center; 
+}
+
+/* Section Mes Commandes */
+.commandes_section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.commandes_section h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.container_histo_nouveautes{
+    flex: auto;
+    flex-direction: column;
+    align-items: baseline;
+    
+}
+
+.commandes_section .commande {
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    color: #666;
+}
+
+.commandes_section .commande:last-child {
+    border-bottom: none;
+}
+
+/* Section "Ne Loupez Pas Nos Nouveautés" */
+.nouveautes_section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px; 
+}
+
+.nouveautes_section h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.nouveautes_section a {
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    color: white;
+    background: #8CA58A;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.nouveautes_section a:hover {
     background: #7c9474;
 }
 
-.btn_deconnexion_shop {
-    display: block;
-    background: #633c27;
-    color: white;
-    padding: 12px;
-    border-radius: 6px;
-    text-align: center;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 15px;
-    transition: background 0.3s;
+/* Conteneur des informations personnelles */
+#infos_perso_section {
+    display: flex;
+    justify-content: flex-end; /* Aligner à droite */
+    padding: 20px;
 }
 
-.btn_deconnexion_shop:hover {
-    background: #a93226;
+/* Formulaire des info */
+#infos_perso_form {
+    width: 50%; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Alignement des labels et champs pr la partie info perso */
+#infos_perso_form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Champs de saisie infos perso */
+#infos_perso_form input {
+    width: 100%; 
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Boutons */
+#infos_perso_form button {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #2c6e49; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#infos_perso_form button:hover {
+    background-color: #1e4d34;
+}
+
+.info_perso{
+    display: flex;
+    align-items: flex-end;
+    z-index: 3;
+    
 }

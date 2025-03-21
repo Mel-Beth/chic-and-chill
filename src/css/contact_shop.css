@@ -1,0 +1,22 @@
+
+.body_contact_shop{
+    margin-top: 12rem;
+  
+}
+
+
+.titre_principal_form_contact_shop{
+
+}
+
+.container_form_contact_shop{
+    display: flex;
+    align-items: center;
+
+}
+
+.form_container_contact_shop{
+    display: flex;
+    flex-direction: column;
+
+}

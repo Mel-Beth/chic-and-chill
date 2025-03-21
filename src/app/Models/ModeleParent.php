@@ -1,4 +1,6 @@
 <?php
+
+
 namespace Models;
 
 class ModeleParent
@@ -23,4 +25,8 @@ class ModeleParent
             die("Erreur de connexion ou de requête : " . $e->getMessage());
         }
     }
+
 }
+
+?>
+

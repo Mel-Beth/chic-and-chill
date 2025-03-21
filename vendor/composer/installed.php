@@ -1,9 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'alaji/chic-and-chill',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '56cdfc805c262ccad4aaf3ee0fc99c7e6bfbb387',
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+<<<<<<< HEAD
+        'reference' => '16ccd1beda27174683fc1fe73fcd9defdded9aa8',
+=======
+        'reference' => '7d0297ab2ad15aa93d50039a3103febd6c0f7d97',
+>>>>>>> 16ccd1b (commit pauline)
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,14 +15,84 @@
     ),
     'versions' => array(
         'alaji/chic-and-chill' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '56cdfc805c262ccad4aaf3ee0fc99c7e6bfbb387',
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+<<<<<<< HEAD
+            'reference' => '16ccd1beda27174683fc1fe73fcd9defdded9aa8',
+=======
+            'reference' => '7d0297ab2ad15aa93d50039a3103febd6c0f7d97',
+>>>>>>> 16ccd1b (commit pauline)
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+        'composer/ca-bundle' => array(
+            'pretty_version' => '1.5.6',
+            'version' => '1.5.6.0',
+            'reference' => 'f65c239c970e7f072f067ab78646e9f0b2935175',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./ca-bundle',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/composer' => array(
+            'pretty_version' => '2.2.25',
+            'version' => '2.2.25.0',
+            'reference' => '0374e6fa9d20beeffa0765c890ace6b33cbb33bd',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./composer',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/metadata-minifier' => array(
+            'pretty_version' => '1.0.0',
+            'version' => '1.0.0.0',
+            'reference' => 'c549d23829536f0d0e984aaabbf02af91f443207',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./metadata-minifier',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/pcre' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => '67a32d7d6f9f560b726ab25a061b38ff3a80c560',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./pcre',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/semver' => array(
+            'pretty_version' => '3.4.3',
+            'version' => '3.4.3.0',
+            'reference' => '4313d26ada5e0c4edfbd1dc481a92ff7bff91f12',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./semver',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/spdx-licenses' => array(
+            'pretty_version' => '1.5.8',
+            'version' => '1.5.8.0',
+            'reference' => '560bdcf8deb88ae5d611c80a2de8ea9d0358cc0a',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./spdx-licenses',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'composer/xdebug-handler' => array(
+            'pretty_version' => '3.0.5',
+            'version' => '3.0.5.0',
+            'reference' => '6c1925561632e83d60a44492e0b344cf48ab85ef',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./xdebug-handler',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'container-interop/container-interop' => array(
             'pretty_version' => '1.2.0',
             'version' => '1.2.0.0',
@@ -52,6 +126,18 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+        'justinrainbow/json-schema' => array(
+            'pretty_version' => '5.3.0',
+            'version' => '5.3.0.0',
+            'reference' => 'feb2ca6dd1cebdaf1ed60a4c8de2e53ce11c4fd8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../justinrainbow/json-schema',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'leafo/lessphp' => array(
             'pretty_version' => 'v0.4.0',
             'version' => '0.4.0.0',
@@ -259,12 +345,45 @@
                 0 => '1.0.0',
             ),
         ),
+<<<<<<< HEAD
+        'react/promise' => array(
+            'pretty_version' => 'v2.11.0',
+            'version' => '2.11.0.0',
+            'reference' => '1a8460931ea36dc5c76838fec5734d55c88c6831',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../react/promise',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'rsky/pear-core-min' => array(
             'dev_requirement' => false,
             'provided' => array(
                 0 => '*',
             ),
         ),
+<<<<<<< HEAD
+        'seld/jsonlint' => array(
+            'pretty_version' => '1.11.0',
+            'version' => '1.11.0.0',
+            'reference' => '1748aaf847fc731cfad7725aec413ee46f0cc3a2',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../seld/jsonlint',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'seld/phar-utils' => array(
+            'pretty_version' => '1.2.1',
+            'version' => '1.2.1.0',
+            'reference' => 'ea2f4014f163c1be4c601b9b7bd6af81ba8d701c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../seld/phar-utils',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'stripe/stripe-php' => array(
             'pretty_version' => 'v16.6.0',
             'version' => '16.6.0.0',
@@ -301,6 +420,27 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+        'symfony/filesystem' => array(
+            'pretty_version' => 'v6.4.13',
+            'version' => '6.4.13.0',
+            'reference' => '4856c9cf585d5a0313d8d35afd681a526f038dd3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/filesystem',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'symfony/finder' => array(
+            'pretty_version' => 'v6.4.17',
+            'version' => '6.4.17.0',
+            'reference' => '1d0e8266248c5d9ab6a87e3789e6dc482af3c9c7',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/finder',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'symfony/http-foundation' => array(
             'pretty_version' => 'v3.1.10',
             'version' => '3.1.10.0',
@@ -364,6 +504,16 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+        'symfony/process' => array(
+            'pretty_version' => 'v6.4.19',
+            'version' => '6.4.19.0',
+            'reference' => '7a1c12e87b08ec9c97abdd188c9b3f5a40e37fc3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/process',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'tecnickcom/tcpdf' => array(
             'pretty_version' => '6.8.2',
             'version' => '6.8.2.0',
@@ -373,6 +523,8 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+=======
+>>>>>>> 16ccd1b (commit pauline)
         'tedivm/jshrink' => array(
             'pretty_version' => 'v0.5.2',
             'version' => '0.5.2.0',

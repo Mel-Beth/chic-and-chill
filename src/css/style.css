@@ -16,6 +16,13 @@
 @import url('events/evenements.css');
 @import url('events/evenement_detail.css');
 @import url('events/localisation.css');
+@import url('evenements.css');
+<<<<<<< HEAD
+@import url('loupe_recherche.css');
+@import url('contact_shop.css');
+
+=======
+>>>>>>> ed44300d624c33647369b42203ed15526d849112
 
 html {
   scroll-behavior: smooth;

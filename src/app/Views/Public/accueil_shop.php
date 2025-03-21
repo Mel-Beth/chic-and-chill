@@ -14,9 +14,9 @@
     <h1>Seconde Main Durable et Stylée</h1>
     <p>+700 pièces certifiées parfait état</p>
     <div class="buttons_shop_banniere_accueil">
-      <a href="#">Femmes</a>
-      <a href="#">Enfants</a>
-      <a href="#">Accessoires</a>
+      <a href="produit_shop?gender=femmes">Femmes</a>
+      <a href="produit_shop?gender=enfants">Enfants</a>
+      <a href="produit_shop?gender=enfants&femmes&id_categories=5">Accessoires</a>
     </div>
   </div>
 </div>
@@ -35,5 +35,6 @@
 });
 
 </script>
+<script src="src/app/js/loupe_recherche.js"></script>
 </body>
 </html>

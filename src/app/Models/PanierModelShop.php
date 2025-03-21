@@ -16,9 +16,15 @@ class PanierModelShop
     {
        
         $this->pdo = DatabaseShop::getConnection(); 
-        if (!isset($_SESSION['panier'])) {
-            $_SESSION['panier'] = []; // Initialise un panier vide
+        if (empty($_SESSION['panier']) && empty($_SESSION['panier_vide_apres_paiement'])) {
+            $_SESSION['panier'] = []; // initialise panier vide seulemnt si c'est pas après un paiement validé
         }
+        
+        // après la 1ere page chargée et après le paiement, on suppr ce flag c'est pr ne pas avoir le panier qui revient 
+        if (!empty($_SESSION['panier_vide_apres_paiement'])) {
+            unset($_SESSION['panier_vide_apres_paiement']);
+        }
+        
     }
     public function getProduitById($id) {
         try {
