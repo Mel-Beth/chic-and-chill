@@ -109,7 +109,7 @@
 
         /* Styles pour la section hero sur mobile */
         .hero-content-mobile {
-            display: flex;
+            display: none; /* Masqué par défaut, affiché sur mobile */
             flex-direction: column;
             align-items: center;
             text-align: center;
@@ -162,6 +162,26 @@
             background-color: #6F4622;
         }
 
+        /* Masquer les cercles et labels par défaut avec une spécificité élevée */
+        #hero-container #circle-main,
+        #hero-container .circle-link,
+        #hero-container #label-even,
+        #hero-container #label-location,
+        #hero-container #label-magasin {
+            display: none !important;
+        }
+
+        /* Afficher les cercles et labels uniquement sur desktop */
+        @media (min-width: 769px) {
+            #hero-container #circle-main,
+            #hero-container .circle-link,
+            #hero-container #label-even,
+            #hero-container #label-location,
+            #hero-container #label-magasin {
+                display: flex !important;
+            }
+        }
+
         /* Responsive : Tablettes */
         @media (max-width: 1024px) {
             #circle-main {
@@ -177,7 +197,6 @@
 
         /* Responsive : Mobiles */
         @media (max-width: 768px) {
-
             /* Réduire la taille du logo et du titre dans le header */
             header .logo {
                 width: 3rem !important;
@@ -188,12 +207,12 @@
                 font-size: 1.5rem !important;
             }
 
-            /* Masquer les cercles interactifs et leurs labels sur mobile */
-            #circle-main,
-            .circle-link,
-            #label-even,
-            #label-location,
-            #label-magasin {
+            /* Masquer les cercles interactifs et leurs labels sur mobile (redondance pour plus de sécurité) */
+            #hero-container #circle-main,
+            #hero-container .circle-link,
+            #hero-container #label-even,
+            #hero-container #label-location,
+            #hero-container #label-magasin {
                 display: none !important;
             }
 
@@ -284,10 +303,9 @@
         <img src="assets/images/image_accueil.png" alt="Chic And Chill" class="absolute top-0 left-0 w-full h-full object-cover z-0">
 
         <!-- Section hero pour mobile -->
-        <div class="hero-content-mobile hidden">
+        <div class="hero-content-mobile">
             <div class="title-container">
                 <h1>CHIC & CHILL</h1>
-
                 <p>Mode responsable et accessible</p>
             </div>
             <a href="evenements" class="btn">Événements</a>
@@ -374,77 +392,93 @@
             let width = container.offsetWidth;
             let height = container.offsetHeight;
 
-            // Ajustement des cercles interactifs (uniquement sur desktop)
-            if (window.innerWidth >= 768) {
-                let mainCircle = document.getElementById('circle-main');
-                mainCircle.style.width = width * 0.25 + "px";
-                mainCircle.style.height = width * 0.25 + "px";
-                mainCircle.style.left = "50%";
-                mainCircle.style.top = "48%";
-                mainCircle.style.transform = "translate(-50%, -50%)";
+            // Masquer explicitement les éléments sur mobile
+            let circleMain = document.getElementById('circle-main');
+            let circleEven = document.getElementById('circle-even');
+            let circleLocation = document.getElementById('circle-location');
+            let circleMagasin = document.getElementById('circle-magasin');
+            let labelEven = document.getElementById('label-even');
+            let labelLocation = document.getElementById('label-location');
+            let labelMagasin = document.getElementById('label-magasin');
 
-                let chic = document.getElementById('chic');
-                let and = document.getElementById('and');
-                let chill = document.getElementById('chill');
-
-                let fontSize = width * 0.035 + "px";
-                chic.style.fontSize = fontSize;
-                and.style.fontSize = fontSize;
-                chill.style.fontSize = fontSize;
-
-                chic.style.top = "30%";
-                chic.style.left = "15%";
-                chic.style.transform = "translate(-20%, -10%)";
-
-                and.style.top = "50%";
-                and.style.left = "50%";
-                and.style.transform = "translate(-50%, -50%)";
-
-                chill.style.top = "70%";
-                chill.style.right = "15%";
-                chill.style.transform = "translate(8%, -80%)";
-
-                let evenCircle = document.getElementById('circle-even');
-                let locationCircle = document.getElementById('circle-location');
-                let magasinCircle = document.getElementById('circle-magasin');
-
-                evenCircle.style.width = width * 0.15 + "px";
-                evenCircle.style.height = width * 0.15 + "px";
-                evenCircle.style.left = "9%";
-                evenCircle.style.top = "12%";
-                evenCircle.style.transform = "translate(105%, 10%)";
-
-                locationCircle.style.width = width * 0.13 + "px";
-                locationCircle.style.height = width * 0.13 + "px";
-                locationCircle.style.right = "9%";
-                locationCircle.style.top = "12%";
-                locationCircle.style.transform = "translate(-155%, 60px)";
-
-                magasinCircle.style.width = width * 0.11 + "px";
-                magasinCircle.style.height = width * 0.11 + "px";
-                magasinCircle.style.left = "10%";
-                magasinCircle.style.bottom = "14%";
-                magasinCircle.style.transform = "translate(195%, -45px)";
-
-                let evenLabel = document.getElementById('label-even');
-                let locationLabel = document.getElementById('label-location');
-                let magasinLabel = document.getElementById('label-magasin');
-
-                evenLabel.style.left = "9%";
-                evenLabel.style.top = "12%";
-                evenLabel.style.transform = "translate(142%, 290%)";
-                evenLabel.style.fontSize = width * 0.018 + "px";
-
-                locationLabel.style.right = "9%";
-                locationLabel.style.top = "12%";
-                locationLabel.style.transform = "translate(-235%, 160px)";
-                locationLabel.style.fontSize = width * 0.018 + "px";
-
-                magasinLabel.style.left = "10%";
-                magasinLabel.style.bottom = "14%";
-                magasinLabel.style.transform = "translate(255%, -120px)";
-                magasinLabel.style.fontSize = width * 0.018 + "px";
+            if (window.innerWidth < 768) {
+                circleMain.style.display = 'none';
+                circleEven.style.display = 'none';
+                circleLocation.style.display = 'none';
+                circleMagasin.style.display = 'none';
+                labelEven.style.display = 'none';
+                labelLocation.style.display = 'none';
+                labelMagasin.style.display = 'none';
+                return; // Arrêter l'exécution si on est sur mobile
             }
+
+            // Ajustement des cercles interactifs (uniquement sur desktop)
+            circleMain.style.display = 'flex'; // S'assurer que l'élément est visible sur desktop
+            circleMain.style.width = width * 0.25 + "px";
+            circleMain.style.height = width * 0.25 + "px";
+            circleMain.style.left = "50%";
+            circleMain.style.top = "48%";
+            circleMain.style.transform = "translate(-50%, -50%)";
+
+            let chic = document.getElementById('chic');
+            let and = document.getElementById('and');
+            let chill = document.getElementById('chill');
+
+            let fontSize = width * 0.035 + "px";
+            chic.style.fontSize = fontSize;
+            and.style.fontSize = fontSize;
+            chill.style.fontSize = fontSize;
+
+            chic.style.top = "30%";
+            chic.style.left = "15%";
+            chic.style.transform = "translate(-20%, -10%)";
+
+            and.style.top = "50%";
+            and.style.left = "50%";
+            and.style.transform = "translate(-50%, -50%)";
+
+            chill.style.top = "70%";
+            chill.style.right = "15%";
+            chill.style.transform = "translate(8%, -80%)";
+
+            circleEven.style.display = 'flex';
+            circleEven.style.width = width * 0.15 + "px";
+            circleEven.style.height = width * 0.15 + "px";
+            circleEven.style.left = "9%";
+            circleEven.style.top = "12%";
+            circleEven.style.transform = "translate(105%, 10%)";
+
+            circleLocation.style.display = 'flex';
+            circleLocation.style.width = width * 0.13 + "px";
+            circleLocation.style.height = width * 0.13 + "px";
+            circleLocation.style.right = "9%";
+            circleLocation.style.top = "12%";
+            circleLocation.style.transform = "translate(-155%, 60px)";
+
+            circleMagasin.style.display = 'flex';
+            circleMagasin.style.width = width * 0.11 + "px";
+            circleMagasin.style.height = width * 0.11 + "px";
+            circleMagasin.style.left = "10%";
+            circleMagasin.style.bottom = "14%";
+            circleMagasin.style.transform = "translate(195%, -45px)";
+
+            labelEven.style.display = 'block';
+            labelEven.style.left = "9%";
+            labelEven.style.top = "12%";
+            labelEven.style.transform = "translate(142%, 290%)";
+            labelEven.style.fontSize = width * 0.018 + "px";
+
+            labelLocation.style.display = 'block';
+            labelLocation.style.right = "9%";
+            labelLocation.style.top = "12%";
+            labelLocation.style.transform = "translate(-235%, 140px)";
+            labelLocation.style.fontSize = width * 0.018 + "px";
+
+            labelMagasin.style.display = 'block';
+            labelMagasin.style.left = "10%";
+            labelMagasin.style.bottom = "14%";
+            labelMagasin.style.transform = "translate(255%, -113px)";
+            labelMagasin.style.fontSize = width * 0.018 + "px";
         }
 
         // Gestion du menu burger
@@ -488,6 +522,9 @@
         // Écouteurs d'événements pour ajuster les tailles
         window.addEventListener('resize', adjustElements);
         window.addEventListener('load', adjustElements);
+
+        // Appeler la fonction immédiatement pour s'assurer que les éléments sont masqués au chargement
+        adjustElements();
     </script>
 </body>
 
