@@ -127,6 +127,7 @@ class ReservationController
                         <!-- En-tête avec logo -->
                         <tr>
                             <td style="background-color: #8B5A2B; padding: 20px; text-align: center; border-bottom: 1px solid #e0e0e0;">
+                                <h1 style="color: #fff; margin: 0;">Chic & Chill</h1>
                                 <p style="color: #fff; font-size: 14px; margin: 5px 0 0;">Votre expérience sur mesure</p>
                             </td>
                         </tr>
