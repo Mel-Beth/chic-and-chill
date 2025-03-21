@@ -437,12 +437,12 @@
 
                 locationLabel.style.right = "9%";
                 locationLabel.style.top = "12%";
-                locationLabel.style.transform = "translate(-235%, 140px)";
+                locationLabel.style.transform = "translate(-235%, 160px)";
                 locationLabel.style.fontSize = width * 0.018 + "px";
 
                 magasinLabel.style.left = "10%";
                 magasinLabel.style.bottom = "14%";
-                magasinLabel.style.transform = "translate(255%, -110px)";
+                magasinLabel.style.transform = "translate(255%, -120px)";
                 magasinLabel.style.fontSize = width * 0.018 + "px";
             }
         }

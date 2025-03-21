@@ -1,6 +1,6 @@
 <header class="header_shop">
   <div class="logo-chic-and-chill-shop">
-    <img src="assets/images/logo_magasin-chic-mel.png" alt="logo-magasin-chic-and-chill">
+    <img src="assets/images/logo_magasin-chic.png" alt="logo-magasin-chic-and-chill">
     <span class="chic-and-chill">CHIC <span class="span_and_logo_barre_nav_shop">AND</span> CHILL</span>
   </div>
   
