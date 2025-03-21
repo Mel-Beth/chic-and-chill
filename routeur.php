@@ -19,14 +19,8 @@ if (empty($route[0])) {
     (new Controllers\HomeController())->index();
 } else {
 
+
     // Gestion des différentes routes possibles
-
-
-    switch ($route[0]) {
-        case 'accueil': // Si l'utilisateur accède à "/accueil"
-            $controller = new Controllers\HomeController();
-            $controller->index();
-            break;
     switch ($route[0]) {
         case 'accueil': // Si l'utilisateur accède à "/accueil"
             $controller = new Controllers\HomeController();
@@ -41,25 +35,6 @@ if (empty($route[0])) {
             } else {
                 $controller->index();
             }
-            break;
-        case "evenements": // Si l'utilisateur accède à "/evenements"
-            $controller = new Controllers\EventsController();
-            // Vérifie si un ID est passé pour afficher un événement en détail
-            if (!empty($route[1]) && is_numeric($route[1])) {
-                $controller->showEvent($route[1]);
-            } else {
-                $controller->index();
-            }
-            break;
-
-        case 'showroom': // Pour les réservations de showroom (ex. /showroom)
-            $controller = new Controllers\ShowroomController();
-            $controller->index(); // Ou une méthode spécifique comme showroomReservation()
-            break;
-
-        case 'location': // Pour les locations de produits (ex. /rental, remplace 'location' par 'rental')
-            $controller = new Controllers\RentalController();
-            $controller->index(); // Ou une méthode spécifique comme productRental()
             break;
 
         case 'showroom': // Pour les réservations de showroom (ex. /showroom)
@@ -92,11 +67,6 @@ if (empty($route[0])) {
                 $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
                 include('src/app/Views/erreur.php');
             }
-            break;
-
-        case 'reservation_evenement':
-            $controller = new Controllers\ReservationController();
-            $controller->reservationEvenement();
             break;
         case 'reservation_evenement':
             $controller = new Controllers\ReservationController();
@@ -141,6 +111,24 @@ if (empty($route[0])) {
                 $controller->index();
             }
             break;
+        case 'confirmation_reservation':
+            include('src/app/Views/Public/events/confirmation_reservation.php');
+            // Vérifie si un ID est passé pour afficher un événement en détail
+            if (!empty($route[1]) && is_numeric($route[1])) {
+                $controller->showEvent($route[1]);
+            } else {
+                $controller->index();
+            }
+            break;
+        case 'confirmation_reservation':
+            include('src/app/Views/Public/events/confirmation_reservation.php');
+            // Vérifie si un ID est passé pour afficher un événement en détail
+            if (!empty($route[1]) && is_numeric($route[1])) {
+                $controller->showEvent($route[1]);
+            } else {
+                $controller->index();
+            }
+            break;
 
         case 'evenement_detail':
             $controller = new Controllers\EventsController();
@@ -179,10 +167,6 @@ if (empty($route[0])) {
             $controller = new Controllers\ReservationController();
             $controller->processReservation();
             break;
-        case 'reservation_process':
-            $controller = new Controllers\ReservationController();
-            $controller->processReservation();
-            break;
 
         case 'confirmation_reservation':
             include('src/app/Views/Public/events/confirmation_reservation.php');
@@ -191,10 +175,6 @@ if (empty($route[0])) {
             include('src/app/Views/Public/events/confirmation_reservation.php');
             break;
 
-        case 'contact_process':
-            $controller = new Controllers\ContactController();
-            $controller->processContactForm();
-            break;
         case 'contact_process':
             $controller = new Controllers\ContactController();
             $controller->processContactForm();
@@ -225,11 +205,13 @@ if (empty($route[0])) {
             $controller = new Controllers\ContactController();
             $controller->processNewsletter();
             break;
-        case 'newsletter':
-            $controller = new Controllers\ContactController();
-            $controller->processNewsletter();
-            break;
 
+        case 'localisation':
+            include('src/app/Views/Public/events/localisation.php');
+            break;
+        case 'localisation':
+            include('src/app/Views/Public/events/localisation.php');
+            break;
         case 'localisation':
             include('src/app/Views/Public/events/localisation.php');
             break;
@@ -250,9 +232,7 @@ if (empty($route[0])) {
 
         case 'contact_shop';
         include('src/app/Views/Public/contact_shop.php');
-        break;
-
-        
+        break;        
 
         case 'mentions_legales':
             include('src/app/Views/Public/mentions_legales_shop.php');
@@ -270,17 +250,8 @@ if (empty($route[0])) {
             $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
             $controller->showProducts();
             break;
-        // Afficher la page des produits dans le shop
-        case 'produit_shop':
-            $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
-            $controller->showProducts();
-            break;
 
 
-        case 'produit_detail_shop':
-            $controller = new Controllers\ProduitDetailControllerShop();
-            $controller->afficherDetailProduit();
-            break;
         case 'produit_detail_shop':
             $controller = new Controllers\ProduitDetailControllerShop();
             $controller->afficherDetailProduit();
@@ -333,16 +304,6 @@ if (empty($route[0])) {
         // Page du panier
         case 'panier_shop':
             $controller = new Controllers\PanierControllerShop();
-        // Page du panier
-        case 'panier_shop':
-            $controller = new Controllers\PanierControllerShop();
-
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $controller->ajouterAuPanier();
-            } else {
-                $controller->afficherPanier();
-            }
-            break;
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $controller->ajouterAuPanier();
             } else {
@@ -350,11 +311,6 @@ if (empty($route[0])) {
             }
             break;
 
-        // Modifier la quantité d'un produit dans le panier
-        case 'modifier_panier':
-            $controller = new Controllers\PanierControllerShop();
-            $controller->modifierQuantite();
-            break;
         // Modifier la quantité d'un produit dans le panier
         case 'modifier_panier':
             $controller = new Controllers\PanierControllerShop();
@@ -374,17 +330,7 @@ if (empty($route[0])) {
             $controller = new Controllers\PanierControllerShop();
             $controller->viderPanier();
             break;
-        // Vider complètement le panier
-        case 'vider_panier':
-            $controller = new Controllers\PanierControllerShop();
-            $controller->viderPanier();
-            break;
 
-        // Page du paiement
-        case 'paiement_cb_shop':
-            $controller = new Controllers\PaiementCbControllerShop();
-            $controller->processPaiement();
-            break;
         // Page du paiement
         case 'paiement_cb_shop':
             $controller = new Controllers\PaiementCbControllerShop();
@@ -395,10 +341,9 @@ if (empty($route[0])) {
         case 'paiement_succes':
             $controller = new Controllers\PaiementCbControllerShop();
             $controller->paiementSucces(); // appel la methode
+            $controller = new Controllers\PaiementCbControllerShop();
+            $controller->paiementSucces(); // appel la methode
             break;
-
-
-
 
         // Page d'annulation du paiement
         case 'paiement_annule':
@@ -420,10 +365,6 @@ if (empty($route[0])) {
             $controller->forgotPassword();
             break;
 
-        case 'reset-password':
-            $controller = new Controllers\AuthController();
-            $controller->resetPassword();
-            break;
         case 'reset-password':
             $controller = new Controllers\AuthController();
             $controller->resetPassword();
@@ -461,17 +402,7 @@ if (empty($route[0])) {
 
                 case 'notifications':
                     $controller = new Controllers\NotificationController();
-                case 'notifications':
-                    $controller = new Controllers\NotificationController();
 
-                    if (!isset($route[2])) {
-                        $controller->getUnreadNotifications();
-                    } elseif ($route[2] === 'unread') {
-                        $controller->getUnreadNotifications();
-                    } elseif ($route[2] === 'read' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->markAsRead((int) $route[3]);
-                    }
-                    break;
                     if (!isset($route[2])) {
                         $controller->getUnreadNotifications();
                     } elseif ($route[2] === 'unread') {
@@ -490,15 +421,7 @@ if (empty($route[0])) {
                     $controller = new Controllers\PaymentsController();
                     $controller->managePayments();
                     break;
-                case 'payments':
-                    $controller = new Controllers\PaymentsController();
-                    $controller->managePayments();
-                    break;
 
-                case 'export':
-                    $controller = new Controllers\ExportController();
-                    $controller->exportData($_GET['type'] ?? 'reservations');
-                    break;
                 case 'export':
                     $controller = new Controllers\ExportController();
                     $controller->exportData($_GET['type'] ?? 'reservations');
@@ -540,9 +463,6 @@ if (empty($route[0])) {
 
                 case 'reservations':
                     $controller = new Controllers\ReservationController();
-                case 'reservations':
-                    $controller = new Controllers\ReservationController();
-
                     if (!isset($route[2])) {
                         $controller->reservations();
                     } elseif ($route[2] === 'detail' && isset($route[3]) && ctype_digit($route[3])) {
@@ -574,36 +494,9 @@ if (empty($route[0])) {
                         $controller->deleteUser((int) $route[3]);
                     }
                     break;
-                case 'users':
-                    $controller = new Controllers\UsersController();
-                    if (!isset($route[2])) {
-                        $controller->users();
-                    } elseif ($route[2] === 'historique' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->viewUserHistory((int) $route[3]);
-                    } elseif ($route[2] === 'modifier_status' && isset($route[3]) && ctype_digit($route[3]) && isset($_GET['status'])) {
-                        $controller->updateUserStatus((int) $route[3], $_GET['status']);
-                    } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->deleteUser((int) $route[3]);
-                    }
-                    break;
 
                 case 'messages':
                     $controller = new Controllers\ContactController();
-                case 'messages':
-                    $controller = new Controllers\ContactController();
-
-                    if (!isset($route[2])) {
-                        $controller->manageMessages(); // Affiche les messages
-                    } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->deleteMessage((int) $route[3]); // Supprime un message
-                    } elseif ($route[2] === 'unread_count') {
-                        $controller->unreadCount(); // Récupère le nombre de messages non lus (AJAX)
-                    } elseif ($route[2] === 'mark_as_read' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->markAsRead((int) $route[3]); // Marque un message comme lu
-                    } elseif ($route[2] === 'update_status' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->updateMessageStatus((int) $route[3]);
-                    }
-                    break;
                     if (!isset($route[2])) {
                         $controller->manageMessages(); // Affiche les messages
                     } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
@@ -625,27 +518,7 @@ if (empty($route[0])) {
                         $controller->deleteSubscriber((int) $route[3]);
                     }
                     break;
-                case 'newsletter':
-                    $controller = new Controllers\NewsletterController();
-                    if (!isset($route[2])) {
-                        $controller->manageNewsletter();
-                    } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->deleteSubscriber((int) $route[3]);
-                    }
-                    break;
 
-                case 'outfits':
-                    $controller = new Controllers\OutfitsController();
-                    if (!isset($route[2])) {
-                        $controller->manageOutfits();
-                    } elseif ($route[2] === 'ajouter') {
-                        $controller->addOutfit();
-                    } elseif ($route[2] === 'modifier' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->updateOutfit((int) $route[3]);
-                    } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->deleteOutfit((int) $route[3]);
-                    }
-                    break;
                 case 'outfits':
                     $controller = new Controllers\OutfitsController();
                     if (!isset($route[2])) {
@@ -685,32 +558,7 @@ if (empty($route[0])) {
                         $controller->restoreDatabase();
                     }
                     break;
-                case 'settings':
-                    $controller = new Controllers\SettingsController();
-                    if (!isset($route[2])) {
-                        $controller->showSettings();
-                    } elseif ($route[2] === 'update') {
-                        $controller->updateSettings();
-                    } elseif ($route[2] === 'update-password') {
-                        $controller->updatePassword();
-                    } elseif ($route[2] === 'delete-account') {
-                        $controller->deleteAccount();
-                    } elseif ($route[2] === 'update-notifications') {
-                        $controller->updateNotifications();
-                    } elseif ($route[2] === 'history') {
-                        $controller->getActionHistory();
-                    } elseif ($route[2] === 'export_users') {
-                        $controller->exportUsersCSV();
-                    } elseif ($route[2] === 'export_products') {
-                        $controller->exportProductsCSV();
-                    } elseif ($route[2] === 'import') {
-                        $controller->importCSV();
-                    } elseif ($route[2] === 'backup') {
-                        $controller->backupDatabase();
-                    } elseif ($route[2] === 'restore') {
-                        $controller->restoreDatabase();
-                    }
-                    break;
+        
 
                 case 'logout':
                     $controller = new Controllers\AuthController();
@@ -725,6 +573,7 @@ if (empty($route[0])) {
             }
             break;
 
+
         default:
             $code_erreur = 404;
             $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
@@ -732,5 +581,4 @@ if (empty($route[0])) {
             exit();
             break;
     }
-}
 }
