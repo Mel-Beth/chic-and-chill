@@ -54,11 +54,14 @@
             <!-- Détails de l'événement -->
             <h3 class="text-xl font-bold text-gray-800 mt-6">🎭 Détails de l’événement</h3>
 
-            <label for="event_id" class="block text-lg font-semibold text-gray-800 mt-4">Événement :</label>
-            <select name="event_id" id="event_id" required class="w-full p-3 border border-gray-300 rounded-md">
-                <?php foreach ($events as $event) : ?>
-                    <option value="<?= $event['id']; ?>"><?= htmlspecialchars($event['title']); ?></option>
-                <?php endforeach; ?>
+            <label for="event_type" class="block text-lg font-semibold text-gray-800 mt-4">Type d'événement :</label>
+            <select name="event_type" id="event_type" required class="w-full p-3 border border-gray-300 rounded-md">
+                <option value="Mariage">Mariage</option>
+                <option value="Anniversaire">Anniversaire</option>
+                <option value="Conférence">Conférence</option>
+                <option value="Séminaire">Séminaire</option>
+                <option value="Soirée d'entreprise">Soirée d'entreprise</option>
+                <option value="Autre">Autre</option>
             </select>
 
             <label for="participants" class="block text-lg font-semibold text-gray-800 mt-4">Nombre de participants :</label>

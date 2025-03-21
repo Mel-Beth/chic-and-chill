@@ -136,11 +136,11 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                                     data-date="<?= htmlspecialchars($event['date_event'] ?? '') ?>"
                                     data-location="<?= htmlspecialchars($event['location'] ?? '') ?>"
                                     data-status="<?= htmlspecialchars($event['status'] ?? '') ?>">
-                                    Modifier
+                                    ✏️ Modifier
                                 </button>
                                 <button class="text-red-600 font-semibold hover:underline deleteEventBtn" data-id="<?= $event['id'] ?? '' ?>">❌ Supprimer</button>
                                 <?php if (($event['status'] ?? '') === 'active'): ?>
-                                    <a href="admin/evenements/configurer/<?= $event['id'] ?>" class="text-green-600 hover:underline">⚙️ Configurer</a>
+                                    <a href="admin/evenements/configurer/<?= $event['id'] ?>" class="text-green-600 hover:underline">🎥 Média</a>
                                 <?php endif; ?>
                             </td>
                         </tr>

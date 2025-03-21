@@ -104,7 +104,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             </div>
         </div>
 
-        <a href="admin/evenements" class="mt-4 md:mt-6 inline-block bg-gray-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-md hover:bg-gray-600 w-full md:w-auto text-sm md:text-base text-center">Retour</a>
+        <a href="admin/evenements" class="mt-4 md:mt-6 inline-block bg-gray-500 text-white px-4 py-2 md:px-6 md:py-3 rounded-md hover:bg-gray-600 w-full md:w-auto text-sm md:text-base text-center">⬅️ Retour</a>
     </div>
 </div>
 

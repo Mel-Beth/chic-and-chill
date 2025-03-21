@@ -9,9 +9,9 @@
 </div>
 
 <div class="container mx-auto px-4 py-12">
-<div class="bg-black text-white p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
-    <h2 class="text-2xl font-bold mb-4">🎟️ Réserver le Pack <?= htmlspecialchars($pack['title']); ?></h2>
-</div>
+    <div class="bg-black text-white p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
+        <h2 class="text-2xl font-bold mb-4">🎟️ Réserver le Pack <?= htmlspecialchars($pack['title']); ?></h2>
+    </div>
 
     <?php if (!empty($pack)) : ?>
         <div class="bg-white p-6 rounded-lg shadow-md max-w-3xl mx-auto">
@@ -88,6 +88,20 @@
                     ✅ Envoyer la demande de réservation
                 </button>
             </form>
+
+            <script>
+                function toggleClientFields() {
+                    var typeClient = document.getElementById("customer_type").value;
+                    var entrepriseFields = document.getElementById("entreprise_fields");
+
+                    if (typeClient === "entreprise") {
+                        entrepriseFields.style.display = "block";
+                    } else {
+                        entrepriseFields.style.display = "none";
+                    }
+                }
+            </script>
+
         </div>
     <?php else : ?>
         <p class="text-center text-red-600 font-semibold">Ce pack n'existe pas ou a été supprimé.</p>

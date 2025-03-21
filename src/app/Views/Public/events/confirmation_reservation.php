@@ -18,7 +18,7 @@
     <div class="text-center mt-12">
         <a href="evenements"
             class="inline-block bg-[#8B5A2B] text-white text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg">
-            Retour aux événements
+            Retour
         </a>
     </div>
 

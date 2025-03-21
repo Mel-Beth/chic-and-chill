@@ -113,7 +113,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                                     data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp' ?>"
                                     data-status="<?= $outfit['status'] ?>"
                                     data-product-id="<?= $outfit['product_id'] ?>">
-                                    Modifier
+                                    ✏️ Modifier
                                 </button>
                                 <button class="text-red-600 font-semibold hover:underline deleteOutfitBtn" data-id="<?= $outfit['id'] ?>">❌ Supprimer</button>
                             </td>
@@ -332,7 +332,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 document.getElementById("outfitForm").action = `admin/outfits/modifier/${outfitId}`;
 
                 // Mettre à jour le texte du modal
-                document.getElementById("modalTitle").textContent = "Modifier un outfit";
+                document.getElementById("modalTitle").textContent = "✏️ Modifier un outfit";
                 document.getElementById("submitButton").textContent = "✅ Mettre à jour";
 
                 // Afficher la modale

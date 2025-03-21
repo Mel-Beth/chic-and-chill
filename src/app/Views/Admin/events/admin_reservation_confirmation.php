@@ -13,7 +13,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 <p class="font-semibold"><?php echo $_SESSION['message']['text']; ?></p>
             </div>
             <p class="mt-3 md:mt-4 text-gray-600 text-sm md:text-base">Vous serez redirigé vers la liste des réservations dans quelques secondes...</p>
-            <a href="admin/reservations" class="mt-2 inline-block text-blue-600 hover:underline text-sm md:text-base">Retourner maintenant</a>
+            <a href="admin/reservations" class="mt-2 inline-block text-blue-600 hover:underline text-sm md:text-base">⬅️ Retourner maintenant</a>
         <?php else : ?>
             <p class="text-gray-600 text-sm md:text-base">Aucun message disponible.</p>
             <a href="admin/reservations" class="mt-2 inline-block text-blue-600 hover:underline text-sm md:text-base">Retourner à la liste des réservations</a>

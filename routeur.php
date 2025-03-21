@@ -18,8 +18,6 @@ if (empty($route[0])) {
     // On charge le contrôleur principal (page d'accueil)
     (new Controllers\HomeController())->index();
 } else {
-
-
     // Gestion des différentes routes possibles
     switch ($route[0]) {
         case 'accueil': // Si l'utilisateur accède à "/accueil"
@@ -29,7 +27,6 @@ if (empty($route[0])) {
 
         case "evenements": // Si l'utilisateur accède à "/evenements"
             $controller = new Controllers\EventsController();
-            // Vérifie si un ID est passé pour afficher un événement en détail
             if (!empty($route[1]) && is_numeric($route[1])) {
                 $controller->showEvent($route[1]);
             } else {
@@ -68,6 +65,7 @@ if (empty($route[0])) {
                 include('src/app/Views/erreur.php');
             }
             break;
+
         case 'reservation_evenement':
             $controller = new Controllers\ReservationController();
             $controller->reservationEvenement();
@@ -88,91 +86,13 @@ if (empty($route[0])) {
             $controller = new Controllers\ReservationController();
             $controller->processReservation();
             break;
-        case 'reservation_process':
-            $controller = new Controllers\ReservationController();
-            $controller->processReservation();
-            break;
 
         case 'confirmation_reservation':
-            include('src/app/Views/Public/events/confirmation_reservation.php');
-            // Vérifie si un ID est passé pour afficher un événement en détail
-            if (!empty($route[1]) && is_numeric($route[1])) {
-                $controller->showEvent($route[1]);
-            } else {
-                $controller->index();
-            }
-            break;
-        case 'confirmation_reservation':
-            include('src/app/Views/Public/events/confirmation_reservation.php');
-            // Vérifie si un ID est passé pour afficher un événement en détail
-            if (!empty($route[1]) && is_numeric($route[1])) {
-                $controller->showEvent($route[1]);
-            } else {
-                $controller->index();
-            }
-            break;
-        case 'confirmation_reservation':
-            include('src/app/Views/Public/events/confirmation_reservation.php');
-            // Vérifie si un ID est passé pour afficher un événement en détail
-            if (!empty($route[1]) && is_numeric($route[1])) {
-                $controller->showEvent($route[1]);
-            } else {
-                $controller->index();
-            }
-            break;
-        case 'confirmation_reservation':
-            include('src/app/Views/Public/events/confirmation_reservation.php');
-            // Vérifie si un ID est passé pour afficher un événement en détail
-            if (!empty($route[1]) && is_numeric($route[1])) {
-                $controller->showEvent($route[1]);
-            } else {
-                $controller->index();
-            }
-            break;
-
-        case 'evenement_detail':
             $controller = new Controllers\EventsController();
-            if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
-                $controller->showEvent($_GET['id']);
-            } else {
-                $code_erreur = 404;
-                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                include('src/app/Views/erreur.php');
-            }
-            break;
-
-        case 'pack_detail':
-            $controller = new Controllers\PacksController();
+            include('src/app/Views/Public/events/confirmation_reservation.php');
             if (!empty($route[1]) && is_numeric($route[1])) {
-                $controller->showPack($route[1]); // On passe l'ID du pack
-            } else {
-                $code_erreur = 404;
-                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                include('src/app/Views/erreur.php');
+                $controller->showEvent($route[1]);
             }
-            break;
-
-        case 'reservation_pack':
-            $controller = new Controllers\ReservationController();
-            if (!empty($_GET['pack_id']) && is_numeric($_GET['pack_id'])) {
-                $controller->reservationPack($_GET['pack_id']);
-            } else {
-                $code_erreur = 404;
-                $description_erreur = "Oups... La page que vous cherchez n'existe pas.";
-                include('src/app/Views/erreur.php');
-            }
-            break;
-
-        case 'reservation_process':
-            $controller = new Controllers\ReservationController();
-            $controller->processReservation();
-            break;
-
-        case 'confirmation_reservation':
-            include('src/app/Views/Public/events/confirmation_reservation.php');
-            break;
-        case 'confirmation_reservation':
-            include('src/app/Views/Public/events/confirmation_reservation.php');
             break;
 
         case 'contact_process':
@@ -183,20 +103,11 @@ if (empty($route[0])) {
         case 'contact_magasin':
             include('src/app/Views/Public/contact_magasin.php');
             break;
-        case 'contact_magasin':
-            include('src/app/Views/Public/contact_magasin.php');
-            break;
 
         case 'contact_location':
             include('src/app/Views/Public/contact_location.php');
             break;
-        case 'contact_location':
-            include('src/app/Views/Public/contact_location.php');
-            break;
 
-        case 'contact_evenements':
-            include('src/app/Views/Public/events/contact_evenements.php');
-            break;
         case 'contact_evenements':
             include('src/app/Views/Public/events/contact_evenements.php');
             break;
@@ -209,19 +120,7 @@ if (empty($route[0])) {
         case 'localisation':
             include('src/app/Views/Public/events/localisation.php');
             break;
-        case 'localisation':
-            include('src/app/Views/Public/events/localisation.php');
-            break;
-        case 'localisation':
-            include('src/app/Views/Public/events/localisation.php');
-            break;
-        case 'localisation':
-            include('src/app/Views/Public/events/localisation.php');
-            break;
 
-        case 'conditions_generales':
-            include('src/app/Views/Public/conditions_generales_vente_shop.php');
-            break;
         case 'conditions_generales':
             include('src/app/Views/Public/conditions_generales_vente_shop.php');
             break;
@@ -230,78 +129,64 @@ if (empty($route[0])) {
             include('src/app/Views/Public/Moyens_paiement_shop.php');
             break;
 
-        case 'contact_shop';
-        include('src/app/Views/Public/contact_shop.php');
-        break;        
+        case 'contact_shop':
+            include('src/app/Views/Public/contact_shop.php');
+            break;
 
         case 'mentions_legales':
             include('src/app/Views/Public/mentions_legales_shop.php');
             break;
 
-        case 'accueil_shop';
-            include('src/app/Views/Public/accueil_shop.php');
-            break;
-        case 'accueil_shop';
+        case 'accueil_shop':
             include('src/app/Views/Public/accueil_shop.php');
             break;
 
-        // Afficher la page des produits dans le shop
         case 'produit_shop':
-            $controller = new Controllers\ArticleControllerShop(); // ✅ Utilisation du bon contrôleur
+            $controller = new Controllers\ArticleControllerShop();
             $controller->showProducts();
             break;
-
 
         case 'produit_detail_shop':
             $controller = new Controllers\ProduitDetailControllerShop();
             $controller->afficherDetailProduit();
             break;
 
-            case 'connexion_shop':
-                // Vérifie si l'utilisateur est déjà connecté
-                if (isset($_SESSION['user_id'])) {
-                    header("Location: /site_stage/chic-and-chill/accueil_shop");
-                    exit;
-                }
-            
-                $controller = new Controllers\ConnexionControllersShop();
-                $controller->loginUserShop();
-            
-                // Si la requête est GET, on affiche la page de connexion
-                if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                    include 'src/app/Views/Public/connexion_shop.php';
-                }
-                break;
+        case 'connexion_shop':
+            if (isset($_SESSION['user_id'])) {
+                header("Location: /site_stage/chic-and-chill/accueil_shop");
+                exit;
+            }
+            $controller = new Controllers\ConnexionControllersShop();
+            $controller->loginUserShop();
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                include 'src/app/Views/Public/connexion_shop.php';
+            }
+            break;
 
-            case 'profil_user_shop':
-                $controller = new Controllers\ProfilControllersShop();
-                $controller->showUserInfos();
-                break;
+        case 'profil_user_shop':
+            $controller = new Controllers\ProfilControllersShop();
+            $controller->showUserInfos();
+            break;
 
-            case 'inscription_shop':
-                // Vérifie si l'utilisateur est déjà connecté
-                if (isset($_SESSION['user_id'])) {
-                    header("Location: /site_stage/chic-and-chill/accueil_shop");
-                    exit;
-                }
-            
-                $controller = new Controllers\InscriptionControllersShop();
-                $controller->registerUserShop();
-                break;
+        case 'inscription_shop':
+            if (isset($_SESSION['user_id'])) {
+                header("Location: /site_stage/chic-and-chill/accueil_shop");
+                exit;
+            }
+            $controller = new Controllers\InscriptionControllersShop();
+            $controller->registerUserShop();
+            break;
 
-
-                case 'profil_infos_shop':
-                    $controller = new Controllers\ProfilControllersShop();
-                    $controller->showUserInfos(); // Assure-toi que cette méthode existe
-                    break;
-
+        case 'profil_infos_shop':
+            $controller = new Controllers\ProfilControllersShop();
+            $controller->showUserInfos();
+            break;
 
         case 'deconnexion_shop':
             $controller = new Controllers\DecoShopController();
             $controller->logout();
             break;
 
-        // Page du panier
         case 'panier_shop':
             $controller = new Controllers\PanierControllerShop();
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -311,41 +196,33 @@ if (empty($route[0])) {
             }
             break;
 
-        // Modifier la quantité d'un produit dans le panier
         case 'modifier_panier':
             $controller = new Controllers\PanierControllerShop();
             $controller->modifierQuantite();
             break;
 
-        // Supprimer un produit du panier
         case 'supprimer_panier':
             $controller = new Controllers\PanierControllerShop();
             $controller->supprimerProduit();
-            header("Location: panier_shop"); // On reste sur la page panier
+            header("Location: panier_shop");
             exit;
             break;
 
-        // Vider complètement le panier
         case 'vider_panier':
             $controller = new Controllers\PanierControllerShop();
             $controller->viderPanier();
             break;
 
-        // Page du paiement
         case 'paiement_cb_shop':
             $controller = new Controllers\PaiementCbControllerShop();
             $controller->processPaiement();
             break;
 
-        // Page de succès du paiement
         case 'paiement_succes':
             $controller = new Controllers\PaiementCbControllerShop();
-            $controller->paiementSucces(); // appel la methode
-            $controller = new Controllers\PaiementCbControllerShop();
-            $controller->paiementSucces(); // appel la methode
+            $controller->paiementSucces();
             break;
 
-        // Page d'annulation du paiement
         case 'paiement_annule':
             include 'src/app/Views/Public/paiement_annule_shop.php';
             break;
@@ -374,16 +251,10 @@ if (empty($route[0])) {
             $controller = new Controllers\AuthController();
             $controller->verifyEmail();
             break;
-        case 'verify-email':
-            $controller = new Controllers\AuthController();
-            $controller->verifyEmail();
-            break;
 
         // 📌 Routes Admin
         case 'admin':
-            // Vérifie si l'utilisateur est admin (id_role = 1)
             if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== "admin") {
-                exit();
                 header('Location: login');
                 exit();
             }
@@ -393,7 +264,7 @@ if (empty($route[0])) {
                 case '':
                 case 'dashboard':
                     $controller = new Controllers\DashboardController();
-                    if (isset($route[2]) && $route[2] === 'stats') { // Vérifie $route[2] pour "stats"
+                    if (isset($route[2]) && $route[2] === 'stats') {
                         $controller->stats();
                     } else {
                         $controller->index();
@@ -402,7 +273,6 @@ if (empty($route[0])) {
 
                 case 'notifications':
                     $controller = new Controllers\NotificationController();
-
                     if (!isset($route[2])) {
                         $controller->getUnreadNotifications();
                     } elseif ($route[2] === 'unread') {
@@ -439,11 +309,11 @@ if (empty($route[0])) {
                         $controller->deleteEvent((int) $route[3]);
                     } elseif ($route[2] === 'configurer' && isset($route[3]) && ctype_digit($route[3])) {
                         if (isset($route[4]) && $route[4] === 'media' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-                            $controller->configureEvent((int) $route[3]); // Ajout de médias
+                            $controller->configureEvent((int) $route[3]);
                         } elseif (isset($route[4]) && $route[4] === 'supprimer_media' && isset($route[5]) && ctype_digit($route[5])) {
-                            $controller->deleteEventMedia((int) $route[5]); // Suppression de média
+                            $controller->deleteEventMedia((int) $route[5]);
                         } else {
-                            $controller->configureEvent((int) $route[3]); // Affichage de la page
+                            $controller->configureEvent((int) $route[3]);
                         }
                     }
                     break;
@@ -498,13 +368,13 @@ if (empty($route[0])) {
                 case 'messages':
                     $controller = new Controllers\ContactController();
                     if (!isset($route[2])) {
-                        $controller->manageMessages(); // Affiche les messages
+                        $controller->manageMessages();
                     } elseif ($route[2] === 'supprimer' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->deleteMessage((int) $route[3]); // Supprime un message
+                        $controller->deleteMessage((int) $route[3]);
                     } elseif ($route[2] === 'unread_count') {
-                        $controller->unreadCount(); // Récupère le nombre de messages non lus (AJAX)
+                        $controller->unreadCount();
                     } elseif ($route[2] === 'mark_as_read' && isset($route[3]) && ctype_digit($route[3])) {
-                        $controller->markAsRead((int) $route[3]); // Marque un message comme lu
+                        $controller->markAsRead((int) $route[3]);
                     } elseif ($route[2] === 'update_status' && isset($route[3]) && ctype_digit($route[3])) {
                         $controller->updateMessageStatus((int) $route[3]);
                     }
@@ -558,7 +428,6 @@ if (empty($route[0])) {
                         $controller->restoreDatabase();
                     }
                     break;
-        
 
                 case 'logout':
                     $controller = new Controllers\AuthController();
@@ -572,7 +441,6 @@ if (empty($route[0])) {
                     exit();
             }
             break;
-
 
         default:
             $code_erreur = 404;

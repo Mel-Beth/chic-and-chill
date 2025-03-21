@@ -8,7 +8,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     <div class="container mx-auto px-6 py-8 flex-grow">
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold text-gray-800">📜 Historique de <?= htmlspecialchars($user['name']) ?></h2>
-            <a href="admin/users" class="bg-gray-500 text-white px-5 py-2 rounded-lg hover:bg-gray-700 transition">Retour</a>
+            <a href="admin/users" class="bg-gray-500 text-white px-5 py-2 rounded-lg hover:bg-gray-700 transition">⬅️ Retour</a>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">

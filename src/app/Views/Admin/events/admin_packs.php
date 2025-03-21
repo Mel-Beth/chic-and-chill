@@ -115,7 +115,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                                     data-duration="<?= $pack['duration'] ?>"
                                     included="<?= htmlspecialchars($pack['included']) ?>"
                                     data-status="<?= $pack['status'] ?>">
-                                    Modifier
+                                    ✏️ Modifier
                                 </button>
                                 <button class="text-red-600 font-semibold hover:underline deletePackBtn" data-id="<?= $pack['id'] ?>">❌ Supprimer</button>
                             </td>
@@ -302,7 +302,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 // Corriger l'action du formulaire en ajoutant correctement l'ID
                 document.getElementById("packForm").action = `admin/packs/modifier/${packId}`;
 
-                document.getElementById("modalTitle").textContent = "Modifier un pack";
+                document.getElementById("modalTitle").textContent = "✏️ Modifier un pack";
                 document.getElementById("submitButton").textContent = "✅ Mettre à jour";
                 document.getElementById("packModal").classList.remove("hidden");
             });

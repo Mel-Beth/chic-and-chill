@@ -2,7 +2,6 @@
 
 namespace Models;
 
-
 class ReservationModel extends ModeleParent
 {
     public function addEventReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, $event_id)
@@ -16,6 +15,7 @@ class ReservationModel extends ModeleParent
             return true;
         } catch (\PDOException $e) {
             error_log("Erreur lors de la réservation : " . $e->getMessage());
+            die("Erreur SQL : " . $e->getMessage());
             return false;
         }
     }
@@ -39,10 +39,10 @@ class ReservationModel extends ModeleParent
     {
         try {
             $stmt = $this->pdo->query("
-                SELECT 'event' AS type, id, customer_name, email, phone, event_id, status, created_at 
+                SELECT 'event' AS type, id, customer_type, company_name, siret, address, customer_name, email, phone, event_type, participants, services, comments, event_id, status, created_at 
                 FROM event_reservations
                 UNION
-                SELECT 'pack' AS type, id, customer_name, email, phone, pack_id, status, created_at 
+                SELECT 'pack' AS type, id, customer_type, company_name, siret, address, customer_name, email, phone, NULL AS event_type, NULL AS participants, services, comments, pack_id AS event_id, status, created_at 
                 FROM pack_reservations
                 ORDER BY created_at DESC
             ");
@@ -50,6 +50,48 @@ class ReservationModel extends ModeleParent
         } catch (\PDOException $e) {
             error_log($e->getMessage());
             return [];
+        }
+    }
+
+    public function getPackDetails($packId)
+    {
+        try {
+            // Log pour déboguer la valeur de packId
+            error_log("getPackDetails called with pack_id: " . $packId);
+
+            // Vérifier si packId est valide
+            if (empty($packId) || !is_numeric($packId)) {
+                error_log("Invalid pack_id: " . $packId);
+                return [
+                    'title' => 'Pack inconnu (ID invalide)',
+                    'price' => 0.00,
+                ];
+            }
+
+            $stmt = $this->pdo->prepare("SELECT title, price FROM event_packs WHERE id = ?");
+            $stmt->execute([$packId]);
+            $pack = $stmt->fetch();
+
+            if ($pack) {
+                error_log("Pack found: " . json_encode($pack));
+                return [
+                    'title' => $pack['title'],
+                    'price' => $pack['price'],
+                ];
+            }
+
+            error_log("No pack found for pack_id: " . $packId);
+            return [
+                'title' => 'Pack inconnu (non trouvé)',
+                'price' => 0.00,
+            ];
+        } catch (\PDOException $e) {
+            // Log de l'erreur
+            error_log("Erreur lors de la récupération des détails du pack : " . $e->getMessage());
+            return [
+                'title' => 'Pack inconnu (erreur DB)',
+                'price' => 0.00,
+            ];
         }
     }
 
@@ -76,13 +118,11 @@ class ReservationModel extends ModeleParent
     public function updateReservationStatus($id, $status, $type = null)
     {
         try {
-            // Si le type est fourni, cibler directement la bonne table
             if ($type === 'event') {
                 $table = 'event_reservations';
             } elseif ($type === 'pack') {
                 $table = 'pack_reservations';
             } else {
-                // Sinon, chercher la réservation pour déterminer la table
                 $reservation = $this->getReservationById($id);
                 if (!$reservation) {
                     die("Impossible de mettre à jour : réservation avec ID $id introuvable.");
