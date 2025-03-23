@@ -7,30 +7,44 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 <style>
     #notification {
         position: fixed;
-        /* Rendre la notification fixe */
         top: 20px;
-        /* Ajustez la position verticale */
         right: 20px;
-        /* Ajustez la position horizontale */
         z-index: 9999;
-        /* Assurez-vous que l'élément est au-dessus des autres éléments */
-        /* Ajoutez éventuellement une ombre pour la rendre plus visible */
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    .details-row {
+        background-color: #f9fafb;
+    }
+    .details-content {
+        padding: 1.5rem;
+        border-top: 1px solid #e5e7eb;
+    }
+    .details-section {
+        padding: 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .details-section h4 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #1f2937;
+    }
+    .details-section p {
+        color: #4b5563;
     }
 </style>
 
 <div class="min-h-screen flex flex-col lg:pl-64 mt-12">
     <div class="container mx-auto px-6 py-8 flex-grow">
-
-        <!-- Notification -->
         <div id="notification" class="hidden fixed top-0 right-0 m-4 p-4 bg-green-500 text-white rounded-md"></div>
-
         <div class="flex justify-between items-center mb-8">
             <h2 class="text-3xl font-bold text-gray-800">📩 Gestion des Messages</h2>
         </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md">
-            <!-- Barre de recherche et filtres -->
             <div class="flex justify-between mb-4">
                 <input id="search" type="text" placeholder="Rechercher un message..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
@@ -44,11 +58,11 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                         <option value="all">Tous</option>
                         <option value="unread">Non lus</option>
                         <option value="read">Lus</option>
+                        <option value="replied">Répondus</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Liste des messages -->
             <table class="w-full border-collapse border">
                 <thead>
                     <tr class="bg-gray-200">
@@ -62,24 +76,34 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 </thead>
                 <tbody id="messagesTable">
                     <?php foreach ($messages as $message) : ?>
-                        <tr class="hover:bg-gray-100 message-row <?= $message['status'] === 'unread' ? 'bg-yellow-100' : '' ?>"
+                        <tr class="hover:bg-gray-100 message-row <?= $message['status'] === 'unread' ? 'bg-yellow-100' : ($message['status'] === 'replied' ? 'bg-green-100' : '') ?>"
                             data-id="<?= $message['id'] ?>"
                             data-status="<?= $message['status'] ?>">
-
                             <td class="border p-3"><?= htmlspecialchars($message['name']) ?></td>
                             <td class="border p-3"><?= htmlspecialchars($message['email']) ?></td>
                             <td class="border p-3 truncate max-w-xs"><?= htmlspecialchars($message['message']) ?></td>
                             <td class="border p-3"><?= ucfirst(htmlspecialchars($message['source'])) ?></td>
                             <td class="border p-3">
                                 <button class="toggleReadStatus px-3 py-1 rounded-md text-white text-xs font-bold 
-                        <?= $message['status'] === 'unread' ? 'bg-red-500' : 'bg-green-500' ?>"
+                                    <?= $message['status'] === 'unread' ? 'bg-red-500' : ($message['status'] === 'replied' ? 'bg-blue-500' : 'bg-green-500') ?>"
                                     data-id="<?= $message['id'] ?>"
                                     data-status="<?= $message['status'] ?>">
-                                    <?= $message['status'] === 'unread' ? '🔴 Non lu' : '🟢 Lu' ?>
+                                    <?= $message['status'] === 'unread' ? '🔴 Non lu' : ($message['status'] === 'replied' ? '📨 Répondu' : '🟢 Lu') ?>
                                 </button>
                             </td>
                             <td class="border p-3">
-                                <button class="text-red-600 font-semibold hover:underline deleteMessageBtn" data-id="<?= $message['id'] ?>">❌ Supprimer</button>
+                                <?php if ($message['status'] === 'replied') : ?>
+                                    <button class="text-blue-600 font-semibold hover:underline viewReplyBtn" data-id="<?= $message['id'] ?>">👁️ Voir la réponse</button>
+                                <?php else : ?>
+                                    <a href="admin/messages/reply/<?= $message['id'] ?>" class="text-blue-600 font-semibold hover:underline">✉️ Répondre</a>
+                                <?php endif; ?>
+                                <button class="text-red-600 font-semibold hover:underline deleteMessageBtn ml-2" data-id="<?= $message['id'] ?>">❌ Supprimer</button>
+                            </td>
+                        </tr>
+                        <!-- Ligne pour les détails de la réponse -->
+                        <tr class="details-row hidden" id="details-<?= $message['id'] ?>">
+                            <td colspan="6" class="details-content">
+                                <!-- Les détails seront insérés ici par JavaScript -->
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -96,12 +120,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         <h3 class="text-xl font-bold text-gray-800 mb-4">⚠️ Confirmer la suppression</h3>
         <p class="text-gray-600">Voulez-vous vraiment supprimer ce message ? Cette action est irréversible.</p>
         <div class="flex justify-between mt-4">
-            <button id="cancelDelete" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 flex items-center">
-                ❌ Annuler
-            </button>
-            <button id="confirmDelete" class="bg-red-600 text-white px-6 py-3 rounded-md hover:scale-105 transition flex items-center">
-                ✅ Supprimer
-            </button>
+            <button id="cancelDelete" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 flex items-center">❌ Annuler</button>
+            <button id="confirmDelete" class="bg-red-600 text-white px-6 py-3 rounded-md hover:scale-105 transition flex items-center">✅ Supprimer</button>
         </div>
     </div>
 </div>
@@ -110,20 +130,30 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     document.addEventListener("DOMContentLoaded", function() {
         let deleteMessageId = null;
 
+        function showNotification(message, bgColor = 'bg-green-500') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500');
+            notification.classList.add(bgColor);
+            setTimeout(() => notification.classList.add('hidden'), 3000);
+        }
+
         // Recherche dynamique
         document.getElementById('search').addEventListener('input', function() {
             let filter = this.value.toLowerCase();
-            let rows = document.querySelectorAll('#messagesTable tr');
+            let rows = document.querySelectorAll('#messagesTable tr.message-row');
             rows.forEach(row => {
                 let text = row.textContent.toLowerCase();
+                let detailsRow = document.getElementById(`details-${row.dataset.id}`);
                 row.style.display = text.includes(filter) ? '' : 'none';
+                if (detailsRow) detailsRow.style.display = text.includes(filter) ? '' : 'none';
             });
         });
 
         // Filtrage par source
         document.getElementById('filterSource').addEventListener('change', function() {
             let filter = this.value;
-            let rows = document.querySelectorAll('#messagesTable tr');
+            let rows = document.querySelectorAll('#messagesTable tr.message-row');
             rows.forEach(row => {
                 let source = row.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
                 row.style.display = (filter === 'all' || source === filter) ? '' : 'none';
@@ -133,159 +163,116 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         // Filtrage par statut
         document.getElementById('filterStatus').addEventListener('change', function() {
             let filter = this.value;
-            let rows = document.querySelectorAll('#messagesTable tr');
+            let rows = document.querySelectorAll('#messagesTable tr.message-row');
             rows.forEach(row => {
                 let status = row.getAttribute('data-status');
                 row.style.display = (filter === 'all' || status === filter) ? '' : 'none';
             });
         });
 
-        // Marquer un message comme lu
-        document.querySelectorAll('.message-row').forEach(row => {
-            row.addEventListener('click', function() {
+        // Basculer le statut Lu / Non Lu
+        document.querySelectorAll('.toggleReadStatus').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation(); // Empêche le clic sur la ligne
                 let messageId = this.getAttribute('data-id');
-                let statusBadge = this.querySelector('.status-badge');
+                let currentStatus = this.getAttribute('data-status');
+                let newStatus = currentStatus === 'unread' ? 'read' : 'unread';
 
-                if (this.getAttribute('data-status') === 'unread') {
-                    fetch(`admin/messages/mark_as_read/${messageId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                this.setAttribute('data-status', 'read');
-                                this.classList.remove('bg-yellow-100');
-                                statusBadge.textContent = 'Lu';
-                                statusBadge.classList.remove('bg-red-500');
-                                statusBadge.classList.add('bg-green-500');
-                                updateUnreadMessages();
-                            }
-                        });
+                fetch(`admin/messages/update_status/${messageId}?status=${newStatus}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.setAttribute('data-status', newStatus);
+                            this.textContent = newStatus === 'unread' ? '🔴 Non lu' : '🟢 Lu';
+                            this.classList.toggle('bg-red-500');
+                            this.classList.toggle('bg-green-500');
+                            let row = this.closest('tr');
+                            row.classList.toggle('bg-yellow-100');
+                        }
+                    });
+            });
+        });
+
+        // Afficher les détails de la réponse
+        document.querySelectorAll('.viewReplyBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                const messageId = this.dataset.id;
+                const detailsRow = document.getElementById(`details-${messageId}`);
+                const detailsContent = detailsRow.querySelector('.details-content');
+
+                if (!detailsRow.classList.contains('hidden')) {
+                    detailsRow.classList.add('hidden');
+                    this.textContent = '👁️ Voir la réponse';
+                    return;
+                }
+
+                const message = <?php echo json_encode($messages); ?>.find(m => m.id == messageId);
+                if (message) {
+                    let detailsHtml = '<div class="details-section">';
+                    detailsHtml += '<h4>Réponse envoyée</h4>';
+                    detailsHtml += `<p><strong>Date :</strong> ${message.replied_at || 'Non spécifiée'}</p>`;
+                    detailsHtml += `<p><strong>Réponse :</strong> ${message.reply_body ? message.reply_body.replace(/\n/g, '<br>') : 'Aucune réponse enregistrée'}</p>`;
+                    detailsHtml += '</div>';
+
+                    detailsContent.innerHTML = detailsHtml;
+                    detailsRow.classList.remove('hidden');
+                    this.textContent = '👁️ Masquer la réponse';
                 }
             });
         });
 
-        // Mise à jour dynamique du nombre de messages non lus dans la sidebar
-        function updateUnreadMessages() {
-            fetch("admin/messages/unread_count")
-                .then(response => response.json())
-                .then(data => {
-                    const messageBadge = document.getElementById("messageBadge");
-                    if (data.unread > 0) {
-                        messageBadge.textContent = data.unread;
-                        messageBadge.classList.remove("hidden");
-                    } else {
-                        messageBadge.classList.add("hidden");
-                    }
-                })
-                .catch(error => console.error("Erreur récupération messages non lus:", error));
-        }
+        // Pagination
+        function paginateTable(rowsPerPage = 10) {
+            let rows = document.querySelectorAll('#messagesTable tr.message-row');
+            let totalPages = Math.ceil(rows.length / rowsPerPage);
+            let pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
 
-        updateUnreadMessages();
-        setInterval(updateUnreadMessages, 10000);
-    });
-
-    // Basculer le statut Lu / Non Lu
-    document.querySelectorAll('.toggleReadStatus').forEach(button => {
-        button.addEventListener('click', function() {
-            let messageId = this.getAttribute('data-id');
-            let currentStatus = this.getAttribute('data-status');
-            let newStatus = currentStatus === 'unread' ? 'read' : 'unread';
-
-            fetch(`admin/messages/update_status/${messageId}?status=${newStatus}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        this.setAttribute('data-status', newStatus);
-                        this.textContent = newStatus === 'unread' ? '🔴 Non lu' : '🟢 Lu';
-                        this.classList.toggle('bg-red-500');
-                        this.classList.toggle('bg-green-500');
-
-                        let row = this.closest('tr');
-                        row.classList.toggle('bg-yellow-100');
-
-                        updateUnreadMessages();
-                    }
+            function showPage(page) {
+                rows.forEach((row, index) => {
+                    let detailsRow = document.getElementById(`details-${row.dataset.id}`);
+                    row.style.display = (index >= (page - 1) * rowsPerPage && index < page * rowsPerPage) ? '' : 'none';
+                    if (detailsRow) detailsRow.style.display = (index >= (page - 1) * rowsPerPage && index < page * rowsPerPage) ? '' : 'none';
                 });
-        });
-    });
+            }
 
-    // Pagination
-    function paginateTable(rowsPerPage = 10) {
-        let rows = document.querySelectorAll('#messagesTable tr');
-        let totalPages = Math.ceil(rows.length / rowsPerPage);
-        let pagination = document.getElementById('pagination');
-        pagination.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                let btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = "px-3 py-2 rounded-md bg-gray-300 hover:bg-gray-400";
+                btn.addEventListener('click', () => showPage(i));
+                pagination.appendChild(btn);
+            }
+            showPage(1);
+        }
+        paginateTable();
 
-        function showPage(page) {
-            rows.forEach((row, index) => {
-                row.style.display = (index >= (page - 1) * rowsPerPage && index < page * rowsPerPage) ? '' : 'none';
+        // Suppression des messages avec confirmation
+        document.querySelectorAll('.deleteMessageBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                deleteMessageId = this.dataset.id;
+                document.getElementById('deleteModal').classList.remove('hidden');
             });
-        }
+        });
 
-        for (let i = 1; i <= totalPages; i++) {
-            let btn = document.createElement('button');
-            btn.textContent = i;
-            btn.className = "px-3 py-2 rounded-md bg-gray-300 hover:bg-gray-400";
-            btn.addEventListener('click', () => showPage(i));
-            pagination.appendChild(btn);
-        }
-        showPage(1);
-    }
-    paginateTable();
+        document.getElementById('cancelDelete').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.add('hidden');
+        });
 
-    // Suppression des messages avec confirmation
-    document.querySelectorAll('.deleteMessageBtn').forEach(button => {
-        button.addEventListener('click', function() {
-            deleteMessageId = this.dataset.id;
-            document.getElementById('deleteModal').classList.remove('hidden');
+        document.getElementById('confirmDelete').addEventListener('click', function() {
+            if (deleteMessageId) {
+                fetch(`admin/messages/supprimer/${deleteMessageId}`, { method: 'DELETE' })
+                    .then(response => {
+                        if (response.ok) {
+                            document.querySelector(`tr[data-id="${deleteMessageId}"]`).remove();
+                            showNotification('Message supprimé avec succès.', 'bg-green-500');
+                        } else {
+                            showNotification('Erreur lors de la suppression du message.', 'bg-red-500');
+                        }
+                        document.getElementById('deleteModal').classList.add('hidden');
+                    })
+                    .catch(error => console.error('Erreur:', error));
+            }
         });
     });
-
-    // Annuler la suppression
-    document.getElementById('cancelDelete').addEventListener('click', function() {
-        document.getElementById('deleteModal').classList.add('hidden');
-    });
-
-    // Confirmer la suppression
-    document.getElementById('confirmDelete').addEventListener('click', function() {
-        if (deleteMessageId) {
-            fetch(`admin/messages/supprimer/${deleteMessageId}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        document.querySelector(`button[data-id="${deleteMessageId}"]`).closest('tr').remove(); // Retire l'utilisateur de la table
-                        showNotification('Message supprimé avec succès.', 'bg-green-500'); // Message de confirmation
-                    } else {
-                        showNotification('Erreur lors de la suppression du message.', 'bg-red-500'); // Message d'erreur
-                    }
-                    document.getElementById('deleteModal').classList.add('hidden'); // Masque la modal
-                })
-                .catch(error => console.error('Erreur:', error));
-        }
-    });
-
-    // Fonction pour afficher la notification
-    function showNotification(message, bgColor) {
-        const notification = document.getElementById('notification');
-        notification.textContent = message;
-        notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500'); // Supprime toutes les classes de couleur et 'hidden'
-        notification.classList.add(bgColor); // Ajoute la classe de couleur
-
-        // Affiche la notification
-        notification.classList.remove('hidden'); // Assurez-vous que la notification est visible
-
-        // Masque la notification après 3 secondes
-        setTimeout(() => {
-            notification.classList.add('hidden');
-        }, 3000);
-    }
-
-    // Notifiaction délai message succès
-    const successDiv = document.getElementById('successMessage');
-    if (successDiv) {
-        // Au bout de 3 secondes, on masque la div
-        setTimeout(() => {
-            successDiv.style.display = 'none';
-        }, 3000); // 3000 ms = 3 secondes
-    }
 </script>

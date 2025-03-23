@@ -30,7 +30,7 @@ class ContactModel extends ModeleParent
     public function getAllMessages()
     {
         try {
-            $stmt = $this->pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC");
+            $stmt = $this->pdo->query("SELECT id, name, email, message, source, status, reply_body, replied_at FROM contact_messages ORDER BY created_at DESC");
             return $stmt->fetchAll();
         } catch (\PDOException $e) {
             error_log($e->getMessage());
@@ -105,6 +105,29 @@ class ContactModel extends ModeleParent
         } catch (\PDOException $e) {
             error_log("Erreur dans ContactModel getMessageSources: " . $e->getMessage());
             return [];
+        }
+    }
+
+    public function getMessageById($id)
+    {
+        try {
+            $stmt = $this->pdo->prepare("SELECT * FROM contact_messages WHERE id = ?");
+            $stmt->execute([$id]);
+            return $stmt->fetch();
+        } catch (\PDOException $e) {
+            error_log("Erreur récupération message : " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function markMessageAsReplied($id, $replyBody)
+    {
+        try {
+            $stmt = $this->pdo->prepare("UPDATE contact_messages SET status = 'replied', reply_body = ?, replied_at = NOW() WHERE id = ?");
+            return $stmt->execute([$replyBody, $id]);
+        } catch (\PDOException $e) {
+            error_log("Erreur mise à jour statut répondu : " . $e->getMessage());
+            return false;
         }
     }
 }

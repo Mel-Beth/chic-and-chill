@@ -377,6 +377,12 @@ if (empty($route[0])) {
                         $controller->markAsRead((int) $route[3]);
                     } elseif ($route[2] === 'update_status' && isset($route[3]) && ctype_digit($route[3])) {
                         $controller->updateMessageStatus((int) $route[3]);
+                    } elseif ($route[2] === 'reply' && isset($route[3]) && ctype_digit($route[3])) {
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            $controller->replyToMessage((int) $route[3]);
+                        } else {
+                            $controller->showReplyForm((int) $route[3]);
+                        }
                     }
                     break;
 
