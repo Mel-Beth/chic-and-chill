@@ -15,6 +15,7 @@
         "stripe/stripe-php": "^16.6",
         "matomo/matomo": "^2.13",
         "tecnickcom/tcpdf": "^6.8",
-        "composer/composer": "^2.2"
+        "composer/composer": "^2.2",
+        "cboden/ratchet": "^0.4.4"
     }
 }

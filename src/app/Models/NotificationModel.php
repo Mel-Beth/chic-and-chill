@@ -7,7 +7,6 @@ class NotificationModel extends ModeleParent
     public function getUnreadNotifications()
     {
         try {
-            // Si les notifications sont spécifiques à un utilisateur, ajoutez une condition WHERE user_id = ?
             $stmt = $this->pdo->query("
                 SELECT id, message FROM notifications WHERE status = 'unread' ORDER BY created_at DESC
             ");
@@ -25,6 +24,20 @@ class NotificationModel extends ModeleParent
             return $stmt->execute([$id]);
         } catch (\PDOException $e) {
             error_log("Erreur marquage notification comme lue: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function createNotification($message)
+    {
+        try {
+            error_log("Tentative d'insertion de notification : $message");
+            $stmt = $this->pdo->prepare("INSERT INTO notifications (message, status, created_at) VALUES (?, 'unread', NOW())");
+            $result = $stmt->execute([$message]);
+            error_log("Insertion notification : " . ($result ? "Succès" : "Échec") . " - Message : $message");
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("Erreur création notification : " . $e->getMessage());
             return false;
         }
     }

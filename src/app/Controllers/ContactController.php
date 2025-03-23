@@ -3,14 +3,17 @@
 namespace Controllers;
 
 use Models\ContactModel;
+use Models\NotificationModel;
 
 class ContactController
 {
     private $contactModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->contactModel = new ContactModel();
+        $this->notificationModel = new NotificationModel(); // Ajout du modèle de notification
     }
 
     public function processContactForm()
@@ -32,35 +35,16 @@ class ContactController
             die("Adresse e-mail invalide.");
         }
 
-        $contactModel = new ContactModel();
-        $success = $contactModel->addMessage($name, $email, $message, $source);
+        $success = $this->contactModel->addMessage($name, $email, $message, $source);
+        error_log("Ajout message contact : " . ($success ? "Succès" : "Échec"));
 
         if ($success) {
+            $notifSuccess = $this->notificationModel->createNotification("Nouveau message de $name via $source");
+            error_log("Appel createNotification contact : " . ($notifSuccess ? "Succès" : "Échec"));
             header("Location: " . "contact_" . $source . "?success=1");
             exit();
         } else {
             die("Erreur lors de l'envoi du message.");
-        }
-    }
-
-    public function processNewsletter()
-    {
-        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"])) {
-            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
-
-            if (!$email) {
-                die("Adresse e-mail invalide.");
-            }
-
-            $contactModel = new ContactModel();
-            $success = $contactModel->addNewsletterSubscription($email);
-
-            if ($success) {
-                header("Location: " . "evenements?success=1");
-                exit();
-            } else {
-                die("Erreur lors de l'inscription.");
-            }
         }
     }
 

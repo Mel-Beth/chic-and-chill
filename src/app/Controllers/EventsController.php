@@ -5,18 +5,21 @@ namespace Controllers;
 use Models\EventsModel;
 use Models\OutfitsModel;
 use Models\PacksModel;
+use Models\NotificationModel;
 
 class EventsController
 {
     private $eventsModel;
     private $outfitsModel;
     private $packsModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->eventsModel = new EventsModel();
         $this->outfitsModel = new OutfitsModel();
         $this->packsModel = new PacksModel();
+        $this->notificationModel = new NotificationModel();
     }
 
     public function index()

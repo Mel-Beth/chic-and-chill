@@ -3,14 +3,17 @@
 namespace Controllers;
 
 use Models\PacksModel;
+use Models\NotificationModel;
 
 class PacksController
 {
     private $packsModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->packsModel = new PacksModel();
+        $this->notificationModel = new NotificationModel(); // Ajout du modèle de notification
     }
 
     public function showPack($id)

@@ -113,7 +113,7 @@ if (empty($route[0])) {
             break;
 
         case 'newsletter':
-            $controller = new Controllers\ContactController();
+            $controller = new Controllers\NewsletterController();
             $controller->processNewsletter();
             break;
 

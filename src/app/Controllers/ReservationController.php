@@ -5,14 +5,17 @@ namespace Controllers;
 use Models\EventsModel;
 use Models\PacksModel;
 use Models\ReservationModel;
+use Models\NotificationModel;
 
 class ReservationController
 {
     private $reservationModel;
+    private $notificationModel;
 
     public function __construct()
     {
         $this->reservationModel = new ReservationModel();
+        $this->notificationModel = new NotificationModel(); // Ajout du modèle de notification
     }
 
     public function reservationEvenement()
@@ -34,15 +37,11 @@ class ReservationController
     public function processReservation()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $reservationModel = new ReservationModel();
-
-            // Vérifier si le client est une entreprise ou un particulier
             $customer_type = htmlspecialchars($_POST["customer_type"]);
             $company_name = ($customer_type === "entreprise") ? htmlspecialchars($_POST["company_name"]) : null;
             $siret = ($customer_type === "entreprise") ? htmlspecialchars($_POST["siret"] ?? '') : null;
             $address = ($customer_type === "entreprise") ? htmlspecialchars($_POST["address"]) : null;
 
-            // Coordonnées du client
             $name = htmlspecialchars($_POST["name"]);
             $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
             $phone = htmlspecialchars($_POST["phone"]);
@@ -52,30 +51,24 @@ class ReservationController
             $comments = htmlspecialchars($_POST["comments"]);
             $pack_id = $_POST["pack_id"] ?? null;
 
-            // Vérifications des champs obligatoires communs
-            if (empty($name)) {
-                die("Le nom est requis.");
-            }
-            if (!$email) {
-                die("Adresse e-mail invalide.");
-            }
-            if (empty($phone)) {
-                die("Le numéro de téléphone est requis.");
-            }
+            if (empty($name)) die("Le nom est requis.");
+            if (!$email) die("Adresse e-mail invalide.");
+            if (empty($phone)) die("Le numéro de téléphone est requis.");
 
-            // Vérifier si c'est une réservation d'événement ou de pack
             if (!empty($event_type)) {
-                // Réservation d'un événement
-                if (empty($event_type)) {
-                    die("Le type d'événement est requis.");
+                $success = $this->reservationModel->addEventReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, null);
+                error_log("Ajout réservation événement : " . ($success ? "Succès" : "Échec"));
+                if ($success) {
+                    $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation d'événement par $name ($event_type)");
+                    error_log("Appel createNotification réservation événement : " . ($notifSuccess ? "Succès" : "Échec"));
                 }
-                $success = $reservationModel->addEventReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, null);
             } elseif (!empty($pack_id)) {
-                // Réservation d'un pack
-                if (empty($pack_id)) {
-                    die("L'ID du pack est requis.");
+                $success = $this->reservationModel->addPackReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $services, $comments, $pack_id);
+                error_log("Ajout réservation pack : " . ($success ? "Succès" : "Échec"));
+                if ($success) {
+                    $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation de pack par $name (ID: $pack_id)");
+                    error_log("Appel createNotification réservation pack : " . ($notifSuccess ? "Succès" : "Échec"));
                 }
-                $success = $reservationModel->addPackReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $services, $comments, $pack_id);
             } else {
                 die("Aucun type d'événement ou pack sélectionné.");
             }
