@@ -286,6 +286,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                         detailsHtml += `<div class="field-label">Nombre de participants :</div><div class="field-value">${reservation.participants || 'Non spécifié'}</div>`;
                     } else if (reservation.type === 'pack') {
                         detailsHtml += `<div class="field-label">ID du pack :</div><div class="field-value">${reservation.event_id || 'Non spécifié'}</div>`;
+                        detailsHtml += `<div class="field-label">Nom du pack : </div><div class="field-value">${reservation.title || 'Non spécifié'}</div>`;
                     }
                     detailsHtml += '</div>';
                     detailsHtml += '</div>';

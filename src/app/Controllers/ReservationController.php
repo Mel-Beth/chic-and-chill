@@ -85,6 +85,17 @@ class ReservationController
     public function reservations()
     {
         $reservations = $this->reservationModel->getAllReservations();
+
+        // Enrichir les réservations de type "pack" avec les détails du pack
+        foreach ($reservations as &$reservation) {
+            if ($reservation['type'] === 'pack') {
+                $packDetails = $this->reservationModel->getPackDetails($reservation['event_id']); // event_id est l'alias de pack_id
+                $reservation['title'] = $packDetails['title'];
+                $reservation['price'] = $packDetails['price'];
+            }
+        }
+        unset($reservation); // Libérer la référence
+
         include 'src/app/Views/Admin/events/admin_reservations.php';
     }
 
