@@ -100,10 +100,6 @@ if (empty($route[0])) {
             $controller->processContactForm();
             break;
 
-        case 'contact_magasin':
-            include('src/app/Views/Public/contact_magasin.php');
-            break;
-
         case 'contact_location':
             include('src/app/Views/Public/contact_location.php');
             break;
@@ -141,6 +137,7 @@ if (empty($route[0])) {
             include('src/app/Views/Public/accueil_shop.php');
             break;
 
+        // Afficher la page de produits dans le shop
         case 'produit_shop':
             $controller = new Controllers\ArticleControllerShop();
             $controller->showProducts();
@@ -166,6 +163,11 @@ if (empty($route[0])) {
         case 'profil_user_shop':
             $controller = new Controllers\ProfilControllersShop();
             $controller->showUserInfos();
+            break;
+
+        case 'update_email_shop':
+            $controller = new Controllers\ConnexionControllersShop();
+            $controller->updateEmail();
             break;
 
         case 'inscription_shop':
@@ -227,16 +229,6 @@ if (empty($route[0])) {
             include 'src/app/Views/Public/paiement_annule_shop.php';
             break;
 
-        case 'login':
-            $controller = new Controllers\AuthController();
-            $controller->login();
-            break;
-
-        case 'register':
-            $controller = new Controllers\AuthController();
-            $controller->register();
-            break;
-
         case 'forgot-password':
             $controller = new Controllers\AuthController();
             $controller->forgotPassword();
@@ -255,7 +247,7 @@ if (empty($route[0])) {
         // 📌 Routes Admin
         case 'admin':
             if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== "admin") {
-                header('Location: login');
+                header('Location: connexion_shop');
                 exit();
             }
 
@@ -271,6 +263,20 @@ if (empty($route[0])) {
                     }
                     break;
 
+                // AJOUT ICI : Catégories AJAX
+                case 'getCategoriesByGender':
+                    $controller = new Controllers\AdminCrudShop();
+                    $controller->getCategoriesByGender();
+                    exit;
+                    break;
+
+                //  AJOUT ICI : Sous-catégories AJAX
+                case 'getSubCategories':
+                    $controller = new Controllers\AdminCrudShop();
+                    $controller->getSubCategories();
+                    exit;
+                    break;
+
                 case 'notifications':
                     $controller = new Controllers\NotificationController();
                     if (!isset($route[2])) {
@@ -282,14 +288,20 @@ if (empty($route[0])) {
                     }
                     break;
 
-                case 'login':
-                    $controller = new Controllers\AuthController();
-                    $controller->login();
-                    break;
-
-                case 'payments':
-                    $controller = new Controllers\PaymentsController();
-                    $controller->managePayments();
+                // Ajout de la section "Magasin" avec onglet et crud
+                case 'crudShop':
+                    $controller = new Controllers\AdminCrudShop();
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        if (!empty($_POST['delete'])) {
+                            $controller->deleteArticle((int) $_POST['delete']);
+                        } elseif (!empty($_POST['action']) && $_POST['action'] === 'update') {
+                            $controller->updateArticle();
+                        } elseif (!empty($_POST['action']) && $_POST['action'] === 'add') {
+                            $controller->addArticle();
+                        }
+                    } else {
+                        $controller->index();
+                    }
                     break;
 
                 case 'export':

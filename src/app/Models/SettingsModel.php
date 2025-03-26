@@ -2,7 +2,6 @@
 
 namespace Models;
 
-use PDO;
 
 class SettingsModel extends ModeleParent
 {
@@ -11,7 +10,7 @@ class SettingsModel extends ModeleParent
         try {
             $stmt = $this->pdo->prepare("SELECT name, email, role FROM users WHERE id = ?");
             $stmt->execute([$userId]);
-            return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+            return $stmt->fetch(\PDO::FETCH_ASSOC) ?: [];
         } catch (\PDOException $e) {
             error_log("Erreur récupération paramètres: " . $e->getMessage());
             return [];
@@ -34,7 +33,7 @@ class SettingsModel extends ModeleParent
     {
         $stmt = $this->pdo->prepare("SELECT password FROM users WHERE id = ?");
         $stmt->execute([$userId]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $user && password_verify($currentPassword, $user['password']);
     }
 
@@ -78,7 +77,7 @@ class SettingsModel extends ModeleParent
     {
         try {
             $stmt = $this->pdo->query("SELECT id, name, email, role FROM users");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             error_log("Erreur récupération utilisateurs: " . $e->getMessage());
             return [];
@@ -89,7 +88,7 @@ class SettingsModel extends ModeleParent
     {
         try {
             $stmt = $this->pdo->query("SELECT id, name, price, stock FROM products");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             error_log("Erreur récupération produits: " . $e->getMessage());
             return [];
@@ -124,7 +123,7 @@ class SettingsModel extends ModeleParent
     {
         try {
             $stmt = $this->pdo->query("SELECT action_date, username, action, ip_address FROM user_history ORDER BY action_date DESC LIMIT 50");
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             error_log("Erreur récupération historique: " . $e->getMessage());
             return [];
