@@ -1,47 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
-<?php include('src/app/Views/includes/head_shop.php'); ?>
+<html lang="en">
+<?php include("src/app/Views/includes/head_shop.php"); ?>
+<body id="top_shop_accueil" class="body_contact_shop">
+<?php include("src/app/Views/includes/header_shop.php"); ?>
+<h1 class="titre_principal_form_contact_shop">FORMULAIRE DE CONTACT</h1>
 
-<body class="body_co_shop" id="top_shop_accueil">
+<div class="container_form_contact_shop">
+    <h2 class="titre_form_contact_shop"> Contact - Magasin</h2>
 
-<?php include('src/app/Views/includes/header_shop.php'); ?>
+    <?php if (isset($_GET['success']) && $_GET['success'] == 1) : ?>
+        <p class="text-green-600 text-center font-semibold">Votre message a bien été envoyé !</p>
+    <?php endif; ?>
 
-<div class="container_form_co_shop">
-    <?php
-    if (isset($_SESSION['error'])) {
-        echo '<div class="alert_shop">' . $_SESSION['error'] . '</div>';
-        unset($_SESSION['error']);
-    }
-    ?>
-    <div class="login_container_shop">
-        <div class="login_box_shop">
-            <h2>Connexion</h2>
-            <form action="connexion_shop" method="POST">
-                <!-- Champ Identifiant ou Email -->
-                <div class="form_id_shop">
-                    <label for="identifier">Identifiant ou Email</label>
-                    <input type="text" id="identifier" name="identifier" required>
-                </div>
-                
-                <!-- Champ Mot de Passe -->
-                <div class="form_mdp_shop">
-                    <label for="password">Mot de Passe</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                
-                <!-- Bouton de Connexion -->
-                <button type="submit" class="btn_submit_shop">Connexion</button>
-            </form>
+    <form action="contact_process" method="post" class="form_container_contact_shop" >
+        <input type="hidden" name="source" value="shop">
 
-            <div class="inscription_btn_shop">
-                <p>Pas encore de compte ?</p>
-                <a href="inscription_shop">Inscrivez-vous</a>
-            </div>
-        </div>
-    </div>
+        <label for="subject">Sujet :</label>
+        <input type="text" name="subject" id="subject">
+
+        <label for="name" >Nom :</label>
+        <input type="text" name="name" id="name" >
+
+        <label for="email" >Email :</label>
+        <input type="email" name="email" id="email">
+
+        <label for="message" >Message :</label>
+        <textarea name="message" id="message" rows="5" required class="w-full p-2 border border-gray-300 rounded-md mb-4"></textarea>
+
+        <button type="submit" >Envoyer</button>
+    </form>
 </div>
 
-<?php include('src/app/Views/includes/footer_shop.php'); ?>
-
+<?php include("src/app/Views/includes/footer_shop.php"); ?>
 </body>
 </html>

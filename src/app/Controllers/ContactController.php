@@ -41,7 +41,16 @@ class ContactController
         if ($success) {
             $notifSuccess = $this->notificationModel->createNotification("Nouveau message de $name via $source");
             error_log("Appel createNotification contact : " . ($notifSuccess ? "Succès" : "Échec"));
-            header("Location: " . "contact_" . $source . "?success=1");
+
+            // Mapper les sources aux routes existantes
+            $redirectRoute = match ($source) {
+                "magasin" => "contact_shop",
+                "location" => "contact_location",
+                "evenements" => "contact_evenements",
+                default => "contact_shop" // Fallback
+            };
+
+            header("Location: " . BASE_URL . $redirectRoute . "?success=1");
             exit();
         } else {
             die("Erreur lors de l'envoi du message.");

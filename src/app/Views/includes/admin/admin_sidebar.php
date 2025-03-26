@@ -32,6 +32,18 @@
                     <li><a href="admin/reservations" class="block px-4 py-2 hover:bg-gray-700">Réservations</a></li>
                 </ul>
             </li>
+            <!-- onglet magasin ac les sous-onglets, partie pauline ( shop) -->
+            <li>
+                <button id="toggleMagasin" class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded focus:outline-none">
+                    <span class="material-icons">storefront</span>
+                    <span>Magasin</span>
+                    <span class="material-icons ml-auto">expand_more</span>
+                </button>
+                <ul id="magasinMenu" class="hidden bg-gray-800 text-white rounded">
+                    <li><a href="admin/crudShop" class="block px-4 py-2 hover:bg-gray-700">Articles</a></li>
+                </ul>
+            </li>
+
             <li>
                 <a href="admin/messages" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded relative">
                     <span class="material-icons">mail</span>
@@ -58,61 +70,66 @@
 <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden md:hidden"></div>
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Basculer l'affichage du menu événements
-    document.getElementById("toggleEvenements").addEventListener("click", function() {
-        document.getElementById("evenementsMenu").classList.toggle("hidden");
-    });
+    document.addEventListener("DOMContentLoaded", function() {
+        // Basculer l'affichage du menu événements
+        document.getElementById("toggleEvenements").addEventListener("click", function() {
+            document.getElementById("evenementsMenu").classList.toggle("hidden");
+        });
+        document.getElementById("toggleMagasin").addEventListener("click", function() {
+                document.getElementById("magasinMenu").classList.toggle("hidden");
+        });
 
-    // Gestion de la sidebar et de l'overlay
-    const sidebar = document.querySelector(".sidebar");
-    const menuToggle = document.getElementById("menuToggle"); // Bouton dans header.php
-    const closeSidebar = document.getElementById("closeSidebar");
-    const sidebarOverlay = document.getElementById("sidebarOverlay");
+        // Gestion de la sidebar et de l'overlay
+        const sidebar = document.querySelector(".sidebar");
+        const menuToggle = document.getElementById("menuToggle"); // Bouton dans header.php
+        const closeSidebar = document.getElementById("closeSidebar");
+        const sidebarOverlay = document.getElementById("sidebarOverlay");
 
-    function toggleSidebar() {
-        sidebar.classList.toggle("-translate-x-full");
-        sidebarOverlay.classList.toggle("hidden");
-    }
-
-    if (menuToggle && sidebar) {
-        menuToggle.addEventListener("click", toggleSidebar);
-    }
-    if (closeSidebar && sidebar) {
-        closeSidebar.addEventListener("click", toggleSidebar);
-    }
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener("click", toggleSidebar);
-    }
-
-    function updateUnreadMessages() {
-        fetch("admin/messages/unread_count", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        })
-            .then(response => response.json())
-            .then(data => {
-                const messageBadge = document.getElementById("messageBadge");
-                const unreadCount = data.unread;
-                if (unreadCount > 0) {
-                    messageBadge.textContent = unreadCount;
-                    messageBadge.classList.remove("hidden");
-                } else {
-                    messageBadge.classList.add("hidden");
-                }
-            })
-            .catch(error => console.error("Erreur récupération messages non lus:", error));
-    }
-
-    updateUnreadMessages();
-    setInterval(updateUnreadMessages, 10000);
-
-    document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('toggleReadStatus')) {
-            setTimeout(updateUnreadMessages, 1000);
+        function toggleSidebar() {
+            sidebar.classList.toggle("-translate-x-full");
+            sidebarOverlay.classList.toggle("hidden");
         }
+
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener("click", toggleSidebar);
+        }
+        if (closeSidebar && sidebar) {
+            closeSidebar.addEventListener("click", toggleSidebar);
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener("click", toggleSidebar);
+        }
+
+        function updateUnreadMessages() {
+            fetch("admin/messages/unread_count", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const messageBadge = document.getElementById("messageBadge");
+                    const unreadCount = data.unread;
+                    if (unreadCount > 0) {
+                        messageBadge.textContent = unreadCount;
+                        messageBadge.classList.remove("hidden");
+                    } else {
+                        messageBadge.classList.add("hidden");
+                    }
+                })
+                .catch(error => console.error("Erreur récupération messages non lus:", error));
+        }
+
+        updateUnreadMessages();
+        setInterval(updateUnreadMessages, 10000);
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('toggleReadStatus')) {
+                setTimeout(updateUnreadMessages, 1000);
+            }
+        });
     });
-});
 </script>
 
 <style>

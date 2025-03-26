@@ -6,7 +6,7 @@
     <?php endif; ?>
 
     <form action="contact_process" method="post" class="max-w-2xl mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
-        <input type="hidden" name="source" value="evenements">
+        <input type="hidden" name="source" value="location">
 
         <label for="name" class="block text-gray-700 font-semibold">Nom :</label>
         <input type="text" name="name" id="name" required class="w-full p-2 border border-gray-300 rounded-md mb-4">
