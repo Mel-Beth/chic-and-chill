@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'alaji/chic-and-chill',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '9f66ad5001d31bb60866d3f1d62afdd327768cf4',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '56cdfc805c262ccad4aaf3ee0fc99c7e6bfbb387',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'alaji/chic-and-chill' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '9f66ad5001d31bb60866d3f1d62afdd327768cf4',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '56cdfc805c262ccad4aaf3ee0fc99c7e6bfbb387',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -361,6 +361,15 @@
             'reference' => '60328e362d4c2c802a54fcbf04f9d3fb892b4cf8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-php80',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'tecnickcom/tcpdf' => array(
+            'pretty_version' => '6.8.2',
+            'version' => '6.8.2.0',
+            'reference' => 'f7a781073e1645062f163e058139e2f89355d420',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tecnickcom/tcpdf',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

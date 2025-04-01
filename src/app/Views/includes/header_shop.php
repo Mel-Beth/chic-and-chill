@@ -54,7 +54,7 @@
     <?php if (isset($_SESSION['user_id'])): ?>
       <a class="nav-link" href="profil_user_shop">MON PROFIL</a>
       <?php if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-        <a href="views/dashboard.php">Dashboard</a>
+        <a href="admin/dashboard">Dashboard</a>
       <?php endif; ?>
     <?php else: ?>
       <a class="nav-link" href="connexion_shop">Connexion</a>

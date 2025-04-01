@@ -274,7 +274,11 @@ CREATE TABLE IF NOT EXISTS `event_reservations` (
 --
 
 INSERT INTO `event_reservations` (`id`, `customer_type`, `company_name`, `siret`, `address`, `customer_name`, `email`, `phone`, `event_type`, `participants`, `services`, `comments`, `event_id`, `status`, `created_at`) VALUES
+<<<<<<< HEAD
+(2, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', '', 10, 'Restauration, Animation', '', 5, 'confirmed', '2025-02-14 19:03:25');
+=======
 (2, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', '', 10, 'Catering, Animation', '', 5, 'confirmed', '2025-02-14 19:03:25');
+>>>>>>> 3ecd073920515f50cf218defd098309a566a62f2
 
 -- --------------------------------------------------------
 

@@ -4,7 +4,11 @@
 
 namespace Composer\Autoload;
 
+<<<<<<< HEAD
 class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
+=======
+class ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169
+>>>>>>> 4f127196db2d6c2b23190ff4db8f385bafc44514
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -93,8 +97,14 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Datamatrix' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/datamatrix.php',
+<<<<<<< HEAD
         'FPDF' => __DIR__ . '/..' . '/setasign/fpdf/fpdf.php',
         'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
+=======
+        'PDF417' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/pdf417.php',
+        'PEAR_Exception' => __DIR__ . '/..' . '/pear/pear_exception/PEAR/Exception.php',
+        'PclZip' => __DIR__ . '/..' . '/piwik/decompress/libs/PclZip/pclzip.lib.php',
+>>>>>>> 4f127196db2d6c2b23190ff4db8f385bafc44514
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
@@ -116,9 +126,17 @@ class ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+<<<<<<< HEAD
             $loader->prefixLengthsPsr4 = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit0bf209dcb5bc30a66d7addb757ed98f9::$classMap;
+=======
+            $loader->prefixLengthsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$prefixesPsr0;
+            $loader->fallbackDirsPsr0 = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInitd9a1d1d412c700246934fcf6d5fee169::$classMap;
+>>>>>>> 4f127196db2d6c2b23190ff4db8f385bafc44514
 
         }, null, ClassLoader::class);
     }

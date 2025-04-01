@@ -97,7 +97,7 @@ include('src/app/Views/includes/admin_sidebar.php');
                             <td class="border p-3"> <?= htmlspecialchars($outfit['outfit_name']); ?> </td>
                             <td class="border p-3"> <?= htmlspecialchars($outfit['accessories']); ?> </td>
                             <td class="border p-3">
-                                <?php $image = isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/events/placeholder.jpg'; ?>
+                                <?php $image = isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp'; ?>
                                 <img src="<?= $image; ?>" alt="Image tenue" class="rounded-md w-40 h-40 object-cover">
                             </td>
                             <td class="border p-3">
@@ -110,7 +110,7 @@ include('src/app/Views/includes/admin_sidebar.php');
                                 <button class="edit-outfit text-blue-600 hover:underline"
                                     data-id="<?= $outfit['id'] ?>" data-name="<?= htmlspecialchars($outfit['outfit_name']) ?>"
                                     data-accessories="<?= htmlspecialchars($outfit['accessories']) ?>"
-                                    data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/events/placeholder.jpg' ?>"
+                                    data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp' ?>"
                                     data-status="<?= $outfit['status'] ?>"
                                     data-product-id="<?= $outfit['product_id'] ?>">
                                     Modifier
@@ -152,7 +152,7 @@ include('src/app/Views/includes/admin_sidebar.php');
                     <?php endif; ?>
                 </select>
 
-                <img id="productImagePreview" src="assets/images/events/placeholder.jpg" alt="Aperçu de l'image" class="mt-2 rounded-md w-40 h-40 object-cover hidden">
+                <img id="productImagePreview" src="assets/images/placeholder.webp" alt="Aperçu de l'image" class="mt-2 rounded-md w-40 h-40 object-cover hidden">
 
                 <select id="outfitStatus" name="status" class="w-full p-3 border border-gray-300 rounded-md mb-2">
                     <option value="active">Actif</option>

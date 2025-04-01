@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <base href="http://localhost/site_stage/chic-and-chill/"> -->
-    <!-- <base href="http://localhost/projets/projetsExo/chic-and-chill/"> -->
+    <base href="http://localhost/site_stage/chic-and-chill/">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>

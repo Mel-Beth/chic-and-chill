@@ -78,4 +78,8 @@ class ConnexionControllersShop
             }
         }
     // }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3ecd073920515f50cf218defd098309a566a62f2

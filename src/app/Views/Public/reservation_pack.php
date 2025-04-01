@@ -66,7 +66,7 @@
                 <label for="services" class="block text-lg font-semibold text-gray-800 mt-4">Prestations supplémentaires :</label>
                 <div class="flex flex-wrap gap-4">
                     <label class="flex items-center">
-                        <input type="checkbox" name="services[]" value="Catering" class="mr-2"> 🍽️ Service traiteur
+                        <input type="checkbox" name="services[]" value="Restauration" class="mr-2"> 🍽️ Service traiteur
                     </label>
                     <label class="flex items-center">
                         <input type="checkbox" name="services[]" value="Animation" class="mr-2"> 🎤 Animation
