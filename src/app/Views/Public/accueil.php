@@ -47,7 +47,7 @@
     <nav class="hidden md:flex space-x-8 text-lg text-[#8B5A2B] font-semibold">
         <a href="accueil" class="hover:text-gray-800 transition">Accueil</a>
         <a href="evenements" class="hover:text-gray-800 transition">Événements</a>
-        <a href="location" class="hover:text-gray-800 transition">Location</a>
+        <a href="accueil_loc_show" class="hover:text-gray-800 transition">Location & Showroom</a>
         <a href="accueil_shop" class="hover:text-gray-800 transition">Magasin</a>
         <a href="contact" class="hover:text-gray-800 transition">Contact</a>
     </nav>
@@ -75,7 +75,7 @@
 
     <!-- Cercles cliquables menant aux différentes pages -->
     <a href="evenements" id="circle-even" class="circle-link"></a>
-    <a href="location" id="circle-location" class="circle-link"></a>
+    <a href="accueil_loc_show" id="circle-location" class="circle-link"></a>
     <a href="accueil_shop" id="circle-magasin" class="circle-link"></a>
 
     <!-- Labels interactifs associés aux cercles -->

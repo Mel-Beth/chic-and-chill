@@ -1,19 +1,33 @@
 <?php
 namespace Models;
 
-class ShowroomModel extends ModeleParent
+use PDO;
+
+class ShowroomModel
 {
-    public function checkReservationAvailability($date, $heure)
+    private $pdo;
+
+    public function __construct()
     {
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM reservations WHERE date = :date AND heure = :heure");
-        $stmt->execute([':date' => $date, ':heure' => $heure]);
-        return $stmt->fetchColumn() > 0;
+        try {
+            $this->pdo = new PDO("mysql:host=localhost;dbname=chicandchill;charset=utf8", "root", "");
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            die("Erreur de connexion : " . $e->getMessage());
+        }
     }
 
-    public function addReservation($data)
+    public function saveReservation($data)
     {
-        $stmt = $this->pdo->prepare("INSERT INTO reservations (date, heure, client_nom, email, statut) 
-                                    VALUES (:date, :heure, :client_nom, :email, :statut)");
+        $sql = "INSERT INTO showroom_reservations (client_nom, email, telephone, date_reservation, heure_reservation, service, message, statut)
+                VALUES (:client_nom, :email, :telephone, :date_reservation, :heure_reservation, :service, :message, 'en_attente')";
+        $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($data);
+    }
+
+    public function getAllReservations()
+    {
+        $stmt = $this->pdo->query("SELECT * FROM showroom_reservations ORDER BY created_at DESC");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

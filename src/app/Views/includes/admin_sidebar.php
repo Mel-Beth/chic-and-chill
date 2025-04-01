@@ -30,6 +30,22 @@
                 </ul>
             </li>
 
+            <!-- Location -->
+            <li>
+                <a href="admin/locations" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
+                    <span class="material-icons">shopping_bag</span>
+                    <span>Locations</span>
+                </a>
+            </li>
+
+            <!-- Showroom -->
+            <li>
+                <a href="admin/showroom" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
+                    <span class="material-icons">storefront</span>
+                    <span>Showroom</span>
+                </a>
+            </li>
+
             <!-- Lien Messages avec compteur dynamique -->
             <li>
                 <a href="admin/messages" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded relative">
@@ -73,7 +89,6 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Basculer l'affichage du menu événements
         document.getElementById("toggleEvenements").addEventListener("click", function() {
             document.getElementById("evenementsMenu").classList.toggle("hidden");
         });
@@ -82,27 +97,18 @@
             fetch("admin/messages/unread_count")
                 .then(response => response.json())
                 .then(data => {
-                    const messageBadge = document.getElementById("messageBadge");
+                    const badge = document.getElementById("messageBadge");
                     if (data.unread > 0) {
-                        messageBadge.textContent = data.unread;
-                        messageBadge.classList.remove("hidden");
+                        badge.textContent = data.unread;
+                        badge.classList.remove("hidden");
                     } else {
-                        messageBadge.classList.add("hidden");
+                        badge.classList.add("hidden");
                     }
-                })
-                .catch(error => console.error("Erreur récupération messages non lus:", error));
+                });
         }
 
-        // Mettre à jour au chargement de la page et toutes les 10 secondes
         updateUnreadMessages();
         setInterval(updateUnreadMessages, 10000);
-
-        // Écoute les clics sur les boutons "Lu / Non Lu" pour mise à jour instantanée
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('toggleReadStatus')) {
-                setTimeout(updateUnreadMessages, 1000); // Rafraîchir après 1s pour éviter le délai du serveur
-            }
-        });
     });
 </script>
 

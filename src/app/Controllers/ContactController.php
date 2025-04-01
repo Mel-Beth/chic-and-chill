@@ -18,25 +18,36 @@ class ContactController
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             die("Méthode non autorisée.");
         }
-
+    
         if (!isset($_POST["name"], $_POST["email"], $_POST["message"], $_POST["source"])) {
             die("Données incomplètes.");
         }
-
+    
         $name = htmlspecialchars($_POST["name"]);
         $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
         $message = htmlspecialchars($_POST["message"]);
         $source = in_array($_POST["source"], ["magasin", "location", "evenements"]) ? $_POST["source"] : "magasin";
-
+    
         if (!$email) {
             die("Adresse e-mail invalide.");
         }
-
-        $contactModel = new ContactModel();
-        $success = $contactModel->addMessage($name, $email, $message, $source);
-
+    
+        $success = $this->contactModel->addMessage($name, $email, $message, $source);
+        error_log("Ajout message contact : " . ($success ? "Succès" : "Échec"));
+    
         if ($success) {
-            header("Location: " . "contact_" . $source . "?success=1");
+            $notifSuccess = $this->notificationModel->createNotification("Nouveau message de $name via $source");
+            error_log("Appel createNotification contact : " . ($notifSuccess ? "Succès" : "Échec"));
+    
+            // Mapper les sources aux routes existantes
+            $redirectRoute = match ($source) {
+                "magasin" => "contact_shop",
+                "location" => "contact_location",
+                "evenements" => "contact_evenements",
+                default => "contact_shop" // Fallback
+            };
+    
+            header("Location: " . BASE_URL . $redirectRoute . "?success=1");
             exit();
         } else {
             die("Erreur lors de l'envoi du message.");

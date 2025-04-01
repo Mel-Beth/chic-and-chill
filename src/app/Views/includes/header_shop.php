@@ -46,7 +46,8 @@
     </div>
     <a href="#">PROMOTIONS</a>
     <a href="evenements">EVENEMENTS</a>
-    <a href="#">LOCATION</a>
+    <a href="accueil_loc_show" class="text-gray-800 hover:text-gray-600 transition-colors">Location & Showroom</a>
+
   </nav>
 
   <div class="right-section">

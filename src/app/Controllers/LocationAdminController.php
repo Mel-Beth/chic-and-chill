@@ -1,24 +1,20 @@
 <?php
-
 namespace Controllers;
 
 use Models\LocationModel;
 
 class LocationAdminController
 {
-    private $locationModel;
+    private $model;
 
     public function __construct()
     {
-        $this->locationModel = new LocationModel();
+        $this->model = new LocationModel();
     }
 
     public function index()
     {
-        $locations = $this->locationModel->getAllLocations();
-        require_once __DIR__ . '/../Views/admin/location/index.php';
+        $reservations = $this->model->getAllReservations();
+        require_once __DIR__ . '/../Views/Admin/location/index.php';
     }
-
-    // Méthodes similaires à create, edit, delete, etc.
-    // adaptées à l’interface d’admin
 }

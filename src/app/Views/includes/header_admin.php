@@ -10,6 +10,7 @@ $adminProfileImage = $adminProfileImage ?? 'assets/images/admin/default-avatar.p
             <img src="<?= htmlspecialchars($adminProfileImage) ?>" alt="Admin" class="w-10 h-10 rounded-full border">
             <span class="text-gray-700"><?= htmlspecialchars($adminName) ?></span>
             <span class="material-icons text-gray-600">arrow_drop_down</span>
+            <script src="https://cdn.tailwindcss.com"></script>
         </div>
     </div>
 </header>
