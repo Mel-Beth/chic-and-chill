@@ -1,4 +1,6 @@
 <?php
+namespace Controllers;
+
 require_once './vendor/tecnickcom/tcpdf/tcpdf.php';
 
 class InvoiceGenerator
@@ -6,7 +8,7 @@ class InvoiceGenerator
     public static function generateInvoice($reservation)
     {
         // Créer un objet TCPDF
-        $pdf = new TCPDF();
+        $pdf = new \TCPDF();
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Chic & Chill');
         $pdf->SetTitle('Facture');

@@ -6,14 +6,9 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 <style>
     #notification {
         position: fixed;
-        /* Rendre la notification fixe */
         top: 20px;
-        /* Ajustez la position verticale */
         right: 20px;
-        /* Ajustez la position horizontale */
         z-index: 9999;
-        /* Assurez-vous que l'élément est au-dessus des autres éléments */
-        /* Ajoutez éventuellement une ombre pour la rendre plus visible */
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 </style>
@@ -33,7 +28,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             <div class="flex justify-between mb-4">
                 <input id="search" type="text" placeholder="Rechercher un abonné..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
-                    <button id="exportBtn" class="border px-4 py-2 rounded-md hover:bg-gray-100">Exporter</button>
+                    <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
+                    <button id="sendNewsletterBtn" class="border px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600">Envoyer la newsletter</button>
                 </div>
             </div>
 
@@ -134,18 +130,18 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         document.getElementById('confirmDelete').addEventListener('click', function() {
             if (deleteSubscriberId) {
                 fetch(`admin/newsletter/supprimer/${deleteSubscriberId}`, {
-                        method: 'DELETE'
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            document.querySelector(`button[data-id="${deleteSubscriberId}"]`).closest('tr').remove(); // Retire l'utilisateur de la table
-                            showNotification('Email supprimé avec succès.', 'bg-green-500'); // Message de confirmation
-                        } else {
-                            showNotification('Erreur lors de la suppression de l\'Email.', 'bg-red-500'); // Message d'erreur
-                        }
-                        document.getElementById('deleteModal').classList.add('hidden'); // Masque la modal
-                    })
-                    .catch(error => console.error('Erreur:', error));
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector(`button[data-id="${deleteSubscriberId}"]`).closest('tr').remove();
+                        showNotification('Email supprimé avec succès.', 'bg-green-500');
+                    } else {
+                        showNotification('Erreur lors de la suppression de l\'Email.', 'bg-red-500');
+                    }
+                    document.getElementById('deleteModal').classList.add('hidden');
+                })
+                .catch(error => console.error('Erreur:', error));
             }
         });
 
@@ -153,46 +149,52 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         function showNotification(message, bgColor) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
-            notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500'); // Supprime toutes les classes de couleur et 'hidden'
-            notification.classList.add(bgColor); // Ajoute la classe de couleur
-
-            // Affiche la notification
-            notification.classList.remove('hidden'); // Assurez-vous que la notification est visible
-
-            // Masque la notification après 3 secondes
+            notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500');
+            notification.classList.add(bgColor);
+            notification.classList.remove('hidden');
             setTimeout(() => {
                 notification.classList.add('hidden');
             }, 3000);
         }
 
-        // Notifiaction délai message succès
-        const successDiv = document.getElementById('successMessage');
-        if (successDiv) {
-            // Au bout de 3 secondes, on masque la div
-            setTimeout(() => {
-                successDiv.style.display = 'none';
-            }, 3000); // 3000 ms = 3 secondes
-        }
-
-        // Exporter la liste des abonnés
+        // Exportation
         document.getElementById('exportBtn').addEventListener('click', function() {
-            let csv = "Email, Date d'inscription\n";
+            let csv = "Email,Date d'inscription\n";
             document.querySelectorAll("#newsletterTable tr").forEach(row => {
                 let cells = row.querySelectorAll("td");
                 if (cells.length > 0) {
                     csv += `${cells[0].textContent},${cells[1].textContent}\n`;
                 }
             });
-
-            let blob = new Blob([csv], {
-                type: 'text/csv'
-            });
+            let blob = new Blob([csv], { type: 'text/csv' });
             let a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = "abonnés_newsletter.csv";
+            a.download = "newsletter_export.csv";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+            showNotification('Exportation réussie !', 'bg-green-500');
+        });
+
+        // Envoi de la newsletter
+        document.getElementById('sendNewsletterBtn').addEventListener('click', function() {
+            fetch('newsletter/send-monthly', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    showNotification('Newsletter envoyée avec succès !', 'bg-green-500');
+                } else {
+                    showNotification('Erreur lors de l\'envoi de la newsletter.', 'bg-red-500');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                showNotification('Erreur réseau lors de l\'envoi.', 'bg-red-500');
+            });
         });
     });
 </script>

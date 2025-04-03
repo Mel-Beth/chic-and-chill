@@ -32,7 +32,7 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
         <div class="flex justify-between mb-4">
             <input id="search" type="text" placeholder="Rechercher un utilisateur..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
             <div class="flex space-x-4">
-                <button id="exportBtn" class="border px-4 py-2 rounded-md hover:bg-gray-100">Exporter</button>
+                <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
                 <select id="filterStatus" class="border px-4 py-2 rounded-md">
                     <option value="all">Tous</option>
                     <option value="active">Actifs</option>
@@ -267,5 +267,26 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
             showPage(1);
         }
         paginateTable();
+    });
+
+    document.getElementById('exportBtn').addEventListener('click', function() {
+        let csv = "Nom,Email,Rôle,Statut\n";
+        document.querySelectorAll("#userTable tr").forEach(row => {
+            let cells = row.querySelectorAll("td");
+            if (cells.length > 0) {
+                csv += `${cells[0].textContent},${cells[1].textContent},${cells[2].querySelector('span').textContent},${cells[3].querySelector('button').textContent}\n`;
+            }
+        });
+
+        let blob = new Blob([csv], {
+            type: 'text/csv'
+        });
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "utilisateurs_export.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showNotification('Exportation réussie !', 'bg-green-500');
     });
 </script>

@@ -4,8 +4,6 @@ namespace Controllers;
 
 use Models\CoModelShop;
 
-require_once 'src/app/Models/CoModelShop.php';
-
 class ConnexionControllersShop
 {
     private $coModel;

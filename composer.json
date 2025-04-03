@@ -6,6 +6,7 @@
         "psr-4": {
             "Alaji\\ChicAndChill\\": "src/",
             "Controllers\\": "src/app/Controllers",
+            "Controllers\\Events\\": "src/app/Controllers/events",
             "Models\\": "src/app/Models"
         }
     },

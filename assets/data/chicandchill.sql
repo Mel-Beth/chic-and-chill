@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 05 mars 2025 à 12:27
+-- Généré le : jeu. 27 mars 2025 à 19:56
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -22,6 +22,20 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `chicandchill` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `chicandchill`;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admin_actions`
+--
+
+DROP TABLE IF EXISTS `admin_actions`;
+CREATE TABLE IF NOT EXISTS `admin_actions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -74,18 +88,26 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reply_body` text COLLATE utf8mb4_unicode_ci,
   `source` enum('magasin','location','evenements') COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` enum('unread','read') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unread',
+  `status` enum('unread','read','replied') COLLATE utf8mb4_unicode_ci DEFAULT 'unread',
+  `replied_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `contact_messages`
 --
 
-INSERT INTO `contact_messages` (`id`, `name`, `email`, `message`, `source`, `created_at`, `status`) VALUES
-(1, 'Mel', 'meltest@example.com', 'message test', 'evenements', '2025-02-13 21:58:22', 'unread');
+INSERT INTO `contact_messages` (`id`, `name`, `email`, `message`, `reply_body`, `source`, `created_at`, `status`, `replied_at`) VALUES
+(1, 'Mel', 'meltest@example.com', 'message test', NULL, 'evenements', '2025-02-13 21:58:22', 'unread', NULL),
+(3, 'Test1', 'test1@example.com', 'Message 1', NULL, 'magasin', '2025-03-20 19:58:19', 'unread', NULL),
+(4, 'Test2', 'test2@example.com', 'Message 2', NULL, 'location', '2025-03-20 19:58:19', 'unread', NULL),
+(5, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', 'test', NULL, 'evenements', '2025-03-21 17:40:03', 'unread', NULL),
+(6, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', 'message test encore', NULL, 'evenements', '2025-03-21 18:11:09', 'unread', NULL),
+(7, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', 'message retest', 'Réponse test', 'evenements', '2025-03-21 18:20:14', 'replied', '2025-03-23 17:19:14'),
+(8, 'test mel', 'melaniebethermat@testmel.com', 'test', NULL, 'evenements', '2025-03-26 13:39:20', 'unread', NULL);
 
 -- --------------------------------------------------------
 
@@ -104,18 +126,20 @@ CREATE TABLE IF NOT EXISTS `events` (
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT 'placeholder.jpg',
   `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inactive',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `events`
 --
 
 INSERT INTO `events` (`id`, `title`, `description`, `date_event`, `location`, `created_at`, `image`, `status`) VALUES
-(1, 'Gala de boxe 2024', 'Habillage des Miss présentant les rounds', '2024-10-21', 'Charlebille-Mézières', '2025-02-06 14:34:19', 'assets/images/events/Gala de boxe 2024/galaBoxe5.jpg', 'inactive'),
-(2, 'Soirée CHIC&CHILL à la Guinguette', 'Soirée Chic&Chill à la Guiguette', '2024-07-14', 'Charleville-Mézières', '2025-02-10 12:11:59', 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette5.jpg', 'inactive'),
-(3, 'Shooting photos', 'Un shooting photo dans notre showroom privée', '2024-06-01', 'Charleville-Mézières', '2025-02-10 12:11:59', 'assets/images/events/Shooting photos/shootingPhotos13.jpg', 'inactive'),
-(4, 'Collab\' avec la Brasserie', 'Collaboration avec le restaurant la Brasserie ', '2024-09-14', 'Charleville-Mézières', '2025-02-10 12:13:15', 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie1.jpg', 'inactive'),
-(5, 'Fashion Champ 2024', 'Un événement exceptionnel mettant à l’honneur les commerçants et créateurs Ardennais', '2024-12-06', 'Charleville-Mézières', '2025-02-11 19:22:19', 'assets/images/events/Fashion Champ 2024/fashionChamp2.jpg', 'inactive');
+(1, 'Gala de boxe 2024', 'Habillage des Miss présentant les rounds', '2024-10-21', 'Charleville-Mézières', '2025-02-06 14:34:19', 'Gala de boxe 2024/galaBoxe5.jpg', 'inactive'),
+(2, 'Soirée CHIC&CHILL à la Guinguette', 'Soirée Chic&Chill à la Guiguette', '2024-07-14', 'Charleville-Mézières', '2025-02-10 12:11:59', 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette5.jpg', 'inactive'),
+(3, 'Shooting photos', 'Un shooting photo dans notre showroom privée', '2024-06-01', 'Charleville-Mézières', '2025-02-10 12:11:59', 'Shooting photos/shootingPhotos13.jpg', 'inactive'),
+(4, 'Collab\' avec la Brasserie', 'Collaboration avec le restaurant la Brasserie ', '2024-09-14', 'Charleville-Mézières', '2025-02-10 12:13:15', 'Collab\' avec la Brasserie/collabeBrasserie1.jpg', 'inactive'),
+(5, 'Fashion Champ 2024', 'Un événement exceptionnel mettant à l’honneur les commerçants et créateurs Ardennais', '2024-12-06', 'Charleville-Mézières', '2025-02-11 19:22:19', 'Fashion Champ 2024/fashionChamp2.jpg', 'inactive'),
+(34, 'Encore un test', 'test', '2025-04-03', 'Charleville-Mézières', '2025-03-19 15:02:54', '67dd646d10b43_haut_printemps.jpg', 'active'),
+(35, 'test', 'test', '2025-03-31', 'Charleville-Mézières', '2025-03-21 13:24:32', '67dd6890e29e3_robe_soiree.jpg', 'active');
 
 -- --------------------------------------------------------
 
@@ -139,50 +163,50 @@ CREATE TABLE IF NOT EXISTS `event_images` (
 --
 
 INSERT INTO `event_images` (`id`, `event_id`, `image_url`, `created_at`, `type`) VALUES
-(1, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe1.jpg', '2025-02-12 16:58:40', 'image'),
-(2, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe2.jpg', '2025-02-12 16:58:40', 'image'),
-(3, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe3.jpg', '2025-02-12 16:58:40', 'image'),
-(4, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe4.jpg', '2025-02-12 16:58:40', 'image'),
-(5, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe5.jpg', '2025-02-12 16:58:40', 'image'),
-(6, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe6.jpg', '2025-02-12 16:58:40', 'image'),
-(7, 1, 'assets/images/events/Gala de boxe 2024/galaBoxe7.jpg', '2025-02-12 16:58:40', 'image'),
-(8, 2, 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette5.jpg', '2025-02-12 16:58:40', 'image'),
-(9, 3, 'assets/images/events/Shooting photos/shootingPhotos1.jpg', '2025-02-12 16:58:40', 'image'),
-(10, 3, 'assets/images/events/Shooting photos/shootingPhotos10.jpg', '2025-02-12 16:58:40', 'image'),
-(11, 3, 'assets/images/events/Shooting photos/shootingPhotos11.jpg', '2025-02-12 16:58:40', 'image'),
-(12, 3, 'assets/images/events/Shooting photos/shootingPhotos12.jpg', '2025-02-12 16:58:40', 'image'),
-(13, 3, 'assets/images/events/Shooting photos/shootingPhotos13.jpg', '2025-02-12 16:58:40', 'image'),
-(14, 3, 'assets/images/events/Shooting photos/shootingPhotos14.jpg', '2025-02-12 16:58:40', 'image'),
-(15, 3, 'assets/images/events/Shooting photos/shootingPhotos15.jpg', '2025-02-12 16:58:40', 'image'),
-(16, 3, 'assets/images/events/Shooting photos/shootingPhotos16.jpg', '2025-02-12 16:58:40', 'image'),
-(17, 3, 'assets/images/events/Shooting photos/shootingPhotos17.jpg', '2025-02-12 16:58:40', 'image'),
-(18, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie1.jpg', '2025-02-12 16:58:40', 'image'),
-(19, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie11.jpg', '2025-02-12 16:58:40', 'image'),
-(20, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie2.jpg', '2025-02-12 16:58:40', 'image'),
-(21, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie3.jpg', '2025-02-12 16:58:40', 'image'),
-(22, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie4.jpg', '2025-02-12 16:58:40', 'image'),
-(23, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie5.jpg', '2025-02-12 16:58:40', 'image'),
-(24, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie6.jpg', '2025-02-12 16:58:40', 'image'),
-(25, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie7.jpg', '2025-02-12 16:58:40', 'image'),
-(26, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie8.jpg', '2025-02-12 16:58:41', 'image'),
-(27, 4, 'assets/images/events/Collab\' avec la Brasserie/collabeBrasserie9.jpg', '2025-02-12 16:58:41', 'image'),
-(28, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp2.jpg', '2025-02-12 16:58:41', 'image'),
-(29, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp7.jpg', '2025-02-12 16:58:41', 'image'),
-(30, 4, 'assets/images/events/Collab avec la Brasserie/collabeBrasserie10.mp4', '2025-02-17 01:02:57', 'video'),
-(31, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp1.mp4', '2025-02-17 01:02:57', 'video'),
-(32, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp3.mp4', '2025-02-17 01:02:57', 'video'),
-(33, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp4.mp4', '2025-02-17 01:02:57', 'video'),
-(34, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp5.mp4', '2025-02-17 01:02:57', 'video'),
-(35, 5, 'assets/images/events/Fashion Champ 2024/fashionChamp6.mp4', '2025-02-17 01:02:57', 'video'),
-(36, 2, 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette1.mp4', '2025-02-17 01:02:57', 'video'),
-(37, 2, 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette2.mp4', '2025-02-17 01:02:57', 'video'),
-(38, 2, 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette3.mp4', '2025-02-17 01:02:57', 'video'),
-(39, 2, 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette4.mp4', '2025-02-17 01:02:57', 'video'),
-(40, 2, 'assets/images/events/Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette6.mp4', '2025-02-17 01:02:57', 'video'),
-(41, 3, 'assets/images/events/Shooting photos/shootingPhotos21.mp4', '2025-02-24 13:49:22', 'video'),
-(42, 3, 'assets/images/events/Shooting photos/shootingPhotos19.jpg', '2025-02-24 13:49:22', 'image'),
-(43, 3, 'assets/images/events/Shooting photos/shootingPhotos20.jpg', '2025-02-24 13:49:22', 'image'),
-(44, 3, 'assets/images/events/Shooting photos/shootingPhotos1.jpg', '2025-02-24 13:49:22', 'image');
+(1, 1, 'Gala de boxe 2024/galaBoxe1.jpg', '2025-02-12 16:58:40', 'image'),
+(2, 1, 'Gala de boxe 2024/galaBoxe2.jpg', '2025-02-12 16:58:40', 'image'),
+(3, 1, 'Gala de boxe 2024/galaBoxe3.jpg', '2025-02-12 16:58:40', 'image'),
+(4, 1, 'Gala de boxe 2024/galaBoxe4.jpg', '2025-02-12 16:58:40', 'image'),
+(5, 1, 'Gala de boxe 2024/galaBoxe5.jpg', '2025-02-12 16:58:40', 'image'),
+(6, 1, 'Gala de boxe 2024/galaBoxe6.jpg', '2025-02-12 16:58:40', 'image'),
+(7, 1, 'Gala de boxe 2024/galaBoxe7.jpg', '2025-02-12 16:58:40', 'image'),
+(8, 2, 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette5.jpg', '2025-02-12 16:58:40', 'image'),
+(9, 3, 'Shooting photos/shootingPhotos1.jpg', '2025-02-12 16:58:40', 'image'),
+(10, 3, 'Shooting photos/shootingPhotos10.jpg', '2025-02-12 16:58:40', 'image'),
+(11, 3, 'Shooting photos/shootingPhotos11.jpg', '2025-02-12 16:58:40', 'image'),
+(12, 3, 'Shooting photos/shootingPhotos12.jpg', '2025-02-12 16:58:40', 'image'),
+(13, 3, 'Shooting photos/shootingPhotos13.jpg', '2025-02-12 16:58:40', 'image'),
+(14, 3, 'Shooting photos/shootingPhotos14.jpg', '2025-02-12 16:58:40', 'image'),
+(15, 3, 'Shooting photos/shootingPhotos15.jpg', '2025-02-12 16:58:40', 'image'),
+(16, 3, 'Shooting photos/shootingPhotos16.jpg', '2025-02-12 16:58:40', 'image'),
+(17, 3, 'Shooting photos/shootingPhotos17.jpg', '2025-02-12 16:58:40', 'image'),
+(18, 4, 'Collab\' avec la Brasserie/collabeBrasserie1.jpg', '2025-02-12 16:58:40', 'image'),
+(19, 4, 'Collab\' avec la Brasserie/collabeBrasserie11.jpg', '2025-02-12 16:58:40', 'image'),
+(20, 4, 'Collab\' avec la Brasserie/collabeBrasserie2.jpg', '2025-02-12 16:58:40', 'image'),
+(21, 4, 'Collab\' avec la Brasserie/collabeBrasserie3.jpg', '2025-02-12 16:58:40', 'image'),
+(22, 4, 'Collab\' avec la Brasserie/collabeBrasserie4.jpg', '2025-02-12 16:58:40', 'image'),
+(23, 4, 'Collab\' avec la Brasserie/collabeBrasserie5.jpg', '2025-02-12 16:58:40', 'image'),
+(24, 4, 'Collab\' avec la Brasserie/collabeBrasserie6.jpg', '2025-02-12 16:58:40', 'image'),
+(25, 4, 'Collab\' avec la Brasserie/collabeBrasserie7.jpg', '2025-02-12 16:58:40', 'image'),
+(26, 4, 'Collab\' avec la Brasserie/collabeBrasserie8.jpg', '2025-02-12 16:58:41', 'image'),
+(27, 4, 'Collab\' avec la Brasserie/collabeBrasserie9.jpg', '2025-02-12 16:58:41', 'image'),
+(28, 5, 'Fashion Champ 2024/fashionChamp2.jpg', '2025-02-12 16:58:41', 'image'),
+(29, 5, 'Fashion Champ 2024/fashionChamp7.jpg', '2025-02-12 16:58:41', 'image'),
+(30, 4, 'Collab avec la Brasserie/collabeBrasserie10.mp4', '2025-02-17 01:02:57', 'video'),
+(31, 5, 'Fashion Champ 2024/fashionChamp1.mp4', '2025-02-17 01:02:57', 'video'),
+(32, 5, 'Fashion Champ 2024/fashionChamp3.mp4', '2025-02-17 01:02:57', 'video'),
+(33, 5, 'Fashion Champ 2024/fashionChamp4.mp4', '2025-02-17 01:02:57', 'video'),
+(34, 5, 'Fashion Champ 2024/fashionChamp5.mp4', '2025-02-17 01:02:57', 'video'),
+(35, 5, 'Fashion Champ 2024/fashionChamp6.mp4', '2025-02-17 01:02:57', 'video'),
+(36, 2, 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette1.mp4', '2025-02-17 01:02:57', 'video'),
+(37, 2, 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette2.mp4', '2025-02-17 01:02:57', 'video'),
+(38, 2, 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette3.mp4', '2025-02-17 01:02:57', 'video'),
+(39, 2, 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette4.mp4', '2025-02-17 01:02:57', 'video'),
+(40, 2, 'Soirée CHIC&CHILL à la Guinguette/soireeCCGuinguette6.mp4', '2025-02-17 01:02:57', 'video'),
+(41, 3, 'Shooting photos/shootingPhotos21.mp4', '2025-02-24 13:49:22', 'video'),
+(42, 3, 'Shooting photos/shootingPhotos19.jpg', '2025-02-24 13:49:22', 'image'),
+(43, 3, 'Shooting photos/shootingPhotos20.jpg', '2025-02-24 13:49:22', 'image'),
+(44, 3, 'Shooting photos/shootingPhotos1.jpg', '2025-02-24 13:49:22', 'image');
 
 -- --------------------------------------------------------
 
@@ -226,7 +250,7 @@ CREATE TABLE IF NOT EXISTS `event_packs` (
   `included` text COLLATE utf8mb4_unicode_ci,
   `status` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inactive',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `event_packs`
@@ -239,8 +263,7 @@ INSERT INTO `event_packs` (`id`, `title`, `description`, `price`, `created_at`, 
 (4, 'Pack Standard Soirée', 'Entrée simple à la soirée Chic & Chill.', 60.00, '2025-02-10 17:59:13', '3', 'Entrée simple à la soirée Chic & Chill', 'active'),
 (5, 'Pack Shooting Pro', 'Shooting avec photographe pro + 5 photos retouchées.', 200.00, '2025-02-10 17:59:13', '2', 'Shooting avec photographe pro + 5 photos retouchées', 'active'),
 (6, 'Pack Shooting Basic', 'Shooting simple avec 2 photos incluses.', 100.00, '2025-02-10 17:59:13', '1', 'Shooting simple avec 2 photos incluses', 'active'),
-(7, 'Dîner à la Brasserie', 'Menu gastronomique spécial en collaboration avec la Brasserie.', 90.00, '2025-02-10 17:59:13', '3', 'Menu gastronomique spécial en collaboration avec la Brasserie', 'active'),
-(18, 'test', 'test', 12.00, '2025-02-19 20:51:45', '1', 'test', 'active');
+(7, 'Dîner à la Brasserie', 'Menu gastronomique spécial en collaboration avec la Brasserie.', 90.00, '2025-02-10 17:59:13', '3', 'Menu gastronomique spécial en collaboration avec la Brasserie', 'active');
 
 -- --------------------------------------------------------
 
@@ -262,19 +285,27 @@ CREATE TABLE IF NOT EXISTS `event_reservations` (
   `participants` int DEFAULT '1',
   `services` text COLLATE utf8mb4_unicode_ci,
   `comments` text COLLATE utf8mb4_unicode_ci,
-  `event_id` int NOT NULL,
-  `status` enum('pending','confirmed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `event_id` int DEFAULT NULL,
+  `status` enum('pending','confirmed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `event_id` (`event_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `event_reservations`
 --
 
 INSERT INTO `event_reservations` (`id`, `customer_type`, `company_name`, `siret`, `address`, `customer_name`, `email`, `phone`, `event_type`, `participants`, `services`, `comments`, `event_id`, `status`, `created_at`) VALUES
-(2, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', '', 10, 'Restauration, Animation', '', 5, 'confirmed', '2025-02-14 19:03:25');
+(2, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Anniversaire', 10, 'Restauration, Animation', '', 5, 'cancelled', '2025-02-14 19:03:25'),
+(3, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Mariage', 150, 'Restauration, Animation, Décoration, Photographe', '', NULL, 'confirmed', '2025-03-21 14:47:20'),
+(4, 'entreprise', 'Entreprise fictive', '123456001', '23 Rue fictive', 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Conférence', 20, '', '', NULL, 'pending', '2025-03-21 14:58:56'),
+(5, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Conférence', 10, '', '', NULL, 'pending', '2025-03-21 17:27:38'),
+(6, 'particulier', NULL, NULL, NULL, 'Bethermat Mélanie', 'melaniebethermat@gmail.com', '0669991945', 'Mariage', 30, '', '', NULL, 'pending', '2025-03-21 17:29:11'),
+(7, 'particulier', NULL, NULL, NULL, 'test', 'test@chicandchill.com', '0213598672', 'Mariage', 20, '', '', NULL, 'pending', '2025-03-21 17:34:56'),
+(8, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Mariage', 90, '', '', NULL, 'pending', '2025-03-21 17:35:40'),
+(9, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Soirée d&#039;entreprise', 30, '', '', NULL, 'cancelled', '2025-03-21 18:20:47'),
+(10, 'entreprise', 'entreprise test', '12345600145590', '10 rue inventé', 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 'Soirée d&#039;entreprise', 30, 'Restauration, Animation, Décoration, Photographe', '', NULL, 'pending', '2025-03-27 18:19:28');
 
 -- --------------------------------------------------------
 
@@ -297,7 +328,9 @@ CREATE TABLE IF NOT EXISTS `newsletter_subscribers` (
 
 INSERT INTO `newsletter_subscribers` (`id`, `email`, `created_at`) VALUES
 (1, 'mailtest@example.com', '2025-02-13 23:19:28'),
-(2, 'meltest@example.com', '2025-02-14 14:48:50');
+(2, 'meltest@example.com', '2025-02-14 14:48:50'),
+(4, 'nouveau_test@example.com', '2025-03-21 18:35:42'),
+(9, 'test3@example.com', '2025-03-21 19:04:13');
 
 -- --------------------------------------------------------
 
@@ -312,7 +345,23 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `status` enum('unread','read') COLLATE utf8mb4_unicode_ci DEFAULT 'unread',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `notifications`
+--
+
+INSERT INTO `notifications` (`id`, `message`, `status`, `created_at`) VALUES
+(1, 'Exemple de notification', 'read', '2025-03-28 22:31:46'),
+(2, 'Nouveau message de Mélanie Bethermat via evenements', 'unread', '2025-03-21 18:20:14'),
+(3, 'Nouvelle réservation d\'événement par Mélanie Bethermat (Soirée d&#039;entreprise)', 'unread', '2025-03-21 18:20:47'),
+(4, 'Nouvelle réservation de pack par Mélanie Bethermat (ID: 5)', 'unread', '2025-03-21 18:21:10'),
+(5, 'Nouvel abonné à la newsletter : test3@example.com', 'unread', '2025-03-21 19:04:13'),
+(6, 'Réponse envoyée à Mélanie Bethermat', 'unread', '2025-03-23 17:05:17'),
+(7, 'Réponse envoyée à Mélanie Bethermat', 'read', '2025-03-23 17:10:57'),
+(8, 'Réponse envoyée à Mélanie Bethermat', 'read', '2025-03-23 17:19:14'),
+(9, 'Nouveau message de test mel via evenements', 'unread', '2025-03-26 13:39:20'),
+(10, 'Nouvelle réservation d\'événement par Mélanie Bethermat (Soirée d&#039;entreprise)', 'unread', '2025-03-27 18:19:28');
 
 -- --------------------------------------------------------
 
@@ -355,9 +404,9 @@ CREATE TABLE IF NOT EXISTS `outfits_suggestions` (
 --
 
 INSERT INTO `outfits_suggestions` (`id`, `product_id`, `outfit_name`, `accessories`, `created_at`, `status`) VALUES
-(1, 5, 'Robe pull élégante', 'Écharpe en laine, bottines, ceinture', '2025-02-19 23:55:18', 'active'),
-(2, 6, 'Robe pull chic', 'Ceinture en cuir, collier en argent', '2025-02-17 00:50:34', 'active'),
-(3, 7, 'Robe noire tendance', 'Bracelet en perles, sac à main', '2025-02-17 00:50:34', 'active'),
+(1, 14, 'Robe pull élégante', 'Écharpe en laine, bottines, ceinture', '2025-03-19 14:18:02', 'active'),
+(2, 15, 'Robe pull chic', 'Ceinture en cuir, collier en argent', '2025-03-19 14:18:29', 'active'),
+(3, 12, 'Robe noire tendance', 'Bracelet en perles, sac à main', '2025-03-19 14:18:53', 'active'),
 (4, 8, 'Robe plissée', 'Boucles d’oreilles dorées, pochette', '2025-02-17 00:50:34', 'active'),
 (5, 9, 'Robe marron', 'Chaussures assorties, chapeau', '2025-02-17 00:50:34', 'active'),
 (6, 10, 'Robe mi-longue', 'Collier en or, escarpins noirs', '2025-02-17 00:50:34', 'active'),
@@ -383,18 +432,22 @@ CREATE TABLE IF NOT EXISTS `pack_reservations` (
   `pack_id` int NOT NULL,
   `services` text COLLATE utf8mb4_unicode_ci,
   `comments` text COLLATE utf8mb4_unicode_ci,
-  `status` enum('pending','confirmed','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
+  `status` enum('pending','confirmed','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `pack_id` (`pack_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `pack_reservations`
 --
 
 INSERT INTO `pack_reservations` (`id`, `customer_type`, `company_name`, `siret`, `address`, `customer_name`, `email`, `phone`, `pack_id`, `services`, `comments`, `status`, `created_at`) VALUES
-(1, 'particulier', NULL, NULL, NULL, 'mel', 'mailtest@example.com', '0650147562', 1, 'Animation', '', 'pending', '2025-02-13 22:44:28');
+(1, 'particulier', NULL, NULL, NULL, 'mel', 'melaniebethermat@gmail.com', '0650147562', 4, 'Animation', '', 'confirmed', '2025-03-20 22:44:28'),
+(2, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 6, '', '', 'pending', '2025-03-10 13:42:00'),
+(3, 'entreprise', 'entreprise test', '12345600145590', '10 Rue test 08000 Charleville_Mézières ', 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 1, 'Photographe', '', 'confirmed', '2025-03-21 14:57:42'),
+(4, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 3, '', '', 'confirmed', '2025-03-21 18:13:31'),
+(5, 'particulier', NULL, NULL, NULL, 'Mélanie Bethermat', 'melaniebethermat@gmail.com', '0669991945', 5, 'Animation, Décoration', '', 'confirmed', '2025-03-21 18:21:10');
 
 -- --------------------------------------------------------
 
@@ -446,7 +499,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `price` decimal(10,2) NOT NULL,
   `discount_price` decimal(10,2) DEFAULT NULL,
   `stock` int NOT NULL DEFAULT '10',
-  `category` enum('vente','location') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` enum('vente','location') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `brand` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_categories` int DEFAULT NULL,
   `id_ss_categories` int DEFAULT NULL,
@@ -457,6 +510,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'placeholder.jpg',
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `is_rentable` enum('oui','non','','') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'non',
   PRIMARY KEY (`id`),
   KEY `fk_products_categories` (`id_categories`),
   KEY `fk_products_ss_categories` (`id_ss_categories`)
@@ -466,33 +520,33 @@ CREATE TABLE IF NOT EXISTS `products` (
 -- Déchargement des données de la table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `description`, `price`, `discount_price`, `stock`, `category`, `brand`, `id_categories`, `id_ss_categories`, `gender`, `gender_child`, `code_ena`, `size`, `image`, `created_at`, `updated_at`) VALUES
-(5, 'Robe pull', 'Robe blanche à pompoms, col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 67, 'femmes', '', '0436902747100', 'TU', 'uploads/produits/robe_blanche_pompom.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(6, 'Robe pull', 'Robe grise à pompoms, col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 67, 'femmes', '', '0436902747097', 'TU', 'uploads/produits/robe_pompom_grise.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(7, 'Robe pull', 'Robe noire à pompoms, col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 67, 'femmes', '', '0436902747109', 'TU', 'uploads/produits/robe_pompom_noire.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(8, 'Robe', 'Robe noir sans manches, cintrée et effet plissé sur le côté, dos légèrement échancré, zip dans le dos', 15.00, NULL, 1, '', '', 4, 66, 'femmes', '', '0436902747091', 'T 36/38', 'uploads/produits/robe_plissee_noire.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(9, 'Robe', 'Robe sans manches, col rond, couleur marron, imprimé cœur, doublé', 15.00, NULL, 1, '', 'AX PARIS12', 4, 66, 'femmes', '', '0436902747094', 'T 36/38', 'uploads/produits/robe_coeur_marron.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(10, 'Robe', 'Robe mi-longue, col en V, manche longue, doublure, fermeture sur le côté', 15.00, NULL, 1, '', 'MANGO', 4, 66, 'femmes', '', '0436902747106', 'T M', 'uploads/robe_mi_longue_noire.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(11, 'Robe', 'Robe d\'été, fleurale, centré à la taille, encolure en V', 15.00, NULL, 10, '', 'SHEIN', 4, 66, 'femmes', '', '0436902747103', 'T38', 'uploads/robe_ete_fleurie.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(12, 'Robe', 'Robe en velours, échancré, manche longue', 15.00, NULL, 1, '', 'SBETRO', 4, 66, 'femmes', '', '0436902747067', 'T S', 'uploads/robe_velours.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(13, 'Robe', 'robe imprimé zébré marron noir, doublure noir', 15.00, NULL, 1, '', 'TALLY WEIJL', 4, 66, 'femmes', '', '0436902747070', 'T M', 'uploads/robe_zebre.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(14, 'Robe', 'robe sur-col rayé, droite, manche courte', 15.00, NULL, 1, '', 'CKH CLOCK HOUSE', 4, 66, 'femmes', '', '0436902747088', 'T L', 'uploads/robe_ecoliere.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(15, 'Robe pull', 'Robe pull, couleur cappucino à pompoms,col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 66, 'femmes', '', '0436902747076', 'TU', 'uploads/cappuccino_pompoms.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(16, 'Robe', 'Robe sans manche, col rond, à froufrou, fermeture sur le côté', 15.00, NULL, 10, '', 'CAROLL', 4, 13, 'femmes', '', '0436902747064', 'T 38', 'uploads/robe_froufrou.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(17, 'Robe', 'Robe noir, bustier, dentelle, avec ou sans bretelle, doublée, centrée a la taille, bas evasée', 15.00, NULL, 1, '', 'H&M', 4, 66, 'femmes', '', '0436902747073', 'T 38', 'uploads/corset_dentelle.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(18, 'Gilet', 'Gilet long, manche longue, col drapé, poche', 10.00, NULL, 10, '', 'MISS CHARM PARIS', 6, 15, 'femmes', '', '0436902747419', 'TU', 'uploads/gilet_long_creme.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(19, 'Haut', 'Sans manche, court, noir, texturé, petite fermeture à l\'arrière', 5.00, NULL, 10, '', 'CACHE CACHE', 2, 11, 'femmes', '', '0436902747307', 'T 38', 'uploads/haut_noir.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(20, 'Gilet', 'Gilet manche longue, court, grosse maille, 3 boutons, col V échancré', 8.00, NULL, 10, '', '', 6, 15, 'femmes', '', '0436902747340', 'T M', 'uploads/gilet_court_bleu.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(21, 'Pull', 'Pull long, manche longue, col rond, grosse maille', 10.00, NULL, 10, '', 'VERO MODA', 6, 15, 'femmes', '', '0436902747376', 'T XS', 'uploads/pull_long.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(22, 'Chemisier', 'Bleu marine, col et manchette blanc, poche', 10.00, NULL, 10, '', 'ZARA BASIQUE', 2, 11, 'femmes', '', '0436902747370', 'T S', 'uploads/chemisier_bleu.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(23, 'Chemisier', 'Chemise pêche, long à l\'arrière, effet oversize', 15.00, NULL, 10, '', 'AKOZ', 2, 11, 'femmes', '', '0436902747403', 'T S', 'uploads/chemisier_peche.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(24, 'Chemisier', 'Chemise blanche, long à l\'arrière, effet oversize', 15.00, NULL, 10, '', 'AKOZ', 2, 11, 'femmes', '', '0436902747400', 'T XL', 'uploads/chemisier_blanc.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(25, 'Veste', 'Blazer, 2 boutons, fausses poches, mi-court, manche longue', 8.00, NULL, 10, '', 'FRENCH CONNEXION', 1, 10, 'femmes', '', '0436902747407', 'T 36', 'uploads/blazer_noir.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(26, 'Veste', 'Noir rayé à bouton, courte, manche longue, petite ceinture à l\'arrière', 8.00, NULL, 10, '', 'KIABI WOMAN', 1, 10, 'femmes', '', '0436902747410', 'T 38', 'uploads/veste_rayee.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(27, 'Jupe en simili cuir', 'Simili cuir, courte, évasée', 10.00, NULL, 10, '', 'SOFTY', 4, 12, 'femmes', '', '0436902747458', 'T S', 'uploads/jupe_simili.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(28, 'Jean', 'Effet coupé', 10.00, NULL, 10, '', '', 3, 13, 'femmes', '', '0436902747013', 'T 36', 'uploads/jean_bleu.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(29, 'Manteau', 'Hiver mi-long, manche longue, capuche, élastique à l\'intérieur', 40.00, NULL, 10, '', 'ONLY', 1, 14, 'femmes', '', '0436902747449', 'T XS', 'uploads/manteau_hiver.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34'),
-(30, 'Manteau', 'Hiver long, manche longue, doux, ceinture', 40.00, NULL, 10, '', 'CC FASHION PARIS', 1, 14, 'femmes', '', '0436902747452', 'T XL', 'uploads/manteau_long.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34');
+INSERT INTO `products` (`id`, `name`, `description`, `price`, `discount_price`, `stock`, `category`, `brand`, `id_categories`, `id_ss_categories`, `gender`, `gender_child`, `code_ena`, `size`, `image`, `created_at`, `updated_at`, `is_rentable`) VALUES
+(5, 'Robe pull', 'Robe blanche à pompoms, col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 67, 'femmes', '', '0436902747100', 'TU', 'uploads/produits/robe_blanche_pompom.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(6, 'Robe pull', 'Robe grise à pompoms, col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 67, 'femmes', '', '0436902747097', 'TU', 'uploads/produits/robe_pompom_grise.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(7, 'Robe pull', 'Robe noire à pompoms, col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 67, 'femmes', '', '0436902747109', 'TU', 'uploads/produits/robe_pompom_noire.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(8, 'Robe', 'Robe noir sans manches, cintrée et effet plissé sur le côté, dos légèrement échancré, zip dans le dos', 15.00, NULL, 1, '', '', 4, 66, 'femmes', '', '0436902747091', 'T 36/38', 'uploads/produits/robe_plissee_noire.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(9, 'Robe', 'Robe sans manches, col rond, couleur marron, imprimé cœur, doublé', 15.00, NULL, 1, '', 'AX PARIS12', 4, 66, 'femmes', '', '0436902747094', 'T 36/38', 'uploads/produits/robe_coeur_marron.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(10, 'Robe', 'Robe mi-longue, col en V, manche longue, doublure, fermeture sur le côté', 15.00, NULL, 1, '', 'MANGO', 4, 66, 'femmes', '', '0436902747106', 'T M', 'uploads/robe_mi_longue_noire.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(11, 'Robe', 'Robe d\'été, fleurale, centré à la taille, encolure en V', 15.00, NULL, 10, '', 'SHEIN', 4, 66, 'femmes', '', '0436902747103', 'T38', 'uploads/robe_ete_fleurie.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(12, 'Robe', 'Robe en velours, échancré, manche longue', 15.00, NULL, 1, '', 'SBETRO', 4, 66, 'femmes', '', '0436902747067', 'T S', 'uploads/robe_velours.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(13, 'Robe', 'robe imprimé zébré marron noir, doublure noir', 15.00, NULL, 1, '', 'TALLY WEIJL', 4, 66, 'femmes', '', '0436902747070', 'T M', 'uploads/robe_zebre.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(14, 'Robe', 'robe sur-col rayé, droite, manche courte', 15.00, NULL, 1, '', 'CKH CLOCK HOUSE', 4, 66, 'femmes', '', '0436902747088', 'T L', 'uploads/robe_ecoliere.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(15, 'Robe pull', 'Robe pull, couleur cappucino à pompoms,col roulé, motif triangle', 15.00, NULL, 1, '', 'EMI MAJÖLY PARIS', 4, 66, 'femmes', '', '0436902747076', 'TU', 'uploads/cappuccino_pompoms.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(16, 'Robe', 'Robe sans manche, col rond, à froufrou, fermeture sur le côté', 15.00, NULL, 10, '', 'CAROLL', 4, 13, 'femmes', '', '0436902747064', 'T 38', 'uploads/robe_froufrou.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(17, 'Robe', 'Robe noir, bustier, dentelle, avec ou sans bretelle, doublée, centrée a la taille, bas evasée', 15.00, NULL, 1, '', 'H&M', 4, 66, 'femmes', '', '0436902747073', 'T 38', 'uploads/corset_dentelle.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(18, 'Gilet', 'Gilet long, manche longue, col drapé, poche', 10.00, NULL, 10, '', 'MISS CHARM PARIS', 6, 15, 'femmes', '', '0436902747419', 'TU', 'uploads/gilet_long_creme.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(19, 'Haut', 'Sans manche, court, noir, texturé, petite fermeture à l\'arrière', 5.00, NULL, 10, '', 'CACHE CACHE', 2, 11, 'femmes', '', '0436902747307', 'T 38', 'uploads/haut_noir.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(20, 'Gilet', 'Gilet manche longue, court, grosse maille, 3 boutons, col V échancré', 8.00, NULL, 10, '', '', 6, 15, 'femmes', '', '0436902747340', 'T M', 'uploads/gilet_court_bleu.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(21, 'Pull', 'Pull long, manche longue, col rond, grosse maille', 10.00, NULL, 10, '', 'VERO MODA', 6, 15, 'femmes', '', '0436902747376', 'T XS', 'uploads/pull_long.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(22, 'Chemisier', 'Bleu marine, col et manchette blanc, poche', 10.00, NULL, 10, '', 'ZARA BASIQUE', 2, 11, 'femmes', '', '0436902747370', 'T S', 'uploads/chemisier_bleu.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(23, 'Chemisier', 'Chemise pêche, long à l\'arrière, effet oversize', 15.00, NULL, 10, '', 'AKOZ', 2, 11, 'femmes', '', '0436902747403', 'T S', 'uploads/chemisier_peche.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(24, 'Chemisier', 'Chemise blanche, long à l\'arrière, effet oversize', 15.00, NULL, 10, '', 'AKOZ', 2, 11, 'femmes', '', '0436902747400', 'T XL', 'uploads/chemisier_blanc.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(25, 'Veste', 'Blazer, 2 boutons, fausses poches, mi-court, manche longue', 8.00, NULL, 10, '', 'FRENCH CONNEXION', 1, 10, 'femmes', '', '0436902747407', 'T 36', 'uploads/blazer_noir.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(26, 'Veste', 'Noir rayé à bouton, courte, manche longue, petite ceinture à l\'arrière', 8.00, NULL, 10, '', 'KIABI WOMAN', 1, 10, 'femmes', '', '0436902747410', 'T 38', 'uploads/veste_rayee.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(27, 'Jupe en simili cuir', 'Simili cuir, courte, évasée', 10.00, NULL, 10, '', 'SOFTY', 4, 12, 'femmes', '', '0436902747458', 'T S', 'uploads/jupe_simili.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(28, 'Jean', 'Effet coupé', 10.00, NULL, 10, '', '', 3, 13, 'femmes', '', '0436902747013', 'T 36', 'uploads/jean_bleu.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(29, 'Manteau', 'Hiver mi-long, manche longue, capuche, élastique à l\'intérieur', 40.00, NULL, 10, '', 'ONLY', 1, 14, 'femmes', '', '0436902747449', 'T XS', 'uploads/manteau_hiver.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non'),
+(30, 'Manteau', 'Hiver long, manche longue, doux, ceinture', 40.00, NULL, 10, '', 'CC FASHION PARIS', 1, 14, 'femmes', '', '0436902747452', 'T XL', 'uploads/manteau_long.jpg', '2025-02-17 00:50:34', '2025-02-17 00:50:34', 'non');
 
 -- --------------------------------------------------------
 
@@ -654,7 +708,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `identifiant`, `name`, `surname`, `adresse`, `number_phone`, `email`, `password`, `role`, `created_at`, `status`, `email_verified`) VALUES
-(1, 'Admin', 'Admin', '', '', '', 'admin@chicandchill.com', '$2y$10$M7VkN0Kwi6lMEJh/pnBBwe0XNmoSkOljfnWpAWoaaYoKKggnXqCIK', 'admin', '2025-02-10 17:59:52', 'active', 0),
+(1, 'Admin', 'Admin', '', '', '', 'admin@chicandchill.com', '$2y$10$iZxj5UKGoHIZYrnAtx9tAO.PE88D.OMMSZlQDybmRn9WHpYaXKA/C', 'admin', '2025-02-10 17:59:52', 'active', 0),
 (2, 'Lucas Bernard', 'Bernard', 'Lucas', '', '', 'lucas.bernard@example.com', 'mdpClient1', 'client', '2025-02-10 17:59:52', 'active', 0),
 (3, 'Emma Rousseau', 'Rousseau', 'Emma', '', '', 'emma.rousseau@example.com', 'mdpClient2', 'client', '2025-02-10 17:59:52', 'active', 0),
 (19, 'user test1', 'Test1', 'User', '', '', 'user.test1@example.com', 'user1234', 'client', '2025-02-19 15:23:10', 'active', 0),
@@ -676,7 +730,20 @@ CREATE TABLE IF NOT EXISTS `user_history` (
   `action_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Déchargement des données de la table `user_history`
+--
+
+INSERT INTO `user_history` (`id`, `user_id`, `username`, `action`, `ip_address`, `action_date`) VALUES
+(1, 1, 'Admin1', 'Mise à jour compte', '::1', '2025-03-19 21:40:30'),
+(2, 1, 'Admin', 'Mise à jour compte', '::1', '2025-03-19 21:40:48'),
+(3, 1, 'Utilisateur inconnu', 'Mise à jour apparence', '::1', '2025-03-19 23:12:01'),
+(4, 1, 'Utilisateur inconnu', 'Mise à jour apparence', '::1', '2025-03-19 23:13:31'),
+(5, 1, 'Utilisateur inconnu', 'Mise à jour notifications', '::1', '2025-03-19 23:14:41'),
+(6, 1, 'Utilisateur inconnu', 'Mise à jour mot de passe', '::1', '2025-03-21 11:50:27'),
+(7, 1, 'Utilisateur inconnu', 'Mise à jour mot de passe', '::1', '2025-03-21 11:50:52');
 
 --
 -- Contraintes pour les tables déchargées

@@ -12,21 +12,28 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         z-index: 9999;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
+
     .active-tab {
         background-color: #e2e8f0;
     }
+
     .details-row {
         background-color: #f9fafb;
     }
+
     .details-content {
         padding: 1.5rem;
         border-top: 1px solid #e5e7eb;
     }
+
     .details-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr; /* Trois colonnes de largeur égale */
-        gap: 2rem; /* Espacement entre les colonnes */
+        grid-template-columns: 1fr 1fr 1fr;
+        /* Trois colonnes de largeur égale */
+        gap: 2rem;
+        /* Espacement entre les colonnes */
     }
+
     .details-section {
         padding: 1rem;
         border: 1px solid #e5e7eb;
@@ -34,6 +41,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         background-color: #ffffff;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
+
     .details-section h4 {
         font-size: 1.25rem;
         font-weight: 600;
@@ -43,26 +51,32 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         align-items: center;
         gap: 0.5rem;
     }
+
     .details-section h4 svg {
         width: 1.25rem;
         height: 1.25rem;
         color: #4b5563;
     }
+
     .details-section .fields-grid {
         display: grid;
-        grid-template-columns: 150px 1fr; /* Colonne pour le label (fixe) et colonne pour la valeur (flexible) */
+        grid-template-columns: 150px 1fr;
+        /* Colonne pour le label (fixe) et colonne pour la valeur (flexible) */
         gap: 0.5rem;
         align-items: start;
     }
+
     .details-section .field-label {
         color: #374151;
         font-weight: 600;
         text-align: left;
     }
+
     .details-section .field-value {
         color: #4b5563;
         text-align: left;
-        word-break: break-word; /* Pour éviter que les longues valeurs (comme l'adresse) débordent */
+        word-break: break-word;
+        /* Pour éviter que les longues valeurs (comme l'adresse) débordent */
     }
 </style>
 
@@ -76,7 +90,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         <div class="flex justify-between mb-4">
             <input id="search" type="text" placeholder="Rechercher une réservation..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
             <div class="flex space-x-4">
-                <button id="exportBtn" class="border px-4 py-2 rounded-md hover:bg-gray-100">Exporter</button>
+                <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
                 <select id="filterStatus" class="border px-4 py-2 rounded-md">
                     <option value="all">Tous les statuts</option>
                     <option value="pending">pending</option>
@@ -183,6 +197,27 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             notification.classList.add(bgColor);
             setTimeout(() => notification.classList.add('hidden'), 3000);
         }
+        // Exportation
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            let csv = "Nom,Email,Téléphone,Type,ID,Statut\n";
+            document.querySelectorAll("#reservationTable tr.reservation-row").forEach(row => {
+                let cells = row.querySelectorAll("td");
+                if (cells.length > 0) {
+                    csv += `${cells[0].textContent},${cells[1].textContent},${cells[2].textContent},${cells[3].querySelector('span').textContent},${cells[4].textContent},${cells[5].querySelector('button').textContent}\n`;
+                }
+            });
+
+            let blob = new Blob([csv], {
+                type: 'text/csv'
+            });
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = "reservations_export.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showNotification('Exportation réussie !', 'bg-green-500');
+        });
 
         // Gestion de la suppression
         document.querySelectorAll('.deleteReservationBtn').forEach(button => {
@@ -199,7 +234,9 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
         document.getElementById('confirmDelete').addEventListener('click', function() {
             if (!deleteResId) return;
-            fetch(`admin/reservations/supprimer/${deleteResId}`, { method: 'DELETE' })
+            fetch(`admin/reservations/supprimer/${deleteResId}`, {
+                    method: 'DELETE'
+                })
                 .then(response => {
                     if (response.ok) {
                         const row = document.querySelector(`[data-id="${deleteResId}"]`);
@@ -309,6 +346,31 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 }
             });
         });
+
+        // Tri des lignes par statut
+        const tbody = document.getElementById('reservationTable');
+        const rows = Array.from(tbody.querySelectorAll('tr.reservation-row'));
+        const statusOrder = {
+            'pending': 0,
+            'confirmed': 1,
+            'cancelled': 2
+        };
+
+        rows.sort((a, b) => {
+            const statusA = a.dataset.status;
+            const statusB = b.dataset.status;
+            return statusOrder[statusA] - statusOrder[statusB];
+        });
+
+        // Réinsérer les lignes triées
+        rows.forEach(row => {
+            tbody.appendChild(row);
+            const detailsRow = document.getElementById(`details-${row.dataset.id}`);
+            if (detailsRow) tbody.appendChild(detailsRow);
+        });
+
+        // Appeler la pagination après le tri
+        paginateTable();
 
         // Pagination
         function paginateTable(rowsPerPage = 10) {

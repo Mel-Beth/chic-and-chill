@@ -32,6 +32,23 @@ class AppelArticleModelShop extends ModeleParent
         }
     }
 
+
+
+
+    public function getCategoryNameById($id_categories)
+{
+    $stmt = $this->pdo->prepare("SELECT name_categories FROM categories WHERE id_categories = ?");
+    $stmt->execute([$id_categories]);
+    $result = $stmt->fetch();
+    return $result ? $result['name_categories'] : null;
+}
+
+
+
+
+
+
+
     public function getProductsFiltered($gender, $brand, $id_categories = null)
     //attention, l'ordre des parametre doit etre le meme qd on appel la function ailleurs, sinon ça fonctionne pas
 {

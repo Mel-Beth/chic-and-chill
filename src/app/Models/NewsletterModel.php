@@ -28,6 +28,19 @@ class NewsletterModel extends ModeleParent
         }
     }
 
+    public function deleteSubscriberByEmail($email)
+    {
+        try {
+            $stmt = $this->pdo->prepare("DELETE FROM newsletter_subscribers WHERE email = ?");
+            $result = $stmt->execute([$email]);
+            error_log("Suppression abonné par email : " . ($result ? "Succès" : "Échec") . " - Email : $email");
+            return $result;
+        } catch (\PDOException $e) {
+            error_log("Erreur suppression abonné par email : " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function addNewsletterSubscription($email)
     {
         try {

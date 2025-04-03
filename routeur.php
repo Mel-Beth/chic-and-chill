@@ -25,8 +25,8 @@ if (empty($route[0])) {
             $controller->index();
             break;
 
-        case "evenements": // Si l'utilisateur accède à "/evenements"
-            $controller = new Controllers\EventsController();
+        case 'evenements': // Si l'utilisateur accède à "/evenements"
+            $controller = new Controllers\Events\EventsController();
             if (!empty($route[1]) && is_numeric($route[1])) {
                 $controller->showEvent($route[1]);
             } else {
@@ -34,18 +34,38 @@ if (empty($route[0])) {
             }
             break;
 
+        // Page d'accueil Location & Showroom
+        case 'accueil_loc_show':
+            include 'src/app/Views/Public/accueil_loc_show.php';
+            break;
+
         case 'showroom': // Pour les réservations de showroom (ex. /showroom)
             $controller = new Controllers\ShowroomController();
             $controller->index(); // Ou une méthode spécifique comme showroomReservation()
             break;
 
-        case 'location': // Pour les locations de produits (ex. /rental, remplace 'location' par 'rental')
-            $controller = new Controllers\RentalController();
-            $controller->index(); // Ou une méthode spécifique comme productRental()
+        // Route Location
+        case 'location':
+            $controller = new Controllers\LocationController();
+            $controller->index();
+            break;
+
+        // Route pour afficher le panier
+        case 'panier_loc':
+            $controller = new Controllers\LocationController();
+            $controller->panier();
+
+            break;
+
+        // Route pour gérer la réservation (enregistrement en base)
+        case 'reserve':
+            $controller = new Controllers\LocationController();
+            $routeur->addRoute('/reserve', 'LocationController@reserve');
+            $controller->reserve();
             break;
 
         case 'evenement_detail':
-            $controller = new Controllers\EventsController();
+            $controller = new Controllers\Events\EventsController();
             if (!empty($_GET['id']) && is_numeric($_GET['id'])) {
                 $controller->showEvent($_GET['id']);
             } else {
@@ -56,7 +76,7 @@ if (empty($route[0])) {
             break;
 
         case 'pack_detail':
-            $controller = new Controllers\PacksController();
+            $controller = new Controllers\Events\PacksController();
             if (!empty($route[1]) && is_numeric($route[1])) {
                 $controller->showPack($route[1]); // On passe l'ID du pack
             } else {
@@ -67,12 +87,12 @@ if (empty($route[0])) {
             break;
 
         case 'reservation_evenement':
-            $controller = new Controllers\ReservationController();
+            $controller = new Controllers\Events\ReservationController();
             $controller->reservationEvenement();
             break;
 
         case 'reservation_pack':
-            $controller = new Controllers\ReservationController();
+            $controller = new Controllers\Events\ReservationController();
             if (!empty($_GET['pack_id']) && is_numeric($_GET['pack_id'])) {
                 $controller->reservationPack($_GET['pack_id']);
             } else {
@@ -83,12 +103,12 @@ if (empty($route[0])) {
             break;
 
         case 'reservation_process':
-            $controller = new Controllers\ReservationController();
+            $controller = new Controllers\Events\ReservationController();
             $controller->processReservation();
             break;
 
         case 'confirmation_reservation':
-            $controller = new Controllers\EventsController();
+            $controller = new Controllers\Events\EventsController();
             include('src/app/Views/Public/events/confirmation_reservation.php');
             if (!empty($route[1]) && is_numeric($route[1])) {
                 $controller->showEvent($route[1]);
@@ -110,7 +130,16 @@ if (empty($route[0])) {
 
         case 'newsletter':
             $controller = new Controllers\NewsletterController();
-            $controller->processNewsletter();
+            if (!isset($route[1])) {
+                $controller->processNewsletter();
+            } elseif ($route[1] === 'unsubscribe') {
+                $controller->unsubscribe();
+            } elseif ($route[1] === 'send-monthly' && $_SESSION['user_role'] === 'admin') { // Sécurisé pour admin seulement
+                $controller->sendMonthlyNewsletter();
+                echo "Newsletter mensuelle envoyée.";
+            } elseif ($route[1] === 'supprimer' && isset($route[2]) && ctype_digit($route[2])) {
+                $controller->deleteSubscriber((int)$route[2]);
+            }
             break;
 
         case 'localisation':
@@ -263,6 +292,18 @@ if (empty($route[0])) {
                     }
                     break;
 
+                // ✅ Routes Admin Location
+                case 'location':
+                    $controller = new Controllers\LocationAdminController();
+                    $controller->index();
+                    break;
+
+                // ✅ Routes Admin Showroom
+                case 'showroom':
+                    $controller = new Controllers\ShowroomAdminController();
+                    $controller->index();
+                    break;
+
                 // AJOUT ICI : Catégories AJAX
                 case 'getCategoriesByGender':
                     $controller = new Controllers\AdminCrudShop();
@@ -310,7 +351,7 @@ if (empty($route[0])) {
                     break;
 
                 case 'evenements':
-                    $controller = new Controllers\EventsController();
+                    $controller = new Controllers\Events\EventsController();
                     if (!isset($route[2])) {
                         $controller->manageEvents();
                     } elseif ($route[2] === 'ajouter') {
@@ -331,7 +372,7 @@ if (empty($route[0])) {
                     break;
 
                 case 'packs':
-                    $controller = new Controllers\PacksController();
+                    $controller = new Controllers\Events\PacksController();
                     if (!isset($route[2])) {
                         $controller->managePacks();
                     } elseif ($route[2] === 'ajouter') {
@@ -344,7 +385,7 @@ if (empty($route[0])) {
                     break;
 
                 case 'reservations':
-                    $controller = new Controllers\ReservationController();
+                    $controller = new Controllers\Events\ReservationController();
                     if (!isset($route[2])) {
                         $controller->reservations();
                     } elseif ($route[2] === 'detail' && isset($route[3]) && ctype_digit($route[3])) {
@@ -408,7 +449,7 @@ if (empty($route[0])) {
                     break;
 
                 case 'outfits':
-                    $controller = new Controllers\OutfitsController();
+                    $controller = new Controllers\Events\OutfitsController();
                     if (!isset($route[2])) {
                         $controller->manageOutfits();
                     } elseif ($route[2] === 'ajouter') {

@@ -1,10 +1,13 @@
 <?php
+
 namespace Controllers;
 
 use Models\AppelArticleModelShop;
 
-class ArticleControllerShop { 
+require_once 'src/app/Models/AppelArticleModelShop.php';
 
+class ArticleControllerShop
+{ 
     private $appelArticleModel;
 
     public function __construct()
@@ -12,21 +15,24 @@ class ArticleControllerShop {
         $this->appelArticleModel = new AppelArticleModelShop();
     }
 
-    // Vérifie que cette méthode est bien définie
-    public function showProducts() {
+    public function showProducts()
+    {
         $gender = $_GET['gender'] ?? null;
         $brand = $_GET['brand'] ?? null;
         $id_categories = isset($_GET['id_categories']) ? (int)$_GET['id_categories'] : null;
 
-        //Vérification des paramètres récupérés
-        var_dump($gender, $brand, $id_categories);
-
-        
-
-        //Récupérer les produits filtrés 
+        // Récupérer les produits filtrés 
         $products = $this->appelArticleModel->getProductsFiltered($gender, $brand, $id_categories);
 
-        include 'src/app/Views/Public/produits_shop.php'; // Charger la vue
+        // Si le nom de la catégorie est inclus dans les produits (via jointure)
+        $nomCategorie = isset($products[0]['category_name']) ? $products[0]['category_name'] : 'Inconnue';
+
+        // OU sinon, récupère le nom avec une méthode simple dans le modèle
+        if ($nomCategorie === 'Inconnue' && $id_categories !== null) {
+            $nomCategorie = $this->appelArticleModel->getCategoryNameById($id_categories) ?? 'Inconnue';
+        }
+
+        // Affiche la vue en lui laissant accès à $products, $nomCategorie, etc.
+        require 'src/app/Views/Public/produits_shop.php';
     }
 }
-?>

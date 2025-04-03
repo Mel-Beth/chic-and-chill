@@ -3,7 +3,7 @@
     <img src="assets/images/logo_magasin-chic.png" alt="logo-magasin-chic-and-chill">
     <span class="chic-and-chill">CHIC <span class="span_and_logo_barre_nav_shop">AND</span> CHILL</span>
   </div>
-  
+
   <nav>
     <a href="accueil_shop">ACCUEIL</a>
     <div class="dropdown_shop">
@@ -46,7 +46,7 @@
     </div>
     <a href="#">NOUVEAUTES</a>
     <a href="evenements">EVENEMENTS</a>
-    <a href="#">LOCATION</a>
+    <a href="accueil_loc_show">Location & Showroom</a>
   </nav>
 
   <div class="right-section">
@@ -59,8 +59,8 @@
       <a class="nav-link" href="connexion_shop">Connexion</a>
     <?php endif; ?>
     <div class="icons_shop_nav_bar">
-    <span class="search-icon"><i class="fas fa-search"></i></span>
-    <a href="panier_shop"><i class="fas fa-shopping-cart"></i></a>
+      <span class="search-icon"><i class="fas fa-search"></i></span>
+      <a href="panier_shop"><i class="fas fa-shopping-cart"></i></a>
     </div>
   </div>
 </header>

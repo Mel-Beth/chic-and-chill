@@ -79,6 +79,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<?php
+// recup le nom du produit depuis la bdd
+if (!empty($products)) {
+    $nomCategorie = $products[0]['category_name'] ?? 'Inconnue';
+} else {
+    $nomCategorie = 'Inconnue';
+}
+?>
+<script>
+  _paq.push(['trackEvent', 'Categorie', 'Vue', '<?= addslashes($nomCategorie) ?>', 1]);
+</script>
+
+
+
+
 <script src="src/app/js/loupe_recherche.js"></script>
 </body>
 

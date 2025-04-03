@@ -1,3 +1,15 @@
+<?php
+// Créer un formateur de date pour le français
+$formatter = new IntlDateFormatter(
+    'fr_FR',
+    IntlDateFormatter::LONG, // Format long pour le mois (ex. "mars")
+    IntlDateFormatter::NONE, // Pas d'heure
+    'Europe/Paris',
+    IntlDateFormatter::GREGORIAN,
+    'd MMMM yyyy' // Format : jour mois année (ex. "15 mars 2025")
+);
+?>
+
 <?php include('src/app/Views/includes/events/headEvents.php'); ?>
 <?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
@@ -14,19 +26,32 @@
         <!-- DESCRIPTION -->
         <div class="bg-black text-white p-6 rounded-lg shadow-lg mb-12 max-w-4xl mx-auto text-center">
             <h2 class="text-2xl font-bold mb-4">📖 Description de l'événement</h2>
-            <p class="text-lg leading-relaxed"><?= nl2br(htmlspecialchars($event['description'])); ?></p>
+            <?php
+            // Vérifier si l'événement est futur
+            $eventDate = strtotime($event['date_event']);
+            $currentDate = time();
+            $isFutureEvent = $eventDate > $currentDate;
+
+            if ($isFutureEvent) : ?>
+                <p class="text-lg leading-relaxed">
+                    Cet événement est à venir ! Restez à l'écoute pour plus de détails passionnants. 
+                    Réservez votre place dès maintenant en <a href="reservation_evenement" class="text-[#8B5A2B] underline hover:text-white">cliquant ici</a>.
+                </p>
+            <?php else : ?>
+                <p class="text-lg leading-relaxed"><?= nl2br(htmlspecialchars($event['description'])); ?></p>
+            <?php endif; ?>
         </div>
 
         <!-- INFORMATIONS -->
         <div class="bg-gray-100 p-6 rounded-lg shadow-lg max-w-xl mx-auto text-center">
             <h2 class="text-2xl font-semibold text-gray-800 mb-4">📅 Informations</h2>
             <ul class="list-none space-y-2">
-                <li><strong>Date :</strong> <?= date('d F Y', strtotime($event['date_event'])); ?></li>
+                <li><strong>Date :</strong> <?= $formatter->format(new DateTime($event['date_event'])); ?></li>
                 <li><strong>Lieu :</strong> <?= htmlspecialchars($event['location']); ?></li>
             </ul>
         </div>
 
-        <!-- GALERIE SWIPER (bien intégrée) -->
+        <!-- GALERIE SWIPER (inchangée pour tous les événements) -->
         <?php if (!empty($eventMedia)) : ?>
             <div class="max-w-5xl mx-auto mt-12 overflow-hidden">
                 <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">📸 Galerie de l'événement</h2>

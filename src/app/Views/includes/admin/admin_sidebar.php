@@ -1,5 +1,4 @@
-<aside class="sidebar fixed top-0 left-0 h-screen flex flex-col bg-gray-900 text-white w-64 shadow-lg z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
-    <!-- Bouton de fermeture (mobile uniquement) -->
+<aside class="sidebar fixed top-0 left-0 h-screen flex flex-col bg-gray-900 text-white w-64 shadow-lg z-20 transform -translate-x-full lg:translate-x-0 transition-transform duration-300"> <!-- Bouton de fermeture (mobile uniquement) -->
     <button id="closeSidebar" class="md:hidden absolute top-4 right-4 text-white focus:outline-none">
         <span class="material-icons">close</span>
     </button>
@@ -11,7 +10,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-grow px-3">
+    <nav class="flex-grow px-3 overflow-y-auto">
         <ul class="space-y-2">
             <li>
                 <a href="admin/dashboard" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded">
@@ -32,7 +31,6 @@
                     <li><a href="admin/reservations" class="block px-4 py-2 hover:bg-gray-700">Réservations</a></li>
                 </ul>
             </li>
-            <!-- onglet magasin ac les sous-onglets, partie pauline ( shop) -->
             <li>
                 <button id="toggleMagasin" class="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded focus:outline-none">
                     <span class="material-icons">storefront</span>
@@ -43,7 +41,6 @@
                     <li><a href="admin/crudShop" class="block px-4 py-2 hover:bg-gray-700">Articles</a></li>
                 </ul>
             </li>
-
             <li>
                 <a href="admin/messages" class="flex items-center space-x-3 px-4 py-3 hover:bg-gray-700 rounded relative">
                     <span class="material-icons">mail</span>
@@ -67,7 +64,7 @@
 </aside>
 
 <!-- Overlay (fond sombre) pour mobile -->
-<div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden md:hidden"></div>
+<div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-10 hidden lg:hidden"></div>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -76,18 +73,23 @@
             document.getElementById("evenementsMenu").classList.toggle("hidden");
         });
         document.getElementById("toggleMagasin").addEventListener("click", function() {
-                document.getElementById("magasinMenu").classList.toggle("hidden");
+            document.getElementById("magasinMenu").classList.toggle("hidden");
         });
 
         // Gestion de la sidebar et de l'overlay
         const sidebar = document.querySelector(".sidebar");
-        const menuToggle = document.getElementById("menuToggle"); // Bouton dans header.php
+        const menuToggle = document.getElementById("menuToggle");
         const closeSidebar = document.getElementById("closeSidebar");
         const sidebarOverlay = document.getElementById("sidebarOverlay");
 
         function toggleSidebar() {
             sidebar.classList.toggle("-translate-x-full");
             sidebarOverlay.classList.toggle("hidden");
+            // Forcer un recalcul de la mise en page pour la scrollbar
+            setTimeout(() => {
+                sidebar.style.overflowY = "auto";
+                window.dispatchEvent(new Event('resize'));
+            }, 300);
         }
 
         if (menuToggle && sidebar) {
@@ -99,6 +101,22 @@
         if (sidebarOverlay) {
             sidebarOverlay.addEventListener("click", toggleSidebar);
         }
+
+        // S'assurer que le menu burger est visible en dessous de 1024px
+        if (window.innerWidth < 1024) {
+            menuToggle.classList.remove("hidden");
+        } else {
+            menuToggle.classList.add("hidden");
+        }
+
+        // Mettre à jour la visibilité du menu burger lors du redimensionnement
+        window.addEventListener("resize", () => {
+            if (window.innerWidth < 1024) {
+                menuToggle.classList.remove("hidden");
+            } else {
+                menuToggle.classList.add("hidden");
+            }
+        });
 
         function updateUnreadMessages() {
             fetch("admin/messages/unread_count", {
@@ -134,4 +152,16 @@
 
 <style>
     @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+    /* S'assurer que la sidebar a une scrollbar si nécessaire */
+    .sidebar {
+        overflow-y: auto;
+        /* Activer la scrollbar verticale si le contenu dépasse */
+    }
+
+    /* S'assurer que le nav à l'intérieur peut défiler */
+    .sidebar nav {
+        overflow-y: auto;
+        /* Activer la scrollbar sur le nav */
+    }
 </style>

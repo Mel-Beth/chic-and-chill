@@ -199,6 +199,19 @@ class DashboardModel extends ModeleParent
         return $stmt->fetchColumn() ?: 0;
     }
 
+    public function checkNewsletterReminderExists()
+    {
+        $currentMonth = date('Y-m');
+        $stmt = $this->pdo->prepare("
+            SELECT COUNT(*) 
+            FROM notifications 
+            WHERE message LIKE '%Rappel : Envoyez la newsletter mensuelle%' 
+            AND DATE_FORMAT(created_at, '%Y-%m') = ?
+        ");
+        $stmt->execute([$currentMonth]);
+        return $stmt->fetchColumn() > 0;
+    }
+
     public function getReservationMonths($filter)
     {
         $stmt = $this->pdo->query("

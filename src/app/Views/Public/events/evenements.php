@@ -1,3 +1,15 @@
+<?php
+// Créer un formateur de date pour le français
+$formatter = new IntlDateFormatter(
+    'fr_FR',
+    IntlDateFormatter::LONG, // Format long pour le mois (ex. "mars")
+    IntlDateFormatter::NONE, // Pas d'heure
+    'Europe/Paris',
+    IntlDateFormatter::GREGORIAN,
+    'd MMMM yyyy' // Format : jour mois année (ex. "15 mars 2025")
+);
+?>
+
 <?php include('src/app/Views/includes/events/headEvents.php'); ?>
 <?php include('src/app/Views/includes/events/headerEvents.php'); ?>
 
@@ -6,7 +18,6 @@
     <div class="swiper-wrapper">
         <div class="swiper-slide">
             <div class="relative w-full h-screen">
-                <!-- Première image sans lazy pour LCP -->
                 <img src="assets/images/facadeMagasin.webp" class="w-full h-full object-cover" alt="Facade Magasin" width="1920" height="1080">
                 <div class="overlay-content">
                     <h1>Bienvenue chez Chic & Chill</h1>
@@ -38,7 +49,7 @@
     <div class="swiper-button-prev"></div>
 </div>
 
-<!-- GRILLE DES ÉVÉNEMENTS -->
+<!-- GRILLE DES ÉVÉNEMENTS PASSÉS -->
 <div class="container mx-auto px-4 py-12">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">
         <span class="material-symbols-rounded text-white text-5xl">event</span> Nos Événements
@@ -48,23 +59,27 @@
     </h3>
 
     <div class="grid_events">
-        <?php foreach ($events as $event) : ?>
-            <div class="group pack-card">
-                <!-- Image de l'événement -->
-                <?php if (!empty($event['image'])) : ?>
-                    <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
-                <?php else : ?>
-                    <img src="assets/images/placeholder.webp" alt="Image par défaut">
-                <?php endif; ?>
+        <?php if (!empty($pastEvents)) : ?>
+            <?php foreach ($pastEvents as $event) : ?>
+                <div class="group pack-card">
+                    <!-- Image de l'événement -->
+                    <?php if (!empty($event['image'])) : ?>
+                        <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
+                    <?php else : ?>
+                        <img src="assets/images/placeholder.webp" alt="Image par défaut">
+                    <?php endif; ?>
 
-                <!-- Effet au survol -->
-                <div class="overlay">
-                    <h4 class="text-2xl text-center text-white"><?= htmlspecialchars($event['title']) ?></h4>
-                    <p class="mb-4"><?= htmlspecialchars($event['description']) ?></p>
-                    <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn">En savoir plus</a>
+                    <!-- Effet au survol -->
+                    <div class="overlay">
+                        <h4 class="text-2xl text-center text-white"><?= htmlspecialchars($event['title']) ?></h4>
+                        <p class="mb-4"><?= htmlspecialchars($event['description']) ?></p>
+                        <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn">En savoir plus</a>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <p class="text-gray-500 text-center">Aucun événement passé pour le moment.</p>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -85,7 +100,7 @@
                     <div class="overlay">
                         <h4 class="text-2xl text-center text-white"><?= htmlspecialchars($event['title']) ?></h4>
                         <p class="mb-4"><?= htmlspecialchars($event['description']) ?></p>
-                        <p class="text-white font-semibold mt-2">📅 <?= date('d F Y', strtotime($event['date_event'])); ?></p>
+                        <p class="text-white font-semibold mt-2">📅 <?= $formatter->format(new DateTime($event['date_event'])); ?></p>
                         <a href="evenement_detail?id=<?= $event['id'] ?>" class="btn" aria-label="Voir l'événement <?= htmlspecialchars($event['title']) ?>">Voir l'événement</a>
                     </div>
                 </div>
@@ -134,7 +149,7 @@
             <?php if (!empty($suggestedOutfits)) : ?>
                 <?php foreach ($suggestedOutfits as $tenue) : ?>
                     <div class="swiper-slide bg-white shadow-lg rounded-lg p-6 flex flex-col items-center justify-center text-center transition duration-300 transform hover:scale-105 hover:shadow-2xl">
-                        <a href="achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>" class="group">
+                        <a href="produit_detail_shop?id=<?= htmlspecialchars($tenue['product_id']); ?>" class="group">
                             <?php if (!empty($tenue['product_image'])) : ?>
                                 <img src="<?= htmlspecialchars($tenue['product_image']) ?>" loading="lazy" alt="<?= htmlspecialchars($tenue['outfit_name']) ?>" width="176" height="176">
                             <?php else : ?>
@@ -143,7 +158,7 @@
                         </a>
                         <h4 class="font-semibold text-xl"><?= htmlspecialchars($tenue['outfit_name']) ?></h4>
                         <p class="text-gray-600 text-sm mt-2 max-w-md"><?= htmlspecialchars($tenue['accessories']) ?></p>
-                        <a href="achat/produit?id=<?= htmlspecialchars($tenue['id']); ?>" class="mt-4 bg-[#8B5A2B] text-white px-5 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2" aria-label="Acheter <?= htmlspecialchars($tenue['outfit_name']) ?>">
+                        <a href="produit_detail_shop?id=<?= htmlspecialchars($tenue['product_id']); ?>" class="mt-4 bg-[#8B5A2B] text-white px-5 py-3 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2" aria-label="Acheter <?= htmlspecialchars($tenue['outfit_name']) ?>">
                             <span class="material-symbols-rounded text-lg">shopping_cart</span> Acheter l'article
                         </a>
                     </div>

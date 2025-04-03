@@ -37,11 +37,11 @@ class ContactController
 
         $success = $this->contactModel->addMessage($name, $email, $message, $source);
         error_log("Ajout message contact : " . ($success ? "Succès" : "Échec"));
-
+    
         if ($success) {
-            $notifSuccess = $this->notificationModel->createNotification("Nouveau message de $name via $source");
+            $notifSuccess = $this->notificationModel->createNotification("Nouveau message reçu de $name via $source");
             error_log("Appel createNotification contact : " . ($notifSuccess ? "Succès" : "Échec"));
-
+            
             // Mapper les sources aux routes existantes
             $redirectRoute = match ($source) {
                 "magasin" => "contact_shop",

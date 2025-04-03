@@ -14,42 +14,31 @@ class ShowroomController
 
     public function index()
     {
-        include('src/app/Views/Public/showroom.php');
-    }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $required = ['client_nom', 'email', 'telephone', 'date_reservation', 'heure_reservation', 'service'];
 
-    public function addReservation()
-    {
-        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['reservation'])) {
-            $date = $_POST['date'];
-            $heure = $_POST['heure'];
-            $client_nom = $_POST['client_nom'];
-            $email = $_POST['email'];
-
-            if ($this->model->checkReservationAvailability($date, $heure)) {
-                echo json_encode(['success' => false, 'message' => 'Ce créneau est déjà réservé.']);
-                exit;
+            foreach ($required as $field) {
+                if (empty($_POST[$field])) {
+                    $message = 'Veuillez remplir tous les champs obligatoires.';
+                    include('src/app/Views/Public/showroom.php');
+                    return;
+                }
             }
 
             $data = [
-                ':date' => $date,
-                ':heure' => $heure,
-                ':client_nom' => $client_nom,
-                ':email' => $email,
-                ':statut' => 'en_attente'
+                'client_nom' => $_POST['client_nom'],
+                'email' => $_POST['email'],
+                'telephone' => $_POST['telephone'],
+                'date_reservation' => $_POST['date_reservation'],
+                'heure_reservation' => $_POST['heure_reservation'],
+                'service' => $_POST['service'],
+                'message' => $_POST['message'] ?? ''
             ];
-            $this->model->addReservation($data);
-            echo json_encode(['success' => true, 'message' => 'Réservation confirmée !']);
-            exit;
-        }
-    }
 
-    public function checkAvailability()
-    {
-        if (isset($_GET['check']) && isset($_GET['date'])) {
-            $date = $_GET['date'];
-            $available = !$this->model->checkReservationAvailability($date, null);
-            echo json_encode(['available' => $available]);
-            exit;
+            $this->model->saveReservation($data);
+            $message = "Réservation enregistrée avec succès.";
         }
+
+        include('src/app/Views/Public/showroom.php');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Controllers\Events;
 
 use Models\EventsModel;
 use Models\OutfitsModel;
@@ -23,22 +23,27 @@ class EventsController
     }
 
     public function index()
-    {
-        try {
-            $events = $this->eventsModel->getAllEvents();
-            $pastEvents = $this->eventsModel->getPastEvents();
-            $upcomingEvents = $this->eventsModel->getUpcomingEvents();
+{
+    try {
+        $events = $this->eventsModel->getAllEvents();
+        $pastEvents = $this->eventsModel->getPastEvents();
+        $upcomingEvents = $this->eventsModel->getUpcomingEvents();
 
-            // Récupération des packs et suggestions par événement
-            $eventPacks = $this->packsModel->getAllPacks();
-            $suggestedOutfits = $this->outfitsModel->getAllOutfits();
+        // Récupération des packs et suggestions
 
-            include('src/app/Views/Public/events/evenements.php');
-        } catch (\Exception $e) {
-            error_log($e->getMessage());
-            echo "Une erreur est survenue. Veuillez réessayer plus tard.";
-        }
+        $eventPacks = $this->packsModel->getAllPacks();
+        $suggestedOutfits = $this->outfitsModel->getAllOutfits();
+
+        // // Ajouter un débogage
+        // var_dump($suggestedOutfits); // Vérifiez les données
+        // die(); // Arrête l'exécution pour voir le résultat
+
+        include('src/app/Views/Public/events/evenements.php');
+    } catch (\Exception $e) {
+        error_log($e->getMessage());
+        echo "Une erreur est survenue. Veuillez réessayer plus tard.";
     }
+}
 
     public function showEvent($id)
     {

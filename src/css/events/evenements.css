@@ -2,11 +2,12 @@ html,
 body {
     margin: 0;
     padding: 0;
+    width: 100%;
     overflow-x: hidden;
 }
 
 .swiper-container {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
 }
 
@@ -204,5 +205,12 @@ body {
 
     .grid_events {
         gap: 15px;
+    }
+}
+
+@media (min-width: 1920px) {
+    .swiper-container {
+        width: 100%;
+        max-width: 100%;
     }
 }

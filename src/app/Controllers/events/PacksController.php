@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Controllers\Events;
 
 use Models\PacksModel;
 use Models\NotificationModel;

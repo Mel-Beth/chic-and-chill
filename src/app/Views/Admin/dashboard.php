@@ -68,6 +68,21 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     </div>
 </div>
 
+<style>
+    .custom-yellow {
+        background-color: #fefcbf !important; /* Équivalent à bg-yellow-200 */
+    }
+    .custom-green {
+        background-color: #c6f6d5 !important; /* Équivalent à bg-green-200 */
+    }
+    .custom-blue {
+        background-color: #bee3f8 !important; /* Équivalent à bg-blue-200 */
+    }
+    .custom-gray {
+        background-color: #f7fafc !important; /* Équivalent à bg-gray-100 */
+    }
+</style>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     const dashboardData = <?php echo json_encode($dashboardData ?? []); ?>;
@@ -185,6 +200,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             const response = await fetch("admin/notifications/unread");
             if (!response.ok) throw new Error('Erreur réseau');
             const data = await response.json();
+            console.log("Notifications récupérées :", data); // Log pour vérifier les données
             updateNotificationsList(data);
         } catch (error) {
             document.getElementById('notificationError').classList.remove('hidden');
@@ -200,7 +216,26 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         if (notifications.length > 0) {
             notifications.forEach(notif => {
                 const li = document.createElement("li");
-                li.className = "py-2 md:py-3 flex flex-col md:flex-row justify-between";
+                li.className = "py-2 md:py-3 flex flex-col md:flex-row justify-between items-start md:items-center rounded-md";
+
+                // Log pour déboguer
+                console.log("Message de la notification :", notif.message);
+
+                // Ajouter des classes de couleur en fonction du contenu
+                if (notif.message.includes("Rappel : Envoyez la newsletter")) {
+                    console.log("Condition rappel newsletter détectée");
+                    li.classList.add("custom-yellow"); // Jaune pour le rappel newsletter
+                } else if (notif.message.includes("Nouvelle réservation")) {
+                    console.log("Condition nouvelle réservation détectée");
+                    li.classList.add("custom-green"); // Vert pour nouvelle réservation
+                } else if (notif.message.includes("Nouveau message")) {
+                    console.log("Condition nouveau message détectée");
+                    li.classList.add("custom-blue"); // Bleu pour nouveau message
+                } else {
+                    console.log("Condition par défaut (autres notifications)");
+                    li.classList.add("custom-gray"); // Gris clair pour les autres
+                }
+
                 li.innerHTML = `
                     <span class="text-gray-600 text-sm md:text-base">${notif.message}</span>
                     <button class="markAsRead text-xs md:text-sm text-blue-500 hover:underline mt-2 md:mt-0" data-id="${notif.id}">Marquer comme lu</button>
@@ -240,6 +275,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     // Initialisation
     document.addEventListener('DOMContentLoaded', () => {
+        console.log("DOM chargé, initialisation...");
         initCharts(dashboardData);
         fetchNotifications();
         setInterval(fetchNotifications, 10000);

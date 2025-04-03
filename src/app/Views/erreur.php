@@ -1,4 +1,3 @@
-erreur.php
 <?php
 // Vérifier si les variables sont définies avant de les utiliser
 $code_erreur = isset($code_erreur) ? $code_erreur : 'Erreur inconnue';

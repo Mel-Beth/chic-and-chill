@@ -81,7 +81,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 <input id="search" type="text" placeholder="Rechercher un événement..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
                     <div class="relative">
-                        <button id="exportBtn" class="border px-4 py-2 rounded-md hover:bg-gray-100">Exporter</button>
+                        <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
                         <div id="exportOptions" class="hidden absolute mt-2 bg-white border rounded shadow-md">
                             <a href="admin/export/csv" class="block px-4 py-2 hover:bg-gray-200">CSV</a>
                             <a href="admin/export/pdf" class="block px-4 py-2 hover:bg-gray-200">PDF</a>
@@ -214,187 +214,68 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let deleteEventId = null;
+    document.addEventListener("DOMContentLoaded", function() {
+        // Déclarer les éléments du DOM au début
+        const eventModal = document.getElementById("eventModal");
+        const closeModal = document.getElementById("closeModal");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalIcon = document.getElementById("modalIcon");
+        const submitButton = document.getElementById("submitButton");
+        const eventForm = document.getElementById("eventForm");
+        const openModal = document.getElementById("openModal");
 
-            // Suppression des événements avec confirmation
-            document.querySelectorAll('.deleteEventBtn').forEach(button => {
-                button.addEventListener('click', function() {
-                    deleteEventId = this.dataset.id;
-                    document.getElementById('deleteModal').classList.remove('hidden');
-                });
-            });
+        let deleteEventId = null;
 
-            // Annuler la suppression
-            document.getElementById('cancelDelete').addEventListener('click', function() {
-                document.getElementById('deleteModal').classList.add('hidden');
-                deleteEventId = null;
-            });
-
-            // Confirmer la suppression
-            document.getElementById('confirmDelete').addEventListener('click', function() {
-                if (deleteEventId) {
-                    fetch(`admin/evenements/supprimer/${deleteEventId}`, {
-                            method: 'DELETE'
-                        })
-                        .then(response => {
-                            if (response.ok) {
-                                document.querySelector(`button[data-id="${deleteEventId}"]`).closest('tr').remove();
-                                showNotification('Évènement supprimé avec succès.', 'bg-green-500');
-                            } else {
-                                showNotification('Erreur lors de la suppression de l\'évènement.', 'bg-red-500');
-                            }
-                            document.getElementById('deleteModal').classList.add('hidden');
-                        })
-                        .catch(error => console.error('Erreur:', error));
-                }
-            });
-
-            // Fonction pour afficher la notification
-            function showNotification(message, bgColor) {
-                const notification = document.getElementById('notification');
-                notification.textContent = message;
-                notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500');
-                notification.classList.add(bgColor);
-                setTimeout(() => {
-                    notification.classList.add('hidden');
-                }, 3000);
-            }
-
-            // Délai message succès
-            const successDiv = document.getElementById('successMessage');
-            if (successDiv) {
-                setTimeout(() => {
-                    successDiv.style.display = 'none';
-                }, 3000);
-            }
-
-            // Recherche dynamique
-            document.getElementById('search').addEventListener('input', function() {
-                let filter = this.value.toLowerCase();
-                let rows = document.querySelectorAll('#eventTable tr');
-                rows.forEach(row => {
-                    let text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(filter) ? '' : 'none';
-                });
-            });
-
-            // Tri des événements
-            document.getElementById('sort').addEventListener('change', function() {
-                let rows = Array.from(document.querySelectorAll('#eventTable tr'));
-                let sortType = this.value;
-                rows.sort((a, b) => {
-                    let valA = a.cells[sortType === 'title' ? 1 : sortType === 'date' ? 2 : sortType === 'location' ? 3 : 4].textContent.toLowerCase();
-                    let valB = b.cells[sortType === 'title' ? 1 : sortType === 'date' ? 2 : sortType === 'location' ? 3 : 4].textContent.toLowerCase();
-                    return valA.localeCompare(valB);
-                });
-                document.getElementById('eventTable').append(...rows);
-            });
-
-            // Exportation
-            document.getElementById('exportBtn').addEventListener('click', function() {
-                document.getElementById('exportOptions').classList.toggle('hidden');
-            });
-
-            // Gestion de la modale
-            const eventModal = document.getElementById("eventModal");
-            const closeModal = document.getElementById("closeModal");
-            const openModalButton = document.getElementById("openModal");
-            const eventForm = document.getElementById("eventForm");
-            const modalTitle = document.getElementById("modalTitle");
-            const modalIcon = document.getElementById("modalIcon");
-            const submitButton = document.getElementById("submitButton");
-
-            // Ouvrir le modal pour ajouter
-            openModalButton.addEventListener("click", () => {
-                eventForm.reset();
-                eventForm.action = "admin/evenements/ajouter";
-                modalTitle.textContent = "Ajouter un événement";
-                modalIcon.textContent = "add_circle";
-                submitButton.textContent = "✅ Ajouter";
-                document.getElementById("currentImage").classList.add("hidden");
-                eventModal.classList.remove("hidden");
-            });
-
-            // Ouvrir le modal pour modifier
-            document.querySelectorAll(".edit-event").forEach(button => {
-                button.addEventListener("click", function() {
-                    let eventId = this.getAttribute("data-id");
-                    document.getElementById("eventId").value = eventId;
-                    document.getElementById("eventTitle").value = this.getAttribute("data-title");
-                    document.getElementById("eventDescription").value = this.getAttribute("data-description");
-                    document.getElementById("eventDate").value = this.getAttribute("data-date");
-                    document.getElementById("eventLocation").value = this.getAttribute("data-location");
-                    document.getElementById("eventStatus").value = this.getAttribute("data-status");
-
-                    // Gestion de l'image existante
-                    const imagePath = this.getAttribute("data-image");
-                    const imagePreview = document.getElementById("currentImage");
-                    if (imagePath && imagePath !== 'placeholder.jpg') {
-                        imagePreview.src = `assets/images/events/${imagePath}`;
-                        imagePreview.classList.remove("hidden");
-                    } else {
-                        imagePreview.classList.add("hidden");
-                    }
-
-                    eventForm.action = `admin/evenements/modifier/${eventId}`;
-                    modalTitle.textContent = "Modifier un événement";
-                    modalIcon.textContent = "edit";
-                    submitButton.textContent = "✅ Mettre à jour";
-                    eventModal.classList.remove("hidden");
-                });
-            });
-
-            // Prévisualisation de l'image sélectionnée
-            document.getElementById("eventImage").addEventListener("change", function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const currentImage = document.getElementById("currentImage");
-                        currentImage.src = e.target.result;
-                        currentImage.classList.remove("hidden");
-                    }
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            // Fermer le modal
-            closeModal.addEventListener("click", () => {
-                eventModal.classList.add("hidden");
-            });
-
-            // Pagination
-            function paginateTable(rowsPerPage = 10) {
-                let rows = document.querySelectorAll('#eventTable tr');
-                let totalPages = Math.ceil(rows.length / rowsPerPage);
-                let pagination = document.getElementById('pagination');
-                pagination.innerHTML = '';
-
-                function showPage(page) {
-                    rows.forEach((row, index) => {
-                        row.style.display = index >= (page - 1) * rowsPerPage && index < page * rowsPerPage ? '' : 'none';
-                    });
-                }
-
-                for (let i = 1; i <= totalPages; i++) {
-                    let btn = document.createElement('button');
-                    btn.textContent = i;
-                    btn.className = "px-3 py-2 rounded-md bg-gray-300 hover:bg-gray-400";
-                    btn.addEventListener('click', () => showPage(i));
-                    pagination.appendChild(btn);
-                }
-                showPage(1);
-            }
-            paginateTable();
+        // Ouvrir la modale pour ajouter un événement
+        openModal.addEventListener("click", function() {
+            // Réinitialiser le formulaire pour l'ajout
+            eventForm.reset();
+            eventForm.action = "admin/evenements/ajouter";
+            modalTitle.textContent = "Ajouter un événement";
+            modalIcon.textContent = "add_circle";
+            submitButton.textContent = "✅ Ajouter";
+            document.getElementById("eventId").value = "";
+            document.getElementById("currentImage").classList.add("hidden");
+            document.getElementById("fileName").textContent = "Choisir une image";
+            eventModal.classList.remove("hidden");
         });
 
-        // Mise à jour du texte de l'input file dans la modale
-        document.getElementById("eventImage").addEventListener("change", function(e) {
-            const fileName = e.target.files.length > 0 ? e.target.files[0].name : "Choisir une image";
-            document.getElementById("fileName").textContent = fileName;
+        // Ouvrir le modal pour modifier
+        document.querySelectorAll(".edit-event").forEach(button => {
+            button.addEventListener("click", function() {
+                let eventId = this.getAttribute("data-id");
+                document.getElementById("eventId").value = eventId;
+                document.getElementById("eventTitle").value = this.getAttribute("data-title");
+                document.getElementById("eventDescription").value = this.getAttribute("data-description");
+                document.getElementById("eventDate").value = this.getAttribute("data-date");
+                document.getElementById("eventLocation").value = this.getAttribute("data-location");
+                document.getElementById("eventStatus").value = this.getAttribute("data-status");
 
-            // Prévisualisation de l'image
+                // Gestion de l'image existante
+                const imagePath = this.getAttribute("data-image");
+                const imagePreview = document.getElementById("currentImage");
+                if (imagePath && imagePath !== 'placeholder.jpg') {
+                    imagePreview.src = `assets/images/events/${imagePath}`;
+                    imagePreview.classList.remove("hidden");
+                } else {
+                    imagePreview.classList.add("hidden");
+                }
+
+                eventForm.action = `admin/evenements/modifier/${eventId}`;
+                modalTitle.textContent = "Modifier un événement";
+                modalIcon.textContent = "edit";
+                submitButton.textContent = "✅ Mettre à jour";
+                eventModal.classList.remove("hidden");
+            });
+        });
+
+        // Fermer le modal
+        closeModal.addEventListener("click", () => {
+            eventModal.classList.add("hidden");
+        });
+
+        // Prévisualisation de l'image sélectionnée
+        document.getElementById("eventImage").addEventListener("change", function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -402,8 +283,133 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                     const currentImage = document.getElementById("currentImage");
                     currentImage.src = e.target.result;
                     currentImage.classList.remove("hidden");
-                };
+                }
                 reader.readAsDataURL(file);
+                document.getElementById("fileName").textContent = file.name;
+            } else {
+                document.getElementById("fileName").textContent = "Choisir une image";
             }
         });
-    </script>
+
+        // Suppression des événements avec confirmation
+        document.querySelectorAll('.deleteEventBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                deleteEventId = this.dataset.id;
+                document.getElementById('deleteModal').classList.remove('hidden');
+            });
+        });
+
+        // Annuler la suppression
+        document.getElementById('cancelDelete').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.add('hidden');
+            deleteEventId = null;
+        });
+
+        // Confirmer la suppression
+        document.getElementById('confirmDelete').addEventListener('click', function() {
+            if (deleteEventId) {
+                fetch(`admin/evenements/supprimer/${deleteEventId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.querySelector(`button[data-id="${deleteEventId}"]`).closest('tr').remove();
+                        showNotification('Événement supprimé avec succès.', 'bg-green-500');
+                    } else {
+                        showNotification('Erreur lors de la suppression de l\'événement.', 'bg-red-500');
+                    }
+                    document.getElementById('deleteModal').classList.add('hidden');
+                })
+                .catch(error => console.error('Erreur:', error));
+            }
+        });
+
+        // Fonction pour afficher la notification
+        function showNotification(message, bgColor) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.remove('hidden', 'bg-red-500', 'bg-green-500');
+            notification.classList.add(bgColor);
+            setTimeout(() => {
+                notification.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Délai message succès
+        const successDiv = document.getElementById('successMessage');
+        if (successDiv) {
+            setTimeout(() => {
+                successDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Recherche dynamique
+        document.getElementById('search').addEventListener('input', function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll('#eventTable tr');
+            rows.forEach(row => {
+                let text = row.textContent.toLowerCase();
+                row.style.display = text.includes(filter) ? '' : 'none';
+            });
+        });
+
+        // Tri des événements
+        document.getElementById('sort').addEventListener('change', function() {
+            let rows = Array.from(document.querySelectorAll('#eventTable tr'));
+            let sortType = this.value;
+            rows.sort((a, b) => {
+                let valA = a.cells[sortType === 'title' ? 1 : sortType === 'date' ? 2 : sortType === 'location' ? 3 : 4].textContent.toLowerCase();
+                let valB = b.cells[sortType === 'title' ? 1 : sortType === 'date' ? 2 : sortType === 'location' ? 3 : 4].textContent.toLowerCase();
+                return valA.localeCompare(valB);
+            });
+            document.getElementById('eventTable').append(...rows);
+        });
+
+        // Exportation (gardé tel quel)
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            let csv = "Image,Titre,Date,Lieu,Statut\n";
+            document.querySelectorAll("#eventTable tr").forEach(row => {
+                let cells = row.querySelectorAll("td");
+                if (cells.length > 0) {
+                    let image = cells[0].querySelector('img') ? cells[0].querySelector('img').src : 'Pas d\'image';
+                    csv += `${image},${cells[1].textContent},${cells[2].textContent},${cells[3].textContent},${cells[4].querySelector('span').textContent}\n`;
+                }
+            });
+
+            let blob = new Blob([csv], {
+                type: 'text/csv'
+            });
+            let a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = "evenements_export.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showNotification('Exportation réussie !', 'bg-green-500');
+        });
+
+        // Pagination (gardé tel quel)
+        function paginateTable(rowsPerPage = 10) {
+            let rows = document.querySelectorAll('#eventTable tr');
+            let totalPages = Math.ceil(rows.length / rowsPerPage);
+            let pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            function showPage(page) {
+                rows.forEach((row, index) => {
+                    row.style.display = index >= (page - 1) * rowsPerPage && index < page * rowsPerPage ? '' : 'none';
+                });
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                let btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = "px-3 py-2 rounded-md bg-gray-300 hover:bg-gray-400";
+                btn.addEventListener('click', () => showPage(i));
+                pagination.appendChild(btn);
+            }
+            showPage(1);
+        }
+        paginateTable();
+    });
+</script>

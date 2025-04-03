@@ -22,6 +22,16 @@ class DashboardController
             $stats = $this->dashboardModel->getDashboardStats('month');
             error_log("Pending reservations: " . ($stats['pending_reservations'] ?? 0));
             $notifications = $this->dashboardModel->getUnreadNotifications();
+
+            // Vérifier si on est le 1er du mois pour ajouter une notification
+            if (date('d') === '01') {
+                $notificationModel = new \Models\NotificationModel();
+                $existingNotification = $this->dashboardModel->checkNewsletterReminderExists();
+                if (!$existingNotification) {
+                    $notificationModel->createNotification("Rappel : Envoyez la newsletter mensuelle aujourd'hui ! Rendez-vous dans Gestion de la Newsletter.");
+                }
+            }
+
             $dashboardData = [
                 'messages_count' => $stats['messages_count'] ?? 0,
                 'active_events' => $stats['active_events'] ?? 0,

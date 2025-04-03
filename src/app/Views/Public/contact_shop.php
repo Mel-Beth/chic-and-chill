@@ -13,7 +13,7 @@
     <?php endif; ?>
 
     <form action="contact_process" method="post" class="form_container_contact_shop" >
-        <input type="hidden" name="source" value="evenements">
+        <input type="hidden" name="source" value="shop">
 
         <label for="subject">Sujet :</label>
         <input type="text" name="subject" id="subject">

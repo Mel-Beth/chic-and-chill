@@ -10,7 +10,7 @@
         </div>
         <nav class="hidden md:flex space-x-8 text-lg font-semibold transition-all duration-300">
             <a href="evenements" class="menu-link relative" aria-label="Accueil"><i class="fas fa-calendar-alt"></i> Accueil</a>
-            <a href="location" class="menu-link relative" aria-label="Location"><i class="fas fa-tshirt"></i> Location</a>
+            <a href="accueil_loc_show" class="menu-link relative" aria-label="Location"><i class="fas fa-tshirt"></i> Location & Showroom</a>
             <a href="accueil_shop" class="menu-link relative" aria-label="Magasin"><i class="fas fa-shopping-bag"></i> Magasin</a>
             <a href="localisation" class="menu-link relative" aria-label="Nous trouver"><i class="fas fa-map-marker-alt"></i> Nous trouver</a>
             <a href="contact_evenements" class="menu-link relative" aria-label="Nous contacter"><i class="fas fa-envelope"></i> Nous contacter</a>

@@ -38,7 +38,7 @@ class EmailHelper
             $mail->Body = $body;
 
             // Ajouter une pièce jointe (facture PDF)
-            if ($attachmentPath && file_exists($attachmentPath)) {
+            if ($attachmentPath && file_exists($attachmentPath) && str_starts_with($attachmentPath, 'assets/documents/invoices/')) {
                 $mail->addAttachment($attachmentPath);
             }
 

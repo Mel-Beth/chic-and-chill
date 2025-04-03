@@ -65,7 +65,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 <input id="search" type="text" placeholder="Rechercher une tenue..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
                     <div class="relative">
-                        <button id="exportBtn" class="border px-4 py-2 rounded-md hover:bg-gray-100">Exporter</button>
+                        <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
                         <div id="exportOptions" class="hidden absolute mt-2 bg-white border rounded shadow-md">
                             <a href="admin/export/csv" class="block px-4 py-2 hover:bg-gray-200">CSV</a>
                             <a href="admin/export/pdf" class="block px-4 py-2 hover:bg-gray-200">PDF</a>
@@ -287,7 +287,25 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     // Exportation
     document.getElementById('exportBtn').addEventListener('click', function() {
-        alert("Exportation en cours...");
+        let csv = "Nom de la tenue,Accessoires,Image,Statut,Produit\n";
+        document.querySelectorAll("#outfitTable tr").forEach(row => {
+            let cells = row.querySelectorAll("td");
+            if (cells.length > 0) {
+                let image = cells[2].querySelector('img').src;
+                csv += `${cells[0].textContent},${cells[1].textContent},${image},${cells[3].querySelector('span').textContent},${cells[4].textContent}\n`;
+            }
+        });
+
+        let blob = new Blob([csv], {
+            type: 'text/csv'
+        });
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "outfits_export.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        showNotification('Exportation réussie !', 'bg-green-500');
     });
 
 

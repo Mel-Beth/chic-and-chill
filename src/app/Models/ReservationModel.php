@@ -4,14 +4,17 @@ namespace Models;
 
 class ReservationModel extends ModeleParent
 {
-    public function addEventReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, $event_id)
+    public function addEventReservation($customer_type, $company_name, $siret, $address, $name, 
+    $email, $phone, $event_type, $participants, $services, $comments, $event_id)
     {
         try {
             $stmt = $this->pdo->prepare("
-                INSERT INTO event_reservations (customer_type, company_name, siret, address, customer_name, email, phone, event_type, participants, services, comments, event_id, status, created_at)
+                INSERT INTO event_reservations (customer_type, company_name, siret, address, customer_name, 
+                email, phone, event_type, participants, services, comments, event_id, status, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
             ");
-            $stmt->execute([$customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, $event_id]);
+            $stmt->execute([$customer_type, $company_name, $siret, $address, $name, 
+            $email, $phone, $event_type, $participants, $services, $comments, $event_id]);
             return true;
         } catch (\PDOException $e) {
             error_log("Erreur lors de la réservation : " . $e->getMessage());

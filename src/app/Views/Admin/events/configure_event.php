@@ -119,7 +119,6 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     </div>
 </div>
 
-<script src="src/js/common.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("mediaFiles").addEventListener("change", function(e) {

@@ -1,5 +1,5 @@
-<footer class="bg-black text-white py-12">
-    <div class="container max-w-6xl mx-auto px-8 md:px-16 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left text-lg">
+<footer class="bg-black text-white py-12 w-full">
+    <div class="container mx-auto px-8 md:px-16 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left text-lg">
         <div class="flex flex-col items-center md:items-start">
             <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-24 h-24" loading="lazy">
             <p class="mt-4 text-gray-300 leading-relaxed text-center md:text-left max-w-sm">
@@ -28,8 +28,8 @@
         </div>
     </div>
 </footer>
-<footer class="bg-white text-gray-500 text-center text-lg py-5 mt-0">
-    © <?php echo date('Y'); ?> Chic & Chill - Tous droits réservés
+<footer class="bg-white text-gray-500 text-center text-lg py-5 mt-0 w-full">
+     © <?php echo date('Y'); ?> Chic & Chill - Tous droits réservés
 </footer>
 
 <button id="scrollToTop" class="fixed bottom-8 right-8 bg-[#8B5A2B] text-white p-4 rounded-full shadow-lg hidden transition duration-300 hover:scale-110" aria-label="Retour en haut">
@@ -42,7 +42,10 @@
         scrollToTopButton.classList.toggle("hidden", window.scrollY <= 200);
     });
     scrollToTopButton.addEventListener("click", () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
     });
 
     window.addEventListener("scroll", () => {
@@ -56,5 +59,21 @@
     });
 </script>
 <script src="src/js/evenements.js" defer></script>
+
+<style>
+    footer {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    @media (min-width: 1920px) {
+        footer {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
 </body>
+
 </html>

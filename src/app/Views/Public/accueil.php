@@ -7,6 +7,7 @@
     <link href="src/css/output.css" rel="stylesheet">
     <link href="src/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="node_modules/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="node_modules/swiper/swiper-bundle.min.js"></script>
     <title>Chic and Chill</title>
 
@@ -43,7 +44,27 @@
         .circle-link:hover {
             transform: scale(1.2);
             box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5);
-            background: rgba(255, 255, 255, 0.3);
+            background: #8B5A2B;
+            /* Fond marron au survol */
+        }
+
+        /* Ajouter une classe pour le fond marron quand activée par JS */
+        .circle-link.active {
+            background: #8B5A2B;
+            transform: scale(1.2);
+            box-shadow: 0px 8px 18px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Transition pour les labels */
+        #label-even,
+        #label-location,
+        #label-magasin {
+            transition: color 0.4s ease;
+        }
+
+        /* Classe pour le texte blanc quand activée par JS */
+        .label-active {
+            color: white;
         }
 
         /* Animation d'apparition des labels */
@@ -109,7 +130,8 @@
 
         /* Styles pour la section hero sur mobile */
         .hero-content-mobile {
-            display: none; /* Masqué par défaut, affiché sur mobile */
+            display: none;
+            /* Masqué par défaut, affiché sur mobile */
             flex-direction: column;
             align-items: center;
             text-align: center;
@@ -173,6 +195,7 @@
 
         /* Afficher les cercles et labels uniquement sur desktop */
         @media (min-width: 769px) {
+
             #hero-container #circle-main,
             #hero-container .circle-link,
             #hero-container #label-even,
@@ -197,6 +220,7 @@
 
         /* Responsive : Mobiles */
         @media (max-width: 768px) {
+
             /* Réduire la taille du logo et du titre dans le header */
             header .logo {
                 width: 3rem !important;
@@ -274,9 +298,8 @@
         <nav class="hidden md:flex space-x-8 text-lg text-[#8B5A2B] font-semibold">
             <a href="accueil" class="hover:text-gray-800 transition">Accueil</a>
             <a href="evenements" class="hover:text-gray-800 transition">Événements</a>
-            <a href="location" class="hover:text-gray-800 transition">Location</a>
+            <a href="accueil_loc_show" class="hover:text-gray-800 transition">Location & Showroom</a>
             <a href="accueil_shop" class="hover:text-gray-800 transition">Magasin</a>
-            <a href="contact" class="hover:text-gray-800 transition">Contact</a>
         </nav>
 
         <!-- Bouton menu mobile -->
@@ -290,7 +313,7 @@
             <ul>
                 <li><a href="accueil">Accueil</a></li>
                 <li><a href="evenements">Événements</a></li>
-                <li><a href="location">Location</a></li>
+                <li><a href="accueil_loc_show">Location & Showroom</a></li>
                 <li><a href="accueil_shop">Magasin</a></li>
                 <li><a href="contact">Contact</a></li>
             </ul>
@@ -309,7 +332,7 @@
                 <p>Mode responsable et accessible</p>
             </div>
             <a href="evenements" class="btn">Événements</a>
-            <a href="location" class="btn">Location</a>
+            <a href="accueil_loc_show" class="btn">Location & Showroom</a>
             <a href="accueil_shop" class="btn">Magasin</a>
         </div>
 
@@ -322,7 +345,7 @@
 
         <!-- Cercles cliquables (desktop uniquement) -->
         <a href="evenements" id="circle-even" class="circle-link"></a>
-        <a href="location" id="circle-location" class="circle-link"></a>
+        <a href="accueil_loc_show" id="circle-location" class="circle-link"></a>
         <a href="accueil_shop" id="circle-magasin" class="circle-link"></a>
 
         <!-- Labels interactifs (desktop uniquement) -->
@@ -331,9 +354,9 @@
                 EVENEMENTS
             </span>
         </a>
-        <a href="location">
+        <a href="accueil_loc_show">
             <span id="label-location" class="absolute text-gray-800 font-bold tracking-wide z-10 label-fade" style="animation-delay: 0.8s;">
-                LOCATION
+                LOCATION & <br> SHOWROOM
             </span>
         </a>
         <a href="accueil_shop">
@@ -449,11 +472,11 @@
             circleEven.style.transform = "translate(105%, 10%)";
 
             circleLocation.style.display = 'flex';
-            circleLocation.style.width = width * 0.13 + "px";
-            circleLocation.style.height = width * 0.13 + "px";
+            circleLocation.style.width = width * 0.15 + "px";
+            circleLocation.style.height = width * 0.15 + "px";
             circleLocation.style.right = "9%";
             circleLocation.style.top = "12%";
-            circleLocation.style.transform = "translate(-155%, 60px)";
+            circleLocation.style.transform = "translate(-135%, 60px)";
 
             circleMagasin.style.display = 'flex';
             circleMagasin.style.width = width * 0.11 + "px";
@@ -471,7 +494,7 @@
             labelLocation.style.display = 'block';
             labelLocation.style.right = "9%";
             labelLocation.style.top = "12%";
-            labelLocation.style.transform = "translate(-235%, 140px)";
+            labelLocation.style.transform = "translate(-190%, 140px)";
             labelLocation.style.fontSize = width * 0.018 + "px";
 
             labelMagasin.style.display = 'block';
@@ -525,6 +548,38 @@
 
         // Appeler la fonction immédiatement pour s'assurer que les éléments sont masqués au chargement
         adjustElements();
+
+        // Gestion du hover des cercles et labels
+        const circleLabelPairs = {
+            'circle-even': 'label-even',
+            'circle-location': 'label-location',
+            'circle-magasin': 'label-magasin'
+        };
+
+        Object.entries(circleLabelPairs).forEach(([circleId, labelId]) => {
+            const circle = document.getElementById(circleId);
+            const label = document.getElementById(labelId);
+
+            // Survol du cercle
+            circle.addEventListener('mouseover', () => {
+                circle.classList.add('active');
+                label.classList.add('label-active');
+            });
+            circle.addEventListener('mouseout', () => {
+                circle.classList.remove('active');
+                label.classList.remove('label-active');
+            });
+
+            // Survol du label
+            label.parentElement.addEventListener('mouseover', () => {
+                circle.classList.add('active');
+                label.classList.add('label-active');
+            });
+            label.parentElement.addEventListener('mouseout', () => {
+                circle.classList.remove('active');
+                label.classList.remove('label-active');
+            });
+        });
     </script>
 </body>
 

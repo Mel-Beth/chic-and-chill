@@ -1,6 +1,6 @@
 <?php
 
-namespace Controllers;
+namespace Controllers\Events;
 
 use Models\EventsModel;
 use Models\PacksModel;
@@ -46,9 +46,18 @@ class ReservationController
             $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
             $phone = htmlspecialchars($_POST["phone"]);
             $event_type = htmlspecialchars($_POST["event_type"] ?? '');
-            $participants = (int) ($_POST["participants"] ?? 1);
+            $participants = filter_input(INPUT_POST, 'participants', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 1000]]);
+            if ($participants === false) {
+                die("Nombre de participants invalide.");
+            }
             $services = isset($_POST["services"]) ? implode(", ", $_POST["services"]) : '';
             $comments = htmlspecialchars($_POST["comments"]);
+            if (strlen($comments) > 1000) {
+                die("Les commentaires ne peuvent pas dépasser 1000 caractères.");
+            }
+            if (preg_match('/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/i', $comments)) {
+                die("Les commentaires ne peuvent pas contenir de scripts.");
+            }
             $pack_id = $_POST["pack_id"] ?? null;
 
             if (empty($name)) die("Le nom est requis.");
@@ -59,14 +68,14 @@ class ReservationController
                 $success = $this->reservationModel->addEventReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, null);
                 error_log("Ajout réservation événement : " . ($success ? "Succès" : "Échec"));
                 if ($success) {
-                    $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation d'événement par $name ($event_type)");
+                    $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation pour un événement par $name ($event_type)");
                     error_log("Appel createNotification réservation événement : " . ($notifSuccess ? "Succès" : "Échec"));
                 }
             } elseif (!empty($pack_id)) {
                 $success = $this->reservationModel->addPackReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $services, $comments, $pack_id);
                 error_log("Ajout réservation pack : " . ($success ? "Succès" : "Échec"));
                 if ($success) {
-                    $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation de pack par $name (ID: $pack_id)");
+                    $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation pour un pack par $name (ID: $pack_id)");
                     error_log("Appel createNotification réservation pack : " . ($notifSuccess ? "Succès" : "Échec"));
                 }
             } else {
@@ -125,7 +134,7 @@ class ReservationController
                 $attachmentPath = null;
                 if ($status === 'confirmed') {
                     require_once 'invoice_generator.php';
-                    $attachmentPath = \InvoiceGenerator::generateInvoice($reservation);
+                    $attachmentPath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
                 }
 
                 require_once 'EmailHelper.php';
@@ -271,7 +280,8 @@ class ReservationController
             </body>
             </html>';
 
-                $emailSent = EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+                $emailSent = \Controllers\EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+
 
                 $_SESSION['message'] = [
                     'type' => $emailSent ? 'success' : 'warning',
@@ -309,31 +319,26 @@ class ReservationController
     public function showInvoice($id)
     {
         if (!isset($_SESSION['user_role']) || empty($_SESSION['user_role'])) {
-            // Redirection vers page erreur
             $code_erreur = 401;
             $description_erreur = "Vous n'avez pas les droits pour accéder à cette page.";
             include('src/app/Views/erreur.php');
             exit();
         } else if ($_SESSION['user_role'] === 'admin') {
-            // 1. Récupérer la réservation
             $reservation = $this->reservationModel->getReservationById($id);
             if (!$reservation) {
                 $code_erreur = 404;
                 $description_erreur = "Oups... Réservation introuvable.";
                 include('src/app/Views/erreur.php');
             } else {
-                // Si c'est une réservation de pack, enrichir avec les détails du pack
                 if ($reservation['type'] === 'pack') {
                     $packDetails = $this->reservationModel->getPackDetails($reservation['pack_id']);
                     $reservation['pack_title'] = $packDetails['title'];
                     $reservation['pack_price'] = $packDetails['price'];
                 }
 
-                // 2. Générer le PDF via ton invoice_generator
-                require_once 'invoice_generator.php';
-                $filePath = \InvoiceGenerator::generateInvoice($reservation);
+                // Pas de require_once, l'autoloader s'en charge
+                $filePath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
 
-                // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
                 header('Content-Type: application/pdf');
                 header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
                 readfile($filePath);
@@ -361,7 +366,7 @@ class ReservationController
 
                     // 2. Générer le PDF via ton invoice_generator
                     require_once 'invoice_generator.php';
-                    $filePath = \InvoiceGenerator::generateInvoice($reservation);
+                    $filePath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
 
                     // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
                     header('Content-Type: application/pdf');
