@@ -2,7 +2,7 @@
 
 namespace Controllers\Events;
 
-use Models\OutfitsModel;
+use Models\Events\OutfitsModel;
 use Models\AppelArticleModelShop;
 
 class OutfitsController

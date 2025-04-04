@@ -1,8 +1,8 @@
 <?php
 
-namespace Models;
+namespace Models\Events;
 
-class EventsModel extends ModeleParent
+class EventsModel extends \Models\ModeleParent
 {
     public function getAllEvents()
     {

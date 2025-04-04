@@ -1,8 +1,8 @@
 <?php
 
-namespace Models;
+namespace Models\Events;
 
-class PacksModel extends ModeleParent
+class PacksModel extends \Models\ModeleParent
 {
     public function getAllPacks()
     {

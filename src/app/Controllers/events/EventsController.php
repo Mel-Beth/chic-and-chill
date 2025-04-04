@@ -2,9 +2,9 @@
 
 namespace Controllers\Events;
 
-use Models\EventsModel;
-use Models\OutfitsModel;
-use Models\PacksModel;
+use Models\Events\EventsModel;
+use Models\Events\OutfitsModel;
+use Models\Events\PacksModel;
 use Models\NotificationModel;
 
 class EventsController

@@ -1,8 +1,8 @@
 <?php
 
-namespace Models;
+namespace Models\Events;
 
-class ReservationModel extends ModeleParent
+class ReservationModel extends \Models\ModeleParent
 {
     public function addEventReservation($customer_type, $company_name, $siret, $address, $name, 
     $email, $phone, $event_type, $participants, $services, $comments, $event_id)

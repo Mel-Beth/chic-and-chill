@@ -7,7 +7,9 @@
             "Alaji\\ChicAndChill\\": "src/",
             "Controllers\\": "src/app/Controllers",
             "Controllers\\Events\\": "src/app/Controllers/events",
-            "Models\\": "src/app/Models"
+            "Models\\": "src/app/Models",
+            "Models\\Events": "src/app/Models"
+
         }
     },
     "require": {

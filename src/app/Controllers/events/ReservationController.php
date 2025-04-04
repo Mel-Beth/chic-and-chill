@@ -2,9 +2,9 @@
 
 namespace Controllers\Events;
 
-use Models\EventsModel;
-use Models\PacksModel;
-use Models\ReservationModel;
+use Models\Events\EventsModel;
+use Models\Events\PacksModel;
+use Models\Events\ReservationModel;
 use Models\NotificationModel;
 
 class ReservationController

@@ -3,7 +3,7 @@
 namespace Controllers;
 
 use Models\DashboardModel;
-use Models\OutfitsModel;
+use Models\Events\OutfitsModel;
 
 class DashboardController
 {

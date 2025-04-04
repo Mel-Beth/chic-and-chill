@@ -1,15 +1,15 @@
 <?php
 
-namespace Models;
+namespace Models\Events;
 
-class OutfitsModel extends ModeleParent
+class OutfitsModel extends \Models\ModeleParent
 {
     private $notificationModel;
 
     public function __construct()
     {
         parent::__construct();
-        $this->notificationModel = new NotificationModel();
+        $this->notificationModel = new \Models\NotificationModel();
     }
 
     public function getAllOutfits()

@@ -2,7 +2,7 @@
 
 namespace Controllers\Events;
 
-use Models\PacksModel;
+use Models\Events\PacksModel;
 use Models\NotificationModel;
 
 class PacksController
