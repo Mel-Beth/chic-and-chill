@@ -23,14 +23,17 @@ class ReservationModel extends ModeleParent
         }
     }
 
-    public function addPackReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $services, $comments, $pack_id)
+    public function addPackReservation($customer_type, $company_name, $siret, $address, $name, 
+    $email, $phone, $services, $comments, $pack_id)
     {
         try {
             $stmt = $this->pdo->prepare("
-                INSERT INTO pack_reservations (customer_type, company_name, siret, address, customer_name, email, phone, services, comments, pack_id, status, created_at)
+                INSERT INTO pack_reservations (customer_type, company_name, siret, address, customer_name, 
+                email, phone, services, comments, pack_id, status, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
             ");
-            $stmt->execute([$customer_type, $company_name, $siret, $address, $name, $email, $phone, $services, $comments, $pack_id]);
+            $stmt->execute([$customer_type, $company_name, $siret, $address, $name, 
+            $email, $phone, $services, $comments, $pack_id]);
             return true;
         } catch (\PDOException $e) {
             error_log("Erreur lors de la réservation du pack : " . $e->getMessage());

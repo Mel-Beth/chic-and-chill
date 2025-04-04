@@ -275,7 +275,8 @@ class InvoiceGenerator
         $pdf->writeHTML($footer, true, false, true, false, '');
 
         // Enregistrer la facture en PDF
-        $filePath = __DIR__ . "/../../../assets/documents/invoices/facture_" . substr(md5($reservation['customer_name'] . $reservation['created_at']), 0, 8) . ".pdf";
+        $filePath = __DIR__ . "/../../../assets/documents/invoices/facture_" . substr(md5($reservation['customer_name'] . 
+        $reservation['created_at']), 0, 8) . ".pdf";
         $pdf->Output($filePath, 'F');
 
         return $filePath;

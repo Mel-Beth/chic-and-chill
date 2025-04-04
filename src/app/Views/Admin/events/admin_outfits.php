@@ -7,15 +7,31 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 <style>
     #notification {
         position: fixed;
-        /* Rendre la notification fixe */
         top: 20px;
-        /* Ajustez la position verticale */
         right: 20px;
-        /* Ajustez la position horizontale */
         z-index: 9999;
-        /* Assurez-vous que l'élément est au-dessus des autres éléments */
-        /* Ajoutez éventuellement une ombre pour la rendre plus visible */
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Ajout d'une largeur minimale pour les colonnes et gestion du scroll */
+    .table-container {
+        overflow-x: auto; /* Active le défilement horizontal */
+        -webkit-overflow-scrolling: touch; /* Améliore le défilement sur mobile */
+    }
+
+    table {
+        min-width: 800px; /* Assure que le tableau a une largeur minimale pour éviter la compression */
+    }
+
+    th, td {
+        min-width: 120px; /* Largeur minimale pour chaque colonne */
+        white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement pour les images dans les colonnes */
+    td img {
+        max-width: 100%;
+        height: auto;
     }
 </style>
 
@@ -36,7 +52,6 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                     <div id="successMessage" class="bg-green-500 text-white p-3 rounded-md mb-4">
                         ✅ Outfit modifié avec succès !
                     </div>
-
                 <?php endif; ?>
             <?php elseif ($success == 0): ?>
                 <?php if (isset($_GET['action']) && $_GET['action'] == 'add'): ?>
@@ -80,47 +95,49 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             </div>
 
             <!-- Liste des tenues -->
-            <table class="w-full border-collapse border">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-3">Nom de la tenue</th>
-                        <th class="border p-3">Accessoires</th>
-                        <th class="border p-3">Image</th>
-                        <th class="border p-3">Statut</th>
-                        <th class="border p-3">Produit</th>
-                        <th class="border p-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="outfitTable">
-                    <?php foreach ($outfits as $outfit) : ?>
-                        <tr class="hover:bg-gray-100">
-                            <td class="border p-3"> <?= htmlspecialchars($outfit['outfit_name']); ?> </td>
-                            <td class="border p-3"> <?= htmlspecialchars($outfit['accessories']); ?> </td>
-                            <td class="border p-3">
-                                <?php $image = isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp'; ?>
-                                <img src="<?= $image; ?>" alt="Image tenue" class="rounded-md w-40 h-40 object-cover">
-                            </td>
-                            <td class="border p-3">
-                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $outfit['status'] == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
-                                    <?= htmlspecialchars($outfit['status']) ?>
-                                </span>
-                            </td>
-                            <td class="border p-3"> <?= $outfit['product_id']; ?> </td>
-                            <td class="border p-3">
-                                <button class="edit-outfit text-blue-600 hover:underline"
-                                    data-id="<?= $outfit['id'] ?>" data-name="<?= htmlspecialchars($outfit['outfit_name']) ?>"
-                                    data-accessories="<?= htmlspecialchars($outfit['accessories']) ?>"
-                                    data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp' ?>"
-                                    data-status="<?= $outfit['status'] ?>"
-                                    data-product-id="<?= $outfit['product_id'] ?>">
-                                    ✏️ Modifier
-                                </button>
-                                <button class="text-red-600 font-semibold hover:underline deleteOutfitBtn" data-id="<?= $outfit['id'] ?>">❌ Supprimer</button>
-                            </td>
+            <div class="table-container">
+                <table class="w-full border-collapse border">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3">Nom de la tenue</th>
+                            <th class="border p-3">Accessoires</th>
+                            <th class="border p-3">Image</th>
+                            <th class="border p-3">Statut</th>
+                            <th class="border p-3">Numéro produit</th>
+                            <th class="border p-3">Actions</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="outfitTable">
+                        <?php foreach ($outfits as $outfit) : ?>
+                            <tr class="hover:bg-gray-100">
+                                <td class="border p-3"> <?= htmlspecialchars($outfit['outfit_name']); ?> </td>
+                                <td class="border p-3"> <?= htmlspecialchars($outfit['accessories']); ?> </td>
+                                <td class="border p-3">
+                                    <?php $image = isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp'; ?>
+                                    <img src="<?= $image; ?>" alt="Image tenue" class="rounded-md w-40 h-40 object-cover">
+                                </td>
+                                <td class="border p-3">
+                                    <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $outfit['status'] == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
+                                        <?= htmlspecialchars($outfit['status']) ?>
+                                    </span>
+                                </td>
+                                <td class="border p-3"> <?= $outfit['product_id']; ?> </td>
+                                <td class="border p-3">
+                                    <button class="edit-outfit text-blue-600 hover:underline"
+                                        data-id="<?= $outfit['id'] ?>" data-name="<?= htmlspecialchars($outfit['outfit_name']) ?>"
+                                        data-accessories="<?= htmlspecialchars($outfit['accessories']) ?>"
+                                        data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp' ?>"
+                                        data-status="<?= $outfit['status'] ?>"
+                                        data-product-id="<?= $outfit['product_id'] ?>">
+                                        ✏️ Modifier
+                                    </button>
+                                    <button class="text-red-600 font-semibold hover:underline deleteOutfitBtn" data-id="<?= $outfit['id'] ?>">❌ Supprimer</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Pagination -->
             <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
@@ -166,8 +183,6 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         </div>
     </div>
 </div>
-</div>
-
 
 <!-- Modale pour la suppression -->
 <div id="deleteModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-50">
@@ -307,7 +322,6 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         document.body.removeChild(a);
         showNotification('Exportation réussie !', 'bg-green-500');
     });
-
 
     // Gestion de la modale
     document.addEventListener('DOMContentLoaded', function() {

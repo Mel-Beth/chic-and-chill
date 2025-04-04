@@ -20,7 +20,8 @@
             <!-- Sélection du type de client -->
             <h3 class="text-xl font-bold text-gray-800">👤 Type de réservation</h3>
             <label class="block text-lg font-semibold text-gray-800 mt-4">Vous êtes :</label>
-            <select name="customer_type" id="customer_type" class="w-full p-3 border border-gray-300 rounded-md" onchange="toggleClientFields()">
+            <select name="customer_type" id="customer_type" class="w-full p-3 border border-gray-300 rounded-md" 
+            onchange="toggleClientFields()">
                 <option value="particulier">Particulier</option>
                 <option value="entreprise">Entreprise</option>
             </select>
@@ -33,7 +34,8 @@
                 <input type="text" name="company_name" id="company_name" class="w-full p-3 border border-gray-300 rounded-md">
 
                 <label for="siret" class="block text-lg font-semibold text-gray-800 mt-4">SIRET (si applicable) :</label>
-                <input type="text" name="siret" id="siret" class="w-full p-3 border border-gray-300 rounded-md" placeholder="Ex: 123 456 789 00012">
+                <input type="text" name="siret" id="siret" class="w-full p-3 border border-gray-300 rounded-md" 
+                placeholder="Ex: 123 456 789 00012">
 
                 <label for="address" class="block text-lg font-semibold text-gray-800 mt-4">Adresse de facturation :</label>
                 <input type="text" name="address" id="address" class="w-full p-3 border border-gray-300 rounded-md">

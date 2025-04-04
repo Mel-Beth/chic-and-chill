@@ -46,7 +46,8 @@ class ReservationController
             $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
             $phone = htmlspecialchars($_POST["phone"]);
             $event_type = htmlspecialchars($_POST["event_type"] ?? '');
-            $participants = filter_input(INPUT_POST, 'participants', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 1000]]);
+            $participants = filter_input(INPUT_POST, 'participants', FILTER_VALIDATE_INT, ['options' => 
+            ['min_range' => 1, 'max_range' => 1000]]);
             if ($participants === false) {
                 die("Nombre de participants invalide.");
             }
@@ -63,16 +64,17 @@ class ReservationController
             if (empty($name)) die("Le nom est requis.");
             if (!$email) die("Adresse e-mail invalide.");
             if (empty($phone)) die("Le numéro de téléphone est requis.");
-
             if (!empty($event_type)) {
-                $success = $this->reservationModel->addEventReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $event_type, $participants, $services, $comments, null);
+                $success = $this->reservationModel->addEventReservation($customer_type, $company_name, $siret, $address, $name, 
+                $email, $phone, $event_type, $participants, $services, $comments, null);
                 error_log("Ajout réservation événement : " . ($success ? "Succès" : "Échec"));
                 if ($success) {
                     $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation pour un événement par $name ($event_type)");
                     error_log("Appel createNotification réservation événement : " . ($notifSuccess ? "Succès" : "Échec"));
                 }
             } elseif (!empty($pack_id)) {
-                $success = $this->reservationModel->addPackReservation($customer_type, $company_name, $siret, $address, $name, $email, $phone, $services, $comments, $pack_id);
+                $success = $this->reservationModel->addPackReservation($customer_type, $company_name, $siret, $address, $name, 
+                $email, $phone, $services, $comments, $pack_id);
                 error_log("Ajout réservation pack : " . ($success ? "Succès" : "Échec"));
                 if ($success) {
                     $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation pour un pack par $name (ID: $pack_id)");
@@ -140,7 +142,8 @@ class ReservationController
                 require_once 'EmailHelper.php';
 
                 // Sujet de l’email
-                $subject = ($status === 'confirmed') ? "Confirmation de votre réservation - Chic & Chill" : "Notification de refus de votre réservation - Chic & Chill";
+                $subject = ($status === 'confirmed') ? "Confirmation de votre réservation - Chic & Chill" 
+                : "Notification de refus de votre réservation - Chic & Chill";
 
                 // Corps de l’email avec logo à gauche
                 $body = '

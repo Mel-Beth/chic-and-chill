@@ -70,16 +70,28 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
 <style>
     .custom-yellow {
-        background-color: #fefcbf !important; /* Équivalent à bg-yellow-200 */
+        background-color: #fefcbf !important;
+        /* bg-yellow-200 */
     }
+
     .custom-green {
-        background-color: #c6f6d5 !important; /* Équivalent à bg-green-200 */
+        background-color: #c6f6d5 !important;
+        /* bg-green-200 */
     }
+
     .custom-blue {
-        background-color: #bee3f8 !important; /* Équivalent à bg-blue-200 */
+        background-color: #bee3f8 !important;
+        /* bg-blue-200 */
     }
+
     .custom-gray {
-        background-color: #f7fafc !important; /* Équivalent à bg-gray-100 */
+        background-color: #f7fafc !important;
+        /* bg-gray-100 */
+    }
+
+    .custom-red {
+        background-color: #fed7d7 !important;
+        /* bg-red-200 pour ruptures de stock */
     }
 </style>
 
@@ -177,17 +189,10 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 sourcesChart.update();
             }
 
-            const messagesCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(1) p.text-2xl.md\\:text-3xl');
-            if (messagesCard) messagesCard.textContent = data.messages_count || 0;
-
-            const eventsCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(2) p.text-2xl.md\\:text-3xl');
-            if (eventsCard) eventsCard.textContent = `${data.active_events || 0} / ${data.total_events || 0}`;
-
-            const reservationsCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(3) p.text-2xl.md\\:text-3xl');
-            if (reservationsCard) reservationsCard.textContent = `${data.pending_reservations || 0} en attente`;
-
-            const subscribersCard = document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(4) p.text-2xl.md\\:text-3xl');
-            if (subscribersCard) subscribersCard.textContent = `${data.subscribers_count || 0} abonnés`;
+            document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(1) p.text-2xl.md\\:text-3xl').textContent = data.messages_count || 0;
+            document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(2) p.text-2xl.md\\:text-3xl').textContent = `${data.active_events || 0} / ${data.total_events || 0}`;
+            document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(3) p.text-2xl.md\\:text-3xl').textContent = `${data.pending_reservations || 0} en attente`;
+            document.querySelector('.bg-white.p-4.md\\:p-6:nth-child(4) p.text-2xl.md\\:text-3xl').textContent = `${data.subscribers_count || 0} abonnés`;
         } catch (error) {
             console.error("Erreur dans updateDashboard :", error);
         }
@@ -200,7 +205,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             const response = await fetch("admin/notifications/unread");
             if (!response.ok) throw new Error('Erreur réseau');
             const data = await response.json();
-            console.log("Notifications récupérées :", data); // Log pour vérifier les données
+            // console.log("Notifications récupérées :", data);
             updateNotificationsList(data);
         } catch (error) {
             document.getElementById('notificationError').classList.remove('hidden');
@@ -218,22 +223,17 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 const li = document.createElement("li");
                 li.className = "py-2 md:py-3 flex flex-col md:flex-row justify-between items-start md:items-center rounded-md";
 
-                // Log pour déboguer
-                console.log("Message de la notification :", notif.message);
-
-                // Ajouter des classes de couleur en fonction du contenu
+                // Déterminer la couleur en fonction du contenu de la notification
                 if (notif.message.includes("Rappel : Envoyez la newsletter")) {
-                    console.log("Condition rappel newsletter détectée");
-                    li.classList.add("custom-yellow"); // Jaune pour le rappel newsletter
+                    li.classList.add("custom-yellow"); // Jaune pour rappel newsletter
                 } else if (notif.message.includes("Nouvelle réservation")) {
-                    console.log("Condition nouvelle réservation détectée");
                     li.classList.add("custom-green"); // Vert pour nouvelle réservation
                 } else if (notif.message.includes("Nouveau message")) {
-                    console.log("Condition nouveau message détectée");
                     li.classList.add("custom-blue"); // Bleu pour nouveau message
+                } else if (notif.message.includes("rupture de stock")) {
+                    li.classList.add("custom-red"); // Rouge pour rupture de stock
                 } else {
-                    console.log("Condition par défaut (autres notifications)");
-                    li.classList.add("custom-gray"); // Gris clair pour les autres
+                    li.classList.add("custom-gray"); // Gris par défaut
                 }
 
                 li.innerHTML = `
@@ -275,10 +275,10 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     // Initialisation
     document.addEventListener('DOMContentLoaded', () => {
-        console.log("DOM chargé, initialisation...");
+        // console.log("DOM chargé, initialisation...");
         initCharts(dashboardData);
         fetchNotifications();
-        setInterval(fetchNotifications, 10000);
+        setInterval(fetchNotifications, 10000); // Vérifie toutes les 10 secondes
     });
 
     document.getElementById('timeFilter').addEventListener('change', (e) => updateDashboard(e.target.value));

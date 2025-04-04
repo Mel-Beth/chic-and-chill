@@ -3,14 +3,17 @@
 namespace Controllers;
 
 use Models\DashboardModel;
+use Models\OutfitsModel;
 
 class DashboardController
 {
     private $dashboardModel;
+    private $outfitsModel;
 
     public function __construct()
     {
         $this->dashboardModel = new DashboardModel();
+        $this->outfitsModel = new OutfitsModel();
     }
 
     public function index()
@@ -19,6 +22,9 @@ class DashboardController
             header("Location: ../connexion_shop");
             exit();
         } else {
+            // Vérifier les stocks des outfits au chargement du tableau de bord
+            $this->outfitsModel->getAllOutfitsAdmin();
+
             $stats = $this->dashboardModel->getDashboardStats('month');
             error_log("Pending reservations: " . ($stats['pending_reservations'] ?? 0));
             $notifications = $this->dashboardModel->getUnreadNotifications();

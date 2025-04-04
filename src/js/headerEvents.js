@@ -17,14 +17,14 @@
 
         // Gestion de l'ouverture du menu
         menuToggle.addEventListener('click', () => {
-            console.log('Bouton menu-toggle cliqué');
+            // console.log('Bouton menu-toggle cliqué');
             mobileMenu.classList.remove('hidden');
             mobileMenu.classList.add('open');
         });
 
         // Gestion de la fermeture du menu
         closeMenu.addEventListener('click', () => {
-            console.log('Bouton close-menu cliqué');
+            // console.log('Bouton close-menu cliqué');
             mobileMenu.classList.remove('open');
             setTimeout(() => {
                 mobileMenu.classList.add('hidden');
@@ -34,7 +34,7 @@
         // Fermer le menu en cliquant sur un lien
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                console.log('Lien dans le menu mobile cliqué');
+                // console.log('Lien dans le menu mobile cliqué');
                 mobileMenu.classList.remove('open');
                 setTimeout(() => {
                     mobileMenu.classList.add('hidden');

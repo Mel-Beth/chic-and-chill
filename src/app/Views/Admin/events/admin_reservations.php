@@ -143,13 +143,18 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                             </td>
                             <td class="border p-3">
                                 <div class="flex space-x-4">
-                                    <button class="text-blue-600 font-semibold hover:underline viewReservationBtn" data-id="<?= $res['id'] ?>" data-type="<?= $res['type'] ?>">👁️ Voir la réservation</button>
+                                    <button class="text-blue-600 font-semibold hover:underline viewReservationBtn" data-id="<?= $res['id'] ?>" 
+                                    data-type="<?= $res['type'] ?>">👁️ Voir la réservation</button>
                                     <?php if ($res['status'] === 'pending') : ?>
-                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=confirmed&type=<?= $res['type'] ?>" class="text-green-600 font-semibold hover:underline">✅ Accepter</a>
-                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" class="text-red-600 font-semibold hover:underline">❌ Refuser</a>
+                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=confirmed&type=<?= $res['type'] ?>" 
+                                        class="text-green-600 font-semibold hover:underline">✅ Accepter</a>
+                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" 
+                                        class="text-red-600 font-semibold hover:underline">❌ Refuser</a>
                                     <?php elseif ($res['status'] === 'confirmed') : ?>
-                                        <a href="admin/reservations/facture/<?= $res['id'] ?>" target="_blank" class="text-blue-600 font-semibold hover:underline">🧾 Voir la facture</a>
-                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" class="text-red-600 font-semibold hover:underline">❌ Annuler</a>
+                                        <a href="admin/reservations/facture/<?= $res['id'] ?>" target="_blank" 
+                                        class="text-blue-600 font-semibold hover:underline">🧾 Voir la facture</a>
+                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" 
+                                        class="text-red-600 font-semibold hover:underline">❌ Annuler</a>
                                     <?php else: ?>
                                         <button class="text-red-800 font-semibold hover:underline deleteReservationBtn" data-id="<?= $res['id'] ?>">Supprimer</button>
                                     <?php endif; ?>
