@@ -300,6 +300,7 @@
             <a href="evenements" class="hover:text-gray-800 transition">Événements</a>
             <a href="accueil_loc_show" class="hover:text-gray-800 transition">Location & Showroom</a>
             <a href="accueil_shop" class="hover:text-gray-800 transition">Magasin</a>
+            <a href="connexion_shop" class="hover:text-gray-800 transition">Connexion</a>
         </nav>
 
         <!-- Bouton menu mobile -->
