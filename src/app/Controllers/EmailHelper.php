@@ -13,42 +13,45 @@ class EmailHelper
         $mail = new PHPMailer(true);
 
         try {
-            // Paramètres du serveur SMTP
-            $mail->SMTPDebug = 0; // Désactiver le debug par défaut (0 = off, utiliser SMTP::DEBUG_SERVER en dev si besoin)
+            $mail->SMTPDebug = 0;
             $mail->isSMTP();
             $mail->Host = $_ENV['SMTP_HOST'];
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['SMTP_USER'];
             $mail->Password = $_ENV['SMTP_PASSWORD'];
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // SSL/TLS selon votre config
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = $_ENV['SMTP_PORT'];
 
-            // Définir l’encodage UTF-8
             $mail->CharSet = 'UTF-8';
-            $mail->Encoding = 'base64'; // Optionnel, améliore la compatibilité
+            $mail->Encoding = 'base64';
 
-            // Expéditeur et destinataire
+            $mail->AddEmbeddedImage('assets/images/logo_magasin-chic.png', 'logoCID');
             $mail->setFrom($_ENV['SMTP_FROM_EMAIL'], 'Chic & Chill');
             $mail->addAddress($to);
 
-            // Contenu de l’email
             $mail->isHTML(true);
-            $mail->Subject = $subject; // Le sujet est déjà en UTF-8, pas besoin d’encodage supplémentaire ici
-
+            $mail->Subject = $subject;
             $mail->Body = $body;
 
-            // Ajouter une pièce jointe (facture PDF)
-            if ($attachmentPath && file_exists($attachmentPath) && str_starts_with($attachmentPath, 'assets/documents/invoices/')) {
-                $mail->addAttachment($attachmentPath);
+            if ($attachmentPath) {
+                error_log("Tentative d’ajout de la pièce jointe : $attachmentPath");
+                if (file_exists($attachmentPath)) {
+                    $mail->addAttachment($attachmentPath, 'facture.pdf');
+                    error_log("Pièce jointe ajoutée avec succès : $attachmentPath");
+                } else {
+                    error_log("Erreur : Le fichier $attachmentPath n’existe pas ou est inaccessible.");
+                }
+            } else {
+                error_log("Aucune pièce jointe fournie.");
             }
 
-            // Envoi de l’email
             $mail->send();
-            return true; // Retourner explicitement true en cas de succès
+            error_log("Email envoyé avec succès à $to");
+            return true;
 
         } catch (Exception $e) {
-            error_log("Erreur d'envoi d'email : " . $mail->ErrorInfo);
-            return false; // Retourner false en cas d’échec
+            error_log("Erreur d’envoi d’email à $to : " . $mail->ErrorInfo);
+            return false;
         }
     }
 
@@ -71,6 +74,7 @@ class EmailHelper
             $mail->Encoding = 'base64';
 
             // Expéditeur et destinataire
+            $mail->AddEmbeddedImage('assets/images/logo_magasin-chic.png', 'logoCID');
             $mail->setFrom($_ENV['SMTP_FROM_EMAIL'], 'Chic & Chill - Support');
             $mail->addAddress($to);
 

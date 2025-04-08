@@ -58,9 +58,22 @@ class OutfitsModel extends \Models\ModeleParent
         }
     }
 
-    public function addOutfit($product_id, $outfit_name, $accessories, $status)
+    public function addOutfit($product_id, $accessories, $status)
     {
         try {
+            // Récupérer le nom du produit à partir de la table products
+            $stmt = $this->pdo->prepare("SELECT name FROM products WHERE id = :product_id");
+            $stmt->bindValue(':product_id', $product_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $product = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$product) {
+                throw new \Exception("Produit non trouvé pour l'ID $product_id");
+            }
+
+            $outfit_name = $product['name'];
+
+            // Insérer la tenue avec le nom du produit comme outfit_name
             $stmt = $this->pdo->prepare("
                 INSERT INTO outfits_suggestions (product_id, outfit_name, accessories, created_at, status) 
                 VALUES (:product_id, :outfit_name, :accessories, NOW(), :status)
@@ -76,10 +89,37 @@ class OutfitsModel extends \Models\ModeleParent
         }
     }
 
-    public function updateOutfit($outfit_id, $product_id, $outfit_name, $accessories, $status)
+    public function updateOutfit($outfit_id, $product_id, $accessories, $status)
     {
-        $stmt = $this->pdo->prepare("UPDATE outfits_suggestions SET product_id = ?, outfit_name = ?, accessories = ?, created_at = NOW(), status = ? WHERE id = ?");
-        return $stmt->execute([$product_id, $outfit_name, $accessories, $status, $outfit_id]);
+        try {
+            // Récupérer le nom du produit à partir de la table products
+            $stmt = $this->pdo->prepare("SELECT name FROM products WHERE id = :product_id");
+            $stmt->bindValue(':product_id', $product_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $product = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            if (!$product) {
+                throw new \Exception("Produit non trouvé pour l'ID $product_id");
+            }
+
+            $outfit_name = $product['name'];
+
+            // Mettre à jour la tenue avec le nom du produit comme outfit_name
+            $stmt = $this->pdo->prepare("
+                UPDATE outfits_suggestions 
+                SET product_id = :product_id, outfit_name = :outfit_name, accessories = :accessories, created_at = NOW(), status = :status 
+                WHERE id = :outfit_id
+            ");
+            $stmt->bindValue(':product_id', $product_id, \PDO::PARAM_INT);
+            $stmt->bindValue(':outfit_name', $outfit_name, \PDO::PARAM_STR);
+            $stmt->bindValue(':accessories', !empty($accessories) ? $accessories : null, !empty($accessories) ? \PDO::PARAM_STR : \PDO::PARAM_NULL);
+            $stmt->bindValue(':status', $status, \PDO::PARAM_STR);
+            $stmt->bindValue(':outfit_id', $outfit_id, \PDO::PARAM_INT);
+            return $stmt->execute();
+        } catch (\PDOException $e) {
+            error_log("Erreur dans updateOutfit : " . $e->getMessage());
+            return false;
+        }
     }
 
     public function deleteOutfit($outfit_id)

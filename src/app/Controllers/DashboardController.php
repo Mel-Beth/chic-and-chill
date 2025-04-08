@@ -52,7 +52,7 @@ class DashboardController
                 'notifications' => $notifications
             ];
 
-            $adminName = "Admin";
+            $adminName = "Administrateur";
             $adminProfileImage = "assets/images/admin/default-avatar.png";
 
             include 'src/app/Views/Admin/dashboard.php';

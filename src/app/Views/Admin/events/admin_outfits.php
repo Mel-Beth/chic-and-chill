@@ -15,17 +15,23 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     /* Ajout d'une largeur minimale pour les colonnes et gestion du scroll */
     .table-container {
-        overflow-x: auto; /* Active le défilement horizontal */
-        -webkit-overflow-scrolling: touch; /* Améliore le défilement sur mobile */
+        overflow-x: auto;
+        /* Active le défilement horizontal */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur mobile */
     }
 
     table {
-        min-width: 800px; /* Assure que le tableau a une largeur minimale pour éviter la compression */
+        min-width: 800px;
+        /* Assure que le tableau a une largeur minimale pour éviter la compression */
     }
 
-    th, td {
-        min-width: 120px; /* Largeur minimale pour chaque colonne */
-        white-space: nowrap; /* Empêche le texte de se couper sur plusieurs lignes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
     }
 
     /* Ajustement pour les images dans les colonnes */
@@ -80,12 +86,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 <input id="search" type="text" placeholder="Rechercher une tenue..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
                     <div class="relative">
-                        <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
-                        <div id="exportOptions" class="hidden absolute mt-2 bg-white border rounded shadow-md">
-                            <a href="admin/export/csv" class="block px-4 py-2 hover:bg-gray-200">CSV</a>
-                            <a href="admin/export/pdf" class="block px-4 py-2 hover:bg-gray-200">PDF</a>
-                            <a href="admin/export/excel" class="block px-4 py-2 hover:bg-gray-200">Excel</a>
-                        </div>
+                        <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter</button>
                     </div>
                     <select id="sort" class="border px-4 py-2 rounded-md">
                         <option value="title">Trier par Nom</option>
@@ -110,7 +111,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                     <tbody id="outfitTable">
                         <?php foreach ($outfits as $outfit) : ?>
                             <tr class="hover:bg-gray-100">
-                                <td class="border p-3"> <?= htmlspecialchars($outfit['outfit_name']); ?> </td>
+                                <td class="border p-3"> <?= htmlspecialchars($outfit['product_name']); ?> </td>
                                 <td class="border p-3"> <?= htmlspecialchars($outfit['accessories']); ?> </td>
                                 <td class="border p-3">
                                     <?php $image = isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp'; ?>
@@ -124,7 +125,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                                 <td class="border p-3"> <?= $outfit['product_id']; ?> </td>
                                 <td class="border p-3">
                                     <button class="edit-outfit text-blue-600 hover:underline"
-                                        data-id="<?= $outfit['id'] ?>" data-name="<?= htmlspecialchars($outfit['outfit_name']) ?>"
+                                        data-id="<?= $outfit['id'] ?>"
+                                        data-name="<?= htmlspecialchars($outfit['product_name']) ?>"
                                         data-accessories="<?= htmlspecialchars($outfit['accessories']) ?>"
                                         data-image="<?= isset($outfit['product_image']) ? htmlspecialchars($outfit['product_image']) : 'assets/images/placeholder.webp' ?>"
                                         data-status="<?= $outfit['status'] ?>"
@@ -152,15 +154,14 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             </h3>
             <form id="outfitForm" action="admin/outfits/ajouter" method="POST">
                 <input type="hidden" id="outfitId" name="id">
-                <input type="text" id="outfitName" name="outfit_name" placeholder="Nom de la tenue" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
-                <textarea id="outfitAccessories" name="accessories" placeholder="Accessoires" required class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]"></textarea>
 
                 <!-- Sélectionner un produit -->
                 <label for="productSelect" class="block mb-2">Sélectionnez un produit :</label>
-                <select id="productSelect" name="product_id" class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]">
+                <select id="productSelect" name="product_id" class="w-full p-3 border border-gray-300 rounded-md mb-2 focus:ring focus:ring-[#8B5A2B]" required>
+                    <option value="">Sélectionnez un produit</option>
                     <?php if (!empty($products)): ?>
                         <?php foreach ($products as $product): ?>
-                            <option value="<?= $product['id']; ?>" data-image="<?= htmlspecialchars($product['image_path']); ?>">
+                            <option value="<?= $product['id']; ?>" data-image="<?= htmlspecialchars($product['image'] ?? 'assets/images/placeholder.webp'); ?>">
                                 <?= strip_tags($product['name']); ?>
                             </option>
                         <?php endforeach; ?>
@@ -170,6 +171,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 </select>
 
                 <img id="productImagePreview" src="assets/images/placeholder.webp" alt="Aperçu de l'image" class="mt-2 rounded-md w-40 h-40 object-cover hidden">
+
+                <textarea id="outfitAccessories" name="accessories" placeholder="Accessoires" required class="w-full p-3 border border-gray-300 rounded-md mb-2 mt-2 focus:ring focus:ring-[#8B5A2B]"></textarea>
 
                 <select id="outfitStatus" name="status" class="w-full p-3 border border-gray-300 rounded-md mb-2">
                     <option value="active">Actif</option>
@@ -346,7 +349,6 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         document.querySelectorAll('.edit-outfit').forEach(button => {
             button.addEventListener('click', function() {
                 let outfitId = this.getAttribute("data-id");
-                let outfitName = this.getAttribute("data-name");
                 let outfitAccessories = this.getAttribute("data-accessories");
                 let outfitImage = this.getAttribute("data-image");
                 let outfitStatus = this.getAttribute("data-status");
@@ -354,9 +356,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
                 // Remplir les champs
                 document.getElementById('outfitId').value = outfitId;
-                document.getElementById('outfitName').value = outfitName;
                 document.getElementById('outfitAccessories').value = outfitAccessories;
-                // On ne met rien pour outfitImage, car on n’a pas de champ #outfitImage
                 document.getElementById('productSelect').value = outfitProductId;
                 document.getElementById('outfitStatus').value = outfitStatus;
 

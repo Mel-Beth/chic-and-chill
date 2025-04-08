@@ -13,7 +13,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 <option value="quarter">Dernier trimestre</option>
                 <option value="year">Année</option>
             </select>
-            <button id="exportBtn" class="p-2 bg-blue-500 text-white rounded w-full md:w-auto">Exporter en CSV</button>
+            <button id="exportBtn" class="p-2 bg-blue-500 text-white rounded w-full md:w-auto">Exporter les données </button>
         </div>
 
         <!-- 🔔 Notifications -->

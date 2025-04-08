@@ -2,7 +2,6 @@
 
 namespace Models;
 
-
 class SettingsModel extends ModeleParent
 {
     public function getSettings($userId)
@@ -17,9 +16,13 @@ class SettingsModel extends ModeleParent
         }
     }
 
-    public function updateUserSettings($userId, $name, $email, $role)
+    public function updateUserSettings($userId, $name, $email)
     {
         try {
+            // Récupérer le rôle actuel pour le préserver
+            $currentSettings = $this->getSettings($userId);
+            $role = $currentSettings['role'] ?? 'user'; // Valeur par défaut si le rôle n'est pas trouvé
+
             $stmt = $this->pdo->prepare("UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?");
             $success = $stmt->execute([$name, $email, $role, $userId]);
             return ['success' => $success, 'message' => $success ? "Mise à jour réussie" : "Échec mise à jour"];

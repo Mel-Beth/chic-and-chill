@@ -39,7 +39,15 @@ class SettingsController
                 exit();
             }
             $settings = $this->settingsModel->getSettings($userId);
-            $result = $this->settingsModel->updateUserSettings($userId, $username, $email, $settings['role']);
+
+            // Vérifier si une tentative de modification du rôle a été faite
+            if (isset($_POST['role']) && $_POST['role'] !== $settings['role']) {
+                echo json_encode(['success' => false, 'message' => 'Modification du rôle non autorisée']);
+                exit();
+            }
+
+            // Mettre à jour les paramètres sans permettre la modification du rôle
+            $result = $this->settingsModel->updateUserSettings($userId, $username, $email);
             $this->settingsModel->logAction($userId, $username, "Mise à jour compte", $_SERVER['REMOTE_ADDR']);
             echo json_encode($result);
             exit();

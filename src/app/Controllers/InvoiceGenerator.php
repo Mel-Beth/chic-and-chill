@@ -67,13 +67,17 @@ class InvoiceGenerator
         $pdf->Line(15, $y, 195, $y, array('width' => 0.5, 'color' => array(0, 0, 0)));
         $pdf->Ln(5);
 
+        date_default_timezone_set('Europe/Paris'); // Définir le fuseau horaire à Paris
+        
         // Informations de la facture
+    
         $pdf->SetFont('helvetica', '', 10);
         $invoiceInfo = "
         <table cellpadding='5' cellspacing='0'>
             <tr>
                 <td style='width:50%;'>
                     <strong>Date de facture :</strong> " . date('d/m/Y') . "<br>
+                    <strong>Heure de facture :</strong> " . date('H:i') . "<br>
                     <strong>N° Client :</strong> " . substr(md5($reservation['customer_name'] . $reservation['created_at']), 0, 8) . "
                 </td>
                 <td style='width:50%; text-align: right;'>

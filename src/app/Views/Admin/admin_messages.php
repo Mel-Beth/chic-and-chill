@@ -49,12 +49,14 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 <input id="search" type="text" placeholder="Rechercher un message..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
                     <select id="filterSource" class="border px-4 py-2 rounded-md">
+                        <option value="">Sélectionner la source</option>
                         <option value="all">Tous</option>
                         <option value="magasin">Magasin</option>
                         <option value="location">Location</option>
                         <option value="evenements">Événements</option>
                     </select>
                     <select id="filterStatus" class="border px-4 py-2 rounded-md">
+                        <option value="">Sélectionner le statut</option>
                         <option value="all">Tous</option>
                         <option value="unread">Non lus</option>
                         <option value="read">Lus</option>

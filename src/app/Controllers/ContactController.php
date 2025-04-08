@@ -157,7 +157,9 @@ class ContactController
             <!-- Corps -->
             <tr>
                 <td style="padding: 20px;">
-                    <h2 style="color: #28a745; margin: 0 0 15px;">Réponse à votre message</h2>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img style="width: 5rem; height: auto;" src="cid:logoCID" alt="Logo">
+                    </div>                    <h2 style="color: #28a745; margin: 0 0 15px;">Réponse à votre message</h2>
                     <p style="margin: 0 0 15px;">Bonjour ' . htmlspecialchars($message['name']) . ',</p>
                     <p style="margin: 0 0 15px;">Merci pour votre message. Voici notre réponse :</p>
 

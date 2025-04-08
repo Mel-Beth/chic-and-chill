@@ -64,7 +64,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             <div class="flex justify-between mb-4">
                 <input id="search" type="text" placeholder="Rechercher un pack..." class="border px-4 py-2 rounded-md w-1/3 focus:ring focus:ring-[#8B5A2B]">
                 <div class="flex space-x-4">
-                    <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter en CSV</button>
+                    <button id="exportBtn" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter les données </button>
                     <select id="sort" class="border px-4 py-2 rounded-md">
                         <option value="title">Trier par Nom</option>
                         <option value="price">Trier par Prix</option>

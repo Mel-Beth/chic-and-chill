@@ -32,8 +32,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                             <label class="block text-gray-600 mt-4">Adresse Email</label>
                             <input type="email" name="email" value="<?= htmlspecialchars($settings['email'] ?? '') ?>" class="border px-4 py-2 rounded-md w-full">
                             <label class="block text-gray-600 mt-4">Rôle</label>
-                            <input type="text" name="role" value="<?= htmlspecialchars($settings['role'] ?? '') ?>" class="border px-4 py-2 rounded-md w-full" disabled>
-                            <button type="submit" class="mt-4 bg-black text-white px-6 py-3 rounded-md hover:scale-105 transition">Mettre à jour</button>
+                            <input type="text" value="<?= htmlspecialchars($settings['role'] ?? '') ?>" class="border px-4 py-2 rounded-md w-full bg-gray-200 cursor-not-allowed" disabled readonly>                            <button type="submit" class="mt-4 bg-black text-white px-6 py-3 rounded-md hover:scale-105 transition">Mettre à jour</button>
                         </form>
                     </div>
 
@@ -117,13 +116,13 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                         <h3 class="text-2xl font-semibold mb-4">🔗 Import/Export des Données</h3>
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <h4 class="text-lg font-semibold mb-2">📤 Exporter les Données</h4>
-                            <button id="exportUsers" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter utilisateurs (CSV)</button>
-                            <button id="exportProducts" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter produits (CSV)</button>
+                            <button id="exportUsers" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter utilisateurs</button>
+                            <button id="exportProducts" class="border px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600">Exporter produits</button>
                             <hr class="my-4">
                             <h4 class="text-lg font-semibold mb-2">📥 Importer des Données</h4>
                             <form id="importForm" action="admin/settings/import" method="POST" enctype="multipart/form-data">
                                 <input type="file" name="importFile" accept=".csv" class="border px-4 py-2 rounded-md w-full">
-                                <button type="submit" class="mt-2 border px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600">Importer CSV</button>
+                                <button type="submit" class="mt-2 border px-4 py-2 rounded-md bg-green-500 text-white hover:bg-green-600">Importer</button>
                             </form>
                             <hr class="my-4">
                             <h4 class="text-lg font-semibold mb-2">🔄 Sauvegarde & Restauration</h4>

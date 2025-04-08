@@ -12,6 +12,7 @@ $adminProfileImage = $adminProfileImage ?? 'assets/images/admin/default-avatar.p
         <h1 class="text-lg font-semibold text-gray-800 md:text-xl"><?= htmlspecialchars($adminName) ?></h1>
     </div>
     <div class="flex items-center space-x-2 md:space-x-4">
+        <a href="profil_user_shop">Retour au site</a>
         <img src="<?= htmlspecialchars($adminProfileImage) ?>" alt="Admin" class="w-8 h-8 rounded-full border md:w-10 md:h-10">
         <span class="text-gray-700 text-sm md:text-base hidden md:inline"><?= htmlspecialchars($adminName) ?></span>
     </div>
@@ -21,7 +22,8 @@ $adminProfileImage = $adminProfileImage ?? 'assets/images/admin/default-avatar.p
     /* Ajustements responsive pour header */
     @media (min-width: 768px) {
         .header {
-            left: 256px; /* Correspond à w-64 de la sidebar */
+            left: 256px;
+            /* Correspond à w-64 de la sidebar */
         }
     }
 </style>

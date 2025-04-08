@@ -46,7 +46,7 @@ class ReservationController
             $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
             $phone = htmlspecialchars($_POST["phone"]);
             $event_type = htmlspecialchars($_POST["event_type"] ?? '');
-            $participants = filter_input(INPUT_POST, 'participants', FILTER_VALIDATE_INT, ['options' => 
+            $participants = filter_input(INPUT_POST, 'participants', FILTER_VALIDATE_INT, ['options' =>
             ['min_range' => 1, 'max_range' => 1000]]);
             if ($participants === false) {
                 die("Nombre de participants invalide.");
@@ -65,16 +65,38 @@ class ReservationController
             if (!$email) die("Adresse e-mail invalide.");
             if (empty($phone)) die("Le numéro de téléphone est requis.");
             if (!empty($event_type)) {
-                $success = $this->reservationModel->addEventReservation($customer_type, $company_name, $siret, $address, $name, 
-                $email, $phone, $event_type, $participants, $services, $comments, null);
+                $success = $this->reservationModel->addEventReservation(
+                    $customer_type,
+                    $company_name,
+                    $siret,
+                    $address,
+                    $name,
+                    $email,
+                    $phone,
+                    $event_type,
+                    $participants,
+                    $services,
+                    $comments,
+                    null
+                );
                 error_log("Ajout réservation événement : " . ($success ? "Succès" : "Échec"));
                 if ($success) {
                     $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation pour un événement par $name ($event_type)");
                     error_log("Appel createNotification réservation événement : " . ($notifSuccess ? "Succès" : "Échec"));
                 }
             } elseif (!empty($pack_id)) {
-                $success = $this->reservationModel->addPackReservation($customer_type, $company_name, $siret, $address, $name, 
-                $email, $phone, $services, $comments, $pack_id);
+                $success = $this->reservationModel->addPackReservation(
+                    $customer_type,
+                    $company_name,
+                    $siret,
+                    $address,
+                    $name,
+                    $email,
+                    $phone,
+                    $services,
+                    $comments,
+                    $pack_id
+                );
                 error_log("Ajout réservation pack : " . ($success ? "Succès" : "Échec"));
                 if ($success) {
                     $notifSuccess = $this->notificationModel->createNotification("Nouvelle réservation pour un pack par $name (ID: $pack_id)");
@@ -130,20 +152,25 @@ class ReservationController
                 $reservation['pack_price'] = $packDetails['price'];
             }
 
+            // Mettre à jour le statut
             $updateSuccess = $this->reservationModel->updateReservationStatus($id, $status, $type);
 
             if ($updateSuccess) {
                 $attachmentPath = null;
                 if ($status === 'confirmed') {
-                    require_once 'invoice_generator.php';
+                    require_once 'src/app/Controllers/InvoiceGenerator.php';
                     $attachmentPath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
+                    if (!file_exists($attachmentPath)) {
+                        error_log("Erreur : La facture n’a pas été générée à $attachmentPath");
+                        $attachmentPath = null; // Ne pas essayer d’envoyer une pièce jointe inexistante
+                    }
                 }
 
-                require_once 'EmailHelper.php';
+                require_once 'src/app/Controllers/EmailHelper.php';
 
                 // Sujet de l’email
-                $subject = ($status === 'confirmed') ? "Confirmation de votre réservation - Chic & Chill" 
-                : "Notification de refus de votre réservation - Chic & Chill";
+                $subject = ($status === 'confirmed') ? "Confirmation de votre réservation - Chic & Chill"
+                    : "Notification de refus de votre réservation - Chic & Chill";
 
                 // Corps de l’email avec logo à gauche
                 $body = '
@@ -171,6 +198,9 @@ class ReservationController
                     <!-- Corps -->
                     <tr>
                         <td style="padding: 20px;">
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <img style="width: 5rem; height: auto;" src="cid:logoCID" alt="Logo">
+                        </div>
                             <h2 style="color: ' . ($status === 'confirmed' ? '#28a745' : '#dc3545') . '; margin: 0 0 15px;">' . ($status === 'confirmed' ? 'Réservation confirmée' : 'Réservation refusée') . '</h2>
                             <p style="margin: 0 0 15px;">Bonjour ' . htmlspecialchars($reservation['customer_name']) . ',</p>
                             <p style="margin: 0 0 15px;">Nous vous informons que votre réservation ' . ($reservation['type'] === 'event' ? 'd’événement' : 'de pack') . ' a été ' . ($status === 'confirmed' ? 'confirmée' : 'refusée') . '.</p>
@@ -283,32 +313,25 @@ class ReservationController
             </body>
             </html>';
 
-                $emailSent = \Controllers\EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+            $emailSent = \Controllers\EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+            error_log("Envoi email pour réservation $id : " . ($emailSent ? "Succès" : "Échec"));
 
-
-                $_SESSION['message'] = [
-                    'type' => $emailSent ? 'success' : 'warning',
-                    'text' => $emailSent ?
-                        "Le statut a été mis à jour et l'email a été envoyé avec succès." :
-                        "Le statut a été mis à jour, mais l'email n'a pas pu être envoyé."
-                ];
-            } else {
-                $_SESSION['message'] = [
-                    'type' => 'error',
-                    'text' => "Échec de la mise à jour du statut pour ID $id (type: " . ($type ?: 'inconnu') . ")."
-                ];
-            }
-
-            header("Location: ../confirmation");
-            exit();
+            $_SESSION['message'] = [
+                'type' => $emailSent ? 'success' : 'warning',
+                'text' => $emailSent ? "Statut mis à jour et email envoyé avec succès." 
+                    : "Statut mis à jour, mais l’email n’a pas pu être envoyé correctement."
+            ];
         } else {
+            error_log("Échec mise à jour statut pour réservation ID $id.");
             $_SESSION['message'] = [
                 'type' => 'error',
-                'text' => "Réservation avec ID $id (type: " . ($type ?: 'inconnu') . ") introuvable."
+                'text' => "Échec de la mise à jour du statut pour ID $id."
             ];
-            header("Location: ../confirmation");
-            exit();
         }
+
+        header("Location: ../confirmation");
+        exit();
+    }
     }
 
     public function showConfirmation()
