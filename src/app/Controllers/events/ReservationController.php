@@ -15,7 +15,7 @@ class ReservationController
     public function __construct()
     {
         $this->reservationModel = new ReservationModel();
-        $this->notificationModel = new NotificationModel(); // Ajout du modèle de notification
+        $this->notificationModel = new NotificationModel();
     }
 
     public function reservationEvenement()
@@ -122,12 +122,12 @@ class ReservationController
         // Enrichir les réservations de type "pack" avec les détails du pack
         foreach ($reservations as &$reservation) {
             if ($reservation['type'] === 'pack') {
-                $packDetails = $this->reservationModel->getPackDetails($reservation['event_id']); // event_id est l'alias de pack_id
+                $packDetails = $this->reservationModel->getPackDetails($reservation['event_id']);
                 $reservation['title'] = $packDetails['title'];
                 $reservation['price'] = $packDetails['price'];
             }
         }
-        unset($reservation); // Libérer la référence
+        unset($reservation);
 
         include 'src/app/Views/Admin/events/admin_reservations.php';
     }
@@ -157,13 +157,18 @@ class ReservationController
 
             if ($updateSuccess) {
                 $attachmentPath = null;
-                if ($status === 'confirmed') {
+                if ($status === 'confirmed' && empty($reservation['invoice_path'])) {
                     require_once 'src/app/Controllers/InvoiceGenerator.php';
                     $attachmentPath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
-                    if (!file_exists($attachmentPath)) {
+                    if (file_exists($attachmentPath)) {
+                        // Stocker le chemin de la facture dans la base de données
+                        $this->reservationModel->updateInvoicePath($id, $reservation['type'], $attachmentPath);
+                    } else {
                         error_log("Erreur : La facture n’a pas été générée à $attachmentPath");
-                        $attachmentPath = null; // Ne pas essayer d’envoyer une pièce jointe inexistante
+                        $attachmentPath = null;
                     }
+                } elseif ($status === 'confirmed' && !empty($reservation['invoice_path'])) {
+                    $attachmentPath = $reservation['invoice_path'];
                 }
 
                 require_once 'src/app/Controllers/EmailHelper.php';
@@ -313,33 +318,31 @@ class ReservationController
             </body>
             </html>';
 
-            $emailSent = \Controllers\EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
-            error_log("Envoi email pour réservation $id : " . ($emailSent ? "Succès" : "Échec"));
+                $emailSent = \Controllers\EmailHelper::sendEmail($reservation['email'], $subject, $body, $attachmentPath);
+                error_log("Envoi email pour réservation $id : " . ($emailSent ? "Succès" : "Échec"));
 
-            $_SESSION['message'] = [
-                'type' => $emailSent ? 'success' : 'warning',
-                'text' => $emailSent ? "Statut mis à jour et email envoyé avec succès." 
-                    : "Statut mis à jour, mais l’email n’a pas pu être envoyé correctement."
-            ];
-        } else {
-            error_log("Échec mise à jour statut pour réservation ID $id.");
-            $_SESSION['message'] = [
-                'type' => 'error',
-                'text' => "Échec de la mise à jour du statut pour ID $id."
-            ];
+                $_SESSION['message'] = [
+                    'type' => $emailSent ? 'success' : 'warning',
+                    'text' => $emailSent ? "Statut mis à jour et email envoyé avec succès." 
+                        : "Statut mis à jour, mais l’email n’a pas pu être envoyé correctement."
+                ];
+            } else {
+                error_log("Échec mise à jour statut pour réservation ID $id.");
+                $_SESSION['message'] = [
+                    'type' => 'error',
+                    'text' => "Échec de la mise à jour du statut pour ID $id."
+                ];
+            }
+
+            header("Location: ../confirmation");
+            exit();
         }
-
-        header("Location: ../confirmation");
-        exit();
-    }
     }
 
     public function showConfirmation()
     {
-        // On ne redirige pas immédiatement, on laisse la vue s'afficher
         include 'src/app/Views/Admin/events/admin_reservation_confirmation.php';
         unset($_SESSION['message']);
-        // Pas de header() ici, la redirection sera gérée par JavaScript dans la vue
     }
 
     public function showInvoice($id)
@@ -349,59 +352,69 @@ class ReservationController
             $description_erreur = "Vous n'avez pas les droits pour accéder à cette page.";
             include('src/app/Views/erreur.php');
             exit();
-        } else if ($_SESSION['user_role'] === 'admin') {
+        }
+
+        if ($_SESSION['user_role'] === 'admin') {
             $reservation = $this->reservationModel->getReservationById($id);
             if (!$reservation) {
                 $code_erreur = 404;
                 $description_erreur = "Oups... Réservation introuvable.";
                 include('src/app/Views/erreur.php');
+                exit();
+            }
+
+            // Vérifier si la facture existe déjà
+            if (!empty($reservation['invoice_path']) && file_exists($reservation['invoice_path'])) {
+                $filePath = $reservation['invoice_path'];
             } else {
+                // Si la facture n'existe pas, la générer
                 if ($reservation['type'] === 'pack') {
                     $packDetails = $this->reservationModel->getPackDetails($reservation['pack_id']);
                     $reservation['pack_title'] = $packDetails['title'];
                     $reservation['pack_price'] = $packDetails['price'];
                 }
 
-                // Pas de require_once, l'autoloader s'en charge
                 $filePath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
-
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
-                readfile($filePath);
-                exit();
+                // Stocker le chemin de la facture dans la base de données
+                $this->reservationModel->updateInvoicePath($id, $reservation['type'], $filePath);
             }
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
+            readfile($filePath);
+            exit();
         } else {
-            // On va récupérer tous les id de commandes dans la bdd liée à l'id du client qui vaut $_SESSION['id']
+            // Logique pour les clients non-admin
             $reservations = $this->reservationModel->getReservationsByCustomerId($_SESSION['id']);
-            // On va vérifier si l'id de la commande demandée est bien dans le tableau des id de commandes
             $id_reservations = array_column($reservations, 'id');
             if (in_array($id, $id_reservations)) {
-                // 1. Récupérer la réservation
                 $reservation = $this->reservationModel->getReservationById($id);
                 if (!$reservation) {
                     $code_erreur = 404;
                     $description_erreur = "Oups... Réservation introuvable.";
                     include('src/app/Views/erreur.php');
+                    exit();
+                }
+
+                // Vérifier si la facture existe déjà
+                if (!empty($reservation['invoice_path']) && file_exists($reservation['invoice_path'])) {
+                    $filePath = $reservation['invoice_path'];
                 } else {
-                    // Si c'est une réservation de pack, enrichir avec les détails du pack
                     if ($reservation['type'] === 'pack') {
                         $packDetails = $this->reservationModel->getPackDetails($reservation['pack_id']);
                         $reservation['pack_title'] = $packDetails['title'];
                         $reservation['pack_price'] = $packDetails['price'];
                     }
 
-                    // 2. Générer le PDF via ton invoice_generator
-                    require_once 'invoice_generator.php';
                     $filePath = \Controllers\InvoiceGenerator::generateInvoice($reservation);
-
-                    // 3. Forcer le téléchargement ou afficher le PDF dans le navigateur
-                    header('Content-Type: application/pdf');
-                    header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
-                    readfile($filePath);
-                    exit();
+                    $this->reservationModel->updateInvoicePath($id, $reservation['type'], $filePath);
                 }
+
+                header('Content-Type: application/pdf');
+                header('Content-Disposition: inline; filename="facture_' . $id . '.pdf"');
+                readfile($filePath);
+                exit();
             } else {
-                // Redirection vers page erreur
                 $code_erreur = 401;
                 $description_erreur = "Vous n'avez pas les droits pour accéder à cette page.";
                 include('src/app/Views/erreur.php');
@@ -417,12 +430,7 @@ class ReservationController
             die("Réservation introuvable.");
         }
 
-        // Mettre un champ status = 'canceled'
         $this->reservationModel->updateReservationStatus($id, 'canceled');
-
-        // Eventuellement envoyer un email pour prévenir de l’annulation
-        // ...
-
         header('Location: admin/reservations');
         exit();
     }

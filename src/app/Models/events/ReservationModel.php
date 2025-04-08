@@ -4,17 +4,40 @@ namespace Models\Events;
 
 class ReservationModel extends \Models\ModeleParent
 {
-    public function addEventReservation($customer_type, $company_name, $siret, $address, $name, 
-    $email, $phone, $event_type, $participants, $services, $comments, $event_id)
-    {
+    public function addEventReservation(
+        $customer_type,
+        $company_name,
+        $siret,
+        $address,
+        $name,
+        $email,
+        $phone,
+        $event_type,
+        $participants,
+        $services,
+        $comments,
+        $event_id
+    ) {
         try {
             $stmt = $this->pdo->prepare("
                 INSERT INTO event_reservations (customer_type, company_name, siret, address, customer_name, 
-                email, phone, event_type, participants, services, comments, event_id, status, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
+                email, phone, event_type, participants, services, comments, event_id, status, created_at, invoice_path)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), NULL)
             ");
-            $stmt->execute([$customer_type, $company_name, $siret, $address, $name, 
-            $email, $phone, $event_type, $participants, $services, $comments, $event_id]);
+            $stmt->execute([
+                $customer_type,
+                $company_name,
+                $siret,
+                $address,
+                $name,
+                $email,
+                $phone,
+                $event_type,
+                $participants,
+                $services,
+                $comments,
+                $event_id
+            ]);
             return true;
         } catch (\PDOException $e) {
             error_log("Erreur lors de la réservation : " . $e->getMessage());
@@ -23,17 +46,36 @@ class ReservationModel extends \Models\ModeleParent
         }
     }
 
-    public function addPackReservation($customer_type, $company_name, $siret, $address, $name, 
-    $email, $phone, $services, $comments, $pack_id)
-    {
+    public function addPackReservation(
+        $customer_type,
+        $company_name,
+        $siret,
+        $address,
+        $name,
+        $email,
+        $phone,
+        $services,
+        $comments,
+        $pack_id
+    ) {
         try {
             $stmt = $this->pdo->prepare("
                 INSERT INTO pack_reservations (customer_type, company_name, siret, address, customer_name, 
-                email, phone, services, comments, pack_id, status, created_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
+                email, phone, services, comments, pack_id, status, created_at, invoice_path)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), NULL)
             ");
-            $stmt->execute([$customer_type, $company_name, $siret, $address, $name, 
-            $email, $phone, $services, $comments, $pack_id]);
+            $stmt->execute([
+                $customer_type,
+                $company_name,
+                $siret,
+                $address,
+                $name,
+                $email,
+                $phone,
+                $services,
+                $comments,
+                $pack_id
+            ]);
             return true;
         } catch (\PDOException $e) {
             error_log("Erreur lors de la réservation du pack : " . $e->getMessage());
@@ -45,10 +87,10 @@ class ReservationModel extends \Models\ModeleParent
     {
         try {
             $stmt = $this->pdo->query("
-                SELECT 'event' AS type, id, customer_type, company_name, siret, address, customer_name, email, phone, event_type, participants, services, comments, event_id, status, created_at 
+                SELECT 'event' AS type, id, customer_type, company_name, siret, address, customer_name, email, phone, event_type, participants, services, comments, event_id, status, created_at, invoice_path 
                 FROM event_reservations
                 UNION
-                SELECT 'pack' AS type, id, customer_type, company_name, siret, address, customer_name, email, phone, NULL AS event_type, NULL AS participants, services, comments, pack_id AS event_id, status, created_at 
+                SELECT 'pack' AS type, id, customer_type, company_name, siret, address, customer_name, email, phone, NULL AS event_type, NULL AS participants, services, comments, pack_id AS event_id, status, created_at, invoice_path 
                 FROM pack_reservations
                 ORDER BY created_at DESC
             ");
@@ -145,6 +187,24 @@ class ReservationModel extends \Models\ModeleParent
             return true;
         } catch (\PDOException $e) {
             die("Erreur SQL lors de la mise à jour du statut : " . $e->getMessage());
+        }
+    }
+
+    public function updateInvoicePath($id, $type, $invoicePath)
+    {
+        try {
+            $table = ($type === 'event') ? 'event_reservations' : 'pack_reservations';
+            $stmt = $this->pdo->prepare("UPDATE $table SET invoice_path = ? WHERE id = ?");
+            $success = $stmt->execute([$invoicePath, $id]);
+
+            if (!$success) {
+                error_log("Échec de la mise à jour de invoice_path pour ID $id dans $table.");
+                return false;
+            }
+            return true;
+        } catch (\PDOException $e) {
+            error_log("Erreur SQL lors de la mise à jour de invoice_path : " . $e->getMessage());
+            return false;
         }
     }
 
