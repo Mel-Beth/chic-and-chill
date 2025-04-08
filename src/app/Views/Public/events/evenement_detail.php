@@ -148,8 +148,8 @@ $formatter = new IntlDateFormatter(
 <?php include('src/app/Views/includes/events/footerEvents.php'); ?>
 
 <!-- SwiperJS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="src/libs/swiper-bundle.min.css" />
+<script src="src/libs/swiper-bundle.min.js"></script>
 
 <script>
     // Stocker les médias dans un tableau pour la navigation

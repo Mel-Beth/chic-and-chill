@@ -95,7 +95,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     }
 </style>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="src/libs/chart.js"></script>
 <script>
     const dashboardData = <?php echo json_encode($dashboardData ?? []); ?>;
     let reservationsChart, packsChart, sourcesChart;

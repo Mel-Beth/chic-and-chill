@@ -9,7 +9,6 @@ $adminProfileImage = $adminProfileImage ?? 'assets/images/admin/default-avatar.p
         <button id="menuToggle" class="md:hidden text-gray-800 focus:outline-none mr-2">
             <span class="material-icons">menu</span>
         </button>
-        <h1 class="text-lg font-semibold text-gray-800 md:text-xl"><?= htmlspecialchars($adminName) ?></h1>
     </div>
     <div class="flex items-center space-x-2 md:space-x-4">
         <a href="profil_user_shop">Retour au site</a>
