@@ -276,7 +276,7 @@ if (empty($route[0])) {
         // 📌 Routes Admin
         case 'admin':
             if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== "admin") {
-                header('Location: connexion_shop');
+                header('Location: ../connexion_shop');
                 exit();
             }
 

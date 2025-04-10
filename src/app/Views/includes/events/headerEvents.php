@@ -18,6 +18,7 @@
             <a href="accueil_shop" class="menu-link relative" aria-label="Magasin"><i class="fas fa-shopping-bag"></i> Magasin</a>
             <a href="localisation" class="menu-link relative" aria-label="Nous trouver"><i class="fas fa-map-marker-alt"></i> Nous trouver</a>
             <a href="contact_evenements" class="menu-link relative" aria-label="Nous contacter"><i class="fas fa-envelope"></i> Nous contacter</a>
+            <a href="connexion_shop" class="menu-link relative" aria-label="Connexion"><i class="fas fa-right-to-bracket"></i> Connexion</a>
         </nav>
         <!-- Bouton pour ouvrir le menu mobile -->
         <div class="md:hidden">
@@ -33,6 +34,7 @@
                 <li><a href="accueil_shop"><i class="fas fa-shopping-bag"></i> Magasin</a></li>
                 <li><a href="localisation"><i class="fas fa-map-marker-alt"></i> Nous trouver</a></li>
                 <li><a href="contact_evenements"><i class="fas fa-envelope"></i> Nous contacter</a></li>
+                <li><a href="connexion_shop"><i class="fas fa-right-to-bracket"></i> Connexion</a></li>
             </ul>
         </div>
     </div>
