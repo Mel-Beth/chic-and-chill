@@ -17,6 +17,37 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
         /* Ajoutez éventuellement une ombre pour la rendre plus visible */
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
+
+    /* Conteneur du tableau avec défilement horizontal */
+    .table-container {
+        overflow-x: auto;
+        /* Active le défilement horizontal si le tableau dépasse */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur les appareils mobiles */
+    }
+
+    /* Largeur minimale pour le tableau */
+    table {
+        min-width: 800px;
+        /* Assure une largeur minimale pour éviter la compression excessive */
+    }
+
+    /* Largeur minimale et gestion du texte pour les colonnes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement des images dans les colonnes */
+    td img {
+        max-width: 100%;
+        /* Limite la largeur de l'image à la cellule */
+        height: auto;
+        /* Conserve les proportions de l'image */
+    }
 </style>
 
 <div class="min-h-screen flex flex-col lg:pl-64 mt-12">
@@ -46,51 +77,54 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
         </div>
 
         <!-- Liste des utilisateurs -->
-        <table class="w-full border-collapse border">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border p-3">Nom</th>
-                    <th class="border p-3">Email</th>
-                    <th class="border p-3">Rôle</th>
-                    <th class="border p-3">Statut</th>
-                    <th class="border p-3">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="userTable">
-                <?php if (!empty($users)) : ?>
-                    <?php foreach ($users as $user) : ?>
-                        <tr class="hover:bg-gray-100">
-                            <td class="border p-3"><?= htmlspecialchars($user['name']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($user['email']) ?></td>
-                            <td class="border p-3">
-                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $user['role'] === 'admin' ? 'bg-blue-500' : 'bg-gray-500' ?>">
-                                    <?= htmlspecialchars($user['role']) ?>
-                                </span>
-                            </td>
-                            <td class="border p-3">
-                                <?php $status = !empty($user['status']) ? $user['status'] : 'inactive'; ?>
-                                <button class="toggleStatus px-3 py-1 rounded-md text-white text-xs font-bold 
-                                    <?= $status === 'active' ? 'bg-green-500' : 'bg-red-500' ?>"
-                                    data-id="<?= $user['id'] ?>"
-                                    data-status="<?= $status ?>">
-                                    <?= $status === 'active' ? '🟢 Actif' : '🔴 Inactif' ?>
-                                </button>
-                            </td>
-                            <td class="border p-3">
-                                <div class="flex space-x-4">
-                                    <a href="admin/users/historique/<?= $user['id'] ?>" class="text-blue-600 font-semibold hover:underline">📜 Voir historique</a>
-                                    <button class="text-red-600 font-semibold hover:underline deleteUserBtn" data-id="<?= $user['id'] ?>">❌ Supprimer</button>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <tr>
-                        <td colspan="5" class="text-center py-4">Aucun utilisateur trouvé.</td>
+        <div class="table-container">
+
+            <table class="w-full border-collapse border">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-3">Nom</th>
+                        <th class="border p-3">Email</th>
+                        <th class="border p-3">Rôle</th>
+                        <th class="border p-3">Statut</th>
+                        <th class="border p-3">Actions</th>
                     </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="userTable">
+                    <?php if (!empty($users)) : ?>
+                        <?php foreach ($users as $user) : ?>
+                            <tr class="hover:bg-gray-100">
+                                <td class="border p-3"><?= htmlspecialchars($user['name']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($user['email']) ?></td>
+                                <td class="border p-3">
+                                    <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $user['role'] === 'admin' ? 'bg-blue-500' : 'bg-gray-500' ?>">
+                                        <?= htmlspecialchars($user['role']) ?>
+                                    </span>
+                                </td>
+                                <td class="border p-3">
+                                    <?php $status = !empty($user['status']) ? $user['status'] : 'inactive'; ?>
+                                    <button class="toggleStatus px-3 py-1 rounded-md text-white text-xs font-bold 
+                                    <?= $status === 'active' ? 'bg-green-500' : 'bg-red-500' ?>"
+                                        data-id="<?= $user['id'] ?>"
+                                        data-status="<?= $status ?>">
+                                        <?= $status === 'active' ? '🟢 Actif' : '🔴 Inactif' ?>
+                                    </button>
+                                </td>
+                                <td class="border p-3">
+                                    <div class="flex space-x-4">
+                                        <a href="admin/users/historique/<?= $user['id'] ?>" class="text-blue-600 font-semibold hover:underline">📜 Voir historique</a>
+                                        <button class="text-red-600 font-semibold hover:underline deleteUserBtn" data-id="<?= $user['id'] ?>">❌ Supprimer</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="5" class="text-center py-4">Aucun utilisateur trouvé.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
 
         <!-- Pagination -->
         <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
@@ -293,4 +327,5 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
         showNotification('Exportation réussie !', 'bg-green-500');
     });
 </script>
+
 </html>

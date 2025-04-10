@@ -45,6 +45,37 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
         overflow-y: auto;
         /* Défilement vertical si nécessaire */
     }
+
+    /* Conteneur du tableau avec défilement horizontal */
+    .table-container {
+        overflow-x: auto;
+        /* Active le défilement horizontal si le tableau dépasse */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur les appareils mobiles */
+    }
+
+    /* Largeur minimale pour le tableau */
+    table {
+        min-width: 800px;
+        /* Assure une largeur minimale pour éviter la compression excessive */
+    }
+
+    /* Largeur minimale et gestion du texte pour les colonnes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement des images dans les colonnes */
+    td img {
+        max-width: 100%;
+        /* Limite la largeur de l'image à la cellule */
+        height: auto;
+        /* Conserve les proportions de l'image */
+    }
 </style>
 
 <!-- Conteneur principal avec marge pour la sidebar et espacement -->
@@ -108,59 +139,60 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
             </div>
 
             <!-- Tableau des événements -->
-            <table class="w-full border-collapse border">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-3">Image</th>
-                        <th class="border p-3">Titre</th>
-                        <th class="border p-3">Date</th>
-                        <th class="border p-3">Lieu</th>
-                        <th class="border p-3">Statut</th>
-                        <th class="border p-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="eventTable">
-                    <?php foreach ($events as $event) : ?>
-                        <tr class="hover:bg-gray-100">
-                            <!-- Affichage de l'image ou texte si absente -->
-                            <td class="border p-3">
-                                <?php if (!empty($event['image']) && $event['image'] !== 'placeholder.jpg'): ?>
-                                    <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" alt="<?= htmlspecialchars($event['title'] ?? '') ?>" class="object-cover rounded-md" width="70" height="70">
-                                <?php else: ?>
-                                    <span class="text-gray-500">Pas d'image</span>
-                                <?php endif; ?>
-                            </td>
-                            <td class="border p-3"><?= htmlspecialchars($event['title'] ?? '') ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($event['date_event'] ?? '') ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($event['location'] ?? '') ?></td>
-                            <!-- Statut avec badge coloré -->
-                            <td class="border p-3">
-                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= ($event['status'] ?? '') == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
-                                    <?= htmlspecialchars($event['status'] ?? '') ?>
-                                </span>
-                            </td>
-                            <!-- Boutons d'action -->
-                            <td class="border p-3 flex space-x-2">
-                                <button class="edit-event text-blue-600 hover:underline"
-                                    data-image="<?= htmlspecialchars($event['image'] ?? '') ?>"
-                                    data-id="<?= $event['id'] ?? '' ?>"
-                                    data-title="<?= htmlspecialchars($event['title'] ?? '') ?>"
-                                    data-description="<?= htmlspecialchars($event['description'] ?? '') ?>"
-                                    data-date="<?= htmlspecialchars($event['date_event'] ?? '') ?>"
-                                    data-location="<?= htmlspecialchars($event['location'] ?? '') ?>"
-                                    data-status="<?= htmlspecialchars($event['status'] ?? '') ?>">
-                                    ✏️ Modifier
-                                </button>
-                                <button class="text-red-600 font-semibold hover:underline deleteEventBtn" data-id="<?= $event['id'] ?? '' ?>">❌ Supprimer</button>
-                                <?php if (($event['status'] ?? '') === 'active'): ?>
-                                    <a href="admin/evenements/configurer/<?= $event['id'] ?>" class="text-green-600 hover:underline">🎥 Média</a>
-                                <?php endif; ?>
-                            </td>
+            <div class="table-container">
+                <table class="w-full border-collapse border">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3">Image</th>
+                            <th class="border p-3">Titre</th>
+                            <th class="border p-3">Date</th>
+                            <th class="border p-3">Lieu</th>
+                            <th class="border p-3">Statut</th>
+                            <th class="border p-3">Actions</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
+                    </thead>
+                    <tbody id="eventTable">
+                        <?php foreach ($events as $event) : ?>
+                            <tr class="hover:bg-gray-100">
+                                <!-- Affichage de l'image ou texte si absente -->
+                                <td class="border p-3">
+                                    <?php if (!empty($event['image']) && $event['image'] !== 'placeholder.jpg'): ?>
+                                        <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" alt="<?= htmlspecialchars($event['title'] ?? '') ?>" class="object-cover rounded-md" width="70" height="70">
+                                    <?php else: ?>
+                                        <span class="text-gray-500">Pas d'image</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="border p-3"><?= htmlspecialchars($event['title'] ?? '') ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($event['date_event'] ?? '') ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($event['location'] ?? '') ?></td>
+                                <!-- Statut avec badge coloré -->
+                                <td class="border p-3">
+                                    <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= ($event['status'] ?? '') == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
+                                        <?= htmlspecialchars($event['status'] ?? '') ?>
+                                    </span>
+                                </td>
+                                <!-- Boutons d'action -->
+                                <td class="border p-3 flex space-x-2">
+                                    <button class="edit-event text-blue-600 hover:underline"
+                                        data-image="<?= htmlspecialchars($event['image'] ?? '') ?>"
+                                        data-id="<?= $event['id'] ?? '' ?>"
+                                        data-title="<?= htmlspecialchars($event['title'] ?? '') ?>"
+                                        data-description="<?= htmlspecialchars($event['description'] ?? '') ?>"
+                                        data-date="<?= htmlspecialchars($event['date_event'] ?? '') ?>"
+                                        data-location="<?= htmlspecialchars($event['location'] ?? '') ?>"
+                                        data-status="<?= htmlspecialchars($event['status'] ?? '') ?>">
+                                        ✏️ Modifier
+                                    </button>
+                                    <button class="text-red-600 font-semibold hover:underline deleteEventBtn" data-id="<?= $event['id'] ?? '' ?>">❌ Supprimer</button>
+                                    <?php if (($event['status'] ?? '') === 'active'): ?>
+                                        <a href="admin/evenements/configurer/<?= $event['id'] ?>" class="text-green-600 hover:underline">🎥 Média</a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
             <!-- Conteneur pour la pagination -->
             <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
         </div>
@@ -435,4 +467,5 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
             paginateTable(); // Initialise la pagination
         });
     </script>
-</html>
+
+    </html>

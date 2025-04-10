@@ -120,6 +120,37 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
         word-break: break-word;
         /* Coupe les mots longs pour éviter le débordement */
     }
+
+    /* Conteneur du tableau avec défilement horizontal */
+    .table-container {
+        overflow-x: auto;
+        /* Active le défilement horizontal si le tableau dépasse */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur les appareils mobiles */
+    }
+
+    /* Largeur minimale pour le tableau */
+    table {
+        min-width: 800px;
+        /* Assure une largeur minimale pour éviter la compression excessive */
+    }
+
+    /* Largeur minimale et gestion du texte pour les colonnes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement des images dans les colonnes */
+    td img {
+        max-width: 100%;
+        /* Limite la largeur de l'image à la cellule */
+        height: auto;
+        /* Conserve les proportions de l'image */
+    }
 </style>
 
 <!-- Conteneur principal avec marge pour la sidebar et espacement -->
@@ -152,36 +183,38 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
         </div>
 
         <!-- Tableau des réservations -->
-        <table class="w-full border-collapse border">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border p-3">Nom</th>
-                    <th class="border p-3">Email</th>
-                    <th class="border p-3">Téléphone</th>
-                    <th class="border p-3">Type</th>
-                    <th class="border p-3">ID</th>
-                    <th class="border p-3">Statut</th>
-                    <th class="border p-3">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="reservationTable">
-                <?php if (!empty($reservations)) : ?>
-                    <?php foreach ($reservations as $res) : ?>
-                        <!-- Ligne principale de la réservation -->
-                        <tr class="hover:bg-gray-100 reservation-row" data-status="<?= htmlspecialchars($res['status']) ?>" data-type="<?= htmlspecialchars($res['type']) ?>" data-id="<?= htmlspecialchars($res['id']) ?>">
-                            <td class="border p-3"><?= htmlspecialchars($res['customer_name']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($res['email']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($res['phone']) ?></td>
-                            <!-- Type avec badge coloré -->
-                            <td class="border p-3">
-                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $res['type'] === 'event' ? 'bg-blue-500' : 'bg-green-500' ?>">
-                                    <?= $res['type'] === 'event' ? 'Événement' : 'Pack' ?>
-                                </span>
-                            </td>
-                            <td class="border p-3"><?= htmlspecialchars($res['id']) ?></td>
-                            <!-- Statut avec bouton coloré -->
-                            <td class="border p-3">
-                                <button class="px-3 py-1 rounded-md text-white text-xs font-bold
+        <div class="table-container">
+
+            <table class="w-full border-collapse border">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-3">Nom</th>
+                        <th class="border p-3">Email</th>
+                        <th class="border p-3">Téléphone</th>
+                        <th class="border p-3">Type</th>
+                        <th class="border p-3">ID</th>
+                        <th class="border p-3">Statut</th>
+                        <th class="border p-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="reservationTable">
+                    <?php if (!empty($reservations)) : ?>
+                        <?php foreach ($reservations as $res) : ?>
+                            <!-- Ligne principale de la réservation -->
+                            <tr class="hover:bg-gray-100 reservation-row" data-status="<?= htmlspecialchars($res['status']) ?>" data-type="<?= htmlspecialchars($res['type']) ?>" data-id="<?= htmlspecialchars($res['id']) ?>">
+                                <td class="border p-3"><?= htmlspecialchars($res['customer_name']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($res['email']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($res['phone']) ?></td>
+                                <!-- Type avec badge coloré -->
+                                <td class="border p-3">
+                                    <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $res['type'] === 'event' ? 'bg-blue-500' : 'bg-green-500' ?>">
+                                        <?= $res['type'] === 'event' ? 'Événement' : 'Pack' ?>
+                                    </span>
+                                </td>
+                                <td class="border p-3"><?= htmlspecialchars($res['id']) ?></td>
+                                <!-- Statut avec bouton coloré -->
+                                <td class="border p-3">
+                                    <button class="px-3 py-1 rounded-md text-white text-xs font-bold
                                     <?php
                                     if ($res['status'] === 'confirmed') {
                                         echo 'bg-green-500';
@@ -191,46 +224,46 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
                                         echo 'bg-yellow-500';
                                     }
                                     ?>"
-                                    data-id="<?= $res['id'] ?>"
-                                    data-status="<?= $res['status'] ?>">
-                                    <?= $res['status'] === 'confirmed' ? '✅ Confirmé' : ($res['status'] === 'cancelled' ? '❌ Annulé' : '🟡 En attente') ?>
-                                </button>
-                            </td>
-                            <!-- Actions disponibles selon le statut -->
-                            <td class="border p-3">
-                                <div class="flex space-x-4">
-                                    <button class="text-blue-600 font-semibold hover:underline viewReservationBtn" data-id="<?= $res['id'] ?>" data-type="<?= $res['type'] ?>">👁️ Voir la réservation</button>
-                                    <?php if ($res['status'] === 'pending') : ?>
-                                        <!-- Options pour accepter ou refuser une réservation en attente -->
-                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=confirmed&type=<?= $res['type'] ?>" class="text-green-600 font-semibold hover:underline">✅ Accepter</a>
-                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" class="text-red-600 font-semibold hover:underline">❌ Refuser</a>
-                                    <?php elseif ($res['status'] === 'confirmed') : ?>
-                                        <!-- Options pour une réservation confirmée -->
-                                        <a href="admin/reservations/facture/<?= $res['id'] ?>" target="_blank" class="text-blue-600 font-semibold hover:underline">🧾 Voir la facture</a>
-                                        <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" class="text-red-600 font-semibold hover:underline">❌ Annuler</a>
-                                    <?php else: ?>
-                                        <!-- Option pour supprimer une réservation annulée -->
-                                        <button class="text-red-800 font-semibold hover:underline deleteReservationBtn" data-id="<?= $res['id'] ?>">Supprimer</button>
-                                    <?php endif; ?>
-                                </div>
-                            </td>
+                                        data-id="<?= $res['id'] ?>"
+                                        data-status="<?= $res['status'] ?>">
+                                        <?= $res['status'] === 'confirmed' ? '✅ Confirmé' : ($res['status'] === 'cancelled' ? '❌ Annulé' : '🟡 En attente') ?>
+                                    </button>
+                                </td>
+                                <!-- Actions disponibles selon le statut -->
+                                <td class="border p-3">
+                                    <div class="flex space-x-4">
+                                        <button class="text-blue-600 font-semibold hover:underline viewReservationBtn" data-id="<?= $res['id'] ?>" data-type="<?= $res['type'] ?>">👁️ Voir la réservation</button>
+                                        <?php if ($res['status'] === 'pending') : ?>
+                                            <!-- Options pour accepter ou refuser une réservation en attente -->
+                                            <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=confirmed&type=<?= $res['type'] ?>" class="text-green-600 font-semibold hover:underline">✅ Accepter</a>
+                                            <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" class="text-red-600 font-semibold hover:underline">❌ Refuser</a>
+                                        <?php elseif ($res['status'] === 'confirmed') : ?>
+                                            <!-- Options pour une réservation confirmée -->
+                                            <a href="admin/reservations/facture/<?= $res['id'] ?>" target="_blank" class="text-blue-600 font-semibold hover:underline">🧾 Voir la facture</a>
+                                            <a href="admin/reservations/modifier/<?= $res['id'] ?>?status=cancelled&type=<?= $res['type'] ?>" class="text-red-600 font-semibold hover:underline">❌ Annuler</a>
+                                        <?php else: ?>
+                                            <!-- Option pour supprimer une réservation annulée -->
+                                            <button class="text-red-800 font-semibold hover:underline deleteReservationBtn" data-id="<?= $res['id'] ?>">Supprimer</button>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Ligne cachée pour les détails, remplie dynamiquement via JS -->
+                            <tr class="details-row hidden" id="details-<?= $res['id'] ?>">
+                                <td colspan="7" class="details-content">
+                                    <!-- Contenu inséré par JavaScript -->
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <!-- Message si aucune réservation n'est trouvée -->
+                        <tr>
+                            <td colspan="7" class="text-center py-4">Aucune réservation trouvée.</td>
                         </tr>
-                        <!-- Ligne cachée pour les détails, remplie dynamiquement via JS -->
-                        <tr class="details-row hidden" id="details-<?= $res['id'] ?>">
-                            <td colspan="7" class="details-content">
-                                <!-- Contenu inséré par JavaScript -->
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else : ?>
-                    <!-- Message si aucune réservation n'est trouvée -->
-                    <tr>
-                        <td colspan="7" class="text-center py-4">Aucune réservation trouvée.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
-
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
         <!-- Conteneur pour la pagination -->
         <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
     </div>
@@ -472,4 +505,5 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
         paginateTable(); // Initialise la pagination
     });
 </script>
+
 </html>

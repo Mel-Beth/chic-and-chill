@@ -12,13 +12,16 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         z-index: 9999;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
+
     .details-row {
         background-color: #f9fafb;
     }
+
     .details-content {
         padding: 1.5rem;
         border-top: 1px solid #e5e7eb;
     }
+
     .details-section {
         padding: 1rem;
         border: 1px solid #e5e7eb;
@@ -26,14 +29,47 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         background-color: #ffffff;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
+
     .details-section h4 {
         font-size: 1.25rem;
         font-weight: 600;
         margin-bottom: 1rem;
         color: #1f2937;
     }
+
     .details-section p {
         color: #4b5563;
+    }
+
+    /* Conteneur du tableau avec défilement horizontal */
+    .table-container {
+        overflow-x: auto;
+        /* Active le défilement horizontal si le tableau dépasse */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur les appareils mobiles */
+    }
+
+    /* Largeur minimale pour le tableau */
+    table {
+        min-width: 800px;
+        /* Assure une largeur minimale pour éviter la compression excessive */
+    }
+
+    /* Largeur minimale et gestion du texte pour les colonnes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement des images dans les colonnes */
+    td img {
+        max-width: 100%;
+        /* Limite la largeur de l'image à la cellule */
+        height: auto;
+        /* Conserve les proportions de l'image */
     }
 </style>
 
@@ -65,52 +101,54 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                 </div>
             </div>
 
-            <table class="w-full border-collapse border">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-3">Nom</th>
-                        <th class="border p-3">Email</th>
-                        <th class="border p-3">Message</th>
-                        <th class="border p-3">Source</th>
-                        <th class="border p-3">Statut</th>
-                        <th class="border p-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="messagesTable">
-                    <?php foreach ($messages as $message) : ?>
-                        <tr class="hover:bg-gray-100 message-row <?= $message['status'] === 'unread' ? 'bg-yellow-100' : ($message['status'] === 'replied' ? 'bg-green-100' : '') ?>"
-                            data-id="<?= $message['id'] ?>"
-                            data-status="<?= $message['status'] ?>">
-                            <td class="border p-3"><?= htmlspecialchars($message['name']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($message['email']) ?></td>
-                            <td class="border p-3 truncate max-w-xs"><?= htmlspecialchars($message['message']) ?></td>
-                            <td class="border p-3"><?= ucfirst(htmlspecialchars($message['source'])) ?></td>
-                            <td class="border p-3">
-                                <button class="toggleReadStatus px-3 py-1 rounded-md text-white text-xs font-bold 
+            <div class="table-container">
+                <table class="w-full border-collapse border">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3">Nom</th>
+                            <th class="border p-3">Email</th>
+                            <th class="border p-3">Message</th>
+                            <th class="border p-3">Source</th>
+                            <th class="border p-3">Statut</th>
+                            <th class="border p-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messagesTable">
+                        <?php foreach ($messages as $message) : ?>
+                            <tr class="hover:bg-gray-100 message-row <?= $message['status'] === 'unread' ? 'bg-yellow-100' : ($message['status'] === 'replied' ? 'bg-green-100' : '') ?>"
+                                data-id="<?= $message['id'] ?>"
+                                data-status="<?= $message['status'] ?>">
+                                <td class="border p-3"><?= htmlspecialchars($message['name']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($message['email']) ?></td>
+                                <td class="border p-3 truncate max-w-xs"><?= htmlspecialchars($message['message']) ?></td>
+                                <td class="border p-3"><?= ucfirst(htmlspecialchars($message['source'])) ?></td>
+                                <td class="border p-3">
+                                    <button class="toggleReadStatus px-3 py-1 rounded-md text-white text-xs font-bold 
                                     <?= $message['status'] === 'unread' ? 'bg-red-500' : ($message['status'] === 'replied' ? 'bg-blue-500' : 'bg-green-500') ?>"
-                                    data-id="<?= $message['id'] ?>"
-                                    data-status="<?= $message['status'] ?>">
-                                    <?= $message['status'] === 'unread' ? '🔴 Non lu' : ($message['status'] === 'replied' ? '📨 Répondu' : '🟢 Lu') ?>
-                                </button>
-                            </td>
-                            <td class="border p-3">
-                                <?php if ($message['status'] === 'replied') : ?>
-                                    <button class="text-blue-600 font-semibold hover:underline viewReplyBtn" data-id="<?= $message['id'] ?>">👁️ Voir la réponse</button>
-                                <?php else : ?>
-                                    <a href="admin/messages/reply/<?= $message['id'] ?>" class="text-blue-600 font-semibold hover:underline">✉️ Répondre</a>
-                                <?php endif; ?>
-                                <button class="text-red-600 font-semibold hover:underline deleteMessageBtn ml-2" data-id="<?= $message['id'] ?>">❌ Supprimer</button>
-                            </td>
-                        </tr>
-                        <!-- Ligne pour les détails de la réponse -->
-                        <tr class="details-row hidden" id="details-<?= $message['id'] ?>">
-                            <td colspan="6" class="details-content">
-                                <!-- Les détails seront insérés ici par JavaScript -->
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                                        data-id="<?= $message['id'] ?>"
+                                        data-status="<?= $message['status'] ?>">
+                                        <?= $message['status'] === 'unread' ? '🔴 Non lu' : ($message['status'] === 'replied' ? '📨 Répondu' : '🟢 Lu') ?>
+                                    </button>
+                                </td>
+                                <td class="border p-3">
+                                    <?php if ($message['status'] === 'replied') : ?>
+                                        <button class="text-blue-600 font-semibold hover:underline viewReplyBtn" data-id="<?= $message['id'] ?>">👁️ Voir la réponse</button>
+                                    <?php else : ?>
+                                        <a href="admin/messages/reply/<?= $message['id'] ?>" class="text-blue-600 font-semibold hover:underline">✉️ Répondre</a>
+                                    <?php endif; ?>
+                                    <button class="text-red-600 font-semibold hover:underline deleteMessageBtn ml-2" data-id="<?= $message['id'] ?>">❌ Supprimer</button>
+                                </td>
+                            </tr>
+                            <!-- Ligne pour les détails de la réponse -->
+                            <tr class="details-row hidden" id="details-<?= $message['id'] ?>">
+                                <td colspan="6" class="details-content">
+                                    <!-- Les détails seront insérés ici par JavaScript -->
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
             <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
         </div>
     </div>
@@ -265,7 +303,9 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
         document.getElementById('confirmDelete').addEventListener('click', function() {
             if (deleteMessageId) {
-                fetch(`admin/messages/supprimer/${deleteMessageId}`, { method: 'DELETE' })
+                fetch(`admin/messages/supprimer/${deleteMessageId}`, {
+                        method: 'DELETE'
+                    })
                     .then(response => {
                         if (response.ok) {
                             document.querySelector(`tr[data-id="${deleteMessageId}"]`).remove();
@@ -280,4 +320,5 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         });
     });
 </script>
+
 </html>

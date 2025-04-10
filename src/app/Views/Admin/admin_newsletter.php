@@ -11,6 +11,37 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         z-index: 9999;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
+
+    /* Conteneur du tableau avec défilement horizontal */
+    .table-container {
+        overflow-x: auto;
+        /* Active le défilement horizontal si le tableau dépasse */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur les appareils mobiles */
+    }
+
+    /* Largeur minimale pour le tableau */
+    table {
+        min-width: 800px;
+        /* Assure une largeur minimale pour éviter la compression excessive */
+    }
+
+    /* Largeur minimale et gestion du texte pour les colonnes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement des images dans les colonnes */
+    td img {
+        max-width: 100%;
+        /* Limite la largeur de l'image à la cellule */
+        height: auto;
+        /* Conserve les proportions de l'image */
+    }
 </style>
 
 <div class="min-h-screen flex flex-col lg:pl-64 mt-12">
@@ -34,26 +65,29 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
             </div>
 
             <!-- Liste des abonnés -->
-            <table class="w-full border-collapse border">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-3">Email</th>
-                        <th class="border p-3">Date d'inscription</th>
-                        <th class="border p-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="newsletterTable">
-                    <?php foreach ($subscribers as $subscriber) : ?>
-                        <tr class="hover:bg-gray-100">
-                            <td class="border p-3"><?= htmlspecialchars($subscriber['email']) ?></td>
-                            <td class="border p-3"><?= date('d/m/Y H:i', strtotime($subscriber['created_at'])) ?></td>
-                            <td class="border p-3">
-                                <button class="text-red-600 font-semibold hover:underline deleteSubscriberBtn" data-id="<?= $subscriber['id'] ?>">❌ Supprimer</button>
-                            </td>
+            <div class="table-container">
+
+                <table class="w-full border-collapse border">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3">Email</th>
+                            <th class="border p-3">Date d'inscription</th>
+                            <th class="border p-3">Actions</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody id="newsletterTable">
+                        <?php foreach ($subscribers as $subscriber) : ?>
+                            <tr class="hover:bg-gray-100">
+                                <td class="border p-3"><?= htmlspecialchars($subscriber['email']) ?></td>
+                                <td class="border p-3"><?= date('d/m/Y H:i', strtotime($subscriber['created_at'])) ?></td>
+                                <td class="border p-3">
+                                    <button class="text-red-600 font-semibold hover:underline deleteSubscriberBtn" data-id="<?= $subscriber['id'] ?>">❌ Supprimer</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
             <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
         </div>
     </div>
@@ -132,18 +166,18 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         document.getElementById('confirmDelete').addEventListener('click', function() {
             if (deleteSubscriberId) {
                 fetch(`admin/newsletter/supprimer/${deleteSubscriberId}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        document.querySelector(`button[data-id="${deleteSubscriberId}"]`).closest('tr').remove();
-                        showNotification('Email supprimé avec succès.', 'bg-green-500');
-                    } else {
-                        showNotification('Erreur lors de la suppression de l\'Email.', 'bg-red-500');
-                    }
-                    document.getElementById('deleteModal').classList.add('hidden');
-                })
-                .catch(error => console.error('Erreur:', error));
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            document.querySelector(`button[data-id="${deleteSubscriberId}"]`).closest('tr').remove();
+                            showNotification('Email supprimé avec succès.', 'bg-green-500');
+                        } else {
+                            showNotification('Erreur lors de la suppression de l\'Email.', 'bg-red-500');
+                        }
+                        document.getElementById('deleteModal').classList.add('hidden');
+                    })
+                    .catch(error => console.error('Erreur:', error));
             }
         });
 
@@ -168,7 +202,9 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
                     csv += `${cells[0].textContent},${cells[1].textContent}\n`;
                 }
             });
-            let blob = new Blob([csv], { type: 'text/csv' });
+            let blob = new Blob([csv], {
+                type: 'text/csv'
+            });
             let a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
             a.download = "newsletter_export.csv";
@@ -181,23 +217,24 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         // Envoi de la newsletter
         document.getElementById('sendNewsletterBtn').addEventListener('click', function() {
             fetch('newsletter/send-monthly', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => {
-                if (response.ok) {
-                    showNotification('Newsletter envoyée avec succès !', 'bg-green-500');
-                } else {
-                    showNotification('Erreur lors de l\'envoi de la newsletter.', 'bg-red-500');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur:', error);
-                showNotification('Erreur réseau lors de l\'envoi.', 'bg-red-500');
-            });
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        showNotification('Newsletter envoyée avec succès !', 'bg-green-500');
+                    } else {
+                        showNotification('Erreur lors de l\'envoi de la newsletter.', 'bg-red-500');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    showNotification('Erreur réseau lors de l\'envoi.', 'bg-red-500');
+                });
         });
     });
 </script>
+
 </html>

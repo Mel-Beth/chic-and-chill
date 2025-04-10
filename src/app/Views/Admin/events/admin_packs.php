@@ -19,6 +19,37 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         /* Ombre légère pour effet de profondeur */
     }
+
+    /* Conteneur du tableau avec défilement horizontal */
+    .table-container {
+        overflow-x: auto;
+        /* Active le défilement horizontal si le tableau dépasse */
+        -webkit-overflow-scrolling: touch;
+        /* Améliore le défilement sur les appareils mobiles */
+    }
+
+    /* Largeur minimale pour le tableau */
+    table {
+        min-width: 800px;
+        /* Assure une largeur minimale pour éviter la compression excessive */
+    }
+
+    /* Largeur minimale et gestion du texte pour les colonnes */
+    th,
+    td {
+        min-width: 120px;
+        /* Largeur minimale pour chaque colonne */
+        white-space: nowrap;
+        /* Empêche le texte de se couper sur plusieurs lignes */
+    }
+
+    /* Ajustement des images dans les colonnes */
+    td img {
+        max-width: 100%;
+        /* Limite la largeur de l'image à la cellule */
+        height: auto;
+        /* Conserve les proportions de l'image */
+    }
 </style>
 
 <!-- Conteneur principal avec marge pour la sidebar et espacement -->
@@ -79,52 +110,54 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
             </div>
 
             <!-- Tableau des packs -->
-            <table class="w-full border-collapse border">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-3">Titre</th>
-                        <th class="border p-3">Description</th>
-                        <th class="border p-3">Prix</th>
-                        <th class="border p-3">Durée en jours</th>
-                        <th class="border p-3">Comprant</th>
-                        <th class="border p-3">Statut</th>
-                        <th class="border p-3">Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="packTable">
-                    <?php foreach ($packs as $pack) : ?>
-                        <tr class="hover:bg-gray-100">
-                            <!-- Affichage des données du pack -->
-                            <td class="border p-3"><?= htmlspecialchars($pack['title']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($pack['description']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($pack['price']) ?>€</td>
-                            <td class="border p-3"><?= htmlspecialchars($pack['duration']) ?></td>
-                            <td class="border p-3"><?= htmlspecialchars($pack['included']) ?></td>
-                            <!-- Statut avec badge coloré -->
-                            <td class="border p-3">
-                                <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $pack['status'] == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
-                                    <?= htmlspecialchars($pack['status']) ?>
-                                </span>
-                            </td>
-                            <!-- Boutons d'action -->
-                            <td class="border p-3">
-                                <button class="edit-pack text-blue-600 hover:underline"
-                                    data-id="<?= $pack['id'] ?>"
-                                    data-title="<?= htmlspecialchars($pack['title']) ?>"
-                                    data-description="<?= htmlspecialchars($pack['description']) ?>"
-                                    data-price="<?= htmlspecialchars($pack['price']) ?>"
-                                    data-duration="<?= $pack['duration'] ?>"
-                                    data-included="<?= htmlspecialchars($pack['included']) ?>"
-                                    data-status="<?= $pack['status'] ?>">
-                                    ✏️ Modifier
-                                </button>
-                                <button class="text-red-600 font-semibold hover:underline deletePackBtn" data-id="<?= $pack['id'] ?>">❌ Supprimer</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+            <div class="table-container">
 
+                <table class="w-full border-collapse border">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3">Titre</th>
+                            <th class="border p-3">Description</th>
+                            <th class="border p-3">Prix</th>
+                            <th class="border p-3">Durée en jours</th>
+                            <th class="border p-3">Comprant</th>
+                            <th class="border p-3">Statut</th>
+                            <th class="border p-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packTable">
+                        <?php foreach ($packs as $pack) : ?>
+                            <tr class="hover:bg-gray-100">
+                                <!-- Affichage des données du pack -->
+                                <td class="border p-3"><?= htmlspecialchars($pack['title']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($pack['description']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($pack['price']) ?>€</td>
+                                <td class="border p-3"><?= htmlspecialchars($pack['duration']) ?></td>
+                                <td class="border p-3"><?= htmlspecialchars($pack['included']) ?></td>
+                                <!-- Statut avec badge coloré -->
+                                <td class="border p-3">
+                                    <span class="px-3 py-1 rounded-full text-white text-xs font-bold <?= $pack['status'] == 'active' ? 'bg-green-500' : 'bg-red-500' ?>">
+                                        <?= htmlspecialchars($pack['status']) ?>
+                                    </span>
+                                </td>
+                                <!-- Boutons d'action -->
+                                <td class="border p-3">
+                                    <button class="edit-pack text-blue-600 hover:underline"
+                                        data-id="<?= $pack['id'] ?>"
+                                        data-title="<?= htmlspecialchars($pack['title']) ?>"
+                                        data-description="<?= htmlspecialchars($pack['description']) ?>"
+                                        data-price="<?= htmlspecialchars($pack['price']) ?>"
+                                        data-duration="<?= $pack['duration'] ?>"
+                                        data-included="<?= htmlspecialchars($pack['included']) ?>"
+                                        data-status="<?= $pack['status'] ?>">
+                                        ✏️ Modifier
+                                    </button>
+                                    <button class="text-red-600 font-semibold hover:underline deletePackBtn" data-id="<?= $pack['id'] ?>">❌ Supprimer</button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
             <!-- Conteneur pour la pagination -->
             <div class="mt-4 flex justify-center space-x-2" id="pagination"></div>
         </div>
@@ -357,4 +390,5 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
     }
     paginateTable(); // Initialise la pagination
 </script>
+
 </html>

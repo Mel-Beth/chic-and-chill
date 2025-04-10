@@ -46,6 +46,7 @@ include('src/app/Views/includes/admin/admin_sidebar.php'); // Barre latérale av
         height: auto;
         /* Conserve les proportions de l'image */
     }
+    
 </style>
 
 
