@@ -1,20 +1,21 @@
 <?php
-error_reporting( E_ALL );
-
+// Active le rapport de toutes les erreurs pour le débogage
 error_reporting(E_ALL);
+
+// Affiche les erreurs à l’écran (utile en développement, à désactiver en production)
 ini_set('display_errors', '1');
 
-// On démarre la session
+// Démarre une session pour gérer les données utilisateur entre les pages
 session_start();
 
-// On appelle l'autoloader de Composer
+// Charge l’autoloader de Composer pour inclure automatiquement les dépendances installées
 require_once("./vendor/autoload.php");
 
-
-// Appel de la bibliothèque Dotenv
+// Initialise la bibliothèque Dotenv pour charger les variables d’environnement depuis un fichier .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+// Charge les variables d’environnement dans l’application
 $dotenv->load();
 
-// Appel du routeur
+// Inclut le fichier du routeur qui gère les requêtes et la navigation dans l’application
 require("./routeur.php");
 ?>
