@@ -65,7 +65,7 @@
                 <option value="Soirée d'entreprise">Soirée d'entreprise</option>
                 <option value="Baptême">Baptême</option>
                 <option value="Fête de fin d'année">Fête de fin d'année</option>
-                <option value="Réunion">Défilé</option>
+                <option value="Défilé">Défilé</option>
                 <option value="Exposition">Exposition</option>
                 <option value="Autre">Autre</option>
             </select>

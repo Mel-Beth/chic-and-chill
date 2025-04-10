@@ -153,14 +153,17 @@ $formatter = new IntlDateFormatter(
 
 <script>
     // Stocker les médias dans un tableau pour la navigation
-    const eventMedia = [
-        <?php foreach ($eventMedia as $media) : ?>
-            {
-                type: '<?= $media['type'] ?>',
-                url: 'assets/images/events/<?= htmlspecialchars($media['image_url']) ?>'
-            },
-        <?php endforeach; ?>
-    ];
+    const eventMedia = <?php
+        // Préparer les données pour JavaScript
+        $mediaArray = array_map(function($media) {
+            return [
+                'type' => $media['type'],
+                'url' => 'assets/images/events/' . $media['image_url'] // Pas besoin de htmlspecialchars ici
+            ];
+        }, $eventMedia);
+        // Convertir en JSON avec un échappement approprié
+        echo json_encode($mediaArray, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+    ?>;
 
     let currentMediaIndex = 0;
 
