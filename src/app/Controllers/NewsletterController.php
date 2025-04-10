@@ -10,21 +10,26 @@ class NewsletterController
     private $newsletterModel;
     private $notificationModel;
 
+    // Constructeur : Initialise les modèles nécessaires pour la gestion de la newsletter
     public function __construct()
     {
-        $this->newsletterModel = new NewsletterModel();
-        $this->notificationModel = new NotificationModel();
+        $this->newsletterModel = new NewsletterModel();    // Modèle pour gérer les abonnés à la newsletter
+        $this->notificationModel = new NotificationModel(); // Modèle pour gérer les notifications
     }
 
+    // Affiche la page de gestion de la newsletter avec la liste des abonnés
     public function manageNewsletter()
     {
-        $subscribers = $this->newsletterModel->getAllSubscribers();
-        include('src/app/Views/admin/admin_newsletter.php');
+        $subscribers = $this->newsletterModel->getAllSubscribers(); // Récupère tous les abonnés
+        include('src/app/Views/admin/admin_newsletter.php');         // Inclut la vue d'administration
     }
 
+    // Supprime un abonné spécifique en fonction de son ID
     public function deleteSubscriber($id)
     {
-        $success = $this->newsletterModel->deleteSubscriber($id);
+        $success = $this->newsletterModel->deleteSubscriber($id); // Supprime l'abonné via le modèle
+
+        // Redirige avec un message de succès ou d'échec
         if ($success) {
             header("Location: ../?success=1&action=delete");
             exit();
@@ -34,23 +39,24 @@ class NewsletterController
         }
     }
 
+    // Traite l'inscription à la newsletter via un formulaire POST
     public function processNewsletter()
     {
-        error_log("Début processNewsletter");
+        error_log("Début processNewsletter"); // Log le début de la méthode
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["email"])) {
-            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
+            $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL); // Valide l'email
 
             if (!$email) {
-                error_log("Inscription newsletter : Email invalide");
+                error_log("Inscription newsletter : Email invalide"); // Log en cas d'email invalide
                 die("Adresse e-mail invalide.");
             }
 
             error_log("Avant ajout abonné - Email : $email");
-            $success = $this->newsletterModel->addNewsletterSubscription($email);
+            $success = $this->newsletterModel->addNewsletterSubscription($email); // Ajoute l'abonné
             error_log("Ajout abonné newsletter : " . ($success ? "Succès" : "Échec") . " - Email : $email");
 
             if ($success) {
-                // Envoi de l'email de confirmation
+                // Prépare et envoie un email de confirmation
                 $subject = "Bienvenue chez Chic & Chill !";
                 $body = "
                     <html>
@@ -67,18 +73,20 @@ class NewsletterController
                     </body>
                     </html>
                 ";
-                $emailSent = EmailHelper::sendEmail($email, $subject, $body);
+                $emailSent = EmailHelper::sendEmail($email, $subject, $body); // Envoie l'email
 
+                // Log le résultat de l'envoi de l'email
                 if ($emailSent) {
                     error_log("Email de confirmation envoyé avec succès à : $email");
                 } else {
                     error_log("Échec de l'envoi de l'email de confirmation à : $email");
                 }
 
+                // Crée une notification pour l'administrateur
                 $notifSuccess = $this->notificationModel->createNotification("Nouvel abonné à la newsletter : $email");
                 error_log("Appel createNotification newsletter : " . ($notifSuccess ? "Succès" : "Échec") . " - Email : $email");
 
-                header("Location: evenements?success=1");
+                header("Location: evenements?success=1"); // Redirige vers la page des événements
                 exit();
             } else {
                 error_log("Erreur inscription newsletter : Échec ajout abonné");
@@ -90,29 +98,32 @@ class NewsletterController
         }
     }
 
-    // Nouvelle méthode pour gérer la désinscription
+    // Gère la désinscription d'un abonné via un lien dans l'email
     public function unsubscribe()
     {
         if (isset($_GET['email'])) {
-            $email = filter_var($_GET['email'], FILTER_VALIDATE_EMAIL);
+            $email = filter_var($_GET['email'], FILTER_VALIDATE_EMAIL); // Valide l'email
             if ($email && $this->newsletterModel->deleteSubscriberByEmail($email)) {
+                // Affiche un message de succès si la désinscription réussit
                 echo "<p style='text-align: center; padding: 20px;'>Vous avez été désinscrit(e) avec succès de la newsletter Chic & Chill.</p>";
             } else {
+                // Affiche un message d'erreur si la désinscription échoue
                 echo "<p style='text-align: center; padding: 20px;'>Erreur lors de la désinscription. Veuillez réessayer ou contacter le support.</p>";
             }
         }
-        exit();
+        exit(); // Termine l'exécution
     }
 
+    // Envoie la newsletter mensuelle à tous les abonnés
     public function sendMonthlyNewsletter()
     {
-        $subscribers = $this->newsletterModel->getAllSubscribers();
+        $subscribers = $this->newsletterModel->getAllSubscribers(); // Récupère tous les abonnés
         if (empty($subscribers)) {
             error_log("Aucun abonné pour la newsletter mensuelle.");
-            return;
+            return; // Retourne si aucun abonné
         }
 
-        // Tableau des mois en français
+        // Tableau des mois en français pour personnaliser le sujet
         $moisFrancais = [
             1 => 'janvier',
             2 => 'février',
@@ -128,12 +139,12 @@ class NewsletterController
             12 => 'décembre'
         ];
 
-        // Récupérer le mois actuel en français et l'année
-        $moisActuel = $moisFrancais[(int)date('n')]; // 'n' donne le numéro du mois sans zéro initial
+        // Récupère le mois et l'année actuels
+        $moisActuel = $moisFrancais[(int)date('n')];
         $anneeActuelle = date('Y');
         $subject = "Chic & Chill - Votre Newsletter Mensuelle de $moisActuel $anneeActuelle";
 
-        // Contenu de la newsletter
+        // Contenu HTML de la newsletter
         $body = "
             <html>
             <body style='font-family: Arial, sans-serif; color: #333; background-color: #f5f5f5; padding: 20px;'>
@@ -160,11 +171,13 @@ class NewsletterController
             </html>
         ";
 
+        // Envoie la newsletter à chaque abonné
         foreach ($subscribers as $subscriber) {
             $email = $subscriber['email'];
-            $personalizedBody = str_replace('{{EMAIL}}', urlencode($email), $body);
-            $success = EmailHelper::sendEmail($email, $subject, $personalizedBody);
+            $personalizedBody = str_replace('{{EMAIL}}', urlencode($email), $body); // Personnalise le lien de désinscription
+            $success = EmailHelper::sendEmail($email, $subject, $personalizedBody); // Envoie l'email
             error_log("Newsletter mensuelle envoyée à $email : " . ($success ? "Succès" : "Échec"));
         }
     }
 }
+?>

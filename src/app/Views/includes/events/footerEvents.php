@@ -1,11 +1,14 @@
+<!-- Pied de page principal avec fond noir -->
 <footer class="bg-black text-white py-12 w-full">
     <div class="container mx-auto px-8 md:px-16 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left text-lg">
+        <!-- Section logo et description -->
         <div class="flex flex-col items-center md:items-start">
-            <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-24 h-24" loading="lazy">
+            <img src="assets/images/logo_magasin-chic.png" alt="Chic & Chill Logo" class="w-24 h-24" loading="lazy"> <!-- Chargement paresseux de l'image -->
             <p class="mt-4 text-gray-300 leading-relaxed text-center md:text-left max-w-sm">
                 <span class="font-semibold">Chic & Chill</span> est une boutique et service de location de vêtements proposant une mode responsable et accessible à tous.
             </p>
         </div>
+        <!-- Section informations légales -->
         <div class="flex flex-col items-center md:items-start">
             <h3 class="font-semibold text-xl mb-4">Informations légales</h3>
             <ul class="space-y-3">
@@ -15,11 +18,13 @@
                 <li><a href="modes_paiement_shop" class="text-gray-300 hover:text-[#8B5A2B] transition">Les moyens de paiement</a></li>
             </ul>
         </div>
+        <!-- Section contact -->
         <div class="flex flex-col items-center md:items-start">
             <h3 class="font-semibold text-xl mb-4">Contact</h3>
             <p class="text-gray-300">10 Rue Irénée Carré, Charleville-Mézières</p>
             <p class="text-gray-300">+33 7 81 26 64 56</p>
             <p class="text-gray-300">contact@chicandchill.fr</p>
+            <!-- Liens vers les réseaux sociaux -->
             <div class="flex justify-center md:justify-start mt-4 space-x-6">
                 <a href="https://www.facebook.com/chicandchill.emi" class="text-gray-300 hover:text-[#8B5A2B] transition" aria-label="Facebook"><i class="fa-brands fa-facebook-f text-3xl"></i></a>
                 <a href="https://www.instagram.com/chic_and_chill08/" class="text-gray-300 hover:text-[#8B5A2B] transition" aria-label="Instagram"><i class="fa-brands fa-instagram text-3xl"></i></a>
@@ -28,44 +33,52 @@
         </div>
     </div>
 </footer>
+<!-- Second pied de page pour les droits d'auteur -->
 <footer class="bg-white text-gray-500 text-center text-lg py-5 mt-0 w-full">
-     © <?php echo date('Y'); ?> Chic & Chill - Tous droits réservés
+    © <?php echo date('Y'); ?> Chic & Chill - Tous droits réservés <!-- Année dynamique avec PHP -->
 </footer>
 
+<!-- Bouton de retour en haut -->
 <button id="scrollToTop" class="fixed bottom-8 right-8 bg-[#8B5A2B] text-white p-4 rounded-full shadow-lg hidden transition duration-300 hover:scale-110" aria-label="Retour en haut">
     <i class="fa-solid fa-arrow-up text-xl"></i>
 </button>
 
 <script>
+    // Gestion du bouton de retour en haut
     const scrollToTopButton = document.getElementById("scrollToTop");
     window.addEventListener("scroll", () => {
-        scrollToTopButton.classList.toggle("hidden", window.scrollY <= 200);
+        scrollToTopButton.classList.toggle("hidden", window.scrollY <= 200); // Affiche/masque le bouton après 200px de défilement
     });
     scrollToTopButton.addEventListener("click", () => {
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
+            behavior: "smooth" // Défilement fluide vers le haut
         });
     });
 
+    // Gestion de l'état "scrolled" de l'en-tête
     window.addEventListener("scroll", () => {
         const header = document.getElementById("main-header");
-        header.classList.toggle("scrolled", window.scrollY > 50);
+        header.classList.toggle("scrolled", window.scrollY > 50); // Ajoute la classe "scrolled" après 50px
     });
 
+    // Gestion du menu mobile
     document.getElementById("menu-toggle")?.addEventListener("click", () => {
         const mobileMenu = document.getElementById("mobile-menu");
-        if (mobileMenu) mobileMenu.classList.toggle("hidden");
+        if (mobileMenu) mobileMenu.classList.toggle("hidden"); // Bascule la visibilité du menu mobile
     });
 </script>
+<!-- Inclusion d'un script personnalisé pour les événements -->
 <script src="src/js/evenements.js" defer></script>
 
 <style>
+    /* Assure que le footer occupe toute la largeur */
     footer {
         width: 100%;
         max-width: 100%;
     }
 
+    /* Maintient la pleine largeur sur les grands écrans */
     @media (min-width: 1920px) {
         footer {
             width: 100%;

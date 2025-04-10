@@ -1,19 +1,21 @@
 <?php
-// Créer un formateur de date pour le français
+// Formateur de date en français
 $formatter = new IntlDateFormatter(
     'fr_FR',
-    IntlDateFormatter::LONG, // Format long pour le mois (ex. "mars")
-    IntlDateFormatter::NONE, // Pas d'heure
+    IntlDateFormatter::LONG,
+    IntlDateFormatter::NONE,
     'Europe/Paris',
     IntlDateFormatter::GREGORIAN,
-    'd MMMM yyyy' // Format : jour mois année (ex. "15 mars 2025")
+    'd MMMM yyyy'
 );
 ?>
 
-<?php include('src/app/Views/includes/events/headEvents.php'); ?>
-<?php include('src/app/Views/includes/events/headerEvents.php'); ?>
+<?php
+include('src/app/Views/includes/events/headEvents.php'); // Inclusion des métadonnées
+include('src/app/Views/includes/events/headerEvents.php'); // Inclusion de la navigation
+?>
 
-<!-- CARROUSEL SWIPER MAGASIN -->
+<!-- Carrousel Swiper pour le magasin -->
 <div class="swiper-container">
     <div class="swiper-wrapper">
         <div class="swiper-slide">
@@ -49,7 +51,7 @@ $formatter = new IntlDateFormatter(
     <div class="swiper-button-prev"></div>
 </div>
 
-<!-- GRILLE DES ÉVÉNEMENTS PASSÉS -->
+<!-- Grille des événements passés -->
 <div class="container mx-auto px-4 py-12">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">
         <span class="material-symbols-rounded text-white text-5xl">event</span> Nos Événements
@@ -57,19 +59,15 @@ $formatter = new IntlDateFormatter(
     <h3 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">
         <span class="ph ph-calendar-check"></span> Nos Événements Passés
     </h3>
-
     <div class="grid_events">
         <?php if (!empty($pastEvents)) : ?>
             <?php foreach ($pastEvents as $event) : ?>
                 <div class="group pack-card">
-                    <!-- Image de l'événement -->
                     <?php if (!empty($event['image'])) : ?>
                         <img src="assets/images/events/<?= htmlspecialchars($event['image']) ?>" alt="Image de l'événement">
                     <?php else : ?>
                         <img src="assets/images/placeholder.webp" alt="Image par défaut">
                     <?php endif; ?>
-
-                    <!-- Effet au survol -->
                     <div class="overlay">
                         <h4 class="text-2xl text-center text-white"><?= htmlspecialchars($event['title']) ?></h4>
                         <p class="mb-4"><?= htmlspecialchars($event['description']) ?></p>
@@ -83,7 +81,7 @@ $formatter = new IntlDateFormatter(
     </div>
 </div>
 
-<!-- ENCART ÉVÉNEMENTS À VENIR -->
+<!-- Encart événements à venir -->
 <div class="container mx-auto px-4 py-12">
     <h3 class="text-4xl font-bold text-center text-gray-800 mb-12 uppercase tracking-wide">
         <span class="ph ph-calendar-star"></span> Nos Événements à venir
@@ -132,14 +130,14 @@ $formatter = new IntlDateFormatter(
     </div>
 </div>
 
-<!-- BOUTON RÉSERVATION -->
+<!-- Bouton de réservation -->
 <div class="text-center mt-12">
     <a href="reservation_evenement" class="inline-block border-2 border-[#8B5A2B] text-[#8B5A2B] text-lg font-semibold px-8 py-4 rounded-md transition duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2" aria-label="Réserver un événement">
         <span class="ph ph-calendar-plus text-xl"></span> Réserver un événement
     </a>
 </div>
 
-<!-- IDÉES DE TENUES -->
+<!-- Idées de tenues -->
 <div class="container mx-auto px-4 py-12 mt-12">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white">
         <span class="material-symbols-rounded text-4xl">styler</span> Idées de tenues
@@ -186,7 +184,7 @@ $formatter = new IntlDateFormatter(
     </div>
 </div>
 
-<!-- PACKS ÉVÉNEMENTIELS -->
+<!-- Packs événementiels -->
 <div class="container mx-auto px-4 py-12">
     <h2 class="text-4xl font-bold text-center mb-8 p-12 bg-black text-white flex items-center justify-center gap-3">
         <span class="ph ph-gift text-5xl"></span> Packs événementiels
@@ -211,7 +209,7 @@ $formatter = new IntlDateFormatter(
     </div>
 </div>
 
-<!-- SECTION À PROPOS -->
+<!-- Section à propos -->
 <div class="container mx-auto px-4 py-12">
     <div class="bg-black text-white text-center py-12 flex items-center justify-center">
         <h2 class="text-3xl font-bold uppercase tracking-wide flex items-center justify-center gap-3">

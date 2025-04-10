@@ -75,6 +75,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     </div>
 </div>
 
+</body>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let deleteSubscriberId = null;
@@ -198,3 +200,4 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         });
     });
 </script>
+</html>

@@ -113,6 +113,8 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
     </div>
 </div>
 
+</body>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         let showAdmins = true;
@@ -291,3 +293,4 @@ include('src/app/Views/includes/Admin/admin_sidebar.php');
         showNotification('Exportation réussie !', 'bg-green-500');
     });
 </script>
+</html>

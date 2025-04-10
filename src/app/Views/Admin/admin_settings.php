@@ -139,6 +139,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     </div>
 </div>
 
+</body>
+
 <script>
 
 // Gestion des onglets
@@ -245,3 +247,4 @@ document.getElementById("restoreForm").addEventListener("submit", function(e) {
         .catch(error => console.error("Erreur:", error));
 });
 </script>
+</html>

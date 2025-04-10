@@ -23,3 +23,5 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
         </div>
     </div>
 </div>
+</body>
+</html>

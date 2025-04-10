@@ -95,6 +95,8 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
     }
 </style>
 
+</body>
+
 <script src="src/libs/chart.js"></script>
 <script>
     const dashboardData = <?php echo json_encode($dashboardData ?? []); ?>;
@@ -283,3 +285,4 @@ include('src/app/Views/includes/admin/admin_sidebar.php');
 
     document.getElementById('timeFilter').addEventListener('change', (e) => updateDashboard(e.target.value));
 </script>
+</html>
